@@ -12,18 +12,13 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
@@ -33,10 +28,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="tools/IllinoisChunker/LBJChunk.jar"/>
+	<classpathentry kind="lib" path="tools/IllinoisChunker/LBJ-2.8.2.jar"/>
+	<classpathentry kind="lib" path="tools/IllinoisChunker/LBJLibrary-2.8.2.jar"/>
+	<classpathentry kind="lib" path="tools/IllinoisChunker/LBJPOS.jar"/>
+	<classpathentry kind="var" path="TRETAGGER_HOME"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
