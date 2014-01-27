@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Set these paths appropriately
+
+BIN=/home/noname/workspace/qa.qcri.qf.pipeline/tools/treetagger/bin
+CMD=/home/noname/workspace/qa.qcri.qf.pipeline/tools/treetagger/cmd
+LIB=/home/noname/workspace/qa.qcri.qf.pipeline/tools/treetagger/lib
+
+OPTIONS="-token -lemma -sgml"
+
+TAGGER=${BIN}/tree-tagger
+TOKENIZER=${CMD}/tokenize.pl
+ABBR_LIST=${LIB}/dutch-abbreviations
+PARFILE=${LIB}/dutch.par
+
+$TOKENIZER -a $ABBR_LIST $* |
+$TAGGER $OPTIONS $PARFILE

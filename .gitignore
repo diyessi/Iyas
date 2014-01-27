@@ -1,0 +1,21 @@
+/target
+
+/train
+
+/CASes
+
+/CASes-trec
+
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+nohup.out
+
+de.tudarmstadt.ukp.dkpro.core.treetagger-asl/

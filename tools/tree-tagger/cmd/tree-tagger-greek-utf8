@@ -1,0 +1,19 @@
+
+# Set these paths appropriately
+
+BIN=/home/noname/workspace/qa.qcri.qf.pipeline/tools/treetagger/bin
+CMD=/home/noname/workspace/qa.qcri.qf.pipeline/tools/treetagger/cmd
+LIB=/home/noname/workspace/qa.qcri.qf.pipeline/tools/treetagger/lib
+
+OPTIONS="-token -lemma -sgml"
+
+TOKENIZER=${CMD}/utf8-tokenize.perl
+MWL=${CMD}/mwl-lookup-greek-utf8.perl
+TAGGER=${BIN}/tree-tagger
+PARFILE=${LIB}/greek-utf8.par
+
+$TOKENIZER $* |
+# recognition of MWLs
+$MWL |
+# tagging
+$TAGGER $OPTIONS $PARFILE
