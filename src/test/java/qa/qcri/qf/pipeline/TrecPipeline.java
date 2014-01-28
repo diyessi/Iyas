@@ -13,21 +13,13 @@ import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.datagen.DataObject;
-import qa.qcri.qf.datagen.DataPair;
 import qa.qcri.qf.datagen.Labelled;
-import qa.qcri.qf.datagen.Pairer;
+import qa.qcri.qf.datagen.RerankingTrain;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
-import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
-import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
-import qa.qcri.qf.treemarker.MarkTwoAncestors;
 import qa.qcri.qf.trees.RichNode;
-import qa.qcri.qf.trees.RichTree;
-import qa.qcri.qf.trees.TokenTree;
-import qa.qcri.qf.trees.TreeSerializer;
 import util.ChunkReader;
-import util.Pair;
 import util.functions.InStringOutString;
 
 import com.google.common.base.Joiner;
@@ -79,7 +71,7 @@ public class TrecPipeline {
 		while (questions.hasNext()) {
 			Analyzable question = questions.next();
 			DataObject questionObject = new DataObject(Labelled.NEGATIVE_LABEL, question.getId(),
-					new HashMap<String, Double>(), new HashMap<String, String>());
+					DataObject.newFeaturesMap(), DataObject.newMetadataMap());
 			this.idToQuestion.put(question.getId(), questionObject);
 		}
 	}
@@ -95,14 +87,9 @@ public class TrecPipeline {
 	public void performDataGeneration(String parameterList)
 			throws UIMAException {
 		
-		TreeSerializer ts = new TreeSerializer().enableRelationalTags();
+		RerankingTrain dataGenerator = new RerankingTrain(this.fm, TRAIN_SVM, this.ae)
+			.setParameterList(parameterList);
 		
-		this.fm.create(TRAIN_SVM);
-
-		JCas questionCas = JCasFactory.createJCas();
-		JCas leftCandidateCas = JCasFactory.createJCas();
-		JCas rightCandidateCas = JCasFactory.createJCas();
-
 		Iterator<List<String>> chunks = this.getChunkReader(CANDIDATES_PATH).iterator();
 		
 		while (chunks.hasNext()) {
@@ -113,58 +100,18 @@ public class TrecPipeline {
 
 			List<DataObject> candidateObjects = this.buildCandidatesObject(chunk);
 			
-			String questionId = candidateObjects.get(0).getMetadata().get(QUESTION_ID_KEY);
+			DataObject questionObject = this.idToQuestion.get(
+					this.getQuestionIdFromCandidateObjects(candidateObjects));
 			
-			System.out.println("Processing question: " + questionId);
-
-			DataObject questionObject = this.idToQuestion.get(questionId);
-
-			List<DataPair> pairs = pairQuestionWithCandidates(questionObject, candidateObjects);
-
-			this.ae.analyze(questionCas, new SimpleContent(questionId, ""));
-			
-			List<Pair<DataPair, DataPair>> trainingPairs = Pairer.pair(pairs);
-
-			for (Pair<DataPair, DataPair> trainingPair : trainingPairs) {
-				DataPair leftPair = trainingPair.getA();
-				DataPair rightPair = trainingPair.getB();
-
-				DataObject lCandidate = leftPair.getB();
-				DataObject rCandidate = rightPair.getB();
-
-				TokenTree leftQuestionTree = RichTree.getPosChunkTree(questionCas);
-				TokenTree rightQuestionTree = RichTree.getPosChunkTree(questionCas);
-
-				this.ae.analyze(leftCandidateCas, new SimpleContent(lCandidate.getId(), ""));
-				this.ae.analyze(rightCandidateCas, new SimpleContent(rCandidate.getId(), ""));
-
-				TokenTree leftCandidateTree = RichTree.getPosChunkTree(leftCandidateCas);
-				TokenTree rightCandidateTree = RichTree.getPosChunkTree(rightCandidateCas);
-				
-				MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(
-						new MarkTwoAncestors());
-				
-				marker.markTrees(leftQuestionTree, leftCandidateTree, parameterList);
-				marker.markTrees(rightQuestionTree, rightCandidateTree, parameterList);
-				
-				StringBuffer sb = new StringBuffer(1024 * 4);
-				String label = leftPair.isPositive() ? "+1" : "-1";
-				sb.append(label);
-				sb.append(" |BT| ");
-				sb.append(ts.serializeTree(leftQuestionTree, parameterList));
-				sb.append(" |BT| ");
-				sb.append(ts.serializeTree(leftCandidateTree, parameterList));
-				sb.append(" |BT| ");
-				sb.append(ts.serializeTree(rightQuestionTree, parameterList));
-				sb.append(" |BT| ");
-				sb.append(ts.serializeTree(rightCandidateTree, parameterList));
-				sb.append(" |ET| ");
-
-				this.fm.writeLn(TRAIN_SVM, sb.toString());
-			}
+			dataGenerator.generateData(questionObject, candidateObjects);
 		}
 		
-		this.fm.close(TRAIN_SVM);
+		dataGenerator.close();
+	}
+
+	private String getQuestionIdFromCandidateObjects(
+			List<DataObject> candidateObjects) {
+		return candidateObjects.get(0).getMetadata().get(QUESTION_ID_KEY);
 	}
 	
 	private List<DataObject> buildCandidatesObject(List<String> chunk) {
@@ -176,9 +123,9 @@ public class TrecPipeline {
 			String candidateId = fields.get(1);
 			boolean relevant = fields.get(4).equals("true") ? true : false;
 
-			Map<String, Double> features = new HashMap<>();
+			Map<String, Double> features = DataObject.newFeaturesMap();
 			
-			Map<String, String> metadata = new HashMap<>();
+			Map<String, String> metadata = DataObject.newMetadataMap();
 			metadata.put(QUESTION_ID_KEY, questionId);
 			
 			DataObject candidateObject = new DataObject(
@@ -189,20 +136,6 @@ public class TrecPipeline {
 		}
 		
 		return candidateObjects;
-	}
-	
-	private List<DataPair> pairQuestionWithCandidates(DataObject question,
-			List<DataObject> candidates) {
-		List<DataPair> pairs = new ArrayList<>();
-
-		for (DataObject candidate : candidates) {
-			pairs.add(new DataPair(candidate.getLabel(),
-					question.getId() + "-" + candidate.getId(),
-					new HashMap<String, Double>(),  new HashMap<String, String>(),
-					question, candidate));
-		}
-		
-		return pairs;
 	}
 
 	public ChunkReader getChunkReader(String candidatePath) {
