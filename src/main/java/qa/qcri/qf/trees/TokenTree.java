@@ -8,11 +8,11 @@ import org.maltparser.core.helper.HashMap;
 
 /**
  * 
- * TokenTree is a class which extends BaseRichNode and
- * provides handy access to a list of RichTokenNode
+ * TokenTree is a class which extends BaseRichNode and provides handy access to
+ * a list of RichTokenNode
  * 
- * TokenTree object are used as Root node for several trees
- * produced by the framework
+ * TokenTree object are used as Root node for several trees produced by the
+ * framework
  * 
  * For example, POS+CHUNK roots are TokenTree objects
  */
@@ -31,8 +31,7 @@ public class TokenTree extends BaseRichNode {
 
 	/**
 	 * 
-	 * @return the list of RichTokenNode which ideally
-	 * are descendants of this node
+	 * @return the list of RichTokenNode which ideally are descendants of this node
 	 */
 	public List<RichTokenNode> getTokens() {
 		return this.tokens;
@@ -40,6 +39,7 @@ public class TokenTree extends BaseRichNode {
 
 	/**
 	 * Adds a token to the list of tokens
+	 * 
 	 * @param token
 	 */
 	public void addToken(RichTokenNode token) {

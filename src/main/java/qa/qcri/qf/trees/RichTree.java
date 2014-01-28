@@ -8,9 +8,8 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
 /**
- *
- * RichTree is a factory class for creating rich trees
- * from annotated CASes
+ * 
+ * RichTree is a factory class for creating rich trees from annotated CASes
  */
 public class RichTree {
 
@@ -20,14 +19,14 @@ public class RichTree {
 	/**
 	 * Builds a POS+CHUNK tree from an annotated CAS
 	 * 
-	 * The CAS must contain sentence boundaries, tokens,
-	 * POStags and chunks
+	 * The CAS must contain sentence boundaries, tokens, POStags and chunks
 	 * 
-	 * A POS+CHUNK tree is a tree with two salient layer.
-	 * The bottom layer is made by tokens with their POStags.
-	 * These nodes are grouped by chunk nodes.
+	 * A POS+CHUNK tree is a tree with two salient layer. The bottom layer is
+	 * made by tokens with their POStags. These nodes are grouped by chunk
+	 * nodes.
 	 * 
-	 * @param cas the UIMA JCas
+	 * @param cas
+	 *            the UIMA JCas
 	 * @return the POS+CHUNK tree, as a TokenTree
 	 * 
 	 * @see TokenTree
@@ -40,9 +39,11 @@ public class RichTree {
 			RichNode sentenceNode = new BaseRichNode();
 			sentenceNode.setValue(SENTENCE_LABEL);
 
-			for (Chunk chunk : JCasUtil.selectCovered(cas, Chunk.class, sentence)) {
+			for (Chunk chunk : JCasUtil.selectCovered(cas, Chunk.class,
+					sentence)) {
 				RichNode chunkNode = new RichChunkNode(chunk);
-				for (Token token : JCasUtil.selectCovered(cas, Token.class, chunk)) {
+				for (Token token : JCasUtil.selectCovered(cas, Token.class,
+						chunk)) {
 					RichNode posNode = new BaseRichNode();
 					posNode.setValue(token.getPos().getPosValue());
 
