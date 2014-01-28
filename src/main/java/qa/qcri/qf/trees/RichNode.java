@@ -3,6 +3,10 @@ package qa.qcri.qf.trees;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface implemented by the nodes used in the trees
+ * produced and managed by the tree framework
+ */
 public interface RichNode {
 	
 	/**
