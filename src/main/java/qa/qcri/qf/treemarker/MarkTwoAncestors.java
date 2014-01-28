@@ -5,6 +5,10 @@ import java.util.List;
 
 import qa.qcri.qf.trees.RichNode;
 
+/**
+ * 
+ * Marking strategy selecting the two ancestors of a given node
+ */
 public class MarkTwoAncestors implements MarkingStrategy {
 
 	@Override
