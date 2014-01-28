@@ -10,6 +10,11 @@ import java.util.Set;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Base node which implements the functionalities
+ * of the RichNode interface.
+ * All the other rich nodes should extend this class
+ */
 public class BaseRichNode implements RichNode {
 	
 	protected Map<String, String> metadata;
@@ -27,6 +32,10 @@ public class BaseRichNode implements RichNode {
 		this.additionalLabels = new HashSet<>();
 		this.children = new ArrayList<>();
 		this.parent = null;
+		
+		/*
+		 * Placeholder value, a remainder for initialization
+		 */
 		this.value = "NOT_INITIALIZED";
 	}
 	

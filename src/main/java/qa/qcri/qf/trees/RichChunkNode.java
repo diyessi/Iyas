@@ -2,6 +2,11 @@ package qa.qcri.qf.trees;
 
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
+/**
+ * 
+ * The RichChunkNode class wraps a Chunk object,
+ * a datatype from the DKPro typesystem 
+ */
 public class RichChunkNode extends BaseRichNode {
 
 	private Chunk chunk;
@@ -13,6 +18,10 @@ public class RichChunkNode extends BaseRichNode {
 		this.value = chunk.getChunkValue();
 	}
 	
+	/**
+	 * 
+	 * @return the DKPro Chunk object
+	 */
 	public Chunk getChunk() {
 		return this.chunk;
 	}
