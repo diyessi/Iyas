@@ -28,10 +28,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="tools/IllinoisChunker/LBJChunk.jar"/>
-	<classpathentry kind="lib" path="tools/IllinoisChunker/LBJ-2.8.2.jar"/>
-	<classpathentry kind="lib" path="tools/IllinoisChunker/LBJLibrary-2.8.2.jar"/>
-	<classpathentry kind="lib" path="tools/IllinoisChunker/LBJPOS.jar"/>
 	<classpathentry kind="var" path="TRETAGGER_HOME"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
