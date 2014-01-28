@@ -47,7 +47,7 @@ public interface RichNode {
 	public List<String> getAdditionalLabels();
 	
 	/**
-	 * Associate a label to the node
+	 * Associates a label to the node
 	 * @param label
 	 */
 	public void addAdditionalLabel(String label);
@@ -59,7 +59,7 @@ public interface RichNode {
 	public List<RichNode> getChildren();
 	
 	/**
-	 * Add a child to this node
+	 * Adds a child to this node
 	 * @param node
 	 */
 	public void addChild(RichNode node);
@@ -71,7 +71,7 @@ public interface RichNode {
 	public RichNode getParent();
 	
 	/**
-	 * Set the parent of this node
+	 * Sets the parent of this node
 	 * @param node the parent node
 	 */
 	public void setParent(RichNode node);
@@ -84,19 +84,19 @@ public interface RichNode {
 	public String getValue();
 	
 	/**
-	 * Set the default value of the node 
+	 * Sets the default value of the node 
 	 * @param value
 	 */
 	public void setValue(String value);
 	
 	/**
-	 * Check if the node is a leaf (does not have children)
+	 * Checks if the node is a leaf (does not have children)
 	 * @return true if the node is a leaf, false otherwise
 	 */
 	public boolean isLeaf();
 	
 	/**
-	 * Return a string representation of the node which may
+	 * Produces a string representation of the node which may
 	 * be affected by the provided parameter list.
 	 * A node can parse this list and react according to it.
 	 * In the default case the implementation should return

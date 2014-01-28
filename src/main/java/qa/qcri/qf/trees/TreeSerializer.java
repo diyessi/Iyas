@@ -5,48 +5,98 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 
+/**
+ * 
+ * Serializes a tree made of RichNodes
+ */
 public class TreeSerializer {
 	
+	/**
+	 * Additional labels are combined and joined
+	 * by this separator
+	 */
 	private static final String LABEL_SEPARATOR = "-";
 	
-	private String lbr = "(";
-	private String rbr = ")";
+	/**
+	 * Default parenthesis used in serialization
+	 */
+	private String lbr = "("; private String rbr = ")";
 	
+	/**
+	 * Outputting additional labels is optional
+	 * and thus must be explicitly specified
+	 */
 	private boolean enableAdditionalLabels = false;
+	
+	/**
+	 * Outputting relational tags is optional
+	 * and thus must be explicitly specified
+	 */
 	private boolean enableRelationalTags = false;
 	
+	/**
+	 * Adopts square brackets in the serialized trees
+	 * @return the current TreeSerialized instance (for chaining)
+	 */
 	public TreeSerializer useSquareBrackets() {
 		this.lbr = "[";
 		this.rbr = "]";
 		return this;
 	}
 	
+	/**
+	 * Adopts round brackets in the serialized trees
+	 * @return the current TreeSerialized instance (for chaining)
+	 */
 	public TreeSerializer useRoundBrackets() {
 		this.lbr = "(";
 		this.rbr = ")";
 		return this;
 	}
 	
+	/**
+	 * Enables additional labels in the output
+	 * @return the current TreeSerialized instance (for chaining)
+	 */
 	public TreeSerializer enableAdditionalLabels() {
 		this.enableAdditionalLabels = true;
 		return this;
 	}
 	
+	/**
+	 * Disables additional labels in the output
+	 * @return the current TreeSerialized instance (for chaining)
+	 */
 	public TreeSerializer disableAdditionalLabels() {
 		this.enableAdditionalLabels = false;
 		return this;
 	}
 	
+	/**
+	 * Enables relational tags in the output
+	 * @return the current TreeSerialized instance (for chaining)
+	 */
 	public TreeSerializer enableRelationalTags() {
 		this.enableRelationalTags = true;
 		return this;
 	}
 	
+	/**
+	 * Disables relational tags in the output
+	 * @return the current TreeSerialized instance (for chaining)
+	 */
 	public TreeSerializer disableRelationalTags() {
 		this.enableRelationalTags = false;
 		return this;
 	}
 	
+	/**
+	 * Serializes a tree starting from the specified node
+	 * 
+	 * @param node the root node of the tree
+	 * @param parameterList the parameter list for the node output
+	 * @return the serialized tree
+	 */
 	public String serializeTree(RichNode node, String parameterList) {
 		List<String> leftParts = new ArrayList<>();
 		List<String> rightParts = new ArrayList<>();

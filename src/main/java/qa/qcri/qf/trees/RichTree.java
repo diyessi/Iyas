@@ -7,6 +7,11 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
+/**
+ *
+ * RichTree is a factory class for creating rich trees
+ * from annotated CASes
+ */
 public class RichTree {
 
 	public static final String ROOT_LABEL = "ROOT";

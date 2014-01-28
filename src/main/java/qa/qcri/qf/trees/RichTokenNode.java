@@ -33,7 +33,7 @@ public class RichTokenNode extends BaseRichNode {
 	}
 
 	/**
-	 * Return a string representation of the node which may be affected by the
+	 * Produces a string representation of the node which may be affected by the
 	 * provided parameter list. A node can parse this list and react according
 	 * to it. In the default case the implementation should return the same
 	 * value of getValue()
