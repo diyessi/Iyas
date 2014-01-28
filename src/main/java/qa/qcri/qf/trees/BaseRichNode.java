@@ -11,62 +11,61 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 
 /**
- * Base node which implements the functionalities
- * of the RichNode interface.
- * All the other rich nodes should extend this class
+ * Base node which implements the functionalities of the RichNode interface. All
+ * the other rich nodes should extend this class
  */
 public class BaseRichNode implements RichNode {
-	
+
 	protected Map<String, String> metadata;
-	
+
 	protected Set<String> additionalLabels;
 
 	protected List<RichNode> children;
-	
+
 	protected RichNode parent;
-	
+
 	protected String value;
-	
+
 	public BaseRichNode() {
 		this.metadata = new HashMap<>();
 		this.additionalLabels = new HashSet<>();
 		this.children = new ArrayList<>();
 		this.parent = null;
-		
+
 		/*
 		 * Placeholder value, a remainder for initialization
 		 */
 		this.value = "NOT_INITIALIZED";
 	}
-	
+
 	@Override
 	public Map<String, String> getMetadata() {
 		return this.metadata;
 	}
-	
+
 	@Override
 	public List<String> getAdditionalLabels() {
 		List<String> labels = Lists.newArrayList(this.additionalLabels);
 		Collections.sort(labels);
 		return labels;
 	}
-	
+
 	@Override
 	public void addAdditionalLabel(String label) {
 		this.additionalLabels.add(label);
 	}
-	
+
 	@Override
 	public List<RichNode> getChildren() {
 		return this.children;
 	}
-	
+
 	@Override
 	public void addChild(RichNode node) {
 		node.setParent(this);
 		this.children.add(node);
 	}
-	
+
 	@Override
 	public RichNode getParent() {
 		return this.parent;
