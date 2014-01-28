@@ -32,59 +32,60 @@ public class IllinoisChunker extends JCasAnnotator_ImplBase {
 	 * Chunk annotator using IllinoisChunker.
 	 */	
 	
-	private Chunker chunker;
+private Chunker chunker;
 	
 	@Override
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {
-		super.initialize(aContext);
+		super.initialize(aContext);	
 	}
 
 	@Override
 	public void process(JCas cas) throws AnalysisEngineProcessException {
 		
-		if (this.chunker == null) {
+		// Lazy loading
+		if(this.chunker == null) {
 			init();
 		}
 		
-		for (Sentence sentence : JCasUtil.select(cas, Sentence.class)) {
+		for(Sentence sentence : JCasUtil.select(cas, Sentence.class)) {		
 			LinkedVector illinoisWords = getIllinoisWords(cas, sentence);
 			LinkedVector illinoisTokens = WordsToTokens.convert(illinoisWords);
-					
-			List<LBJ2.nlp.seg.Token> tokens = new ArrayList<>();
-			for (int i = 0, n = illinoisTokens.size(); i < n; i++) {
-				// Build a word with the Token data
+			
+			List<LBJ2.nlp.seg.Token> tokens = new ArrayList<>();		
+			for(int i = 0, n = illinoisTokens.size(); i < n; i++) {
 				LBJ2.nlp.seg.Token currentToken = (LBJ2.nlp.seg.Token) illinoisTokens.get(i);
 				String tag = this.chunker.discreteValue(currentToken);
 				// Assign the tag to the token label
 				currentToken.label = tag;
 				
-				if (tag.startsWith("B-")) {
+				if(tag.startsWith("B-")) {
 					extractChunk(tokens, cas);
 					tokens.add(currentToken);
-				} else if (tag.startsWith("I-")) {
+				} else if(tag.startsWith("I-")) {
 					tokens.add(currentToken);
 				} else {
 					extractChunk(tokens, cas);
 				}
 			}
+
 			extractChunk(tokens, cas);
 		}
 	}
-	
+
 	private LinkedVector getIllinoisWords(JCas cas, Sentence sentence) {
-		LinkedVector illinoisWords = new LinkedVector();
-		for (Token token : JCasUtil.selectCovered(cas, Token.class, sentence)) {
+		LinkedVector illinoisWords = new LinkedVector();	
+		for(Token token : JCasUtil.selectCovered(cas, Token.class, sentence)) {
 			// Build a word with the Token data
-			LBJ2.nlp.Word word = new LBJ2.nlp.Word(token.getCoveredText(), 
+			LBJ2.nlp.Word word = new LBJ2.nlp.Word(token.getCoveredText(),
 					token.getPos().getPosValue(), token.getBegin(), token.getEnd());
 			// Add the word to the word list
 			illinoisWords.add(word);
 		}
 		return illinoisWords;
 	}
-	
+
 	private void extractChunk(List<LBJ2.nlp.seg.Token> tokens, JCas cas) {
-		if (!tokens.isEmpty()) {
+		if(!tokens.isEmpty()) {
 			int begin = tokens.get(0).start;
 			int end = tokens.get(tokens.size() - 1).end;
 			
@@ -98,7 +99,7 @@ public class IllinoisChunker extends JCasAnnotator_ImplBase {
 		}
 	}
 	
-	private void init() { 
+	private void init() {
 		this.chunker = new Chunker();
 	}
 
