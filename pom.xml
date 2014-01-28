@@ -1,5 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <repositories>
+    <repository>
+      <id>Illinois</id>
+      <url>http://cogcomp.cs.illinois.edu/m2repo/</url>
+    </repository>
+  </repositories>
   <parent>
     <groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
     <artifactId>de.tudarmstadt.ukp.dkpro.core-asl</artifactId>
@@ -77,6 +83,21 @@
   			de.tudarmstadt.ukp.dkpro.core.treetagger-asl
   		</artifactId>
   		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>edu.illinois.cs.cogcomp.lbj</groupId>
+  		<artifactId>edu.illinois.cs.cogcomp.lbj.pos</artifactId>
+  		<version>1.7.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>edu.illinois.cs.cogcomp</groupId>
+  		<artifactId>edu.illinois.cs.cogcomp.lbj</artifactId>
+  		<version>2.8.2</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>edu.illinois.cs.cogcomp</groupId>
+  		<artifactId>illinois-chunker</artifactId>
+  		<version>1.5.1</version>
   	</dependency>
   </dependencies>
 </project>
