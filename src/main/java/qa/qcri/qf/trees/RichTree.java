@@ -66,7 +66,7 @@ public class RichTree {
 	}
 
 	/**
-	 * Builds a Constituency tree from an annotated CAS The CAS must contain
+	 * Builds a Constituency tree from an annotated CAS. The CAS must contain
 	 * sentence boundaries, tokens, POStags and constituents
 	 * 
 	 * @param cas
@@ -89,6 +89,7 @@ public class RichTree {
 
 		for (Constituent node : roots) {
 			RichNode subTree = getConstituencySubTree(node, root);
+			// Step required to skip each sentence root node
 			for (RichNode sentenceNode : subTree.getChildren()) {
 				root.addChild(sentenceNode);
 			}
@@ -118,6 +119,9 @@ public class RichTree {
 			subTree.addChild(constituentNode);
 		}
 
+		/**
+		 * If there are no constituents we are working with a token node
+		 */
 		if (constituents.size() == 0) {
 			Collection<Token> tokens = JCasUtil.select(
 					subTreeRoot.getChildren(), Token.class);
