@@ -11,6 +11,7 @@ import org.apache.uima.fit.component.CasDumpWriter;
 import qa.qcri.qf.annotators.IllinoisChunker;
 import de.tudarmstadt.ukp.dkpro.core.io.text.TextReader;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 
 
@@ -25,11 +26,12 @@ public class InitialProjectRunner  {
 		AnalysisEngineDescription seg = createEngineDescription(BreakIteratorSegmenter.class);
 		AnalysisEngineDescription tagger = createEngineDescription(OpenNlpPosTagger.class);
 		AnalysisEngineDescription chunker = createEngineDescription(IllinoisChunker.class);
+		AnalysisEngineDescription parser = createEngineDescription(StanfordParser.class);
 		AnalysisEngineDescription cc = createPrimitiveDescription(
 				CasDumpWriter.class,
 				CasDumpWriter.PARAM_OUTPUT_FILE, "target/output.txt");
 		
-		runPipeline(cr, seg, tagger, chunker, cc);
+		runPipeline(cr, seg, tagger, chunker, parser, cc);
 	}
 
 }
