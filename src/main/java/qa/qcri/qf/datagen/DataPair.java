@@ -2,6 +2,12 @@ package qa.qcri.qf.datagen;
 
 import java.util.Map;
 
+/**
+ * 
+ * DataPair extends DataObject because it can be seen as a more complex object
+ * used for generating examples for training/testing Moreover, it can have
+ * features and metadata associated to the pair of wrapped DataObject
+ */
 public class DataPair extends DataObject implements Labelled {
 
 	private DataObject a;
@@ -24,6 +30,9 @@ public class DataPair extends DataObject implements Labelled {
 	}
 
 	@Override
+	/**
+	 * Returns the label associated to the right object of the pair
+	 */
 	public Double getLabel() {
 		return this.b.getLabel();
 	}
