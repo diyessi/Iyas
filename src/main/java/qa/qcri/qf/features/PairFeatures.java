@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import qa.qcri.qf.features.dkpro.LemmasCosineSimilarity;
 import qa.qcri.qf.features.dkpro.LowerCaseTokensCosineSimilarity;
 import qa.qcri.qf.features.dkpro.TokensCosineSimilarity;
+import qa.qcri.qf.features.dkpro.Word1GramJaccardMeasure;
+import qa.qcri.qf.features.dkpro.Word2GramJaccardMeasure;
+import qa.qcri.qf.features.dkpro.Word3GramJaccardMeasure;
 import qa.qcri.qf.pipeline.UimaUtil;
 import qa.qcri.qf.trees.RichTokenNode;
 import util.Pair;
@@ -35,6 +38,7 @@ import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
  * from http://code.google.com/p/dkpro-similarity-asl/
  * 
  * TokensCosineSimilarity LemmasCosineSimilarity LowerCaseTokensCosineSimilarity
+ * Word1GramJaccardMeasure Word2GramJaccardMeasure Word3GramJaccardMeasure
  * 
  * ...please add other features
  * 
@@ -96,6 +100,18 @@ public class PairFeatures {
 			this.nameToFeature.put(featureName,
 					new LowerCaseTokensCosineSimilarity(this.aTokens,
 							this.bTokens));
+			break;
+		case Word1GramJaccardMeasure.NAME:
+			this.nameToFeature.put(featureName, new Word1GramJaccardMeasure(
+					this.aTokens, this.bTokens));
+			break;
+		case Word2GramJaccardMeasure.NAME:
+			this.nameToFeature.put(featureName, new Word2GramJaccardMeasure(
+					this.aTokens, this.bTokens));
+			break;
+		case Word3GramJaccardMeasure.NAME:
+			this.nameToFeature.put(featureName, new Word3GramJaccardMeasure(
+					this.aTokens, this.bTokens));
 			break;
 		default:
 			addFeatureToVocabulary = false;
