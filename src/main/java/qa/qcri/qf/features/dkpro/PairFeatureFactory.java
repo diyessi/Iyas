@@ -1,4 +1,4 @@
-package qa.qcri.qf.features.cosine;
+package qa.qcri.qf.features.dkpro;
 
 import org.apache.uima.jcas.JCas;
 

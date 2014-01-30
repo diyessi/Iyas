@@ -10,9 +10,9 @@ import org.apache.uima.jcas.JCas;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qa.qcri.qf.features.cosine.LemmasCosineSimilarity;
-import qa.qcri.qf.features.cosine.LowerCaseTokensCosineSimilarity;
-import qa.qcri.qf.features.cosine.TokensCosineSimilarity;
+import qa.qcri.qf.features.dkpro.LemmasCosineSimilarity;
+import qa.qcri.qf.features.dkpro.LowerCaseTokensCosineSimilarity;
+import qa.qcri.qf.features.dkpro.TokensCosineSimilarity;
 import qa.qcri.qf.pipeline.UimaUtil;
 import qa.qcri.qf.trees.RichTokenNode;
 import util.Pair;

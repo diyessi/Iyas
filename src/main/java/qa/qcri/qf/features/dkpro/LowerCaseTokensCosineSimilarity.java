@@ -1,4 +1,4 @@
-package qa.qcri.qf.features.cosine;
+package qa.qcri.qf.features.dkpro;
 
 import java.util.List;
 
@@ -6,12 +6,15 @@ import qa.qcri.qf.features.PairFeature;
 import qa.qcri.qf.pipeline.UimaUtil;
 import qa.qcri.qf.trees.RichNode;
 import qa.qcri.qf.trees.RichTokenNode;
+
+import com.google.common.base.Joiner;
+
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.CosineSimilarity;
 
-public class LemmasCosineSimilarity implements PairFeature {
+public class LowerCaseTokensCosineSimilarity implements PairFeature {
 	
-	public static final String NAME = "LemmasCosineSimilarity";
+	public static final String NAME = "LowerCaseTokensCosineSimilarity";
 
 	private List<RichTokenNode> aTokens;
 
@@ -19,11 +22,12 @@ public class LemmasCosineSimilarity implements PairFeature {
 
 	private String parameterList;
 
-	public LemmasCosineSimilarity(List<RichTokenNode> aTokens,
+	public LowerCaseTokensCosineSimilarity(List<RichTokenNode> aTokens,
 			List<RichTokenNode> bTokens) {
 		this.aTokens = aTokens;
 		this.bTokens = bTokens;
-		this.parameterList = RichNode.OUTPUT_PAR_LEMMA;
+		this.parameterList = Joiner.on(",").join(
+				RichNode.OUTPUT_PAR_TOKEN, RichNode.OUTPUT_PAR_TOKEN_LOWERCASE);
 	}
 
 	@Override
@@ -33,10 +37,9 @@ public class LemmasCosineSimilarity implements PairFeature {
 
 	@Override
 	public double getValue() throws SimilarityException {
-		return new CosineSimilarity().getSimilarity(UimaUtil
-				.getRichTokensRepresentation(this.aTokens, this.parameterList),
-				UimaUtil.getRichTokensRepresentation(this.bTokens,
-						this.parameterList));
+		return new CosineSimilarity().getSimilarity(
+				UimaUtil.getRichTokensRepresentation(this.aTokens, this.parameterList),
+				UimaUtil.getRichTokensRepresentation(this.bTokens, this.parameterList));
 	}
 
 }

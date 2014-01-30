@@ -1,4 +1,4 @@
-package qa.qcri.qf.features.cosine;
+package qa.qcri.qf.features.dkpro;
 
 import java.util.List;
 
@@ -6,15 +6,12 @@ import qa.qcri.qf.features.PairFeature;
 import qa.qcri.qf.pipeline.UimaUtil;
 import qa.qcri.qf.trees.RichNode;
 import qa.qcri.qf.trees.RichTokenNode;
-
-import com.google.common.base.Joiner;
-
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.CosineSimilarity;
 
-public class LowerCaseTokensCosineSimilarity implements PairFeature {
+public class TokensCosineSimilarity implements PairFeature {
 	
-	public static final String NAME = "LowerCaseTokensCosineSimilarity";
+	public static final String NAME = "TokensCosineSimilarity";
 
 	private List<RichTokenNode> aTokens;
 
@@ -22,12 +19,11 @@ public class LowerCaseTokensCosineSimilarity implements PairFeature {
 
 	private String parameterList;
 
-	public LowerCaseTokensCosineSimilarity(List<RichTokenNode> aTokens,
+	public TokensCosineSimilarity(List<RichTokenNode> aTokens,
 			List<RichTokenNode> bTokens) {
 		this.aTokens = aTokens;
 		this.bTokens = bTokens;
-		this.parameterList = Joiner.on(",").join(
-				RichNode.OUTPUT_PAR_TOKEN, RichNode.OUTPUT_PAR_TOKEN_LOWERCASE);
+		this.parameterList = RichNode.OUTPUT_PAR_TOKEN;
 	}
 
 	@Override

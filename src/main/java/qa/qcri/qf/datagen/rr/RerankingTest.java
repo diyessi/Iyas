@@ -8,7 +8,7 @@ import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.datagen.DataObject;
 import qa.qcri.qf.features.PairFeatures;
-import qa.qcri.qf.features.cosine.PairFeatureFactory;
+import qa.qcri.qf.features.dkpro.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
