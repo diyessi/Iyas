@@ -10,25 +10,19 @@ import org.apache.uima.jcas.JCas;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qa.qcri.qf.features.dkpro.LemmasCosineSimilarity;
-import qa.qcri.qf.features.dkpro.LowerCaseTokensCosineSimilarity;
-import qa.qcri.qf.features.dkpro.TokensCosineSimilarity;
-import qa.qcri.qf.features.dkpro.Word1GramJaccardMeasure;
-import qa.qcri.qf.features.dkpro.Word2GramJaccardMeasure;
-import qa.qcri.qf.features.dkpro.Word3GramJaccardMeasure;
 import qa.qcri.qf.pipeline.UimaUtil;
 import qa.qcri.qf.trees.RichTokenNode;
 import util.Pair;
+import util.PairCompareOnA;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
+import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
 
 /**
  * 
  * Class for computing features related to a pair of objects. Implements some
  * caching for the most used structures extracted from the objects' CASes.
  * 
- * A new feature must implement the PairFeature interface. Then the
- * addFeature(String featureName) method must be augmented to instantiate the
- * feature implementation and associate it to its name.
+ * Features implement the DKPro TextSimilarityMeasure interface
  * 
  * In the future a way to easily support features requiring additional resources
  * should be implemented
@@ -54,131 +48,92 @@ public class PairFeatures {
 
 	private List<RichTokenNode> bTokens;
 
-	private Map<String, PairFeature> nameToFeature;
+	private List<String> aRepr;
 
-	private Map<String, Double> computedFeatures;
+	private List<String> bRepr;
+
+	private Map<TextSimilarityMeasure, Double> measureToValue;
 
 	private List<String> featureVocabulary;
 
 	private final Logger logger = LoggerFactory.getLogger(PairFeatures.class);
 
-	public PairFeatures(JCas aCas, JCas bCas) {
+	public PairFeatures(JCas aCas, JCas bCas, String parameterList) {
 		this.aCas = aCas;
 		this.bCas = bCas;
+
 		this.aTokens = UimaUtil.getRichTokens(aCas);
 		this.bTokens = UimaUtil.getRichTokens(bCas);
 
-		this.nameToFeature = new HashMap<>();
-		this.computedFeatures = new HashMap<>();
+		this.aRepr = UimaUtil.getRichTokensRepresentation(this.aTokens,
+				parameterList);
+		this.bRepr = UimaUtil.getRichTokensRepresentation(this.bTokens,
+				parameterList);
+
+		this.measureToValue = new HashMap<>();
+
 		this.featureVocabulary = new ArrayList<>();
 	}
 
 	/**
-	 * Instantiates the features object with the given name registers them
+	 * Computes the given TextSimilarityMeasure and store the values
 	 * 
-	 * This acts as a factory method which must be augmented every time a new
-	 * feature is introduced into the framework
-	 * 
-	 * @param featureName
-	 *            the name of the feature
-	 * @return the PairFeatures object instance for chaining
+	 * @param measure
+	 * @return the PairFeatures class instance for chaining
 	 */
-	public PairFeatures addFeature(String featureName) {
+	public PairFeatures computeFeature(TextSimilarityMeasure measure) {
 
-		boolean addFeatureToVocabulary = true;
+		this.featureVocabulary.add(measure.getName());
 
-		switch (featureName) {
-		case TokensCosineSimilarity.NAME:
-			this.nameToFeature.put(featureName, new TokensCosineSimilarity(
-					this.aTokens, this.bTokens));
-			break;
-		case LemmasCosineSimilarity.NAME:
-			this.nameToFeature.put(featureName, new LemmasCosineSimilarity(
-					this.aTokens, this.bTokens));
-			break;
-		case LowerCaseTokensCosineSimilarity.NAME:
-			this.nameToFeature.put(featureName,
-					new LowerCaseTokensCosineSimilarity(this.aTokens,
-							this.bTokens));
-			break;
-		case Word1GramJaccardMeasure.NAME:
-			this.nameToFeature.put(featureName, new Word1GramJaccardMeasure(
-					this.aTokens, this.bTokens));
-			break;
-		case Word2GramJaccardMeasure.NAME:
-			this.nameToFeature.put(featureName, new Word2GramJaccardMeasure(
-					this.aTokens, this.bTokens));
-			break;
-		case Word3GramJaccardMeasure.NAME:
-			this.nameToFeature.put(featureName, new Word3GramJaccardMeasure(
-					this.aTokens, this.bTokens));
-			break;
-		default:
-			addFeatureToVocabulary = false;
-			break;
-		}
+		try {
+			double similarity = measure.getSimilarity(this.aRepr, this.bRepr);
+			this.measureToValue.put(measure, similarity);
+		} catch (SimilarityException e) {
+			this.measureToValue.put(measure, 0.0);
 
-		if (addFeatureToVocabulary) {
-			this.featureVocabulary.add(featureName);
+			logger.error("ERROR: cannot compute feature " + measure.getName()
+					+ "on pairs:\n" + this.aCas.getDocumentText() + "\n"
+					+ this.bCas.getDocumentText() + "\n");
 		}
 
 		return this;
 	}
 
 	/**
-	 * Iterates through the instantiated features and computes their values
-	 * 
-	 * @return the map which associates feature names to their computed value
-	 */
-	public Map<String, Double> computeFeatures() {
-		for (String featureName : this.featureVocabulary) {
-			try {
-				Double value = this.nameToFeature.get(featureName).getValue();
-				this.computedFeatures.put(featureName, value);
-			} catch (SimilarityException e) {
-				logger.error("ERROR: cannot compute feature " + featureName
-						+ "on pairs:\n" + this.aCas.getDocumentText() + "\n"
-						+ this.bCas.getDocumentText() + "\n");
-			}
-		}
-		return this.computedFeatures;
-	}
-
-	/**
-	 * Indexes the features
+	 * Indexes the features and returns them in order in ascending indexes
 	 * 
 	 * Note: features are indexed starting by 0
 	 * 
 	 * @return a list of features with associated indexes
 	 */
 	public List<Pair<Integer, Double>> getIndexedFeatures() {
-
-		/**
-		 * If features are not present, it tries to compute them
-		 */
-		if (this.computedFeatures.isEmpty()) {
-			this.computeFeatures();
-		}
-
 		/**
 		 * Keeps the features vocabulary alphabetically ordered
 		 */
 		Collections.sort(this.featureVocabulary);
 
+		Map<String, Integer> featureToIndex = new HashMap<>();
+		for (int i = 0; i < this.featureVocabulary.size(); i++) {
+			featureToIndex.put(this.featureVocabulary.get(i), i);
+		}
+
 		List<Pair<Integer, Double>> indexedFeatures = new ArrayList<>();
 
-		for (int i = 0; i < this.featureVocabulary.size(); i++) {
-			Double featureValue = this.computedFeatures
-					.get(this.featureVocabulary.get(i));
+		for (TextSimilarityMeasure measure : this.measureToValue.keySet()) {
+			Double featureValue = this.measureToValue.get(measure);
 
 			/**
 			 * We do not add features not computed due to errors and features
 			 * with value equal to zero
 			 */
 			if (featureValue != null && featureValue.compareTo(0.0) != 0) {
-				indexedFeatures.add(new Pair<Integer, Double>(i, featureValue));
+				indexedFeatures.add(new Pair<Integer, Double>(featureToIndex
+						.get(measure.getName()), featureValue));
 			}
 		}
+
+		Collections.sort(indexedFeatures, Collections.reverseOrder(
+				new PairCompareOnA<Integer, Double>()));
 
 		return indexedFeatures;
 	}

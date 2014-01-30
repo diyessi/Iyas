@@ -18,7 +18,7 @@ import qa.qcri.qf.datagen.Labelled;
 import qa.qcri.qf.datagen.rr.Reranking;
 import qa.qcri.qf.datagen.rr.RerankingTest;
 import qa.qcri.qf.datagen.rr.RerankingTrain;
-import qa.qcri.qf.features.dkpro.PairFeatureFactory;
+import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
