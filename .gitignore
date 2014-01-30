@@ -1,6 +1,7 @@
 /target
 
-/train
+/data/trec/train
+/data/trec/test
 
 /CASes
 
