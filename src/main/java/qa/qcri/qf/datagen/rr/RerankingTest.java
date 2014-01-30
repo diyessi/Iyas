@@ -18,37 +18,45 @@ import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 
+/**
+ * 
+ * Generates the test data for reranking
+ * 
+ * TODO: the logic about retrieving trees, the marking and producing the token
+ * representation should be factored out to a central "settings" class
+ */
 public class RerankingTest implements Reranking {
-	
+
 	public static final String DEFAULT_OUTPUT_TEST_FILE = "svm.test";
 
 	private FileManager fm;
 
 	private String outputDir;
-	
+
 	private String outputFile;
 
 	private Analyzer ae;
 
 	private TreeSerializer ts;
-	
+
 	private PairFeatureFactory pairFeatureFactory;
 
 	private JCas questionCas;
-	
+
 	private JCas candidateCas;
 
 	private String parameterList;
 
 	public RerankingTest(FileManager fm, String outputDir, Analyzer ae,
-			TreeSerializer ts, PairFeatureFactory pairFeatureFactory) throws UIMAException {
+			TreeSerializer ts, PairFeatureFactory pairFeatureFactory)
+			throws UIMAException {
 		this.fm = fm;
 		this.outputDir = outputDir;
 		this.outputFile = outputDir + DEFAULT_OUTPUT_TEST_FILE;
 		this.ae = ae;
 
 		this.ts = ts;
-		
+
 		this.pairFeatureFactory = pairFeatureFactory;
 
 		this.questionCas = JCasFactory.createJCas();
@@ -56,7 +64,13 @@ public class RerankingTest implements Reranking {
 
 		this.parameterList = "";
 	}
-	
+
+	/**
+	 * Sets the outputFile. If the method is not called then the default output
+	 * file name is used
+	 * 
+	 * @param outputFile
+	 */
 	public void setOutputFile(String outputFile) {
 		this.outputFile = this.outputDir + outputFile;
 	}
@@ -81,8 +95,8 @@ public class RerankingTest implements Reranking {
 
 			marker.markTrees(questionTree, candidateTree, this.parameterList);
 
-			PairFeatures pf = this.pairFeatureFactory.getPairFeatures(this.questionCas,
-					this.candidateCas);
+			PairFeatures pf = this.pairFeatureFactory.getPairFeatures(
+					this.questionCas, this.candidateCas);
 
 			StringBuffer sb = new StringBuffer(1024 * 4);
 			String label = candidateObject.isPositive() ? "+1" : "-1";
@@ -102,6 +116,12 @@ public class RerankingTest implements Reranking {
 		}
 	}
 
+	/**
+	 * Set the list of parameters used to retrieve the token representation
+	 * 
+	 * @param parameterList
+	 * @return
+	 */
 	public RerankingTest setParameterList(String parameterList) {
 		this.parameterList = parameterList;
 		return this;

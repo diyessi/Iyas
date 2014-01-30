@@ -25,7 +25,7 @@ import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
  * 
  * A new feature must implement the PairFeature interface. Then the
  * addFeature(String featureName) method must be augmented to instantiate the
- * feature implementation and associates it to its name.
+ * feature implementation and associate it to its name.
  * 
  * In the future a way to easily support features requiring additional resources
  * should be implemented

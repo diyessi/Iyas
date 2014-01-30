@@ -22,6 +22,13 @@ import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import util.Pair;
 
+/**
+ * 
+ * Generates the training data for reranking
+ * 
+ * TODO: the logic about retrieving trees, the marking and producing the token
+ * representation should be factored out to a central "settings" class
+ */
 public class RerankingTrain implements Reranking {
 
 	public static final String DEFAULT_OUTPUT_TRAIN_FILE = "svm.train";
@@ -63,6 +70,12 @@ public class RerankingTrain implements Reranking {
 		this.parameterList = "";
 	}
 
+	/**
+	 * Sets the outputFile. If the method is not called then the default output
+	 * file name is used
+	 * 
+	 * @param outputFile
+	 */
 	public void setOutputFile(String outputFile) {
 		this.outputFile = this.outputDir + outputFile;
 	}
@@ -138,11 +151,25 @@ public class RerankingTrain implements Reranking {
 		}
 	}
 
+	/**
+	 * Set the list of parameters used to retrieve the token representation
+	 * 
+	 * @param parameterList
+	 * @return
+	 */
 	public RerankingTrain setParameterList(String parameterList) {
 		this.parameterList = parameterList;
 		return this;
 	}
 
+	/**
+	 * Produces a list of DataPair. The right part of the pair is the question
+	 * DataObject, the left part of the pair is the candidate DataObject
+	 * 
+	 * @param question
+	 * @param candidates
+	 * @return the list of DataPair
+	 */
 	private List<DataPair> pairQuestionWithCandidates(DataObject question,
 			List<DataObject> candidates) {
 
