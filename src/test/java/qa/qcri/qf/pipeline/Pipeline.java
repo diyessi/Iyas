@@ -10,8 +10,6 @@ import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 
 import qa.qcri.qf.annotators.IllinoisChunker;
-import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.SampleFileReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
@@ -26,7 +24,6 @@ import com.google.common.base.Joiner;
 
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
-import de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerChunkerTT4J;
 
 public class Pipeline {
         

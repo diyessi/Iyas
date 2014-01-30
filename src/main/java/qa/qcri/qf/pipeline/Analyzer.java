@@ -57,7 +57,7 @@ public class Analyzer {
 					SimplePipeline.runPipeline(cas, ae);
 				} catch (AnalysisEngineProcessException e) {
 					logger.error("Failed to run annotator {} on content: {}",
-							ae.getAnalysisEngineMetaData().getName());
+							ae.getAnalysisEngineMetaData().getName(), cas.getDocumentText());
 					e.printStackTrace();
 				}
 			}

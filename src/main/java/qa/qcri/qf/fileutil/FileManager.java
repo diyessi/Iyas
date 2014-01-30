@@ -18,12 +18,16 @@ public class FileManager {
 	}
 	
 	public void write(String path, String content) {
-		assert(this.files.containsKey(path));
+		if(!this.files.containsKey(path)) {
+			this.create(path);
+		}
 		this.files.get(path).write(content);
 	}
 	
 	public void writeLn(String path, String content) {
-		assert(this.files.containsKey(path));
+		if(!this.files.containsKey(path)) {
+			this.create(path);
+		}
 		this.files.get(path).writeLn(content);
 	}
 	
