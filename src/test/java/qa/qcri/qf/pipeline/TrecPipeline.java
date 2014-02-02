@@ -43,6 +43,7 @@ public class TrecPipeline {
 	public static final String CANDIDATES_PATH = "data/trec/candidates.txt";
 
 	public static final String QUESTION_ID_KEY = "QUESTION_ID_KEY";
+	public static final String SEARCH_ENGINE_POSITION_KEY = "SEARCH_ENGINE_POSITION_KEY";
 
 	private Analyzer ae;
 
@@ -135,7 +136,8 @@ public class TrecPipeline {
 			throws UIMAException {
 		JCas cas = JCasFactory.createJCas();
 		while (analyzables.hasNext()) {
-			this.ae.analyze(cas, analyzables.next());
+			Analyzable analyzable = analyzables.next();
+			this.ae.analyze(cas, analyzable);
 		}
 	}
 	
@@ -152,12 +154,14 @@ public class TrecPipeline {
 					.split(line));
 			String questionId = fields.get(0);
 			String candidateId = fields.get(1);
+			String searchEnginePosition = fields.get(2);
 			boolean relevant = fields.get(4).equals("true") ? true : false;
 
 			Map<String, Double> features = DataObject.newFeaturesMap();
 
 			Map<String, String> metadata = DataObject.newMetadataMap();
 			metadata.put(QUESTION_ID_KEY, questionId);
+			metadata.put(SEARCH_ENGINE_POSITION_KEY, searchEnginePosition);
 
 			DataObject candidateObject = new DataObject(
 					relevant == true ? Labelled.POSITIVE_LABEL
@@ -174,14 +178,14 @@ public class TrecPipeline {
 		
 		/**
 		 * TODO:
-		 * add command line arguments
-		 * input questions file
-		 * input candidates file
-		 * output data directory
-		 * output CAS directory
-		 * output token parameters
+		 * 1) Add command line arguments:
+		 * - input questions file
+		 * - input candidates file
+		 * - output data directory
+		 * - output CAS directory
+		 * - output token parameters
 		 * 
-		 * factor out the type of the tree to use in the examples
+		 * 2) Factor out the type of the tree to use in the examples
 		 */
 
 		String parameterList = Joiner.on(",").join(

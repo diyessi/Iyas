@@ -7,6 +7,8 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
+import com.google.common.base.Joiner;
+
 import qa.qcri.qf.datagen.DataObject;
 import qa.qcri.qf.datagen.DataPair;
 import qa.qcri.qf.datagen.Pairer;
@@ -14,6 +16,7 @@ import qa.qcri.qf.features.PairFeatures;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
+import qa.qcri.qf.pipeline.TrecPipeline;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.MarkTwoAncestors;
@@ -28,16 +31,21 @@ import util.Pair;
  * 
  * TODO: the logic about retrieving trees, the marking and producing the token
  * representation should be factored out to a central "settings" class
+ * The logic for generating the res lines should be factored out
  */
 public class RerankingTrain implements Reranking {
 
 	public static final String DEFAULT_OUTPUT_TRAIN_FILE = "svm.train";
+	
+	public static final String DEFAULT_OUTPUT_TRAIN_RES_FILE = "svm.train.res";
 
 	private FileManager fm;
 
 	private String outputDir;
 
 	private String outputFile;
+	
+	private String outputResFile;
 
 	private Analyzer ae;
 
@@ -57,6 +65,7 @@ public class RerankingTrain implements Reranking {
 		this.fm = fm;
 		this.outputDir = outputDir;
 		this.outputFile = outputDir + DEFAULT_OUTPUT_TRAIN_FILE;
+		this.outputResFile = outputDir + DEFAULT_OUTPUT_TRAIN_RES_FILE;
 		this.ae = ae;
 
 		this.ts = ts;
@@ -78,6 +87,7 @@ public class RerankingTrain implements Reranking {
 	 */
 	public void setOutputFile(String outputFile) {
 		this.outputFile = this.outputDir + outputFile;
+		this.outputResFile = this.outputDir + outputFile + ".res";
 	}
 
 	@Override
@@ -105,8 +115,8 @@ public class RerankingTrain implements Reranking {
 
 			this.ae.analyze(this.leftCandidateCas,
 					new SimpleContent(lCandidate.getId(), ""));
-			this.ae.analyze(this.rightCandidateCas, new SimpleContent(
-					rCandidate.getId(), ""));
+			this.ae.analyze(this.rightCandidateCas,
+					new SimpleContent(rCandidate.getId(), ""));
 
 			TokenTree leftCandidateTree = RichTree
 					.getPosChunkTree(this.leftCandidateCas);
@@ -148,6 +158,18 @@ public class RerankingTrain implements Reranking {
 			sb.append(" |EV| ");
 
 			this.fm.writeLn(this.outputFile, sb.toString());
+			
+			sb = new StringBuffer(1024);
+			
+			sb.append(Joiner.on(" ").join(
+					questionObject.getId(),
+					lCandidate.getId(),
+					rCandidate.getId(),
+					lCandidate.getMetadata().get(TrecPipeline.SEARCH_ENGINE_POSITION_KEY),
+					rCandidate.getMetadata().get(TrecPipeline.SEARCH_ENGINE_POSITION_KEY),
+					label));
+			
+			this.fm.writeLn(this.outputResFile, sb.toString());
 		}
 	}
 
