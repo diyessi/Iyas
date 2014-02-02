@@ -52,9 +52,9 @@ public class PairFeatures {
 
 	private List<String> bRepr;
 
-	private Map<TextSimilarityMeasure, Double> measureToValue;
+	private Map<String, Double> measureToValue;
 
-	private List<String> featureVocabulary;
+	private Map<String, Integer> featureVocabulary;
 
 	private final Logger logger = LoggerFactory.getLogger(PairFeatures.class);
 
@@ -72,7 +72,7 @@ public class PairFeatures {
 
 		this.measureToValue = new HashMap<>();
 
-		this.featureVocabulary = new ArrayList<>();
+		this.featureVocabulary = new HashMap<>();
 	}
 
 	/**
@@ -83,15 +83,21 @@ public class PairFeatures {
 	 */
 	public PairFeatures computeFeature(TextSimilarityMeasure measure) {
 
-		this.featureVocabulary.add(measure.getName());
+		String measureName = measure.getName();
+
+		if (this.featureVocabulary.containsKey(measureName)) {
+			logger.warn(measureName + " is already in the feature vocabulary");
+		}
+
+		this.featureVocabulary.put(measureName, this.featureVocabulary.size());
 
 		try {
 			double similarity = measure.getSimilarity(this.aRepr, this.bRepr);
-			this.measureToValue.put(measure, similarity);
+			this.measureToValue.put(measureName, similarity);
 		} catch (SimilarityException e) {
-			this.measureToValue.put(measure, 0.0);
+			this.measureToValue.put(measureName, 0.0);
 
-			logger.error("ERROR: cannot compute feature " + measure.getName()
+			logger.error("ERROR: cannot compute feature " + measureName
 					+ "on pairs:\n" + this.aCas.getDocumentText() + "\n"
 					+ this.bCas.getDocumentText() + "\n");
 		}
@@ -110,32 +116,26 @@ public class PairFeatures {
 		/**
 		 * Keeps the features vocabulary alphabetically ordered
 		 */
-		Collections.sort(this.featureVocabulary);
-
-		Map<String, Integer> featureToIndex = new HashMap<>();
-		for (int i = 0; i < this.featureVocabulary.size(); i++) {
-			featureToIndex.put(this.featureVocabulary.get(i), i);
-		}
-
-		List<Pair<Integer, Double>> indexedFeatures = new ArrayList<>();
-
-		for (TextSimilarityMeasure measure : this.measureToValue.keySet()) {
-			Double featureValue = this.measureToValue.get(measure);
-
+		
+		List<Pair<Integer, Double>> features = new ArrayList<>();
+		
+		for(String featureName : this.featureVocabulary.keySet()) {
+			
+			Double featureValue = this.measureToValue.get(featureName);
+			Integer featureIndex = this.featureVocabulary.get(featureName);
+			
 			/**
 			 * We do not add features not computed due to errors and features
 			 * with value equal to zero
 			 */
 			if (featureValue != null && featureValue.compareTo(0.0) != 0) {
-				indexedFeatures.add(new Pair<Integer, Double>(featureToIndex
-						.get(measure.getName()), featureValue));
+				features.add(new Pair<Integer, Double>(featureIndex, featureValue));
 			}
 		}
+		
+		Collections.sort(features, Collections.reverseOrder(new PairCompareOnA<Integer, Double>()));
 
-		Collections.sort(indexedFeatures, Collections.reverseOrder(
-				new PairCompareOnA<Integer, Double>()));
-
-		return indexedFeatures;
+		return features;
 	}
 
 	/**

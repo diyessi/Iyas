@@ -106,7 +106,7 @@ public class RerankingTest implements Reranking {
 			marker.markTrees(questionTree, candidateTree, this.parameterList);
 
 			PairFeatures pf = this.pairFeatureFactory.getPairFeatures(
-					this.questionCas, this.candidateCas);
+					this.questionCas, this.candidateCas, this.parameterList);
 
 			StringBuffer sb = new StringBuffer(1024 * 4);
 			String label = candidateObject.isPositive() ? "+1" : "-1";

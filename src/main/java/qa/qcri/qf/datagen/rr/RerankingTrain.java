@@ -7,13 +7,11 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
-import com.google.common.base.Joiner;
-
 import qa.qcri.qf.datagen.DataObject;
 import qa.qcri.qf.datagen.DataPair;
 import qa.qcri.qf.datagen.Pairer;
-import qa.qcri.qf.features.PairFeatures;
 import qa.qcri.qf.features.PairFeatureFactory;
+import qa.qcri.qf.features.PairFeatures;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.TrecPipeline;
@@ -24,6 +22,8 @@ import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import util.Pair;
+
+import com.google.common.base.Joiner;
 
 /**
  * 
@@ -132,9 +132,9 @@ public class RerankingTrain implements Reranking {
 					this.parameterList);
 
 			PairFeatures pfLeft = this.pairFeatureFactory.getPairFeatures(
-					questionCas, leftCandidateCas);
+					this.questionCas, this.leftCandidateCas, this.parameterList);
 			PairFeatures pfRight = this.pairFeatureFactory.getPairFeatures(
-					questionCas, rightCandidateCas);
+					this.questionCas, this.rightCandidateCas, this.parameterList);
 
 			StringBuffer sb = new StringBuffer(1024 * 4);
 			String label = leftPair.isPositive() ? "+1" : "-1";

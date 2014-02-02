@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.uima.jcas.JCas;
 
-import qa.qcri.qf.trees.RichNode;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramContainmentMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramJaccardMeasure;
@@ -27,8 +26,6 @@ public class PairFeatureFactory {
 		this.measures = new ArrayList<>();
 		
 		this.measures.add(new CosineSimilarity());
-		this.measures.add(new WordNGramContainmentMeasure(2));
-		this.measures.add(new WordNGramContainmentMeasure(3));
 		
 		/**
 		 * DKPpro 2012 STS best system features
@@ -64,8 +61,8 @@ public class PairFeatureFactory {
 		
 	}
 
-	public PairFeatures getPairFeatures(JCas aCas, JCas bCas) {
-		PairFeatures pf = new PairFeatures(aCas, bCas, RichNode.OUTPUT_PAR_TOKEN_LOWERCASE);
+	public PairFeatures getPairFeatures(JCas aCas, JCas bCas, String parameterList) {
+		PairFeatures pf = new PairFeatures(aCas, bCas, parameterList);
 		
 		for(TextSimilarityMeasure measure : measures) {
 			pf.computeFeature(measure);
