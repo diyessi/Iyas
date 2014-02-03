@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import qa.qcri.qf.classifiers.Classifier;
+
 /**
  * 
  * Modified line in svm_common.h
@@ -27,7 +29,7 @@ import java.io.IOException;
  * -Xss128m
  * 
  */
-public class SVMLightTK {
+public class SVMLightTK implements Classifier {
 
 	/**
 	 * svmlight_tk.so path
@@ -67,6 +69,7 @@ public class SVMLightTK {
 	 * @param instance
 	 * @return the classification confidence
 	 */
+	@Override
 	public double classify(String instance) {
 		return classify_instance(this.modelHandle, instance);
 	}
@@ -82,7 +85,7 @@ public class SVMLightTK {
 
 	public static void main(String[] args) {
 
-		SVMLightTK model = new SVMLightTK(
+		Classifier model = new SVMLightTK(
 				"data/trec/train/svm.model");
 
 		try {
@@ -107,7 +110,7 @@ public class SVMLightTK {
 		}
 	}
 
-	public static SVMLightTK newInstance(String path) {
+	public static Classifier newInstance(String path) {
 		return new SVMLightTK(path);
 	}
 }
