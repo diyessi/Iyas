@@ -15,19 +15,17 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.providers.ConstituencyTreeProvider;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
 
-public class QuestionClassifierTrain {
-
-	public static final String TRAIN_CASES_DIRECTORY = Commons.QF_DIRECTORY + "train-CASes/";
-
-	public static final String TRAIN_QUESTIONS_PATH = Commons.QF_DIRECTORY + "train_5500.label";
+public class QuestionClassifierTest {
 	
-	public static final String TRAIN_DIRECTORY = Commons.QF_DIRECTORY + "train/";
+	public static final String TEST_CASES_DIRECTORY = Commons.QF_DIRECTORY + "test-CASes/";
+
+	public static final String TEST_QUESTIONS_PATH = Commons.QF_DIRECTORY + "TREC_10.label";
 
 	public static void main(String[] args) throws UIMAException {		
 		Analyzer ae = Commons.instantiateAnalyzer(new UIMAFilePersistence(
-				TRAIN_CASES_DIRECTORY));
+				TEST_CASES_DIRECTORY));
 		
-		Set<String> categories = Commons.analyzeAndCollectCategories(TRAIN_QUESTIONS_PATH, ae);
+		Set<String> categories = Commons.analyzeAndCollectCategories(TEST_QUESTIONS_PATH, ae);
 		
 		String parameterList = Commons.getParameterList();
 		
@@ -39,19 +37,16 @@ public class QuestionClassifierTrain {
 		
 		JCas cas = JCasFactory.createJCas();
 		
-		Iterator<CategoryContent> questions = new QuestionReader(TRAIN_QUESTIONS_PATH).iterator();
+		Iterator<CategoryContent> questions = new QuestionReader(TEST_QUESTIONS_PATH).iterator();
 		while(questions.hasNext()) {
 			CategoryContent question = questions.next();		
 			ae.analyze(cas, question);			
 			
 			String tree = ts.serializeTree(treeProvider.getTree(cas), parameterList);
+			String example = "|BT| " + tree + " |ET|";
 			
 			for(String category : categories) {
-				String label = category.equals(question.getCategory()) ? "+1" : "-1";			
-				String outputFile = TRAIN_DIRECTORY + category + ".train";
-				String example = label + " |BT| " + tree + " |ET|";
-				
-				fm.writeLn(outputFile, example);
+				System.out.println("Classify for " + category + ": " + example);
 			}
 		}
 		
