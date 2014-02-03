@@ -1,20 +1,20 @@
-package qa.qcri.qf.pipeline;
+package qa.qcri.qf.pipeline.trec;
 
 import java.util.Iterator;
 import java.util.List;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 
 import qa.qcri.qf.fileutil.ReadFile;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 
-public class TrecCandidatesReader implements Iterable<Analyzable> {
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+
+public class TrecQuestionsReader implements Iterable<Analyzable> {
 
 	private ReadFile in;
 
-	public TrecCandidatesReader(String path) {
+	public TrecQuestionsReader(String path) {
 		this.in = new ReadFile(path);
 	}
 
@@ -35,10 +35,10 @@ public class TrecCandidatesReader implements Iterable<Analyzable> {
 			public Analyzable next() {
 				String line = in.nextLine().trim();
 				
-				List<String> fields = Lists.newArrayList(Splitter.on(" ").limit(6).split(line));
+				List<String> fields = Lists.newArrayList(Splitter.on(" ").limit(2).split(line));
 				
-				String id = fields.get(1);
-				String content = fields.get(5);
+				String id = fields.get(0);
+				String content = fields.get(1);
 
 				return new SimpleContent(id, content);
 			}

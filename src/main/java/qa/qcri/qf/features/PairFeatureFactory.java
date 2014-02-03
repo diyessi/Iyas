@@ -23,10 +23,7 @@ import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubs
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubsequenceNormComparator;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubstringComparator;
 
-/**
- * 
- *
- */
+
 public class PairFeatureFactory {
 	
 	private List<Pair<TermSimilarityMeasure, Representation>> measuresOnStrings;
@@ -38,8 +35,8 @@ public class PairFeatureFactory {
 	
 	public void setupMeasures(JCas aCas, JCas bCas, String parameterList) {
 		
-		Representation tokens = new TokenRepresentation(aCas, bCas, parameterList);
-		Representation trees = new PosChunkTreeRepresentation(aCas, bCas, parameterList);
+		Representation tokens = new TokenRepresentation(parameterList);
+		Representation trees = new PosChunkTreeRepresentation(parameterList);
 		
 		this.measuresOnStrings = new ArrayList<>();
 		this.measuresOnLists = new ArrayList<>();
@@ -86,15 +83,19 @@ public class PairFeatureFactory {
 		PairFeatures pf = new PairFeatures();
 		
 		for(Pair<TermSimilarityMeasure, Representation> measure : this.measuresOnStrings) {
+			Pair<String, String> representations = measure.getB().getRepresentation(aCas, bCas);
 			pf.computeFeature(measure.getA(),
-					measure.getB().getRepresentation().getA(),
-					measure.getB().getRepresentation().getB());
+					representations.getA(),
+					representations.getB()
+				);
 		}
 		
 		for(Pair<TextSimilarityMeasure, Representation> measure : this.measuresOnLists) {
+			Pair<String, String> representations = measure.getB().getRepresentation(aCas, bCas);
 			pf.computeFeature(measure.getA(),
-					Lists.newArrayList(measure.getB().getRepresentation().getA().split(" ")),
-					Lists.newArrayList(measure.getB().getRepresentation().getB().split(" ")));
+					Lists.newArrayList(representations.getA().split(" ")),
+					Lists.newArrayList(representations.getB().split(" "))
+				);
 		}
 		
 		return pf;
@@ -103,15 +104,13 @@ public class PairFeatureFactory {
 	private void addMeasureOnStrings(TermSimilarityMeasure measure, Representation representation) {
 		this.measuresOnStrings.add(
 				new Pair<TermSimilarityMeasure, Representation>(measure, representation)
-				);
+			);
 	}
 	
 	private void addMeasureOnLists(TextSimilarityMeasure measure, Representation representation) {
 		this.measuresOnLists.add(
 				new Pair<TextSimilarityMeasure, Representation>(measure, representation)
-				);
+			);
 	}
-	
-	
-	
+
 }

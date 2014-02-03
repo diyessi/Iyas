@@ -1,5 +1,7 @@
 package qa.qcri.qf.features.representation;
 
+import org.apache.uima.jcas.JCas;
+
 import util.Pair;
 
 public class CustomRepresentation implements Representation {
@@ -11,7 +13,7 @@ public class CustomRepresentation implements Representation {
 	}
 	
 	@Override
-	public Pair<String, String> getRepresentation() {
+	public Pair<String, String> getRepresentation(JCas aCas, JCas bCas) {
 		return this.representation;
 	}
 
