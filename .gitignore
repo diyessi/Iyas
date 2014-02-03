@@ -3,6 +3,9 @@
 /data/trec/train
 /data/trec/test
 
+/data/question-classifier/CASes
+/data/question-classifier/train
+
 /CASes
 
 /CASes-trec
