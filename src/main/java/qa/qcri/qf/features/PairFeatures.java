@@ -6,15 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.uima.jcas.JCas;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qa.qcri.qf.pipeline.UimaUtil;
-import qa.qcri.qf.trees.RichTokenNode;
 import util.Pair;
 import util.PairCompareOnA;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
+import de.tudarmstadt.ukp.similarity.algorithms.api.TermSimilarityMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
 
 /**
@@ -40,49 +38,29 @@ import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
 
 public class PairFeatures {
 
-	private JCas aCas;
-
-	private JCas bCas;
-
-	private List<RichTokenNode> aTokens;
-
-	private List<RichTokenNode> bTokens;
-
-	private List<String> aRepr;
-
-	private List<String> bRepr;
-
 	private Map<String, Double> measureToValue;
 
 	private Map<String, Integer> featureVocabulary;
 
 	private final Logger logger = LoggerFactory.getLogger(PairFeatures.class);
 
-	public PairFeatures(JCas aCas, JCas bCas, String parameterList) {
-		this.aCas = aCas;
-		this.bCas = bCas;
-
-		this.aTokens = UimaUtil.getRichTokens(aCas);
-		this.bTokens = UimaUtil.getRichTokens(bCas);
-
-		this.aRepr = UimaUtil.getRichTokensRepresentation(this.aTokens,
-				parameterList);
-		this.bRepr = UimaUtil.getRichTokensRepresentation(this.bTokens,
-				parameterList);
-
+	public PairFeatures() {
 		this.measureToValue = new HashMap<>();
-
 		this.featureVocabulary = new HashMap<>();
 	}
 
 	/**
-	 * Computes the given TextSimilarityMeasure and store the values
+	 * Computes the given TermSimilarityMeasure and store the values
 	 * 
 	 * @param measure
+	 * @param a
+	 *            the representation of the first object
+	 * @param b
+	 *            the representation of the second object
 	 * @return the PairFeatures class instance for chaining
 	 */
-	public PairFeatures computeFeature(TextSimilarityMeasure measure) {
-
+	public PairFeatures computeFeature(TermSimilarityMeasure measure, String a,
+			String b) {
 		String measureName = measure.getName();
 
 		if (this.featureVocabulary.containsKey(measureName)) {
@@ -92,14 +70,50 @@ public class PairFeatures {
 		this.featureVocabulary.put(measureName, this.featureVocabulary.size());
 
 		try {
-			double similarity = measure.getSimilarity(this.aRepr, this.bRepr);
+			double similarity = measure.getSimilarity(a, b);
 			this.measureToValue.put(measureName, similarity);
+			logger.info(measureName + ": " + similarity + "\n- " + a + "\n- "
+					+ b + "\n");
 		} catch (SimilarityException e) {
 			this.measureToValue.put(measureName, 0.0);
 
 			logger.error("ERROR: cannot compute feature " + measureName
-					+ "on pairs:\n" + this.aCas.getDocumentText() + "\n"
-					+ this.bCas.getDocumentText() + "\n");
+					+ "on pairs:\n" + a + "\n" + b + "\n");
+		}
+
+		return this;
+	}
+
+	/**
+	 * Computes the given TermSimilarityMeasure and store the values
+	 * 
+	 * @param measure
+	 * @param a
+	 *            the representation of the first object
+	 * @param b
+	 *            the representation of the second object
+	 * @return the PairFeatures class instance for chaining
+	 */
+	public PairFeatures computeFeature(TextSimilarityMeasure measure,
+			List<String> a, List<String> b) {
+		String measureName = measure.getName();
+
+		if (this.featureVocabulary.containsKey(measureName)) {
+			logger.warn(measureName + " is already in the feature vocabulary");
+		}
+
+		this.featureVocabulary.put(measureName, this.featureVocabulary.size());
+
+		try {
+			double similarity = measure.getSimilarity(a, b);
+			this.measureToValue.put(measureName, similarity);
+			logger.info(measureName + ": " + similarity + "\n- " + a + "\n- "
+					+ b + "\n");
+		} catch (SimilarityException e) {
+			this.measureToValue.put(measureName, 0.0);
+
+			logger.error("ERROR: cannot compute feature " + measureName
+					+ "on pairs:\n" + a + "\n" + b + "\n");
 		}
 
 		return this;
@@ -116,24 +130,27 @@ public class PairFeatures {
 		/**
 		 * Keeps the features vocabulary alphabetically ordered
 		 */
-		
+
 		List<Pair<Integer, Double>> features = new ArrayList<>();
-		
-		for(String featureName : this.featureVocabulary.keySet()) {
-			
+
+		for (String featureName : this.featureVocabulary.keySet()) {
+
 			Double featureValue = this.measureToValue.get(featureName);
 			Integer featureIndex = this.featureVocabulary.get(featureName);
-			
+
 			/**
 			 * We do not add features not computed due to errors and features
 			 * with value equal to zero
 			 */
 			if (featureValue != null && featureValue.compareTo(0.0) != 0) {
-				features.add(new Pair<Integer, Double>(featureIndex, featureValue));
+				features.add(new Pair<Integer, Double>(featureIndex,
+						featureValue));
 			}
 		}
-		
-		Collections.sort(features, Collections.reverseOrder(new PairCompareOnA<Integer, Double>()));
+
+		Collections
+				.sort(features, Collections
+						.reverseOrder(new PairCompareOnA<Integer, Double>()));
 
 		return features;
 	}
