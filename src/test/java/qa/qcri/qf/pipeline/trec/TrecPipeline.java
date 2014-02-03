@@ -28,8 +28,8 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.providers.PosChunkTreeProvider;
 import util.ChunkReader;
-import util.functions.InStringOutString;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -93,7 +93,7 @@ public class TrecPipeline {
 
 	private ChunkReader getChunkReader(String candidatePath) {
 		ChunkReader cr = new ChunkReader(candidatePath,
-				new InStringOutString() {
+				new Function<String, String>() {
 					@Override
 					public String apply(String str) {
 						return str.substring(0, str.indexOf(" "));

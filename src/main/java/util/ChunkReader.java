@@ -5,7 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import qa.qcri.qf.fileutil.ReadFile;
-import util.functions.InStringOutString;
+
+import com.google.common.base.Function;
 
 /**
  * 
@@ -19,7 +20,7 @@ public class ChunkReader implements Iterable<List<String>> {
 	
 	private String previousExtractedItem = null;
 	
-	private InStringOutString groupingItemExtraction;
+	private Function<String, String> groupingItemExtraction;
 	
 	/**
 	 * Instantiates the reader with the specified extraction function.
@@ -28,7 +29,7 @@ public class ChunkReader implements Iterable<List<String>> {
 	 * @param path the path of the file to read
 	 * @param groupingItemExtraction the extraction function
 	 */
-	public ChunkReader(String path, InStringOutString groupingItemExtraction) {
+	public ChunkReader(String path, Function<String, String> groupingItemExtraction) {
 		this.in = new ReadFile(path);
 		this.groupingItemExtraction = groupingItemExtraction;
 	}

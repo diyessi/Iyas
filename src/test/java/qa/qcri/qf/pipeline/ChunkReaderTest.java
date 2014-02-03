@@ -8,7 +8,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import util.ChunkReader;
-import util.functions.InStringOutString;
+
+import com.google.common.base.Function;
 
 public class ChunkReaderTest {
 	
@@ -19,7 +20,7 @@ public class ChunkReaderTest {
 	public void testChunkReader() {
 		
 		ChunkReader cr = new ChunkReader("data/chunkreader.txt",
-				new InStringOutString() {				
+				new Function<String, String>() {				
 					@Override
 					public String apply(String str) {
 						return str.substring(0, str.indexOf(" "));
