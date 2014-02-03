@@ -41,7 +41,9 @@ public class PairFeaturesTest {
         
         PairFeatures pf = new PairFeatures();
         Representation trees = new CustomRepresentation(a, b);
-        pf.computeFeature(measure, trees.getRepresentation().getA(), trees.getRepresentation().getB());
+        pf.computeFeature(measure,
+        		trees.getRepresentation(aCas, bCas).getA(),
+        		trees.getRepresentation(aCas, bCas).getB());
         
 		Assert.assertEquals("1:" + "0.5219278751298042", pf.serializeIndexedFeatures(1));
 	}

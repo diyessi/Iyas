@@ -10,15 +10,21 @@ public class PosChunkTreeRepresentation implements Representation {
 
 	private Pair<String, String> representation;
 
-	public PosChunkTreeRepresentation(JCas aCas, JCas bCas, String parameterList) {
-		this.representation = new Pair<>(
-				getRepresentation(aCas, parameterList), getRepresentation(bCas,
-						parameterList));
+	private String parameterList;
+
+	public PosChunkTreeRepresentation(String parameterList) {
+		this.parameterList = parameterList;
 	}
 
 	@Override
-	public Pair<String, String> getRepresentation() {
-		return representation;
+	public Pair<String, String> getRepresentation(JCas aCas, JCas bCas) {
+		if (this.representation == null) {
+			this.representation = new Pair<>(
+				getRepresentation(aCas, this.parameterList),
+				getRepresentation(bCas, this.parameterList)
+			);
+		}
+		return this.representation;
 	}
 
 	private String getRepresentation(JCas cas, String parameterList) {

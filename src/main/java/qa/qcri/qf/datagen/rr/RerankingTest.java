@@ -6,33 +6,33 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
-import com.google.common.base.Joiner;
-
 import qa.qcri.qf.datagen.DataObject;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.features.PairFeatures;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.TrecPipeline;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
+import qa.qcri.qf.pipeline.trec.TrecPipeline;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.MarkTwoAncestors;
-import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
+import qa.qcri.qf.trees.providers.TokenTreeProvider;
+
+import com.google.common.base.Joiner;
 
 /**
  * 
  * Generates the test data for reranking
  * 
  * TODO: the logic about retrieving trees, the marking and producing the token
- * representation should be factored out to a central "settings" class
- * The logic for generating the res lines should be factored out
+ * representation should be factored out to a central "settings" class The logic
+ * for generating the res lines should be factored out
  */
 public class RerankingTest implements Reranking {
 
 	public static final String DEFAULT_OUTPUT_TEST_FILE = "svm.test";
-	
+
 	public static final String DEFAULT_OUTPUT_TEST_RES_FILE = "svm.test.res";
 
 	private FileManager fm;
@@ -40,7 +40,7 @@ public class RerankingTest implements Reranking {
 	private String outputDir;
 
 	private String outputFile;
-	
+
 	private String outputResFile;
 
 	private Analyzer ae;
@@ -49,6 +49,8 @@ public class RerankingTest implements Reranking {
 
 	private PairFeatureFactory pairFeatureFactory;
 
+	private TokenTreeProvider tokenTreeProvider;
+
 	private JCas questionCas;
 
 	private JCas candidateCas;
@@ -56,8 +58,8 @@ public class RerankingTest implements Reranking {
 	private String parameterList;
 
 	public RerankingTest(FileManager fm, String outputDir, Analyzer ae,
-			TreeSerializer ts, PairFeatureFactory pairFeatureFactory)
-			throws UIMAException {
+			TreeSerializer ts, PairFeatureFactory pairFeatureFactory,
+			TokenTreeProvider tokenTreeProvider) throws UIMAException {
 		this.fm = fm;
 		this.outputDir = outputDir;
 		this.outputFile = outputDir + DEFAULT_OUTPUT_TEST_FILE;
@@ -67,6 +69,8 @@ public class RerankingTest implements Reranking {
 		this.ts = ts;
 
 		this.pairFeatureFactory = pairFeatureFactory;
+
+		this.tokenTreeProvider = tokenTreeProvider;
 
 		this.questionCas = JCasFactory.createJCas();
 		this.candidateCas = JCasFactory.createJCas();
@@ -92,13 +96,12 @@ public class RerankingTest implements Reranking {
 				new SimpleContent(questionObject.getId(), ""));
 
 		for (DataObject candidateObject : candidateObjects) {
-			TokenTree questionTree = RichTree.getPosChunkTree(this.questionCas);
+			TokenTree questionTree = this.tokenTreeProvider.getTree(this.questionCas);
 
 			this.ae.analyze(this.candidateCas, new SimpleContent(
 					candidateObject.getId(), ""));
 
-			TokenTree candidateTree = RichTree
-					.getPosChunkTree(this.candidateCas);
+			TokenTree candidateTree = this.tokenTreeProvider.getTree(this.candidateCas);
 
 			MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(
 					new MarkTwoAncestors());
@@ -123,16 +126,18 @@ public class RerankingTest implements Reranking {
 			sb.append(" |EV| ");
 
 			this.fm.writeLn(this.outputFile, sb.toString());
-			
+
 			sb = new StringBuffer(1024);
-			
+
 			sb.append(Joiner.on(" ").join(
 					questionObject.getId(),
 					candidateObject.getId(),
-					candidateObject.getMetadata().get(TrecPipeline.SEARCH_ENGINE_POSITION_KEY),
-					candidateObject.getMetadata().get(TrecPipeline.SEARCH_ENGINE_POSITION_KEY),
+					candidateObject.getMetadata().get(
+							TrecPipeline.SEARCH_ENGINE_POSITION_KEY),
+					candidateObject.getMetadata().get(
+							TrecPipeline.SEARCH_ENGINE_POSITION_KEY),
 					label.equals("+1") ? "true" : "false"));
-			
+
 			this.fm.writeLn(this.outputResFile, sb.toString());
 		}
 	}

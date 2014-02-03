@@ -85,7 +85,7 @@ public class PairFeatures {
 	}
 
 	/**
-	 * Computes the given TermSimilarityMeasure and store the values
+	 * Computes the given TextSimilarityMeasure and store the values
 	 * 
 	 * @param measure
 	 * @param a

@@ -1,4 +1,4 @@
-package qa.qcri.qf.pipeline;
+package qa.qcri.qf.pipeline.trec;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
@@ -20,11 +20,13 @@ import qa.qcri.qf.datagen.rr.RerankingTest;
 import qa.qcri.qf.datagen.rr.RerankingTrain;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
+import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
-import qa.qcri.qf.trees.RichNode;
 import qa.qcri.qf.trees.TreeSerializer;
+import qa.qcri.qf.trees.nodes.RichNode;
+import qa.qcri.qf.trees.providers.PosChunkTreeProvider;
 import util.ChunkReader;
 import util.functions.InStringOutString;
 
@@ -112,7 +114,7 @@ public class TrecPipeline {
 
 		return ae;
 	}
-	
+
 	private Iterator<Analyzable> getTrecQuestionsIterator(String questionsPath) {
 		return new TrecQuestionsReader(questionsPath).iterator();
 	}
@@ -140,7 +142,7 @@ public class TrecPipeline {
 			this.ae.analyze(cas, analyzable);
 		}
 	}
-	
+
 	private String getQuestionIdFromCandidateObjects(
 			List<DataObject> candidateObjects) {
 		return candidateObjects.get(0).getMetadata().get(QUESTION_ID_KEY);
@@ -175,7 +177,7 @@ public class TrecPipeline {
 	}
 
 	public static void main(String[] args) throws UIMAException {
-		
+
 		/**
 		 * TODO:
 		 * 1) Add command line arguments:
@@ -188,6 +190,10 @@ public class TrecPipeline {
 		 * 2) Factor out the type of the tree to use in the examples
 		 */
 
+		/**
+		 * The parameter list used to establish matching between trees
+		 * and output the content of the token nodes
+		 */
 		String parameterList = Joiner.on(",").join(
 				new String[] { RichNode.OUTPUT_PAR_LEMMA,
 						RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
@@ -198,18 +204,22 @@ public class TrecPipeline {
 				CASES_DIRECTORY));
 
 		Reranking dataGenerator = new RerankingTest(fm, "data/trec/test/", ae,
-				new TreeSerializer().enableRelationalTags(), new PairFeatureFactory())
-				.setParameterList(parameterList);
+				new TreeSerializer().enableRelationalTags(),
+				new PairFeatureFactory(),
+				new PosChunkTreeProvider() 
+			).setParameterList(parameterList);
 
 		TrecPipeline pipeline = new TrecPipeline(fm, ae);
 		pipeline.performAnalysis();
 		pipeline.performDataGeneration(dataGenerator);
 		pipeline.closeFiles();
-		
+
 		dataGenerator = new RerankingTrain(fm, "data/trec/train/", ae,
-				new TreeSerializer().enableRelationalTags(), new PairFeatureFactory())
-				.setParameterList(parameterList);
-		
+				new TreeSerializer().enableRelationalTags(),
+				new PairFeatureFactory(),
+				new PosChunkTreeProvider()
+			).setParameterList(parameterList);
+
 		pipeline = new TrecPipeline(fm, ae);
 		pipeline.performAnalysis();
 		pipeline.performDataGeneration(dataGenerator);

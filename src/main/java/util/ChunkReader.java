@@ -7,6 +7,10 @@ import java.util.List;
 import qa.qcri.qf.fileutil.ReadFile;
 import util.functions.InStringOutString;
 
+/**
+ * 
+ * Reads from a file blocks of sequential lines having a common characteristic 
+ */
 public class ChunkReader implements Iterable<List<String>> {
 
 	private ReadFile in;
@@ -17,6 +21,13 @@ public class ChunkReader implements Iterable<List<String>> {
 	
 	private InStringOutString groupingItemExtraction;
 	
+	/**
+	 * Instantiates the reader with the specified extraction function.
+	 * This function extracts a text feature from a line of text, which is used
+	 * to select lines belonging to the same block.
+	 * @param path the path of the file to read
+	 * @param groupingItemExtraction the extraction function
+	 */
 	public ChunkReader(String path, InStringOutString groupingItemExtraction) {
 		this.in = new ReadFile(path);
 		this.groupingItemExtraction = groupingItemExtraction;
@@ -96,5 +107,4 @@ public class ChunkReader implements Iterable<List<String>> {
 		return iterator;
 	}
 
-	
 }

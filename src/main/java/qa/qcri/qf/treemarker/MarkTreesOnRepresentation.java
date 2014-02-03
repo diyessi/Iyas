@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import qa.qcri.qf.trees.RichTokenNode;
 import qa.qcri.qf.trees.TokenTree;
+import qa.qcri.qf.trees.nodes.RichTokenNode;
 
 /**
  * 

@@ -3,6 +3,8 @@ package qa.qcri.qf.trees;
 import java.util.ArrayList;
 import java.util.List;
 
+import qa.qcri.qf.trees.nodes.RichNode;
+
 import com.google.common.base.Joiner;
 
 /**

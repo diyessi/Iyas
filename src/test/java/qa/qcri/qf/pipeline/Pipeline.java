@@ -15,10 +15,10 @@ import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.MarkTwoAncestors;
-import qa.qcri.qf.trees.RichNode;
 import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
+import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Joiner;
 

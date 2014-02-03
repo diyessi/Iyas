@@ -1,26 +1,28 @@
-package qa.qcri.qf.pipeline;
+package qa.qcri.qf.tools.questionclassifier;
 
 import java.util.Iterator;
 import java.util.List;
 
 import qa.qcri.qf.fileutil.ReadFile;
-import qa.qcri.qf.pipeline.retrieval.Analyzable;
-import qa.qcri.qf.pipeline.retrieval.SimpleContent;
+import qa.qcri.qf.pipeline.retrieval.CategoryContent;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
-public class TrecQuestionsReader implements Iterable<Analyzable> {
+public class QuestionReader implements Iterable<CategoryContent> {
 
 	private ReadFile in;
-
-	public TrecQuestionsReader(String path) {
+	
+	private int counter;
+	
+	public QuestionReader(String path) {
 		this.in = new ReadFile(path);
+		this.counter = 0;
 	}
-
+	
 	@Override
-	public Iterator<Analyzable> iterator() {
-		Iterator<Analyzable> iterator = new Iterator<Analyzable>() {
+	public Iterator<CategoryContent> iterator() {
+		Iterator<CategoryContent> iterator = new Iterator<CategoryContent>() {
 
 			@Override
 			public boolean hasNext() {
@@ -32,25 +34,27 @@ public class TrecQuestionsReader implements Iterable<Analyzable> {
 			}
 
 			@Override
-			public Analyzable next() {
+			public CategoryContent next() {
 				String line = in.nextLine().trim();
 				
 				List<String> fields = Lists.newArrayList(Splitter.on(" ").limit(2).split(line));
 				
-				String id = fields.get(0);
+				String id = String.valueOf(counter);
+				String category = fields.get(0).substring(0, fields.get(0).indexOf(":"));
 				String content = fields.get(1);
+				
 
-				return new SimpleContent(id, content);
+				counter++;
+				
+				return new CategoryContent(id, content, category);
 			}
 
 			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
-			}
-
+			}			
 		};
-
+		
 		return iterator;
 	}
-
 }

@@ -3,7 +3,7 @@ package qa.qcri.qf.treemarker;
 import java.util.ArrayList;
 import java.util.List;
 
-import qa.qcri.qf.trees.RichNode;
+import qa.qcri.qf.trees.nodes.RichNode;
 
 /**
  * 

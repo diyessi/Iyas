@@ -7,6 +7,11 @@ import java.util.List;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
+import qa.qcri.qf.trees.nodes.BaseRichNode;
+import qa.qcri.qf.trees.nodes.RichChunkNode;
+import qa.qcri.qf.trees.nodes.RichConstituentNode;
+import qa.qcri.qf.trees.nodes.RichNode;
+import qa.qcri.qf.trees.nodes.RichTokenNode;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;

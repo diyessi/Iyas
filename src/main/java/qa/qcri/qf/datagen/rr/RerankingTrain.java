@@ -14,13 +14,13 @@ import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.features.PairFeatures;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.TrecPipeline;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
+import qa.qcri.qf.pipeline.trec.TrecPipeline;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.MarkTwoAncestors;
-import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
+import qa.qcri.qf.trees.providers.TokenTreeProvider;
 import util.Pair;
 
 import com.google.common.base.Joiner;
@@ -53,6 +53,8 @@ public class RerankingTrain implements Reranking {
 
 	private PairFeatureFactory pairFeatureFactory;
 
+	private TokenTreeProvider tokenTreeProvider;
+	
 	private JCas questionCas;
 	private JCas leftCandidateCas;
 	private JCas rightCandidateCas;
@@ -60,7 +62,7 @@ public class RerankingTrain implements Reranking {
 	private String parameterList;
 
 	public RerankingTrain(FileManager fm, String outputDir, Analyzer ae,
-			TreeSerializer ts, PairFeatureFactory pairFeatureFactory)
+			TreeSerializer ts, PairFeatureFactory pairFeatureFactory, TokenTreeProvider tokenTreeProvider)
 			throws UIMAException {
 		this.fm = fm;
 		this.outputDir = outputDir;
@@ -71,6 +73,8 @@ public class RerankingTrain implements Reranking {
 		this.ts = ts;
 
 		this.pairFeatureFactory = pairFeatureFactory;
+		
+		this.tokenTreeProvider = tokenTreeProvider;
 
 		this.questionCas = JCasFactory.createJCas();
 		this.leftCandidateCas = JCasFactory.createJCas();
@@ -108,20 +112,16 @@ public class RerankingTrain implements Reranking {
 			DataObject lCandidate = leftPair.getB();
 			DataObject rCandidate = rightPair.getB();
 
-			TokenTree leftQuestionTree = RichTree
-					.getPosChunkTree(this.questionCas);
-			TokenTree rightQuestionTree = RichTree
-					.getPosChunkTree(this.questionCas);
+			TokenTree leftQuestionTree = this.tokenTreeProvider.getTree(this.questionCas);
+			TokenTree rightQuestionTree = this.tokenTreeProvider.getTree(this.questionCas);
 
 			this.ae.analyze(this.leftCandidateCas,
 					new SimpleContent(lCandidate.getId(), ""));
 			this.ae.analyze(this.rightCandidateCas,
 					new SimpleContent(rCandidate.getId(), ""));
 
-			TokenTree leftCandidateTree = RichTree
-					.getPosChunkTree(this.leftCandidateCas);
-			TokenTree rightCandidateTree = RichTree
-					.getPosChunkTree(this.rightCandidateCas);
+			TokenTree leftCandidateTree = this.tokenTreeProvider.getTree(this.leftCandidateCas);
+			TokenTree rightCandidateTree = this.tokenTreeProvider.getTree(this.rightCandidateCas);
 
 			MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(
 					new MarkTwoAncestors());
