@@ -1,0 +1,15 @@
+LEARNER=../../tools/SVM-Light-1.5-rer/svm_learn
+
+PARAMETERS="-t 5 -f 3"
+
+CATEGORIES="ABBR DESC ENTY HUM LOC NUM"
+
+for DATASET in $CATEGORIES;
+do
+	TRAIN_FILE=train/${DATASET}.train
+	MODEL_FILE=models/${DATASET}.model
+	
+	COMMAND="${LEARNER} ${PARAMETERS} ${TRAIN_FILE} ${MODEL_FILE}"
+	
+	$COMMAND
+done
