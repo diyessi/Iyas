@@ -6,6 +6,8 @@ import java.util.Set;
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import qa.qcri.qf.classifiers.OneVsAllClassifier;
 import qa.qcri.qf.classifiers.SVMLightTKClassifierFactory;
@@ -27,6 +29,8 @@ public class QuestionClassifierTest {
 
 	public static final String MODELS_DIRECTORY = Commons.QF_DIRECTORY
 			+ "models/";
+
+	private static final Logger logger = LoggerFactory.getLogger(QuestionClassifierTest.class);
 
 	public static void main(String[] args) throws UIMAException {
 		Analyzer ae = Commons.instantiateAnalyzer(new UIMAFilePersistence(
@@ -70,6 +74,11 @@ public class QuestionClassifierTest {
 
 			if (predictedCategory.equals(question.getCategory())) {
 				correctPredictionNumbers++;
+			} else {
+				String message = question.getContent() + " Predicted " + predictedCategory
+						+ ". Was " + question.getCategory();
+				fm.writeLn("data/question-classifier/errors.txt", message);
+				logger.warn(message);
 			}
 
 			totalPredictionNumbers++;
