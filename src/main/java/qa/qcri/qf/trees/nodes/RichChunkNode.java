@@ -1,4 +1,4 @@
-package qa.qcri.qf.trees;
+package qa.qcri.qf.trees.nodes;
 
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 

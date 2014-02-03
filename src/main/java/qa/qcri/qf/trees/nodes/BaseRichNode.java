@@ -1,4 +1,4 @@
-package qa.qcri.qf.trees;
+package qa.qcri.qf.trees.nodes;
 
 import java.util.ArrayList;
 import java.util.Collections;

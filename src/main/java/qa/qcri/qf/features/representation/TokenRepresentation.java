@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.pipeline.UimaUtil;
-import qa.qcri.qf.trees.RichTokenNode;
+import qa.qcri.qf.trees.nodes.RichTokenNode;
 import util.Pair;
 
 import com.google.common.base.Joiner;

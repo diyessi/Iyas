@@ -24,8 +24,9 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
-import qa.qcri.qf.trees.RichNode;
 import qa.qcri.qf.trees.TreeSerializer;
+import qa.qcri.qf.trees.nodes.RichNode;
+import qa.qcri.qf.trees.providers.PosChunkTreeProvider;
 import util.ChunkReader;
 import util.functions.InStringOutString;
 
@@ -204,7 +205,9 @@ public class TrecPipeline {
 
 		Reranking dataGenerator = new RerankingTest(fm, "data/trec/test/", ae,
 				new TreeSerializer().enableRelationalTags(),
-				new PairFeatureFactory()).setParameterList(parameterList);
+				new PairFeatureFactory(),
+				new PosChunkTreeProvider() 
+			).setParameterList(parameterList);
 
 		TrecPipeline pipeline = new TrecPipeline(fm, ae);
 		pipeline.performAnalysis();
@@ -213,7 +216,9 @@ public class TrecPipeline {
 
 		dataGenerator = new RerankingTrain(fm, "data/trec/train/", ae,
 				new TreeSerializer().enableRelationalTags(),
-				new PairFeatureFactory()).setParameterList(parameterList);
+				new PairFeatureFactory(),
+				new PosChunkTreeProvider()
+			).setParameterList(parameterList);
 
 		pipeline = new TrecPipeline(fm, ae);
 		pipeline.performAnalysis();

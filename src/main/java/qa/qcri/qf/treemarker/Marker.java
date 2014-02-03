@@ -1,6 +1,6 @@
 package qa.qcri.qf.treemarker;
 
-import qa.qcri.qf.trees.RichNode;
+import qa.qcri.qf.trees.nodes.RichNode;
 
 /**
  * 

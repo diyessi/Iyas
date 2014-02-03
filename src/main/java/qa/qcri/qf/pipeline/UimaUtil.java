@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.uima.jcas.JCas;
 import org.uimafit.util.JCasUtil;
 
-import qa.qcri.qf.trees.RichTokenNode;
+import qa.qcri.qf.trees.nodes.RichTokenNode;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 public class UimaUtil {

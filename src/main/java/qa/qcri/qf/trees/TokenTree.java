@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.maltparser.core.helper.HashMap;
 
+import qa.qcri.qf.trees.nodes.BaseRichNode;
+import qa.qcri.qf.trees.nodes.RichTokenNode;
+
 /**
  * 
  * TokenTree is a class which extends BaseRichNode and provides handy access to
