@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
+import qa.qcri.qf.features.FeaturesUtil;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.AugmentableFeatureVector;
 import cc.mallet.types.FeatureSequence;
@@ -27,12 +28,14 @@ public class MalletAPITest {
 		FeatureVector aFv = produceFV(aDocument, alphabet);
 		System.out.println(aDocument);
 		System.out.println(aFv.toString(true));
+		System.out.println(FeaturesUtil.serialize(aFv));
 		
 		System.out.println("");
 
 		FeatureVector bFv = produceFV(bDocument, alphabet);
 		System.out.println(bDocument);
 		System.out.println(bFv.toString(true));
+		System.out.println(FeaturesUtil.serialize(bFv));
 		
 		Assert.assertEquals(
 				"i(0)=1.0 was(1)=1.0 born(2)=1.0 in(3)=1.0 june(4)=1.0 numWords(5)=5.0 hasNegation(6)=0.0",
@@ -62,7 +65,6 @@ public class MalletAPITest {
 		features.put("hasNegation", hasNegation ? 1. : 0.);
 		
 		for(String featureName : features.keySet()) {
-			seq.add(featureName);
 			fv.add(featureName, features.get(featureName));
 		}
 

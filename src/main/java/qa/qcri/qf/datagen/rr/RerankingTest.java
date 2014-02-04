@@ -7,8 +7,8 @@ import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.datagen.DataObject;
+import qa.qcri.qf.features.FeaturesUtil;
 import qa.qcri.qf.features.PairFeatureFactory;
-import qa.qcri.qf.features.PairFeatures;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
@@ -18,6 +18,7 @@ import qa.qcri.qf.treemarker.MarkTwoAncestors;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
+import cc.mallet.types.FeatureVector;
 
 import com.google.common.base.Joiner;
 
@@ -25,9 +26,9 @@ import com.google.common.base.Joiner;
  * 
  * Generates the test data for reranking
  * 
- * TODO: the logic about retrieving trees, the marking and producing the token
- * representation should be factored out to a central "settings" class The logic
- * for generating the res lines should be factored out
+ * TODO: the logic about marking and producing the token
+ * representation should be factored out to a central "settings" class
+ * The logic for generating the res lines should be factored out
  */
 public class RerankingTest implements Reranking {
 
@@ -108,7 +109,7 @@ public class RerankingTest implements Reranking {
 
 			marker.markTrees(questionTree, candidateTree, this.parameterList);
 
-			PairFeatures pf = this.pairFeatureFactory.getPairFeatures(
+			FeatureVector fv = this.pairFeatureFactory.getPairFeatures(
 					this.questionCas, this.candidateCas, this.parameterList);
 
 			StringBuffer sb = new StringBuffer(1024 * 4);
@@ -121,7 +122,7 @@ public class RerankingTest implements Reranking {
 			sb.append(" |BT| ");
 			sb.append(" |BT| ");
 			sb.append(" |ET| ");
-			sb.append(pf.serializeIndexedFeatures(1));
+			sb.append(FeaturesUtil.serialize(fv));
 			sb.append(" |BV| ");
 			sb.append(" |EV| ");
 

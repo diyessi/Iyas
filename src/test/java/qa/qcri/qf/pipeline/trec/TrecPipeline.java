@@ -28,6 +28,7 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.providers.PosChunkTreeProvider;
 import util.ChunkReader;
+import cc.mallet.types.Alphabet;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -205,6 +206,8 @@ public class TrecPipeline {
 						RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
 
 		FileManager fm = new FileManager();
+		
+		PairFeatureFactory pf = new PairFeatureFactory(new Alphabet());
 
 		/**
 		 * Sets up the analyzer, initially with the persistence directory for
@@ -220,7 +223,7 @@ public class TrecPipeline {
 
 		Reranking dataGenerator = new RerankingTrain(fm, "data/trec/train/",
 				ae, new TreeSerializer().enableRelationalTags(),
-				new PairFeatureFactory(), new PosChunkTreeProvider())
+				pf, new PosChunkTreeProvider())
 				.setParameterList(parameterList);
 
 		pipeline.performDataGeneration(dataGenerator);
@@ -239,7 +242,7 @@ public class TrecPipeline {
 		 */
 		dataGenerator = new RerankingTest(fm, "data/trec/test/", ae,
 				new TreeSerializer().enableRelationalTags(),
-				new PairFeatureFactory(), new PosChunkTreeProvider())
+				pf, new PosChunkTreeProvider())
 				.setParameterList(parameterList);
 
 		pipeline.performDataGeneration(dataGenerator);
