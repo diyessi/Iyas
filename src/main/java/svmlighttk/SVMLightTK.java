@@ -54,7 +54,7 @@ public class SVMLightTK implements Classifier {
 			String instance);
 
 	/**
-	 * Load a model from file
+	 * Loads a model from file
 	 * 
 	 * @param modelFile
 	 */
@@ -64,7 +64,7 @@ public class SVMLightTK implements Classifier {
 	}
 
 	/**
-	 * Classify an instance (dependency tree string)
+	 * Classifies an instance (dependency tree string)
 	 * 
 	 * @param instance
 	 * @return the classification confidence
@@ -75,7 +75,7 @@ public class SVMLightTK implements Classifier {
 	}
 
 	/**
-	 * Get the threshold of the model
+	 * Gets the threshold of the model
 	 * 
 	 * @return the threshold of the model
 	 */

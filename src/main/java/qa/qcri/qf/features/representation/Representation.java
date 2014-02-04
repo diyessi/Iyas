@@ -6,6 +6,8 @@ import util.Pair;
 
 public interface Representation {
 	
-	Pair<String, String> getRepresentation(JCas aCas, JCas bCas);
+	public Pair<String, String> getRepresentation(JCas aCas, JCas bCas);
+	
+	public String getName();
 	
 }

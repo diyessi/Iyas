@@ -3,14 +3,10 @@
 /data/trec/train
 /data/trec/test
 
-/data/question-classifier/train-CASes
 /data/question-classifier/train
-/data/question-classifier/test-CASes
 /data/question-classifier/models
 
 /CASes
-
-/CASes-trec
 
 *.class
 

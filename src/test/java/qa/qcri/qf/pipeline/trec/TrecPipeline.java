@@ -28,8 +28,9 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.providers.PosChunkTreeProvider;
 import util.ChunkReader;
-import util.functions.InStringOutString;
+import cc.mallet.types.Alphabet;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -40,9 +41,13 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
 public class TrecPipeline {
 
-	public static final String CASES_DIRECTORY = "CASes-trec/";
-	public static final String QUESTIONS_PATH = "data/trec/questions.txt";
-	public static final String CANDIDATES_PATH = "data/trec/candidates.txt";
+	public static final String TRAIN_CASES_DIRECTORY = "CASes/trec/train/";
+	public static final String TRAIN_QUESTIONS_PATH = "data/trec/questions-train.txt";
+	public static final String TRAIN_CANDIDATES_PATH = "data/trec/candidates-train.txt";
+
+	public static final String TEST_CASES_DIRECTORY = "CASes/trec/test/";
+	public static final String TEST_QUESTIONS_PATH = "data/trec/questions-test.txt";
+	public static final String TEST_CANDIDATES_PATH = "data/trec/candidates-test.txt";
 
 	public static final String QUESTION_ID_KEY = "QUESTION_ID_KEY";
 	public static final String SEARCH_ENGINE_POSITION_KEY = "SEARCH_ENGINE_POSITION_KEY";
@@ -53,23 +58,31 @@ public class TrecPipeline {
 
 	private FileManager fm;
 
-	public TrecPipeline(FileManager fm, Analyzer ae) throws UIMAException {
+	private String questionPath;
+
+	private String candidatesPath;
+
+	public TrecPipeline(FileManager fm) throws UIMAException {
 		this.fm = fm;
-		this.ae = ae;
 		this.idToQuestion = new HashMap<>();
 	}
 
-	public void performAnalysis() throws UIMAException {
-		this.processAnalyzables(getTrecQuestionsIterator(QUESTIONS_PATH));
-		this.processAnalyzables(getTrecCandidatesIterator(CANDIDATES_PATH));
+	public void performAnalysis(Analyzer ae, String questionPath,
+			String candidatesPath) throws UIMAException {
+		this.ae = ae;
+		this.questionPath = questionPath;
+		this.candidatesPath = candidatesPath;
+
+		this.processAnalyzables(getTrecQuestionsIterator(questionPath));
+		this.processAnalyzables(getTrecCandidatesIterator(candidatesPath));
 		this.populateIdToQuestionMap();
 	}
 
 	public void performDataGeneration(Reranking dataGenerator)
 			throws UIMAException {
 
-		Iterator<List<String>> chunks = this.getChunkReader(CANDIDATES_PATH)
-				.iterator();
+		Iterator<List<String>> chunks = this
+				.getChunkReader(this.candidatesPath).iterator();
 
 		while (chunks.hasNext()) {
 			List<String> chunk = chunks.next();
@@ -93,7 +106,7 @@ public class TrecPipeline {
 
 	private ChunkReader getChunkReader(String candidatePath) {
 		ChunkReader cr = new ChunkReader(candidatePath,
-				new InStringOutString() {
+				new Function<String, String>() {
 					@Override
 					public String apply(String str) {
 						return str.substring(0, str.indexOf(" "));
@@ -124,7 +137,7 @@ public class TrecPipeline {
 	}
 
 	private void populateIdToQuestionMap() {
-		Iterator<Analyzable> questions = getTrecQuestionsIterator(QUESTIONS_PATH);
+		Iterator<Analyzable> questions = getTrecQuestionsIterator(this.questionPath);
 		while (questions.hasNext()) {
 			Analyzable question = questions.next();
 			DataObject questionObject = new DataObject(Labelled.NEGATIVE_LABEL,
@@ -179,50 +192,61 @@ public class TrecPipeline {
 	public static void main(String[] args) throws UIMAException {
 
 		/**
-		 * TODO:
-		 * 1) Add command line arguments:
-		 * - input questions file
-		 * - input candidates file
-		 * - output data directory
-		 * - output CAS directory
-		 * - output token parameters
-		 * 
-		 * 2) Factor out the type of the tree to use in the examples
+		 * TODO: 1) Add command line arguments: - input questions file - input
+		 * candidates file - output data directory - output CAS directory -
+		 * output token parameters
 		 */
 
 		/**
-		 * The parameter list used to establish matching between trees
-		 * and output the content of the token nodes
+		 * The parameter list used to establish matching between trees and
+		 * output the content of the token nodes
 		 */
 		String parameterList = Joiner.on(",").join(
 				new String[] { RichNode.OUTPUT_PAR_LEMMA,
 						RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
 
 		FileManager fm = new FileManager();
+		
+		PairFeatureFactory pf = new PairFeatureFactory(new Alphabet());
 
+		/**
+		 * Sets up the analyzer, initially with the persistence directory for
+		 * train CASes
+		 */
 		Analyzer ae = instantiateAnalyzer(new UIMAFilePersistence(
-				CASES_DIRECTORY));
+				TRAIN_CASES_DIRECTORY));
 
-		Reranking dataGenerator = new RerankingTest(fm, "data/trec/test/", ae,
-				new TreeSerializer().enableRelationalTags(),
-				new PairFeatureFactory(),
-				new PosChunkTreeProvider() 
-			).setParameterList(parameterList);
+		TrecPipeline pipeline = new TrecPipeline(fm);
 
-		TrecPipeline pipeline = new TrecPipeline(fm, ae);
-		pipeline.performAnalysis();
+		pipeline.performAnalysis(ae, TRAIN_QUESTIONS_PATH,
+				TRAIN_CANDIDATES_PATH);
+
+		Reranking dataGenerator = new RerankingTrain(fm, "data/trec/train/",
+				ae, new TreeSerializer().enableRelationalTags(),
+				pf, new PosChunkTreeProvider())
+				.setParameterList(parameterList);
+
 		pipeline.performDataGeneration(dataGenerator);
+
 		pipeline.closeFiles();
 
-		dataGenerator = new RerankingTrain(fm, "data/trec/train/", ae,
-				new TreeSerializer().enableRelationalTags(),
-				new PairFeatureFactory(),
-				new PosChunkTreeProvider()
-			).setParameterList(parameterList);
+		/**
+		 * Changes the persistence directory for test CASes
+		 */
+		ae.setPersistence(new UIMAFilePersistence(TEST_CASES_DIRECTORY));
 
-		pipeline = new TrecPipeline(fm, ae);
-		pipeline.performAnalysis();
+		pipeline.performAnalysis(ae, TEST_QUESTIONS_PATH, TEST_CANDIDATES_PATH);
+
+		/**
+		 * Sets up the generation for test
+		 */
+		dataGenerator = new RerankingTest(fm, "data/trec/test/", ae,
+				new TreeSerializer().enableRelationalTags(),
+				pf, new PosChunkTreeProvider())
+				.setParameterList(parameterList);
+
 		pipeline.performDataGeneration(dataGenerator);
+
 		pipeline.closeFiles();
 	}
 }

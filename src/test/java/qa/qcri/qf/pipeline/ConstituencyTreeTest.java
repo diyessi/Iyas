@@ -37,7 +37,7 @@ public class ConstituencyTreeTest {
 	}
 
 	private Analyzer instantiateAnalyzer() throws UIMAException {
-		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes"));
+		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test/"));
 
 		ae.addAEDesc(createEngineDescription(StanfordSegmenter.class))
 				.addAEDesc(createEngineDescription(StanfordPosTagger.class))

@@ -12,8 +12,6 @@ import com.google.common.base.Joiner;
 
 public class TokenRepresentation implements Representation {
 
-	private Pair<String, String> representation;
-
 	private String parameterList;
 
 	public TokenRepresentation(String parameterList) {
@@ -22,12 +20,10 @@ public class TokenRepresentation implements Representation {
 
 	@Override
 	public Pair<String, String> getRepresentation(JCas aCas, JCas bCas) {
-		if (this.representation == null) {
-			this.representation = new Pair<>(
+		return new Pair<>(
 				getRepresentation(aCas, this.parameterList),
-				getRepresentation(bCas, this.parameterList));
-		}
-		return this.representation;
+				getRepresentation(bCas, this.parameterList)
+			);
 	}
 
 	private String getRepresentation(JCas cas, String parameterList) {
@@ -35,6 +31,11 @@ public class TokenRepresentation implements Representation {
 		List<String> tokens = UimaUtil.getRichTokensRepresentation(
 				richTokens, parameterList);
 		return Joiner.on(" ").join(tokens);
+	}
+
+	@Override
+	public String getName() {
+		return "TokenRepresentation";
 	}
 
 }

@@ -10,8 +10,8 @@ import org.apache.uima.jcas.JCas;
 import qa.qcri.qf.datagen.DataObject;
 import qa.qcri.qf.datagen.DataPair;
 import qa.qcri.qf.datagen.Pairer;
+import qa.qcri.qf.features.FeaturesUtil;
 import qa.qcri.qf.features.PairFeatureFactory;
-import qa.qcri.qf.features.PairFeatures;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
@@ -22,6 +22,7 @@ import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
 import util.Pair;
+import cc.mallet.types.FeatureVector;
 
 import com.google.common.base.Joiner;
 
@@ -131,9 +132,9 @@ public class RerankingTrain implements Reranking {
 			marker.markTrees(rightQuestionTree, rightCandidateTree,
 					this.parameterList);
 
-			PairFeatures pfLeft = this.pairFeatureFactory.getPairFeatures(
+			FeatureVector leftFv = this.pairFeatureFactory.getPairFeatures(
 					this.questionCas, this.leftCandidateCas, this.parameterList);
-			PairFeatures pfRight = this.pairFeatureFactory.getPairFeatures(
+			FeatureVector rightFv = this.pairFeatureFactory.getPairFeatures(
 					this.questionCas, this.rightCandidateCas, this.parameterList);
 
 			StringBuffer sb = new StringBuffer(1024 * 4);
@@ -152,9 +153,9 @@ public class RerankingTrain implements Reranking {
 			sb.append(this.ts.serializeTree(rightCandidateTree,
 					this.parameterList));
 			sb.append(" |ET| ");
-			sb.append(pfLeft.serializeIndexedFeatures(1));
+			sb.append(FeaturesUtil.serialize(leftFv));
 			sb.append(" |BV| ");
-			sb.append(pfRight.serializeIndexedFeatures(1));
+			sb.append(FeaturesUtil.serialize(rightFv));
 			sb.append(" |EV| ");
 
 			this.fm.writeLn(this.outputFile, sb.toString());
