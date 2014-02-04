@@ -1,0 +1,271 @@
+61 61-0 1 1.0 true If you want to try a Cuban white rum you would be better off with Havana Club .
+61 61-1 2 1.0 false The radio also reports that innovators from the Ministry of Construction 's Enterprise No. 1 in Pinar del Rio Province have developed a cement-hardener made from molasses and other materials available locally .
+61 61-2 3 1.0 false Rum is distilled wherever sugar cane is grown and in a few places where it is not .
+61 61-3 4 1.0 false Some rums from the former Spanish colonies were predictably fashioned for the sweet-toothed : Ron Colonial , a golden rum from Guatamala , or Ron Artemi from the Canary Islands , for example .
+61 61-4 5 1.0 false Both a white rum , and a three-year-old , golden , banana-smelling rum are available here .
+61 61-5 6 1.0 false Most are made in column stills which produce a less pungent spirit than that made in Jamaica , and one which needs a longer process of maturation .
+61 61-6 7 1.0 false Martinique white rums do n't impress me much , perhaps because I am reluctant to see any drink submerged beneath a liquidised fruit cocktail .
+61 61-7 8 1.0 false The 1966 was a dream , an absolute must for anyone who doubts rum 's ability to hold its own among the world 's great digestifs .
+61 61-8 9 1.0 false From the Domaine de Montebello came a 1948 rum which was magnificently spicy : cinnamon , cloves and ginger .
+61 61-9 10 1.0 false In the old British colonies many of the rums were made in pot stills using molasses as opposed to the cane juice preferred by the French .
+61 61-10 11 1.0 false Ben Cross de Chavannes , a veteran rum trader , showed me some startling figures relating to the ester-count in Jamaican rums .
+61 61-11 12 1.0 false During the Great War these were the only spirits made available to the Jamaicans , and they developed a taste for them .
+61 61-12 13 1.0 false Anyone wishing to try a subtle white rum from a British island , should sample The Baron 's CSR from St Kitts , which is remarkably smooth .
+61 61-13 14 1.0 false Cockspur is a golden rum with a well-mannered drink with a faintly nutmeg-like aroma .
+61 61-14 15 1.0 false Two rather more house -tamed rums are El Dorado Demerara rum -LRB- from Guyana -RRB- and Alfred Lamb reserve .
+61 61-15 16 1.0 false The 15-year-old Guyanese rum has a smell which reminded me of angelica .
+62 62-0 1 1.0 true Although MS has been the subject of intensive research activity worldwide , there is still no effective treatment for the disease , in which the body 's immune system attacks the protective coating of myelin protein around nerve fibres .
+62 62-1 2 1.0 true In MS , white blood cells -LRB- T- cells -RRB- destroy the protein sheath called myelin which protects nerve fibres .
+62 62-2 3 1.0 true But the progress of MS is variable .
+62 62-3 4 1.0 true In MS , some of the person 's immune cells inexplicably attack the nerve cells ' insulating sheaths .
+62 62-4 5 1.0 false US scientists have identified the rogue immune cells that are responsible for multiple sclerosis .
+62 62-5 6 1.0 false The discovery by Stanford University researchers working with Neurocrine Biosciences , a San Diego -based biotechnology company , could lead eventually to a cure for MS , which afflicts more than 2.6m people worldwide .
+62 62-6 7 1.0 false By good fortune , it turns out that the same genetic sequence causes MS in rats ; having an animal model always speeds up drug development .
+62 62-7 8 1.0 false Once a blocking technique has been developed , it may eventually become possible to use 'growth factors ' to repair the damaged tissues in MS patients .
+62 62-8 9 1.0 false But the ultimate cause of MS - what triggers the T- cells to attack - is not yet understood .
+62 62-9 10 1.0 false Demand for the first drug proven to have an effect against multiple sclerosis , Betaseron , outstrips supply to such an extent that a lottery is used to decide which patients should receive it .
+62 62-10 11 1.0 false When Schering of Germany launched Betaseron last September in the US , the only country in which it is licensed for sale , doctors registered 80,000 MS patients who wanted the drug .
+62 62-11 12 1.0 false Meanwhile two competing beta-interferons , developed by Ares-Serono of Switzerland and Biogen of the US , are moving through clinical trials in MS patients .
+62 62-12 13 1.0 false Besides the interferons , many other 'new generation ' MS drugs are at various stages of research and development .
+62 62-13 14 1.0 false Together they represent progress on a broad front against MS , the most common disease of the nervous system in young adults , which affects an estimated 2m people worldwide .
+62 62-14 15 1.0 false Effective MS treatments could give the pharmaceutical industry a huge new market .
+62 62-15 16 1.0 false Although the precise molecular cause of MS is not yet known , scientists agree that it is an auto-immune disease in the same broad category as rheumatoid arthritis and diabetes .
+62 62-16 17 1.0 false In the worst cases of 'chronic-progressive MS ' the neurological problems become steadily more severe and eventually kill the patient .
+62 62-17 18 1.0 false In 'relapsing-remitting MS ' the disease flares up at unpredictable intervals - and may even disappear spontaneously .
+62 62-18 19 1.0 false Neither beta-interferon nor the other experimental drugs can cure MS but , for the first time , they do promise a significant amelioration in the disease .
+62 62-19 20 1.0 false Researchers also claimed success with drugs such as cyclophosphamide and cyclosporin , which suppress the patient 's whole immune system , but these too turned out to be ineffective against MS when tested properly .
+62 62-20 21 1.0 false Tested under those conditions on patients with relapsing-remitting MS , Betaseron reduced the number of attacks by one third and reduced significantly the amount of nerve damage shown by magnetic resonance imaging .
+62 62-21 22 1.0 false All three kinds - alpha , beta and gamma - have been tested on MS .
+62 62-22 23 1.0 false Alpha had no effect , while gamma made the disease worse ; scientists now believe natural gamma-interferon may play a role in the progression of MS .
+62 62-23 24 1.0 false Most of the other MS treatments under development aim to disable the specific part of the immune system that is responsible for MS , without suppressing the other immune functions that are essential for fighting disease .
+62 62-24 25 1.0 false These are aimed either at specific types of T-cell which the researchers believe are responsible for the immune attack in MS or at 'antigens ' in the myelin which provoke the attack .
+62 62-25 26 1.0 false If so , MS will be harder to treat .
+62 62-26 27 1.0 false A broad series of experiments suggest that it may be possible to defuse the immune system in humans to treat and even prevent diseases like multiple sclerosis and diabetes .
+62 62-27 28 1.0 false Moreover , researchers at Harvard are already using special antibodies in humans in an attempt to knock out MS patients ' own antibodies that are producing the disease .
+62 62-28 29 1.0 false The Harvard researchers are also vaccinating some MS patients with immune cells in an attempt to protect them from the ravages of the disease .
+62 62-29 30 1.0 false MS is a paralyzing neurological disease that affects as many as 250,000 people in the United States .
+62 62-30 31 1.0 false In rodents and some other animals , an MS -like disease called experimental allergic encephalitis -LRB- EAE -RRB- can be produced by injecting the animals with ground-up nerve tissue .
+62 62-31 32 1.0 false In an overreaction to the injected tissues , the animals ' immune systems begin to attack their own nerve tissues , producing MS symptoms .
+62 62-32 33 1.0 false MS researchers in the past have used drugs that wipe out all T cells in an attempt to halt the progression of MS , but such drugs leave the MS patient highly susceptible to life-threatening infections .
+62 62-33 34 1.0 false Neurologist Howard L. Weiner and his colleagues at Harvard Medical School and Brigham and Women 's Hospital in Boston have used such antibodies to treat about 20 human MS patients .
+62 62-34 35 1.0 false Multiple sclerosis is a chronic neurological disease that causes weakness , tremors and paralysis in as many as 250,000 Americans .
+62 62-35 36 1.0 false Researchers in San Diego have developed a vaccine against an animal disease that mimics the effects of multiple sclerosis in humans , according to an article in Thursday 's issue of Science magazine .
+62 62-36 37 1.0 false Continuing research in San Diego and elsewhere now suggests that doctors might one day be able to prevent and treat diseases such as MS and diabetes , both of which occur when the body 's immune system goes awry .
+62 62-37 38 1.0 false MS is a chronic disease that causes weakness , tremors and paralysis .
+62 62-38 39 1.0 false The San Diego -based researchers and the Portland group are using synthetic molecules to immunize mice against experimental allergic encephalitis -LRB- EAE -RRB- , an animal virus that produces MS -like symptoms .
+62 62-39 40 1.0 false MS and EAE occur when the body is attacked by its own immune system .
+62 62-40 41 1.0 false Lawrence Steinman , leader of the Stanford/Neurocrine research team , says the scientists are following three approaches : The primary effort is to make a 'molecular decoy ' which can attract the T- cells away from the myelin .
+62 62-41 42 1.0 false The body 's immune system , which is intended to defend it against germs and other foreign invaders , turns against its own cells .
+62 62-42 43 1.0 false Symptoms include partial paralysis , blurred vision and speech difficulties .
+62 62-43 44 1.0 false Until now , doctors have only been able to offer patients 'comfort therapy ' such as pain- killers and anti-inflammatory drugs , which control some of the symptoms but have no effect on the underlying disease .
+62 62-44 45 1.0 false According to Ares-Serono , it may both decrease the activity of the immune cells that destroy myelin and counteract the disease-enhancing effects of gamma-interferon .
+62 62-45 46 1.0 false As a result they have sugar chains on the protein surface , like natural human interferon but unlike the Schering product .
+62 62-46 47 1.0 false In theory this could give them a clinical advantage - in terms of fewer side-effects and improved efficacy - but there is no evidence to show whether they work better in practice .
+62 62-47 48 1.0 false It suppresses harmful T- cells and may also stimulate the regrowth of damaged myelin .
+62 62-48 49 1.0 false Myloral , a formulation of bovine -LRB- cow -RRB- myelin , developed by AutoImmune , a Massachusetts biotechnology company .
+62 62-49 50 1.0 false The patient is fed the protein so that the immune system comes to tolerate it and therefore is less inclined to attack his or her own myelin .
+62 62-50 51 1.0 false Copolymer-1 -LRB- Cop-1 -RRB- , a synthetic chemical resembling myelin protein , developed by Teva in Israel .
+62 62-51 52 1.0 false When injected into the patient , this decoy attracts the immune cells away from the real myelin .
+62 62-52 53 1.0 false Articles over the last six months have looked at pharmaceutical advances in the following areas : Sepsis 31 March Prostate 25 February Wound healing 21 January Obesity 23 December Contraceptives 12 November Anaesthetics 15 October
+62 62-53 54 1.0 false `` I think it is going to be a source of great excitement in the neurological and virological communities . ''
+62 62-54 55 1.0 false Olsen has found traces of the virus in patients with lupus , an autoimmune disorder in which the victims ' immune systems attack their connective tissues and internal organs .
+62 62-55 56 1.0 false Olsen 's vaccine does not contain the virus itself , but proteins that are secreted by HTLV - 1 -infected animal cells that are grown in the laboratory .
+62 62-56 57 1.0 false In the development of the feline leukemia virus , Olsen found that these precursor proteins produce a greater immune response than the viral proteins themselves and are less likely to produce harmful effects .
+62 62-57 58 1.0 false That is an important finding , Olsen argued , because most potential AIDS vaccines now being studied use only one type of protein or the other , and are thus less likely to be effective .
+62 62-58 59 1.0 false `` More than one protein is going to be necessary '' for an AIDS vaccine , he said in a telephone interview .
+62 62-59 60 1.0 false But white blood cells from the nine vaccinated monkeys showed no evidence of viral activity , suggesting that the vaccine protected them from the virus .
+62 62-60 61 1.0 false Olsen agrees , and is now using sophisticated genetic engineering techniques to search for the viral genes in white blood cells from the vaccinated monkeys .
+62 62-61 62 1.0 false Only about 1 % of people infected by the virus actually develop disease , he said , so a vaccine would have to have a very low incidence of side effects to justify using it .
+62 62-62 63 1.0 false The attack is carried out by immune cells , called T cells , that normally proliferate in response to an infection and destroy the foreign invader .
+62 62-63 64 1.0 false The goal of most research now is to deactivate only those specific T cells that are attacking the nerve sheath while leaving the rest of the immune system intact .
+62 62-64 65 1.0 false In passive immunization , the researchers attack the T cells that have already been formed .
+62 62-65 66 1.0 false In an active approach , such as that reported today in the journal Nature , the researchers hope to prevent the formation of the destructive T cells in the first place .
+62 62-66 67 1.0 false The immune system produced antibodies against the injected T cells -- and thus against the identical T cells produced by the animals ' bodies .
+62 62-67 68 1.0 false These antibodies hold the T cells in check and thereby block progression of the disease .
+62 62-68 69 1.0 false Weiner has already tried this approach in three human patients , isolating T cells from spinal fluid , deactivating them , and reinjecting them .
+62 62-69 70 1.0 false When they vaccinated rats with the peptide , the rats no longer developed EAE when they were subsequently injected with ground nerve tissue .
+62 62-70 71 1.0 false This approach is preferable to the use of whole cells because it is more widely applicable .
+62 62-71 72 1.0 false In treating humans , the patient 's own deactivated cells must be used so that the injection does not cause an adverse immune reaction .
+62 62-72 73 1.0 false In both diseases , cells that normally keep organisms healthy by destroying foreign cells inexplicably attack nerve cells and cause neurological diseases .
+63 63-0 1 1.0 true NEZAVISIMAYA GAZETA on the Komsomolets nuclear-powered submarine which sank in the Norwegian Sea five years ago : `` A radiation disaster in the Norwegian Sea is more than probable .
+63 63-1 2 1.0 true The author of this book -- the assistant chief designer of the submarine `` Komsomolets '' -- offers his interpretation of the tragedy that played itself out in the Sea of Norway on 7 April 1989 .
+63 63-2 3 1.0 true Russian specialists and scientists have proposed a unique method of preserving the submarine Komsomolets which sank 7 April 1989 in the Norwegian Sea approximately 180 miles southeast of Bear Island .
+63 63-3 4 1.0 true The nuclear submarine Komsomolets has now been lying on the bottom of the Norwegian Sea for almost five years .
+63 63-4 5 1.0 true The nuclear warheads of the torpedoes in the nuclear-powered submarine Komsomolets that sank exactly five years ago in the Norwegian Sea remain intact .
+63 63-5 6 1.0 true Russia 's Ministry for Emergencies plans to buy equipment that will make live telecast possible from the nuclear-powered submarine Komsomolets that sunk in the Norwegian sea on April 7 , 1989 .
+63 63-6 7 1.0 false KOPRON is being disbanded and so are the mobile structures carrying out active preparations for the conservation of warheads on the Komsomolets . ''
+63 63-7 8 1.0 false This book was published with the assistance of the Nuclear- Powered Submarine `` Komsomolets '' Memorial Charity .
+63 63-8 9 1.0 false The documentary narrative `` The Tragedy of the Submarine `` Komsomolets '' '' can not be considered to be the labor of a single author .
+63 63-9 10 1.0 false A. Vanin 's poorly trained crew was sent off on that fateful cruise aboard the ill-prepared submarine `` Komsomolets '' .
+63 63-10 11 1.0 false Different hypotheses regarding the causes of the tragedy of the Soviet nuclear-powered submarine `` Komsomolets '' have been stated in numerous articles published in a number of newspapers and journals by representatives of the navy .
+63 63-11 12 1.0 false The submarine `` Komsomolets '' did not differ in any way from modern submarines currently in operation in terms of the composition of combat and technical resources , including its control systems and its damage control systems .
+63 63-12 13 1.0 false In 1988 the submarine was recognized as an outstanding submarine , and it was awarded the name `` Komsomolets '' .
+63 63-13 14 1.0 false Preparation of the Submarine `` Komsomolets '' for Launching
+63 63-14 15 1.0 false The Crew According to the detail design , the submarine `` Komsomolets '' should have been serviced by highly qualified specialists from among officers and warrant officer technicians .
+63 63-15 16 1.0 false This reduction of professional level , `` planned '' by the navy 's elite , affected not only the crew of the submarine `` Komsomolets '' but also all other submarines .
+63 63-16 17 1.0 false `` Komsomolets '' crew members were questioned in a fault finding manner by the State Commission , which also contains representatives of industry .
+63 63-17 18 1.0 false A news brief appeared in the 13 May 1989 edition of PRAVDA regarding decoration of the crew of the submarine `` Komsomolets '' .
+63 63-18 19 1.0 false Preparations for the Cruise : Routine inspection and maintenance and work to correct existing faults were carried out prior to the cruise of the submarine `` Komsomolets '' in accordance with regulations .
+63 63-19 20 1.0 false The trial run of the submarine `` Komsomolets '' demonstrated the need for creating such a crew .
+63 63-20 21 1.0 false In order that the full volume of routine maintenance and inspection could be carried out within the established time aboard a `` Komsomolets '' class submarine , not less than 200 -250 highly qualified specialists must be brought in .
+63 63-21 22 1.0 false Everything said here is completely valid in relation to the submarine `` Komsomolets '' as well .
+63 63-22 23 1.0 false But let 's return to the submarine `` Komsomolets '' .
+63 63-23 24 1.0 false An examination of the submarine `` Komsomolets '' with deep-sea submersibles in August - September 1991 revealed that it lacked an aft outboard television camera .
+63 63-24 25 1.0 false Such was the `` readiness '' of the submarine `` Komsomolets '' for the difficult cruise .
+63 63-25 26 1.0 false And so , on 28 February 1989 the submarine `` Komsomolets '' set off on its cruise .
+63 63-26 27 1.0 false On 8 August 1988 the naval command and the USSR Ministry of Ship Building Industry adopted a joint decision to use the `` Komsomolets '' purposefully , in a special scientific research program .
+63 63-27 28 1.0 false Such are the myths and realities regarding the goals of the last cruise of the submarine `` Komsomolets '' .
+63 63-28 29 1.0 false The Submarine `` Komsomolets '' on Patrol
+63 63-29 30 1.0 false I have before me the `` Extract From the Draft Ship 's Log of the Nuclear-Powered Submarine `` Komsomolets '' '' authenticated by the Northern Fleet chief of staff Vice Admiral Yu .
+63 63-30 31 1.0 false There was one aboard the `` Komsomolets '' as well .
+63 63-31 32 1.0 false As was mentioned earlier , the `` Manual on Combat Use of Technical Resources '' -LRB- RBITS -RRB- had not been written by Naval Institute No. 1 for the submarine `` Komsomolets '' .
+63 63-32 33 1.0 false 2 . The deflagration did not start a fire in the compartment , which says something about the rather high fire resistance of the `` Komsomolets '' submarine .
+63 63-33 34 1.0 false At 1250 the headquarters of the Northern Fleet transmitted a radio message to the `` Komsomolets '' forbidding the ship 's submergence and suggesting it remain adrift .
+63 63-34 35 1.0 false Apparently the command of the `` Komsomolets '' lacked not only the ability to organize ship damage control efforts but also the courage to report the status of the submarine objectively and promptly .
+63 63-35 36 1.0 false This is apparently the result of the `` Komsomolets '' leadership misinforming the Northern Fleet command .
+63 63-36 37 1.0 false And even in these last minutes of the tragedy , the leadership of the `` Komsomolets '' lacked the courage to communicate the whole truth to the Northern Fleet 's command post .
+63 63-37 38 1.0 false As an example he cited the accident aboard the submarine `` Komsomolets '' .
+63 63-38 39 1.0 false Just due to this , members of the `` Komsomolets '' crew failed to put on survival suits , and did not take their safety vests and life jackets .
+63 63-39 40 1.0 false The one thing that the leadership of the `` Komsomolets '' did manage to do was to report to the Northern Fleet 's command post back at 1641 that the personnel were ready for evacuation .
+63 63-40 41 1.0 false The `` Komsomolets '' is the only submarine in the navy that carries rafts outside the pressure hull .
+63 63-41 42 1.0 false The rafts of the submarine `` Komsomolets '' were in hard containers , each with two rack -and -pinion releases .
+63 63-42 43 1.0 false At 1645 the Northern Fleet commander ordered the commander of the `` Komsomolets '' to prepare the rescue chamber -LRB- VSK -RRB- for separation from the submarine .
+63 63-43 44 1.0 false As is the case aboard other submarines , the rescue chamber of the `` Komsomolets '' is intended for the rescue of the entire crew when the submarine is on the bottom .
+63 63-44 45 1.0 false The submarine `` Komsomolets '' began sinking with a trim of around 80ë by the stern .
+63 63-45 46 1.0 false The ignorance of the personnel of the `` Komsomolets '' of the physical laws and principles of action of the rescue chamber releasing devices can be clearly discerned in this episode .
+63 63-46 47 1.0 false Ship 's Clock of the Submarine `` Komsomolets ''
+63 63-47 48 1.0 false This discussion of hydraulic shock is based on the practical experience of designing the submarine `` Komsomolets '' .
+63 63-48 49 1.0 false The rest of the crew of the submarine `` Komsomolets '' was continuing its fight for its life during this time .
+63 63-49 50 1.0 false They have obviously exhausted the limit of their concern for the crew of the submarine `` Komsomolets '' , such that there was not enough left for giving three submariners a decent human burial in the ground .
+63 63-50 51 1.0 false Concluding my narration of the actions of the crew of the submarine `` Komsomolets '' during the accident , it would be wrong not to mention the heroic and self-sacrificing actions of certain members of the crew .
+64 64-0 1 1.0 true But here is who will actually direct `` Dreamgirls `` -- none other than Frank Oz , the voice of Miss Piggy on `` The Muppets . ''
+65 65-0 1 1.0 true The federal government 's decision of 8 December 1993 to implement the Berlin - Hamburg high-speed maglev railway cleared the way for the first application of maglev railway technology in Germany .
+65 65-1 2 1.0 true Germany 's 'whispering arrow ' , a 400kph -LRB- 250mph -RRB- levitating magnetic hovertrain , could be flying by the end of the decade , writes Christopher Parkes .
+65 65-2 3 1.0 true The Railway Technical Research Institute , a JR affiliate with national and local government support , is conducting the more ambitious of Japan 's two magnetic levitation -LRB- maglev -RRB- linear railway development projects .
+65 65-3 4 1.0 true A potentially worrying development for the European task force is the development by Germany of magnetic levitation technology whereby trains run on a magnetic cushion above a monorail .
+65 65-4 5 1.0 true The German government gave its approval two months ago for the world 's first commercial 'maglev ' train to run between Berlin and Hamburg at speeds of up to 250 mph .
+65 65-5 6 1.0 true The Transrapid will be the world 's first long-distance transport system propelled by magnetic levitation , a technology that Thyssen , the German conglomerate , has been developing .
+65 65-6 7 1.0 true On Wednesday , they rode West Germany 's magnetically levitated high-speed train .
+65 65-7 8 1.0 true -Capital costs are less than West German 's experimental magnetic-levitation train system .
+65 65-8 9 1.0 true Bechtel envisions using magnetic-levitation technology now being tested on a 20-mile track in West Germany .
+65 65-9 10 1.0 false German mark -LSB- DM -RSB- project overwhelmingly by private investment .
+65 65-10 11 1.0 false Krueger and Wissman spoke of a `` signal for Germany as a leading center of industry '' and of a sign of the country 's future viability .
+65 65-11 12 1.0 false Magnetic levitation was power-saving , quiet , and safe ; Germany , moreover , still had five to 10 years ' lead over the United States and Japan in this technology .
+65 65-12 13 1.0 false SPD -LSB- Social Democratic Party of Germany -RSB- industry spokesman Uwe Jens welcomed the project as well .
+65 65-13 14 1.0 false Technology and Transportation Representative for Germany As an Industrial Base .
+65 65-14 15 1.0 false It is at the same time proof of German industry 's innovation strength .
+65 65-15 16 1.0 false We -- my comrades -in- arms and I -- were then conscious of the awakening in a new era of railway technology in which Germany had played a leading role all along .
+65 65-16 17 1.0 false So , railway history has been written since 1984 in North Germany , between Lathen and Dorpen .
+65 65-17 18 1.0 false Its readiness for use was certified at the end of 1991 after comprehensive testing and assessment by the German Federal Railways and leading university institutes .
+65 65-18 19 1.0 false Only because of this is it possible now that a particularly attractive and environmentally compatible transportation system will open its service between the two largest German cities , Berlin and Hamburg , at the beginning of the new millennium .
+65 65-19 20 1.0 false With funds from all of the Japan Railways -LRB- JR -RRB- companies , surveys and tests were performed on the electromagnetic oscillation characteristics under a wide range of test conditions for superconducting magnets using electromagnetic oscillation test equipment .
+65 65-20 21 1.0 false The Shinkansen noise standard in Japan evaluates the peak value of the train during transit .
+65 65-21 22 1.0 false No safety standards concerning magnetic fields have been established in Japan .
+65 65-22 23 1.0 false Therefore it is doubtful whether the Bundesrat , in which the Social Democratic Party of Germany -LSB- SPD -RSB- has a majority , will vote for the planning law .
+65 65-23 24 1.0 false The construction of the magnetic link is to cost 8.9 billion German marks -LSB- DM -RSB- , with the federation contributing DM5.6 billion to the construction of the route .
+65 65-24 25 1.0 false The finished link is to be run on a private basis by the German Federal Railroad and Lufthansa , and is to be completed by 2005 .
+65 65-25 26 1.0 false German Railways and Bundeswehr Do Not Use DBP Telekom : Special Communications Networks Are a Specialty of Stuttgart 's Alcatel-SEL : New Railway System Is ISDN-Capable for Digital and Analog Connections
+65 65-26 27 1.0 false Instead of using the DBP Telekom system , power companies , the Bundeswehr , and the German Railways have their own communications systems .
+65 65-27 28 1.0 false The German military is especially ambitious .
+65 65-28 29 1.0 false The technology underlying the special networks is the Alcatel 1000 S12 System , which had been developed for public communications use and which is used in Germany and in many other countries of the world by DBP Telekom .
+65 65-29 30 1.0 false An actual contract is the new nationwide ISDN-network for the German Federal Railways -- the former State-run Bundesbahn and Reichsbahn .
+65 65-30 31 1.0 false The technology may be seen in the example of the German Railways system .
+65 65-31 32 1.0 false In future , the German Railways system could become of interest to the telephone companies .
+65 65-32 33 1.0 false For the German Railways , this will mean that its nationwide communications system could be opened up to private customers .
+65 65-33 34 1.0 false The German Railways ' new extensive system is entirely comparable to the Telekom system as far as extensive interconnections are concerned .
+65 65-34 35 1.0 false IF Japan has a national goal for the 1990s it is to bridge the gap between its First -World economy and Third-World standard of living by focusing massive investment on a woefully inadequate social infrastructure .
+65 65-35 36 1.0 false 'The large projects may attract attention from the media and contractors , but in the end they are likely to be far less important to average Japanese . '
+65 65-36 37 1.0 false The Y1 , 430bn island terminal will be the cornerstone of the Kansai region 's efforts to draw business to Osaka , Kobe and Kyoto and will be Japan 's first 24-hour air terminal .
+65 65-37 38 1.0 false In Yokohama , the Y2 , 000bn Minato Mirai 21 project will house Japan 's tallest building , 75 stories high , on reclaimed land .
+65 65-38 39 1.0 false Japan 's quasi-public organisations are another source of heavy infrastructure spending .
+65 65-39 40 1.0 false For example , the Japan Railways -LRB- JR -RRB- group plans to extend its bullet train lines .
+65 65-40 41 1.0 false Japan 's now private telecoms giant Nippon Telegraph & Telephone is also planning an aggressive infrastructure enhancement programme in the 1990s .
+65 65-41 42 1.0 false High speed rail services have their origins in the Japanese bullet train or Shinkansen which first went into service between Tokyo and Osaka in 1964 .
+65 65-42 43 1.0 false It is France where high speed trains have made the biggest impact and where the most comprehensive network has been established although Germany , too , is creating an ambitious network of high speed services .
+65 65-43 44 1.0 false Germany began developing a high speed network of InterCity Express -LRB- ICE -RRB- trains in 1988 and now has three routes in service including a link with Berlin .
+65 65-44 45 1.0 false The government hopes that by 2004 a runway - similar to the present test track - will be built and that more than 14m passengers a year will be hurtling between Germany 's two biggest cities .
+65 65-45 46 1.0 false The Japanese are working on similar technology but opted in the early 1970s for an electrodynamic levitation system - where magnets repel rather than attract each other .
+65 65-46 47 1.0 false The different system also creates a 10cm gap , rather than 10mm , between the vehicle and the runway which the Japanese say is better suited to deal with earthquake risks .
+65 65-47 48 1.0 false The Transrapid technology creates magnetic fields of about 40 amps - no bigger than those created by an electric razor - while the Japanese have to grapple with big magnetic fields of up to 700,000 amps .
+65 65-48 49 1.0 false The French National Railroad , which wants to build and operate a similar rail line between Las Vegas and Anaheim , had found a way to top its competition , the West Germans .
+65 65-49 50 1.0 false Roth and eight other members of the 16 -person commission rode the French train in shifts Friday and Saturday as part of a 10-day `` technology tour '' aimed at examining the French and German competitors up close .
+65 65-50 51 1.0 false `` On the maglev I felt more secure , '' said Aram Keith , president of Costa Mesa -based Keith Engineering , referring to the German train .
+65 65-51 52 1.0 false The French train 's coaches are narrower than those used for the maglev vehicle in Germany but they are much heavier .
+65 65-52 53 1.0 false I think there is room for both the French and German technologies in America , '' she said .
+65 65-53 54 1.0 false French officials argue that their train has a proven record of carrying millions of passengers each year at a profit while the West Germans still have their maglev confined to a test track .
+65 65-54 55 1.0 false On Wednesday , the Federal Cabinet declared itself in favor of building the Transrapid magnetic levitation railway from Hamburg to Berlin on the basis of a new financing strategy submitted by industry .
+65 65-55 56 1.0 false Hamburg High-Speed Maglev Railway Limited Liability Company -RSB- , under the rubric `` Vistas '94 '' : `` ` Transrapid ' Has Now Made the Breakthrough to Worldwide Marketing .
+65 65-56 57 1.0 false For High-Speed Maglev Railway Head Hans G. Raschbichler Success Is Also an Indication of Engineers ' Forcefulness ''
+65 65-57 58 1.0 false With the government 's affirmative decision to build the Transrapid high-speed maglev railway , a decision was made that reaches far into the future in terms of transportation and environmental policy .
+65 65-58 59 1.0 false Hans Georg Raschbichler , chief managing executive of Berlin - Hamburg High-Speed Maglev Railway Limited Liability Company , takes this view in the following article .
+65 65-59 60 1.0 false His idea was to replace the railway 's wheels with electromagnets .
+65 65-60 61 1.0 false He knew that magnetic forces can assume the carrying and guiding functions of the wheel and track and thus enable no-contact levitation with high speeds and low noise generation .
+65 65-61 62 1.0 false The results of the high-capacity high-speed railway study completed in 1971 were so positive that the development work begun soon led to the first experimental vehicles having quite different designs .
+65 65-62 63 1.0 false As a young engineer , I began my work on the development of the high-speed maglev railway in the middle of the sixties .
+65 65-63 64 1.0 false In this design the motor is not located in the vehicle as usually , but in the railway .
+65 65-64 65 1.0 false It was decided to focus further work on the long-stator maglev railway technology .
+65 65-65 66 1.0 false The success in Hamburg was also decisive for the construction of the pilot system unique in the world for railway systems , the Emsland Transrapid Pilot System -LRB- TVE -RRB- .
+65 65-66 67 1.0 false The Transrapid high-speed maglev railway has proven its everyday usefulness in continuous service with a running capacity of more than 160,000 km and a world-record speed of 450 km/h .
+65 65-67 68 1.0 false Also a prerequisite for this is the plan -- which is no less innovative -- adopted by the federal government for the financing and private-sector operation of the Berlin - Hamburg high-speed maglev railway .
+65 65-68 69 1.0 false For example , the operating company that will operate the high-speed maglev railway will be privately financed for the first time .
+65 65-69 70 1.0 false Furthermore , the financing proposal also provides for a high degree of taking the burden off the federal government in financing of the railway .
+65 65-70 71 1.0 false It will prove strikingly the creativity and forcefulness of engineers , who with the high-speed maglev railway have also continued a part of the tradition showing them to be pioneers of progress .
+65 65-71 72 1.0 false Although over 25 years have passed since development began on superconducting magnetic levitation -LRB- maglev -RRB- rail systems , the steady stream of research results is at the verge of blossoming .
+65 65-72 73 1.0 false Before development began at the Railway Technical Research Institute , the MLU002 test vehicle was completed in March 1987 and began trial runs on the Miyazaki test track .
+65 65-73 74 1.0 false However , quench , the state where superconductivity is not maintained , occurred frequently in the superconducting magnet , the most important element in superconducting magnetic levitation .
+65 65-74 75 1.0 false -LRB- 2 -RRB- To achieve improved reliability of the superconducting magnets and low magnetic field leakage into the cars , the pole pitch of the superconducting magnets is shortened .
+65 65-75 76 1.0 false -LRB- 3 -RRB- In order to increase energy savings , the method used is sidewall levitation where the levitation coils are shaped like the number eight and have small magnetic repulsive force -LRB- magnetic resistive force -RRB- .
+65 65-76 77 1.0 false A large levitation force is obtained by using sidewall levitation .
+65 65-77 78 1.0 false As explained earlier , the most important issue in implementing a maglev railway is improving the stability and reliability of the superconducting magnets .
+65 65-78 79 1.0 false In particular , the mechanical strength of the epoxy resin that is the mold material for the sidewall levitation coils was carefully checked .
+65 65-79 80 1.0 false Similar to airplanes , cars in maglev railway travel are not in contact with anything when traveling in the high-speed region , therefore , the quality of the noise differs from that of railroads .
+65 65-80 81 1.0 false Experts have pointed out that the reason for the large power consumption in the running tests at the Miyazaki test track is a maglev railway is a transportation method with poor energy efficiency .
+65 65-81 82 1.0 false Since the ground facilities for a maglev railway use many drivers and controllers in the primary ground method , the cars can be much slimmer than conventional cars .
+65 65-82 83 1.0 false There is the impression that a maglev railway generates strong magnetic fields that harm the human body .
+65 65-83 84 1.0 false In fact , the effect of the magnetic fields generated by the superconducting magnets on the passengers and on people who live along the track is at the same level as the magnetic fields they normally live in .
+66 66-0 1 1.0 true Among them was Christa McAuliffe , the first private citizen to fly in space .
+66 66-1 2 1.0 false Karen Allen heads the cast as schoolteacher Christa McAuliffe .
+66 66-2 3 1.0 false Karen Allen , best known for her starring role in `` Raiders of the Lost Ark , '' plays McAuliffe .
+66 66-3 4 1.0 false But Allen was eventually won over because of McAuliffe , the high school teacher and mother from Concord , New Hampshire .
+66 66-4 5 1.0 false In preparation , Allen spent hours watching and re-watching videos of McAuliffe .
+66 66-5 6 1.0 false By studying the tapes , Allen said , she was able to capture McAuliffe 's `` rhythm '' -- how she walked , talked , stood and even how she held her head .
+66 66-6 7 1.0 false By the time Allen arrived at NASA 's Johnson Space Center in Houston last summer to shoot `` Challenger , '' the actress felt a kinship to McAuliffe .
+66 66-7 8 1.0 false At NASA , Allen worked alongside the same people who knew and worked with McAuliffe .
+66 66-8 9 1.0 false Allen went through a lot of the same training McAuliffe did , including a pilot training course so she could obtain a special license to fly in the KC-135-the plane that simulates weightlessness .
+67 67-0 1 1.0 false It takes just one blow of a steamboat whistle on the quay at New Orleans to find yourself transported into the storybook past of the Mississippi paddleboats .
+67 67-1 2 1.0 false In Life on the Mississippi , Mark Twain wrote that it was every boy 's ambition to be a steamboat man .
+67 67-2 3 1.0 false Some people prefer the Mississippi Queen with such modern amenities as cinema and pool .
+67 67-3 4 1.0 false The scenery on the 682-mile round trip from New Orleans to Vicksburg , on the lower Mississippi , is disappointing .
+67 67-4 5 1.0 false TS Eliot called the Mississippi 'a great brown god ' , and it captivates quickly .
+67 67-5 6 1.0 false During the civil war it was a Confederate stronghold defending the whole of the lower Mississippi .
+67 67-6 7 1.0 false These , as long as five football fields , tend to take up the whole river as they round bends .
+67 67-7 8 1.0 false There is so much traffic that the Delta Queen 's jovial Captain John Davitt compares the river to 'driving on an interstate highway ' .
+67 67-8 9 1.0 false Avoiding these obstacles , and the barges , requires great skill from the river pilots who drive the steamboats .
+68 68-0 1 1.0 true This helps explain why Peruvian fishermen dubbed the phenomenon El Nino , which means Christ child in Spanish .
+68 68-1 2 1.0 true It was named El Nino , Spanish for boy child , by fishermen off Peru who noticed an increase in water temperature followed by torrential rain .
+68 68-2 3 1.0 false Grain traders are keen to know if they can expect this year 's El Nino to disturb the US weather pattern sufficiently to make a dent in crop output .
+68 68-3 4 1.0 false Although signs of El Nino had been accumulating during 1991 , only last month did the the US National Weather Service finally conclude publicly that the phenomenon was a fact .
+68 68-4 5 1.0 false While many of these conditions indicate that El Nino is occurring , they do not reveal its severity .
+68 68-5 6 1.0 false Mr Vernon Kousky , a research meteorologist with the US weather service , now assesses the current El Nino as 'moderate to strong ' .
+68 68-6 7 1.0 false While individual weather events can not always be directly attributed to El Nino , some signals are indicative of its strength .
+68 68-7 8 1.0 false Mr Kousky says that El Nino , usually a 12 to 18 month event , has another six to 12 months to run .
+68 68-8 9 1.0 false But he points out that there is no consistent relationship between El Nino and the weather pattern beyond the winter-to-spring months .
+68 68-9 10 1.0 false These additional factors along with El Nino probably mean that a more extreme weather pattern bleeds over into summer , according to Mr Kevin Marcus , director of Crop Cast services .
+68 68-10 11 1.0 false He is still waiting for more data on the severity of this year 's El Nino .
+68 68-11 12 1.0 false In 1972-73 the El Nino destroyed the Peruvian fishmeal catch , which then accounted for some 45 per cent of the world trade in protein feed .
+68 68-12 13 1.0 false El Nino , a weather phenomenon first detected by Peruvian fishermen at the turn of the century , could leave much of rural Australia praying for rain next year , weather forecasters said Friday .
+68 68-13 14 1.0 false El Nino may bring drought conditions to eastern Australia , where farmers are suffering from falling commodity prices and high interest rates , they said .
+69 69-0 1 1.0 true This helps explain why Peruvian fishermen dubbed the phenomenon El Nino , which means Christ child in Spanish .
+69 69-1 2 1.0 true El Nino , a weather phenomenon first detected by Peruvian fishermen at the turn of the century , could leave much of rural Australia praying for rain next year , weather forecasters said Friday .
+69 69-2 3 1.0 true It was named El Nino , Spanish for boy child , by fishermen off Peru who noticed an increase in water temperature followed by torrential rain .
+69 69-3 4 1.0 false Grain traders are keen to know if they can expect this year 's El Nino to disturb the US weather pattern sufficiently to make a dent in crop output .
+69 69-4 5 1.0 false Although signs of El Nino had been accumulating during 1991 , only last month did the the US National Weather Service finally conclude publicly that the phenomenon was a fact .
+69 69-5 6 1.0 false While many of these conditions indicate that El Nino is occurring , they do not reveal its severity .
+69 69-6 7 1.0 false Mr Vernon Kousky , a research meteorologist with the US weather service , now assesses the current El Nino as 'moderate to strong ' .
+69 69-7 8 1.0 false While individual weather events can not always be directly attributed to El Nino , some signals are indicative of its strength .
+69 69-8 9 1.0 false Mr Kousky says that El Nino , usually a 12 to 18 month event , has another six to 12 months to run .
+69 69-9 10 1.0 false But he points out that there is no consistent relationship between El Nino and the weather pattern beyond the winter-to-spring months .
+69 69-10 11 1.0 false These additional factors along with El Nino probably mean that a more extreme weather pattern bleeds over into summer , according to Mr Kevin Marcus , director of Crop Cast services .
+69 69-11 12 1.0 false He is still waiting for more data on the severity of this year 's El Nino .
+69 69-12 13 1.0 false In 1972-73 the El Nino destroyed the Peruvian fishmeal catch , which then accounted for some 45 per cent of the world trade in protein feed .
+69 69-13 14 1.0 false El Nino may bring drought conditions to eastern Australia , where farmers are suffering from falling commodity prices and high interest rates , they said .
