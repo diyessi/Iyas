@@ -21,8 +21,7 @@ import qa.qcri.qf.trees.providers.TokenTreeProvider;
 
 public class QuestionClassifierTest {
 
-	public static final String TEST_CASES_DIRECTORY = Commons.QF_DIRECTORY
-			+ "test-CASes/";
+	public static final String TEST_CASES_DIRECTORY = "CASes/question-classifier/test/";
 
 	public static final String TEST_QUESTIONS_PATH = Commons.QF_DIRECTORY
 			+ "TREC_10.label";

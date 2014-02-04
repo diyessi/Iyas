@@ -17,7 +17,7 @@ import qa.qcri.qf.trees.providers.TokenTreeProvider;
 
 public class QuestionClassifierTrain {
 
-	public static final String TRAIN_CASES_DIRECTORY = Commons.QF_DIRECTORY + "train-CASes/";
+	public static final String TRAIN_CASES_DIRECTORY = "CASes/question-classifier/train/";
 
 	public static final String TRAIN_QUESTIONS_PATH = Commons.QF_DIRECTORY + "train_5500.label";
 	
