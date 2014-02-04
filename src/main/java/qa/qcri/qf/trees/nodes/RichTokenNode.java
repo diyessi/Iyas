@@ -61,7 +61,7 @@ public class RichTokenNode extends BaseRichNode {
 	public String getRepresentation(String parameterList) {
 		String output = this.getValue();
 
-		if (parameterList.isEmpty() || !parameterList.contains(",")) {
+		if (parameterList.isEmpty()) {
 			return output;
 		}
 
