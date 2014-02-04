@@ -45,9 +45,11 @@ public class RichTokenNode extends BaseRichNode {
 	 * 
 	 * - RichNode.OUTPUT_PAR_LEMMA Return the lemma of the token
 	 * 
+	 * - RichNode.OUTPUT_PAR_STEM Return the stem of the token
+	 * 
 	 * - RichNode.OUTPUT_PAR_TOKEN_LOWERCASE Return the lowercased current
 	 * representation
-	 * 
+	 *  
 	 * Pay attention to the order of these parameters in the list. TOKEN and
 	 * LEMMA override each other, so the parameter later in the list prevails.
 	 * 
@@ -73,6 +75,9 @@ public class RichTokenNode extends BaseRichNode {
 				break;
 			case RichNode.OUTPUT_PAR_LEMMA:
 				output = this.token.getLemma().getValue();
+				break;
+			case RichNode.OUTPUT_PAR_STEM:
+				output = this.token.getStem().getValue();
 				break;
 			case RichNode.OUTPUT_PAR_TOKEN_LOWERCASE:
 				lowercase = true;
