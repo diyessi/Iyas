@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
+import qa.qcri.qf.pipeline.UimaUtil;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import cc.mallet.types.Alphabet;
@@ -46,7 +47,7 @@ public class BowProvider {
 		this.parametersList = parametersList;
 	}
 	
-	public SVMVector getSVMVector(JCas cas, Map<String, Double> idf) {
+	public SVMVector getSVMVector(JCas cas) {
 		SVMVector vec = new SVMVector(getFeatureVector(cas));
 		return vec;
 	}
