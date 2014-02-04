@@ -43,7 +43,7 @@ public class TrecPipeline {
 	public static final String TRAIN_CASES_DIRECTORY = "CASes/trec/train/";
 	public static final String TRAIN_QUESTIONS_PATH = "data/trec/questions-train.txt";
 	public static final String TRAIN_CANDIDATES_PATH = "data/trec/candidates-train.txt";
-	
+
 	public static final String TEST_CASES_DIRECTORY = "CASes/trec/test/";
 	public static final String TEST_QUESTIONS_PATH = "data/trec/questions-test.txt";
 	public static final String TEST_CANDIDATES_PATH = "data/trec/candidates-test.txt";
@@ -56,21 +56,22 @@ public class TrecPipeline {
 	private Map<String, DataObject> idToQuestion = new HashMap<>();
 
 	private FileManager fm;
-	
+
 	private String questionPath;
-	
+
 	private String candidatesPath;
 
-	public TrecPipeline(FileManager fm, Analyzer ae) throws UIMAException {
+	public TrecPipeline(FileManager fm) throws UIMAException {
 		this.fm = fm;
-		this.ae = ae;
 		this.idToQuestion = new HashMap<>();
 	}
 
-	public void performAnalysis(String questionPath, String candidatesPath) throws UIMAException {
+	public void performAnalysis(Analyzer ae, String questionPath,
+			String candidatesPath) throws UIMAException {
+		this.ae = ae;
 		this.questionPath = questionPath;
 		this.candidatesPath = candidatesPath;
-		
+
 		this.processAnalyzables(getTrecQuestionsIterator(questionPath));
 		this.processAnalyzables(getTrecCandidatesIterator(candidatesPath));
 		this.populateIdToQuestionMap();
@@ -79,8 +80,8 @@ public class TrecPipeline {
 	public void performDataGeneration(Reranking dataGenerator)
 			throws UIMAException {
 
-		Iterator<List<String>> chunks = this.getChunkReader(this.candidatesPath)
-				.iterator();
+		Iterator<List<String>> chunks = this
+				.getChunkReader(this.candidatesPath).iterator();
 
 		while (chunks.hasNext()) {
 			List<String> chunk = chunks.next();
@@ -190,18 +191,14 @@ public class TrecPipeline {
 	public static void main(String[] args) throws UIMAException {
 
 		/**
-		 * TODO:
-		 * 1) Add command line arguments:
-		 * - input questions file
-		 * - input candidates file
-		 * - output data directory
-		 * - output CAS directory
-		 * - output token parameters
+		 * TODO: 1) Add command line arguments: - input questions file - input
+		 * candidates file - output data directory - output CAS directory -
+		 * output token parameters
 		 */
 
 		/**
-		 * The parameter list used to establish matching between trees
-		 * and output the content of the token nodes
+		 * The parameter list used to establish matching between trees and
+		 * output the content of the token nodes
 		 */
 		String parameterList = Joiner.on(",").join(
 				new String[] { RichNode.OUTPUT_PAR_LEMMA,
@@ -210,39 +207,43 @@ public class TrecPipeline {
 		FileManager fm = new FileManager();
 
 		/**
-		 * Sets up the analyzer, initially with the persistence
-		 * directory for train CASes 
+		 * Sets up the analyzer, initially with the persistence directory for
+		 * train CASes
 		 */
 		Analyzer ae = instantiateAnalyzer(new UIMAFilePersistence(
 				TRAIN_CASES_DIRECTORY));
 
-		Reranking dataGenerator = new RerankingTrain(fm, "data/trec/train/", ae,
-				new TreeSerializer().enableRelationalTags(),
-				new PairFeatureFactory(),
-				new PosChunkTreeProvider() 
-			).setParameterList(parameterList);
+		TrecPipeline pipeline = new TrecPipeline(fm);
 
-		TrecPipeline pipeline = new TrecPipeline(fm, ae);
-		pipeline.performAnalysis(TRAIN_QUESTIONS_PATH, TRAIN_CANDIDATES_PATH);
+		pipeline.performAnalysis(ae, TRAIN_QUESTIONS_PATH,
+				TRAIN_CANDIDATES_PATH);
+
+		Reranking dataGenerator = new RerankingTrain(fm, "data/trec/train/",
+				ae, new TreeSerializer().enableRelationalTags(),
+				new PairFeatureFactory(), new PosChunkTreeProvider())
+				.setParameterList(parameterList);
+
 		pipeline.performDataGeneration(dataGenerator);
+
 		pipeline.closeFiles();
+
+		/**
+		 * Changes the persistence directory for test CASes
+		 */
+		ae.setPersistence(new UIMAFilePersistence(TEST_CASES_DIRECTORY));
+
+		pipeline.performAnalysis(ae, TEST_QUESTIONS_PATH, TEST_CANDIDATES_PATH);
 
 		/**
 		 * Sets up the generation for test
 		 */
 		dataGenerator = new RerankingTest(fm, "data/trec/test/", ae,
 				new TreeSerializer().enableRelationalTags(),
-				new PairFeatureFactory(),
-				new PosChunkTreeProvider()
-			).setParameterList(parameterList);
+				new PairFeatureFactory(), new PosChunkTreeProvider())
+				.setParameterList(parameterList);
 
-		/**
-		 * Changes the persistence directory for test CASes
-		 */
-		ae.setPersistence(new UIMAFilePersistence(TEST_CASES_DIRECTORY));
-		
-		pipeline.performAnalysis(TEST_QUESTIONS_PATH, TEST_CANDIDATES_PATH);
 		pipeline.performDataGeneration(dataGenerator);
+
 		pipeline.closeFiles();
 	}
 }
