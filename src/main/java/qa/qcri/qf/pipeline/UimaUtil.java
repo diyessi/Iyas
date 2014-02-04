@@ -43,4 +43,22 @@ public class UimaUtil {
 		}
 		return representation;
 	}
+
+	/**
+	 * Extracts the token representation from the tokens in a cas
+	 * 
+	 * @param cas
+	 * @param parameterList
+	 *            the parameters describing the representation of the tokens
+	 * @return the desired representation of the tokens
+	 */
+	public static List<String> getTokensRepresentation(JCas cas,
+			String parameterList) {
+		List<String> tokens = new ArrayList<>();
+		for (Token token : JCasUtil.select(cas, Token.class)) {
+			tokens.add(new RichTokenNode(token)
+					.getRepresentation(parameterList));
+		}
+		return tokens;
+	}
 }
