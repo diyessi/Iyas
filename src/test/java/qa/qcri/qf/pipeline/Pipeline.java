@@ -37,7 +37,7 @@ public class Pipeline {
                 
                 TreeSerializer ts = new TreeSerializer().enableRelationalTags();
                 
-                Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/"));
+                Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
                 
                 ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
                         .addAEDesc(createEngineDescription(StanfordParser.class))
