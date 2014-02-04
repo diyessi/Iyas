@@ -40,9 +40,13 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
 public class TrecPipeline {
 
-	public static final String CASES_DIRECTORY = "CASes-trec/";
-	public static final String QUESTIONS_PATH = "data/trec/questions.txt";
-	public static final String CANDIDATES_PATH = "data/trec/candidates.txt";
+	public static final String TRAIN_CASES_DIRECTORY = "CASes/trec/train/";
+	public static final String TRAIN_QUESTIONS_PATH = "data/trec/questions-train.txt";
+	public static final String TRAIN_CANDIDATES_PATH = "data/trec/candidates-train.txt";
+	
+	public static final String TEST_CASES_DIRECTORY = "CASes/trec/test/";
+	public static final String TEST_QUESTIONS_PATH = "data/trec/questions-test.txt";
+	public static final String TEST_CANDIDATES_PATH = "data/trec/candidates-test.txt";
 
 	public static final String QUESTION_ID_KEY = "QUESTION_ID_KEY";
 	public static final String SEARCH_ENGINE_POSITION_KEY = "SEARCH_ENGINE_POSITION_KEY";
@@ -52,6 +56,10 @@ public class TrecPipeline {
 	private Map<String, DataObject> idToQuestion = new HashMap<>();
 
 	private FileManager fm;
+	
+	private String questionPath;
+	
+	private String candidatesPath;
 
 	public TrecPipeline(FileManager fm, Analyzer ae) throws UIMAException {
 		this.fm = fm;
@@ -59,16 +67,19 @@ public class TrecPipeline {
 		this.idToQuestion = new HashMap<>();
 	}
 
-	public void performAnalysis() throws UIMAException {
-		this.processAnalyzables(getTrecQuestionsIterator(QUESTIONS_PATH));
-		this.processAnalyzables(getTrecCandidatesIterator(CANDIDATES_PATH));
+	public void performAnalysis(String questionPath, String candidatesPath) throws UIMAException {
+		this.questionPath = questionPath;
+		this.candidatesPath = candidatesPath;
+		
+		this.processAnalyzables(getTrecQuestionsIterator(questionPath));
+		this.processAnalyzables(getTrecCandidatesIterator(candidatesPath));
 		this.populateIdToQuestionMap();
 	}
 
 	public void performDataGeneration(Reranking dataGenerator)
 			throws UIMAException {
 
-		Iterator<List<String>> chunks = this.getChunkReader(CANDIDATES_PATH)
+		Iterator<List<String>> chunks = this.getChunkReader(this.candidatesPath)
 				.iterator();
 
 		while (chunks.hasNext()) {
@@ -124,7 +135,7 @@ public class TrecPipeline {
 	}
 
 	private void populateIdToQuestionMap() {
-		Iterator<Analyzable> questions = getTrecQuestionsIterator(QUESTIONS_PATH);
+		Iterator<Analyzable> questions = getTrecQuestionsIterator(this.questionPath);
 		while (questions.hasNext()) {
 			Analyzable question = questions.next();
 			DataObject questionObject = new DataObject(Labelled.NEGATIVE_LABEL,
@@ -186,8 +197,6 @@ public class TrecPipeline {
 		 * - output data directory
 		 * - output CAS directory
 		 * - output token parameters
-		 * 
-		 * 2) Factor out the type of the tree to use in the examples
 		 */
 
 		/**
@@ -200,28 +209,39 @@ public class TrecPipeline {
 
 		FileManager fm = new FileManager();
 
+		/**
+		 * Sets up the analyzer, initially with the persistence
+		 * directory for train CASes 
+		 */
 		Analyzer ae = instantiateAnalyzer(new UIMAFilePersistence(
-				CASES_DIRECTORY));
+				TRAIN_CASES_DIRECTORY));
 
-		Reranking dataGenerator = new RerankingTest(fm, "data/trec/test/", ae,
+		Reranking dataGenerator = new RerankingTrain(fm, "data/trec/train/", ae,
 				new TreeSerializer().enableRelationalTags(),
 				new PairFeatureFactory(),
 				new PosChunkTreeProvider() 
 			).setParameterList(parameterList);
 
 		TrecPipeline pipeline = new TrecPipeline(fm, ae);
-		pipeline.performAnalysis();
+		pipeline.performAnalysis(TRAIN_QUESTIONS_PATH, TRAIN_CANDIDATES_PATH);
 		pipeline.performDataGeneration(dataGenerator);
 		pipeline.closeFiles();
 
-		dataGenerator = new RerankingTrain(fm, "data/trec/train/", ae,
+		/**
+		 * Sets up the generation for test
+		 */
+		dataGenerator = new RerankingTest(fm, "data/trec/test/", ae,
 				new TreeSerializer().enableRelationalTags(),
 				new PairFeatureFactory(),
 				new PosChunkTreeProvider()
 			).setParameterList(parameterList);
 
-		pipeline = new TrecPipeline(fm, ae);
-		pipeline.performAnalysis();
+		/**
+		 * Changes the persistence directory for test CASes
+		 */
+		ae.setPersistence(new UIMAFilePersistence(TEST_CASES_DIRECTORY));
+		
+		pipeline.performAnalysis(TEST_QUESTIONS_PATH, TEST_CANDIDATES_PATH);
 		pipeline.performDataGeneration(dataGenerator);
 		pipeline.closeFiles();
 	}
