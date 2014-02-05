@@ -43,8 +43,7 @@ public class BowProvider {
 	}
 
 	public FeatureVector getFeatureVector(JCas cas) {
-		FeatureVector fv = new FeatureVector(getNGramFeatureSeqFromCas(cas));
-		return fv;
+		return new FeatureVector(getNGramFeatureSeqFromCas(cas));
 	}
 
 	public FeatureSequence getNGramFeatureSeqFromCas(JCas cas) {

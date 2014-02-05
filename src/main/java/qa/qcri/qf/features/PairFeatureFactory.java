@@ -74,10 +74,8 @@ public class PairFeatureFactory {
 		 * String features
 		 */
 		this.addMeasureOnStrings(new GreedyStringTiling(3), tokens);
-		this.addMeasureOnStrings(new LongestCommonSubsequenceComparator(),
-				tokens);
-		this.addMeasureOnStrings(new LongestCommonSubsequenceNormComparator(),
-				tokens);
+		this.addMeasureOnStrings(new LongestCommonSubsequenceComparator(), tokens);
+		this.addMeasureOnStrings(new LongestCommonSubsequenceNormComparator(), tokens);
 		this.addMeasureOnStrings(new LongestCommonSubstringComparator(), tokens);
 		/**
 		 * n-grams
@@ -90,10 +88,10 @@ public class PairFeatureFactory {
 		this.addMeasureOnLists(new WordNGramContainmentMeasure(2), tokens);
 
 		/**
-		 * Map<String, Double> idfValues; this.addPair(new
-		 * CharacterNGramMeasure(2, idfValues); this.addPair(new
-		 * CharacterNGramMeasure(3, idfValues); this.addPair(new
-		 * CharacterNGramMeasure(4, idfValues);
+		 * Map<String, Double> idfValues;
+		 * this.addPair(new CharacterNGramMeasure(2, idfValues);
+		 * this.addPair(new CharacterNGramMeasure(3, idfValues);
+		 * this.addPair(new CharacterNGramMeasure(4, idfValues);
 		 * 
 		 * ESA_Wiktionary ESA_WordNet
 		 **/
