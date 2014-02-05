@@ -51,8 +51,9 @@ public class BaseRichNode implements RichNode {
 	}
 
 	@Override
-	public void addAdditionalLabel(String label) {
+	public RichNode addAdditionalLabel(String label) {
 		this.additionalLabels.add(label);
+		return this;
 	}
 
 	@Override
@@ -61,9 +62,10 @@ public class BaseRichNode implements RichNode {
 	}
 
 	@Override
-	public void addChild(RichNode node) {
+	public RichNode addChild(RichNode node) {
 		node.setParent(this);
 		this.children.add(node);
+		return this;
 	}
 
 	@Override
@@ -72,8 +74,9 @@ public class BaseRichNode implements RichNode {
 	}
 
 	@Override
-	public void setParent(RichNode node) {
+	public RichNode setParent(RichNode node) {
 		this.parent = node;
+		return this;
 	}
 
 	@Override
@@ -82,8 +85,9 @@ public class BaseRichNode implements RichNode {
 	}
 
 	@Override
-	public void setValue(String value) {
+	public RichNode setValue(String value) {
 		this.value = value;
+		return this;
 	}
 
 	@Override

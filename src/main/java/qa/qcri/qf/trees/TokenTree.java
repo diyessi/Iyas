@@ -44,10 +44,13 @@ public class TokenTree extends BaseRichNode {
 	 * Adds a token to the list of tokens
 	 * 
 	 * @param token
+	 * 
+	 * @return the object instance for chaining
 	 */
-	public void addToken(RichTokenNode token) {
+	public TokenTree addToken(RichTokenNode token) {
 		this.tokens.add(token);
 		this.idToToken.put(String.valueOf(nextFreeId++), token);
+		return this;
 	}
 
 	/**

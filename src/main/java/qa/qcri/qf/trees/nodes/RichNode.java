@@ -49,8 +49,10 @@ public interface RichNode {
 	 * Associates a label to the node
 	 * 
 	 * @param label
+	 * 
+	 * @return the object instance for chaining
 	 */
-	public void addAdditionalLabel(String label);
+	public RichNode addAdditionalLabel(String label);
 
 	/**
 	 * 
@@ -62,8 +64,10 @@ public interface RichNode {
 	 * Adds a child to this node
 	 * 
 	 * @param node
+	 * 
+	 * @return the object instance for chaining
 	 */
-	public void addChild(RichNode node);
+	public RichNode addChild(RichNode node);
 
 	/**
 	 * 
@@ -76,8 +80,9 @@ public interface RichNode {
 	 * 
 	 * @param node
 	 *            the parent node
+	 * @return the object instance for chaining
 	 */
-	public void setParent(RichNode node);
+	public RichNode setParent(RichNode node);
 
 	/**
 	 * 
@@ -89,8 +94,10 @@ public interface RichNode {
 	 * Sets the default value of the node
 	 * 
 	 * @param value
+	 * 
+	 * @return the object instance for chaining
 	 */
-	public void setValue(String value);
+	public RichNode setValue(String value);
 
 	/**
 	 * Checks if the node is a leaf (does not have children)

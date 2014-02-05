@@ -43,21 +43,18 @@ public class RichTree {
 		root.setValue(ROOT_LABEL);
 
 		for (Sentence sentence : JCasUtil.select(cas, Sentence.class)) {
-			RichNode sentenceNode = new BaseRichNode();
-			sentenceNode.setValue(SENTENCE_LABEL);
+			RichNode sentenceNode = new BaseRichNode().setValue(SENTENCE_LABEL);
 
-			for (Chunk chunk : JCasUtil.selectCovered(cas, Chunk.class,
-					sentence)) {
+			for (Chunk chunk : JCasUtil.selectCovered(cas, Chunk.class, sentence)) {
 				RichNode chunkNode = new RichChunkNode(chunk);
-				for (Token token : JCasUtil.selectCovered(cas, Token.class,
-						chunk)) {
-					RichNode posNode = new BaseRichNode();
-					posNode.setValue(token.getPos().getPosValue());
+				for (Token token : JCasUtil.selectCovered(cas, Token.class, chunk)) {
+					RichNode posNode = new BaseRichNode().setValue(
+							token.getPos().getPosValue());
 
 					RichTokenNode tokenNode = new RichTokenNode(token);
 
-					posNode.addChild(tokenNode);
-					chunkNode.addChild(posNode);
+					chunkNode.addChild(
+							posNode.addChild(tokenNode));
 
 					root.addToken(tokenNode);
 				}
@@ -120,8 +117,7 @@ public class RichTree {
 				subTreeRoot.getChildren(), Constituent.class);
 
 		for (Constituent constituent : constituents) {
-			RichNode constituentNode = getConstituencySubTree(constituent, root);
-			subTree.addChild(constituentNode);
+			subTree.addChild(getConstituencySubTree(constituent, root));
 		}
 
 		/**
@@ -132,13 +128,14 @@ public class RichTree {
 					subTreeRoot.getChildren(), Token.class);
 
 			for (Token token : tokens) {
-				RichNode posNode = new BaseRichNode();
-				posNode.setValue(token.getPos().getPosValue());
+				RichNode posNode = new BaseRichNode().setValue(
+						token.getPos().getPosValue());
 
 				RichTokenNode tokenNode = new RichTokenNode(token);
 
-				posNode.addChild(tokenNode);
-				subTree.addChild(posNode);
+				subTree.addChild(
+						posNode.addChild(tokenNode)
+					);
 
 				root.addToken(tokenNode);
 			}
