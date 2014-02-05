@@ -1,7 +1,9 @@
 package qa.qcri.qf.pipeline.retrieval;
 
+import com.google.common.base.Objects;
+
 public class CategoryContent implements Analyzable {
-	
+
 	private String id;
 	private String content;
 	private String lang = "en";
@@ -12,8 +14,9 @@ public class CategoryContent implements Analyzable {
 		this.content = content;
 		this.category = category;
 	}
-	
-	public CategoryContent(String id, String content, String category, String lang) {
+
+	public CategoryContent(String id, String content, String category,
+			String lang) {
 		this.id = id;
 		this.content = content;
 		this.category = category;
@@ -35,12 +38,17 @@ public class CategoryContent implements Analyzable {
 		return this.lang;
 	}
 
-	@Override
-	public String toString() {
-		return "[id=" + this.id + ",content=" + this.content + ",category=" + this.category + "]";
-	}
-	
 	public String getCategory() {
 		return this.category;
 	}
+
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this)
+				.add("id", this.id)
+				.add("content", this.content)
+				.add("category", this.category)
+				.toString();
+	}
+
 }

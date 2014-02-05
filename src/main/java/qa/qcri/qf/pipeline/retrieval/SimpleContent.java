@@ -1,5 +1,7 @@
 package qa.qcri.qf.pipeline.retrieval;
 
+import com.google.common.base.Objects;
+
 /**
  * 
  * Simple content contains just the data needed for carrying out analysis on
@@ -39,7 +41,10 @@ public class SimpleContent implements Analyzable {
 
 	@Override
 	public String toString() {
-		return "[id=" + this.id + ",content=" + this.content + "]";
+		return Objects.toStringHelper(this)
+				.add("id", this.id)
+				.add("content", this.content)
+				.toString();
 	}
 
 }
