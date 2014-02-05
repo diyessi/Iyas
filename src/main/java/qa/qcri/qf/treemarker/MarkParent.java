@@ -1,9 +1,10 @@
 package qa.qcri.qf.treemarker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import qa.qcri.qf.trees.nodes.RichNode;
+
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -13,11 +14,12 @@ public class MarkParent implements MarkingStrategy {
 
 	@Override
 	public List<RichNode> getNodesToMark(RichNode node) {
-		List<RichNode> nodes = new ArrayList<>();
-		if (node.getParent() != null) {
-			nodes.add(node.getParent());
+		RichNode parent = node.getParent();
+		if(parent == null) {
+			return Lists.newArrayList();
+		} else {
+			return Lists.newArrayList(parent);
 		}
-		return nodes;
 	}
 
 }
