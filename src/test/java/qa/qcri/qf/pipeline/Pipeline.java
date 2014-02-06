@@ -2,21 +2,18 @@ package qa.qcri.qf.pipeline;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
-import java.util.Iterator;
-
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import qa.qcri.qf.annotators.IllinoisChunker;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
-import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
-import qa.qcri.qf.treemarker.MarkTwoAncestors;
 import qa.qcri.qf.trees.RichTree;
-import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 
@@ -26,54 +23,84 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 
 public class Pipeline {
-        
-        public static final String SAMPLE_CONTENT_PATH = "data/sample.txt";
 
-        @Test
-        public void runPipeline() throws UIMAException {
-                
-                String parameterList = Joiner.on(",").join(new String[] {
-                                RichNode.OUTPUT_PAR_LEMMA, RichNode.OUTPUT_PAR_TOKEN_LOWERCASE});
-                
-                TreeSerializer ts = new TreeSerializer().enableRelationalTags();
-                
-                Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
-                
-                ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
-                        .addAEDesc(createEngineDescription(StanfordParser.class))
-                        .addAEDesc(createEngineDescription(IllinoisChunker.class));
-                        //.addAEDesc(createEngineDescription(TreeTaggerChunkerTT4J.class));
-                
-                Iterator<Analyzable> content = new SampleFileReader(SAMPLE_CONTENT_PATH)
-                                .iterator();
+	private static JCas cas;
 
-                JCas cas = JCasFactory.createJCas();
-                
-                while (content.hasNext()) {
-                        Analyzable analyzable = content.next();
-                        ae.analyze(cas, analyzable);
+	@BeforeClass
+	public static void setUp() throws UIMAException {
+		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
 
-                        RichNode posChunkTree = RichTree.getPosChunkTree(cas);
-                        String tree = ts.serializeTree(posChunkTree, parameterList);
-                        System.out.println(tree);
-                }
-                
-                System.out.println("\n+++++++++++++++++++++\n");
-                
-                JCas cas_a = JCasFactory.createJCas();
-                JCas cas_b = JCasFactory.createJCas();
-                ae.analyze(cas_a, new SimpleContent("1", ""));
-                ae.analyze(cas_b, new SimpleContent("2", ""));
-                
-                TokenTree aTree = RichTree.getPosChunkTree(cas_a);
-                TokenTree bTree = RichTree.getPosChunkTree(cas_b);
-                
-                MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(new MarkTwoAncestors());
-                marker.markTrees(aTree, bTree, parameterList);
-                
-                System.out.println(ts.serializeTree(aTree, parameterList));
-                System.out.println(ts.serializeTree(bTree, parameterList));                
-                
-        }
-        
+		ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
+				.addAEDesc(createEngineDescription(StanfordParser.class))
+				.addAEDesc(createEngineDescription(IllinoisChunker.class));
+
+		Analyzable content = new SimpleContent("sample-content",
+				"The apple is on the table.");
+
+		cas = JCasFactory.createJCas();
+
+		ae.analyze(cas, content);
+	}
+
+	@Test
+	public void testTokenPosChunkTree() throws UIMAException {
+
+		String lowercase = Joiner.on(",").join(
+				new String[] { RichNode.OUTPUT_PAR_TOKEN });
+
+		TreeSerializer ts = new TreeSerializer();
+		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
+
+		Assert.assertEquals(
+				"(ROOT (S (NP (DT (The))(NN (apple)))(VP (VBZ (is)))(PP (IN (on)))(NP (DT (the))(NN (table)))))",
+				ts.serializeTree(posChunkTree, lowercase));
+	}
+
+	@Test
+	public void testLowercasePosChunkTree() throws UIMAException {
+
+		String lowercase = Joiner.on(",").join(
+				new String[] { RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
+
+		TreeSerializer ts = new TreeSerializer();
+		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
+
+		Assert.assertEquals(
+				"(ROOT (S (NP (DT (the))(NN (apple)))(VP (VBZ (is)))(PP (IN (on)))(NP (DT (the))(NN (table)))))",
+				ts.serializeTree(posChunkTree, lowercase));
+	}
+
+	@Test
+	public void testLemmaPosChunkTree() throws UIMAException {
+
+		String lemma = Joiner.on(",").join(
+				new String[] { RichNode.OUTPUT_PAR_LEMMA });
+
+		TreeSerializer ts = new TreeSerializer();
+		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
+
+		/**
+		 * Lemmas are lowercased by the annotator
+		 */
+
+		Assert.assertEquals(
+				"(ROOT (S (NP (DT (the))(NN (apple)))(VP (VBZ (be)))(PP (IN (on)))(NP (DT (the))(NN (table)))))",
+				ts.serializeTree(posChunkTree, lemma));
+	}
+
+	@Test
+	public void testLemmaLowercasePosChunkTree() throws UIMAException {
+
+		String lemmaLowercase = Joiner.on(",").join(
+				new String[] { RichNode.OUTPUT_PAR_LEMMA,
+						RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
+
+		TreeSerializer ts = new TreeSerializer();
+		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
+
+		Assert.assertEquals(
+				"(ROOT (S (NP (DT (the))(NN (apple)))(VP (VBZ (be)))(PP (IN (on)))(NP (DT (the))(NN (table)))))",
+				ts.serializeTree(posChunkTree, lemmaLowercase));
+	}
+
 }
