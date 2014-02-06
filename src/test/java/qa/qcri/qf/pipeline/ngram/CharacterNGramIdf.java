@@ -6,13 +6,16 @@
 package qa.qcri.qf.pipeline.ngram;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.uima.UIMAException;
 import org.maltparser.core.helper.HashMap;
 
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.CharacterNGramMeasure;
+import edu.berkeley.nlp.util.IterableAdapter;
 import qa.qcri.qf.pipeline.SampleFileReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 
@@ -44,7 +47,7 @@ public class CharacterNGramIdf {
 		
 		int documentsLength = 0;
 		// Store n-grams doc freq
-		Map<String, Integer> ngram2df = new HashMap<>();
+		Map<String, Integer> ngram2dfMap = new HashMap<>();
 		
 		for (Iterable<Analyzable> analyzableIterable : analyzableIterables) {			
 			Iterator<Analyzable> analyzableIt = analyzableIterable.iterator();			
@@ -57,18 +60,26 @@ public class CharacterNGramIdf {
 					CharacterNGramGenerator generator = new CharacterNGramGenerator(n);
 					// Generate char n-grams
 					for (String ngram : generator.getNGrams(text)) {
-						Integer df = ngram2df.get(ngram);
+						Integer df = ngram2dfMap.get(ngram);
 						if (df == null) {
 							df = 0;
 						}
 						df += 1;
-						ngram2df.put(ngram, df);
+						ngram2dfMap.put(ngram, df);
 					}
 				}
 			}
 		}
 			
 		// store n-grams idf values
+		Map<String, Double> ngram2idfMap = createNGram2IdfMap(ngram2dfMap, documentsLength);
+		return new IdfStore(ngram2idfMap);
+	}
+	
+	/** Records n-grams idf values */
+	private static Map<String, Double> createNGram2IdfMap(Map<String, Integer> ngram2df, int documentsLength) {
+		assert ngram2df != null;
+		
 		Map<String, Double> ngram2idf = new HashMap<>();
 		for (String ngram : ngram2df.keySet()) {
 			int df = ngram2df.get(ngram);
@@ -76,7 +87,7 @@ public class CharacterNGramIdf {
 			System.out.printf("n-gram: %s, n: %d, df: %d, idf: %.2f\n", ngram, documentsLength, df, idf);
 			ngram2idf.put(ngram, idf);
 		}
-		return new IdfStore(ngram2idf);
+		return ngram2idf;
 	}
 	
 	/**
@@ -88,49 +99,20 @@ public class CharacterNGramIdf {
 	 * @return The n-grams IdfModel object
 	 * @throws UIMAException
 	 */
-	public static IdfModel buildModel(String contentFilepath, int minN, int maxN) throws UIMAException {
-		if (contentFilepath == null) {
-			throw new NullPointerException("contentFilepath is null");
+	public static IdfModel buildModel(int minN, int maxN, String... contentFilepaths) throws UIMAException {
+		if (contentFilepaths == null) {
+			throw new NullPointerException("contentFilepaths is null");
 		}
 		if (minN > maxN) {
 			throw new IllegalArgumentException("minN > maxN");
 		}
 		
-		Iterator<Analyzable> content = 
-				new SampleFileReader(contentFilepath).iterator();
-		
-		Map<String, Integer> ngram2df  = new HashMap<>();
-		int documentsLength = 0;
-		while (content.hasNext()) {
-			Analyzable analyzable = content.next();
-			
-			// Get the analyzable string content
-			String text = analyzable.getContent();
-			
-			for (int n = minN; n <= maxN; n++) {
-				CharacterNGramGenerator generator = new CharacterNGramGenerator(n);
-				// Generate char n-grams
-				for (String ngram : generator.getNGrams(text)) {
-					Integer df = ngram2df.get(ngram);
-					if (df == null) {
-						df = 0;
-					}
-					df += 1;
-					ngram2df.put(ngram, df);
-				}
-			}
-			documentsLength += 1;	
+		List<Iterable<Analyzable>> analyzableIterables = new ArrayList<>();
+		for (String filepath : contentFilepaths) {
+			analyzableIterables.add(new SampleFileReader(filepath));
 		}
-		
-		// store n-grams idf 
-		Map<String, Double> ngram2idf = new HashMap<>();
-		for (String ngram : ngram2df.keySet()) {
-			int df = ngram2df.get(ngram);
-			double idf = computeIdf(df, documentsLength);
-			System.out.printf("n-gram: %s, n: %d, df: %d, idf: %.2f\n", ngram, documentsLength, df, idf);
-			ngram2idf.put(ngram, idf);
-		}
-		return new IdfStore(ngram2idf);
+		return buildModel(minN, maxN,
+				analyzableIterables.toArray(new Iterable[analyzableIterables.size()]));
 	}
 	
 	/**
@@ -158,7 +140,7 @@ public class CharacterNGramIdf {
 		
 		IdfModel idfModel = null;
 		try {
-			idfModel = CharacterNGramIdf.buildModel(SAMPLE_CONTENT_PATH, 1, 3);			
+			idfModel = CharacterNGramIdf.buildModel(1, 3, SAMPLE_CONTENT_PATH);			
 		} catch (UIMAException e) { 
 			System.out.println("Error while writing building n-gram idf model: " + e.getMessage());
 			System.exit(-1);
@@ -181,8 +163,8 @@ public class CharacterNGramIdf {
 	}
 	
 	public static void main(String[] args) throws Exception { 
-		//test1();
-		//test2();
-		test3();
+		test1();
+		test2();
+		//test3();
 	}
 }
