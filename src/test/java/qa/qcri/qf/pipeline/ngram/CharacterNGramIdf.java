@@ -5,7 +5,6 @@
  */
 package qa.qcri.qf.pipeline.ngram;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,7 +14,6 @@ import org.apache.uima.UIMAException;
 import org.maltparser.core.helper.HashMap;
 
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.CharacterNGramMeasure;
-import edu.berkeley.nlp.util.IterableAdapter;
 import qa.qcri.qf.pipeline.SampleFileReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 
