@@ -9,14 +9,13 @@ import qa.qcri.qf.features.representation.PosChunkTreeRepresentation;
 import qa.qcri.qf.features.representation.Representation;
 import qa.qcri.qf.features.representation.TokenRepresentation;
 import qa.qcri.qf.features.similarity.PTKSimilarity;
+import qa.qcri.qf.features.similarity.adaptor.MeasureAdaptor;
+import qa.qcri.qf.features.similarity.adaptor.TermMeasureAdaptor;
+import qa.qcri.qf.features.similarity.adaptor.TextMeasureAdaptor;
 import util.Pair;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.AugmentableFeatureVector;
 import cc.mallet.types.FeatureVector;
-
-import com.google.common.collect.Lists;
-
-import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TermSimilarityMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramContainmentMeasure;
@@ -40,10 +39,11 @@ public class PairFeatureFactory {
 
 	/**
 	 * Some DKPro features works only if provided with list of tokens Thus, it
-	 * is necessary to distinguish them and provide them with the right input
+	 * is necessary to distinguish them and provide them with the right input.
+	 * The MeasureAdaptor wraps different measures and hides the underlying
+	 * implementation
 	 */
-	private List<Pair<TermSimilarityMeasure, Representation>> measuresOnStrings;
-	private List<Pair<TextSimilarityMeasure, Representation>> measuresOnLists;
+	private List<Pair<MeasureAdaptor, Representation>> measures;
 
 	/**
 	 * Instantiates the feature factory with a feature index that should be
@@ -57,8 +57,7 @@ public class PairFeatureFactory {
 	}
 
 	public void setupMeasures(JCas aCas, JCas bCas, String parameterList) {
-		this.measuresOnStrings = new ArrayList<>();
-		this.measuresOnLists = new ArrayList<>();
+		this.measures = new ArrayList<>();
 
 		/**
 		 * Prepares the token and tree representations we want to use for
@@ -73,91 +72,72 @@ public class PairFeatureFactory {
 		 * 
 		 * String features
 		 */
-		this.addMeasureOnStrings(new GreedyStringTiling(3), tokens);
-		this.addMeasureOnStrings(new LongestCommonSubsequenceComparator(), tokens);
-		this.addMeasureOnStrings(new LongestCommonSubsequenceNormComparator(), tokens);
-		this.addMeasureOnStrings(new LongestCommonSubstringComparator(), tokens);
+		this.addTermMeasure(new GreedyStringTiling(3), tokens);
+		this.addTermMeasure(new LongestCommonSubsequenceComparator(), tokens);
+		this.addTermMeasure(new LongestCommonSubsequenceNormComparator(), tokens);
+		this.addTermMeasure(new LongestCommonSubstringComparator(), tokens);
 		/**
 		 * n-grams
 		 */
-		this.addMeasureOnLists(new WordNGramJaccardMeasure(1), tokens);
-		this.addMeasureOnLists(new WordNGramJaccardMeasure(2), tokens);
-		this.addMeasureOnLists(new WordNGramJaccardMeasure(3), tokens);
-		this.addMeasureOnLists(new WordNGramJaccardMeasure(4), tokens);
-		this.addMeasureOnLists(new WordNGramContainmentMeasure(1), tokens);
-		this.addMeasureOnLists(new WordNGramContainmentMeasure(2), tokens);
+		this.addTextMeasure(new WordNGramJaccardMeasure(1), tokens);
+		this.addTextMeasure(new WordNGramJaccardMeasure(2), tokens);
+		this.addTextMeasure(new WordNGramJaccardMeasure(3), tokens);
+		this.addTextMeasure(new WordNGramJaccardMeasure(4), tokens);
+		this.addTextMeasure(new WordNGramContainmentMeasure(1), tokens);
+		this.addTextMeasure(new WordNGramContainmentMeasure(2), tokens);
 
 		/**
-		 * Map<String, Double> idfValues;
-		 * this.addPair(new CharacterNGramMeasure(2, idfValues);
-		 * this.addPair(new CharacterNGramMeasure(3, idfValues);
-		 * this.addPair(new CharacterNGramMeasure(4, idfValues);
+		 * Map<String, Double> idfValues; this.addPair(new
+		 * CharacterNGramMeasure(2, idfValues); this.addPair(new
+		 * CharacterNGramMeasure(3, idfValues); this.addPair(new
+		 * CharacterNGramMeasure(4, idfValues);
 		 * 
 		 * ESA_Wiktionary ESA_WordNet
 		 **/
-		
+
 		/**
 		 * Additional DKPro features
 		 */
-		this.addMeasureOnStrings(new CosineSimilarity(), tokens);
+		this.addTermMeasure(new CosineSimilarity(), tokens);
 
 		/**
 		 * iKernels features
 		 */
-		this.addMeasureOnStrings(new PTKSimilarity(), trees);
+		this.addTermMeasure(new PTKSimilarity(), trees);
 	}
 
 	public FeatureVector getPairFeatures(JCas aCas, JCas bCas,
 			String parameterList) {
 		this.setupMeasures(aCas, bCas, parameterList);
-		
-		AugmentableFeatureVector fv = new AugmentableFeatureVector(this.alphabet);
 
-		for (Pair<TermSimilarityMeasure, Representation> measureAndRepresentation : this.measuresOnStrings) {
-			TermSimilarityMeasure measure = measureAndRepresentation.getA();
-			Representation representation = measureAndRepresentation.getB();
-			Pair<String, String> representations = representation.getRepresentation(aCas, bCas);
-			
-			String featureName = measure.getName() + "_" + representation.getName();
-			try {
-				double featureValue = measure.getSimilarity(representations.getA(), representations.getB());
-				fv.add(featureName, featureValue);
-			} catch (SimilarityException e) {
-				fv.add(featureName, 0.0);
-				e.printStackTrace();
-			}
-		}
+		AugmentableFeatureVector fv = new AugmentableFeatureVector(
+				this.alphabet);
 
-		for (Pair<TextSimilarityMeasure, Representation> measureAndRepresentation : this.measuresOnLists) {
-			TextSimilarityMeasure measure = measureAndRepresentation.getA();
+		for (Pair<MeasureAdaptor, Representation> measureAndRepresentation : this.measures) {
+			MeasureAdaptor measure = measureAndRepresentation.getA();
 			Representation representation = measureAndRepresentation.getB();
-			Pair<String, String> representations = representation.getRepresentation(aCas, bCas);
-			
-			String featureName = measure.getName() + "_" + representation.getName();
-			try {
-				double featureValue = measure.getSimilarity(
-						Lists.newArrayList(representations.getA().split(" ")),
-						Lists.newArrayList(representations.getB().split(" ")));
-				fv.add(featureName, featureValue);
-			} catch (SimilarityException e) {
-				fv.add(featureName, 0.0);
-				e.printStackTrace();
-			}
+			Pair<String, String> representations = representation
+					.getRepresentation(aCas, bCas);
+
+			String featureName = measure.getName(representation);
+			double featureValue = measure.getSimilarity(representations);
+
+			fv.add(featureName, featureValue);
 		}
 
 		return fv;
 	}
 
-	private void addMeasureOnStrings(TermSimilarityMeasure measure,
+	private void addTextMeasure(TextSimilarityMeasure measure,
 			Representation representation) {
-		this.measuresOnStrings.add(new Pair<TermSimilarityMeasure,
-				Representation>(measure, representation));
+		this.measures.add(new Pair<MeasureAdaptor, Representation>(
+				new TextMeasureAdaptor(measure), representation));
 	}
 
-	private void addMeasureOnLists(TextSimilarityMeasure measure,
+	private void addTermMeasure(TermSimilarityMeasure measure,
 			Representation representation) {
-		this.measuresOnLists.add(new Pair<TextSimilarityMeasure,
-				Representation>(measure, representation));
+		this.measures.add(new Pair<MeasureAdaptor, Representation>(
+				new TermMeasureAdaptor(measure), representation));
 	}
 
 }
