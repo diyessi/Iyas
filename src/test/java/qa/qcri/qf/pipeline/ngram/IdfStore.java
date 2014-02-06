@@ -2,12 +2,13 @@ package qa.qcri.qf.pipeline.ngram;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import qa.qcri.qf.fileutil.ReadFile;
 import qa.qcri.qf.fileutil.WriteFile;
 
 /**
- * Implements idf model.
+ * Implements the idf model.
  *
  */
 public class IdfStore implements IdfModel {
@@ -62,6 +63,11 @@ public class IdfStore implements IdfModel {
 			file.writeLn(str + "\t" + idf);
 		}
 		file.close();
+	}
+
+	@Override
+	public Set<String> keySet() {
+		return str2idfMap.keySet();
 	}
 
 }
