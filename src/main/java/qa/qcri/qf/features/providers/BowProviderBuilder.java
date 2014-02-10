@@ -1,6 +1,5 @@
 package qa.qcri.qf.features.providers;
 
-import qa.qcri.qf.trees.nodes.RichNode;
 import cc.mallet.types.Alphabet;
 
 /**
@@ -9,17 +8,17 @@ import cc.mallet.types.Alphabet;
  */
 public class BowProviderBuilder {
 	
-	private int minN = 1;
+	private int minN = BowProvider.MIN_N;
 	
-	private int maxN = 1;
+	private int maxN = BowProvider.MAX_N;
 		
-	private boolean filterStopwords = false;
-	
 	private Alphabet alphabet = new Alphabet();
 
-	private String stoplistFile = "tools/stoplist/en.txt";
+	private String stoplistFile = BowProvider.STOPWORDS_FILEPATH;	
+
+	private boolean filterStopwords = BowProvider.FILTER_STOPWORDS;
 	
-	private String tokenFrmtParamList = RichNode.OUTPUT_PAR_TOKEN;
+	private String tokenFrmtParamList = BowProvider.TOKEN_FORMAT_PARAM_LIST;
 	
 	/**
 	 * Set the alphabet to use.
