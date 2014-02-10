@@ -6,6 +6,8 @@
 /data/question-classifier/train
 /data/question-classifier/models
 
+src/test/java/qa/qcri/qf/type/
+
 /CASes
 
 *.class
