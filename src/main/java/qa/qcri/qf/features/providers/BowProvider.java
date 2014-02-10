@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
+import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.FeatureSequence;
@@ -22,6 +23,16 @@ import edu.berkeley.nlp.util.Logger;
  * 
  */
 public class BowProvider {
+	
+	final static int MIN_N = 1;
+	
+	final static int MAX_N = 1;
+	
+	final static boolean FILTER_STOPWORDS = false;
+	
+	final static String STOPWORDS_FILEPATH = "tools/stoplist/en.txt";
+	
+	final static String TOKEN_FORMAT_PARAM_LIST = RichNode.OUTPUT_PAR_TOKEN;
 	
 	private final int minN;
 	
@@ -105,10 +116,57 @@ public class BowProvider {
 			throw new NullPointerException("cas is null");
 		}
 		
-		FeatureVector fv = 
+		return
 				new FeatureVector(
 						getNGramFeatureSeqFromCas(cas));
-		return fv;
+	}
+	
+	private List<String> getNGrams(List<String> tokens) { 
+		assert tokens != null;
+		
+		List<String> ngrams = new ArrayList<>();
+		for (String ngram : new NGramStringIterable(
+				tokens.toArray(new String[0]), minN, maxN)) {
+			ngrams.add(ngram);
+		}
+		return ngrams;		
+	}
+	
+	public List<String> getNGramsFromCas(JCas cas) {
+		if (cas == null) {
+			throw new NullPointerException("cas is null");
+		}
+		
+		List<Token> tokens = new ArrayList<>();
+		for (Token token : JCasUtil.select(cas, Token.class)) {
+			tokens.add(token);			
+		}
+		List<String> filteredFrmtTokens = filterAndFrmtTokens(tokens);
+		return getNGrams(filteredFrmtTokens);
+	}
+	
+	private List<String> filterAndFrmtTokens(List<Token> tokens) {
+		assert tokens != null;
+				
+		List<String> filteredFrmtTokens = new ArrayList<>();
+		for (Token token : tokens) {
+			String text = new RichTokenNode(token).getRepresentation(tokenFrmtParamList);
+			
+			if (text != null &&
+				(!filterStopwords || emptyStoplist || !stopwordSet.contains(text)))
+				filteredFrmtTokens.add(text);
+		}
+		return filteredFrmtTokens;
+	}
+	
+	private FeatureSequence getNGramFeatureSeq(List<String> ngrams) {
+		assert ngrams != null;
+		
+		FeatureSequence featureSeq = new FeatureSequence(alphabet);
+		for (String ngram : ngrams) { 
+			featureSeq.add(ngram);
+		}
+		return featureSeq;
 	}
 	
 	/**
@@ -122,23 +180,8 @@ public class BowProvider {
 			throw new NullPointerException("cas is null");
 		}		
 		// Create a new sequence of features
-		FeatureSequence featureSeq = new FeatureSequence(alphabet);
-		
-		List<String> tokens = new ArrayList<>();
-
-		for (Token token : JCasUtil.select(cas, Token.class)) {
-			String text = new RichTokenNode(token).getRepresentation(tokenFrmtParamList);
-			
-			// Check word is not stopword
-			if (text != null &&
-			   (!this.filterStopwords || emptyStoplist || (this.filterStopwords && !stopwordSet.contains(text)))) {
-				tokens.add(text);
-			}
-		}
-		for (String ngram :  new NGramStringIterable(tokens, minN, maxN)) 
-			featureSeq.add(ngram);			
-		
-		return featureSeq;
+		List<String> ngrams = getNGramsFromCas(cas);
+		return getNGramFeatureSeq(ngrams);
 	}
 
 }
