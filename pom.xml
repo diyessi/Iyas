@@ -42,6 +42,11 @@
     <artifactId>de.tudarmstadt.ukp.dkpro.core.opennlp-asl</artifactId>
     </dependency>
     <dependency>
+	<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+	<artifactId>de.tudarmstadt.ukp.dkpro.core.stopwordremover-asl</artifactId>
+	<version>1.5.0</version>
+	</dependency>
+    <dependency>
     <groupId>junit</groupId>
     <artifactId>junit</artifactId>
     </dependency>
