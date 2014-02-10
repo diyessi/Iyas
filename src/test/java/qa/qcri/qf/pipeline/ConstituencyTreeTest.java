@@ -21,7 +21,7 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 public class ConstituencyTreeTest {
 
 	@Test
-	public void test() throws UIMAException {
+	public void testConstituencyTree() throws UIMAException {
 		Analyzer ae = instantiateAnalyzer();
 		JCas cas = JCasFactory.createJCas();
 
