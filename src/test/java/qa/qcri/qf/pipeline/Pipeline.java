@@ -88,19 +88,4 @@ public class Pipeline {
 				ts.serializeTree(posChunkTree, lemma));
 	}
 
-	@Test
-	public void testLemmaLowercasePosChunkTree() throws UIMAException {
-
-		String lemmaLowercase = Joiner.on(",").join(
-				new String[] { RichNode.OUTPUT_PAR_LEMMA,
-						RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
-
-		TreeSerializer ts = new TreeSerializer();
-		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
-
-		Assert.assertEquals(
-				"(ROOT (S (NP (DT (the))(NN (apple)))(VP (VBZ (be)))(PP (IN (on)))(NP (DT (the))(NN (table)))))",
-				ts.serializeTree(posChunkTree, lemmaLowercase));
-	}
-
 }
