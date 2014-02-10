@@ -21,9 +21,15 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
 public class Commons {
-	
+
 	public static final String QF_DIRECTORY = "data/question-classifier/";
-	
+
+	public static final String[] CATEGORIES = { "ABBR", "DESC", "ENTY", "HUM",
+			"LOC", "NUM" };
+
+	public static final String MODELS_DIRECTORY = Commons.QF_DIRECTORY
+			+ "models/";
+
 	public static Analyzer instantiateAnalyzer(UIMAPersistence persistence)
 			throws UIMAException {
 		Analyzer ae = new Analyzer(persistence);
@@ -34,25 +40,40 @@ public class Commons {
 
 		return ae;
 	}
-	
-	public static Set<String> analyzeAndCollectCategories(String questionsPath, Analyzer ae) throws UIMAException {
+
+	/**
+	 * Analyzes a file of questions and collects the associated category labels
+	 * 
+	 * @param questionsPath
+	 *            the path of the question file
+	 * @param ae
+	 *            the analyzer to run
+	 * @return the encountered categories
+	 * @throws UIMAException
+	 */
+	public static Set<String> analyzeAndCollectCategories(String questionsPath,
+			Analyzer ae) throws UIMAException {
 		Set<String> categories = new HashSet<>();
 		JCas cas = JCasFactory.createJCas();
-		Iterator<CategoryContent> questions = new QuestionReader(questionsPath).iterator();
-		while(questions.hasNext()) {
+		Iterator<CategoryContent> questions = new QuestionReader(questionsPath)
+				.iterator();
+		while (questions.hasNext()) {
 			CategoryContent question = questions.next();
 			categories.add(question.getCategory());
-			
 			ae.analyze(cas, question);
 		}
 		return categories;
 	}
-	
+
+	/**
+	 * 
+	 * @return the parameters used for producing the classification trees
+	 */
 	public static String getParameterList() {
 		String parameterList = Joiner.on(",").join(
 				new String[] { RichNode.OUTPUT_PAR_LEMMA,
 						RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
 		return parameterList;
 	}
-	
+
 }

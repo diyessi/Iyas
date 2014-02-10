@@ -56,7 +56,7 @@ public class PairFeatureFactory {
 		this.alphabet = alphabet;
 	}
 
-	public void setupMeasures(JCas aCas, JCas bCas, String parameterList) {
+	public void setupMeasures(String parameterList) {
 		this.measures = new ArrayList<>();
 
 		/**
@@ -108,7 +108,8 @@ public class PairFeatureFactory {
 
 	public FeatureVector getPairFeatures(JCas aCas, JCas bCas,
 			String parameterList) {
-		this.setupMeasures(aCas, bCas, parameterList);
+		
+		this.setupMeasures(parameterList);
 
 		AugmentableFeatureVector fv = new AugmentableFeatureVector(
 				this.alphabet);

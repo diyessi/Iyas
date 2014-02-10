@@ -26,9 +26,6 @@ public class QuestionClassifierTest {
 	public static final String TEST_QUESTIONS_PATH = Commons.QF_DIRECTORY
 			+ "TREC_10.label";
 
-	public static final String MODELS_DIRECTORY = Commons.QF_DIRECTORY
-			+ "models/";
-
 	private static final Logger logger = LoggerFactory.getLogger(QuestionClassifierTest.class);
 
 	public static void main(String[] args) throws UIMAException {
@@ -54,7 +51,7 @@ public class QuestionClassifierTest {
 		OneVsAllClassifier ovaClassifier = new OneVsAllClassifier(
 				new SVMLightTKClassifierFactory());
 		for (String category : categories) {
-			ovaClassifier.addModel(category, MODELS_DIRECTORY + category
+			ovaClassifier.addModel(category, Commons.MODELS_DIRECTORY + category
 					+ ".model");
 		}
 
