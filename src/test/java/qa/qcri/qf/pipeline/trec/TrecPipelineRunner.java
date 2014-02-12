@@ -43,13 +43,12 @@ public class TrecPipelineRunner {
 	private static final String TEST_CANDIDATES_PATH_OPT = "testCandidatesPath";
 	private static final String TEST_CASES_DIR_OPT = "testCasesDir";
 	private static final String TEST_OUTPUT_DIR_OPT = "testOutputDir";
+	private static final String CANDIDATES_TO_KEEP_IN_TRAIN_OPT = "candidatesToKeepInTrain";
+	private static final String CANDIDATES_TO_KEEP_IN_TEST_OPT = "candidatesToKeepInTest";
 
 	public static void main(String[] args) throws UIMAException {
 
-		System.out.println(Joiner.on(" ").join(args));
-
 		Options options = new Options();
-
 		options.addOption(HELP_OPT, false, "Print the help");
 		options.addOption(ARGUMENTS_FILE_OPT, true,
 				"The path of the file containing the command line arguments");
@@ -70,6 +69,11 @@ public class TrecPipelineRunner {
 				"The path where test CASes are stored (this enables file persistence)");
 		options.addOption(TEST_OUTPUT_DIR_OPT, true,
 				"The path where the test files will be stored");
+
+		options.addOption(CANDIDATES_TO_KEEP_IN_TRAIN_OPT, true,
+				"The number of candidates to keep in training phase");
+		options.addOption(CANDIDATES_TO_KEEP_IN_TEST_OPT, true,
+				"The number of candidates to keep in test phase");
 
 		CommandLineParser parser = new BasicParser();
 
@@ -125,6 +129,11 @@ public class TrecPipelineRunner {
 					TEST_CASES_DIR_OPT,
 					"Please specify a valid directory for the test CASes.");
 
+			int candidatesToKeepInTrain = getIntOptionWithDefault(cmd,
+					CANDIDATES_TO_KEEP_IN_TRAIN_OPT, -1);
+			int candidatesToKeepInTest = getIntOptionWithDefault(cmd,
+					CANDIDATES_TO_KEEP_IN_TEST_OPT, -1);
+
 			UIMAPersistence trainPersistence = trainCasesPath == null ? new UIMANoPersistence()
 					: new UIMAFilePersistence(trainCasesPath);
 
@@ -157,7 +166,9 @@ public class TrecPipelineRunner {
 			Reranking dataGenerator = new RerankingTrain(fm, trainOutputDir,
 					ae, new TreeSerializer().enableRelationalTags(), pf,
 					new PosChunkTreeProvider()).setParameterList(parameterList);
-
+			
+			pipeline.setCandidatesToKeep(candidatesToKeepInTrain);
+			
 			pipeline.performDataGeneration(dataGenerator);
 
 			pipeline.closeFiles();
@@ -176,15 +187,34 @@ public class TrecPipelineRunner {
 					new TreeSerializer().enableRelationalTags(), pf,
 					new PosChunkTreeProvider()).setParameterList(parameterList);
 
+			pipeline.setCandidatesToKeep(candidatesToKeepInTest);
+			
 			pipeline.performDataGeneration(dataGenerator);
 
 			pipeline.closeFiles();
 
 		} catch (ParseException e) {
-			System.out
-					.println("Error in parsing the command line. Use -help for usage.");
+			System.out.println("Error in parsing the command line. Use -help for usage.");
 			e.printStackTrace();
 		}
+	}
+
+	private static int getIntOptionWithDefault(CommandLine cmd,
+			String optionName, int defaultValue) {
+
+		int value = defaultValue;
+
+		try {
+			if (cmd.hasOption(optionName)) {
+				int parsedValue = Integer.parseInt(cmd
+						.getOptionValue(optionName));
+				value = parsedValue;
+			}
+		} catch (NumberFormatException e) {
+
+		}
+
+		return value;
 	}
 
 	private static String getFileOption(CommandLine cmd, String optionName,
