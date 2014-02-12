@@ -166,9 +166,9 @@ public class TrecPipelineRunner {
 			Reranking dataGenerator = new RerankingTrain(fm, trainOutputDir,
 					ae, new TreeSerializer().enableRelationalTags(), pf,
 					new PosChunkTreeProvider()).setParameterList(parameterList);
-			
+
 			pipeline.setCandidatesToKeep(candidatesToKeepInTrain);
-			
+
 			pipeline.performDataGeneration(dataGenerator);
 
 			pipeline.closeFiles();
@@ -188,13 +188,14 @@ public class TrecPipelineRunner {
 					new PosChunkTreeProvider()).setParameterList(parameterList);
 
 			pipeline.setCandidatesToKeep(candidatesToKeepInTest);
-			
+
 			pipeline.performDataGeneration(dataGenerator);
 
 			pipeline.closeFiles();
 
 		} catch (ParseException e) {
-			System.out.println("Error in parsing the command line. Use -help for usage.");
+			System.out
+					.println("Error in parsing the command line. Use -help for usage.");
 			e.printStackTrace();
 		}
 	}

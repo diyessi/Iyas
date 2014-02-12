@@ -32,15 +32,8 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
 public class TrecPipeline {
 
-	public static final String TRAIN_CASES_DIRECTORY = "CASes/trec/train/";
-	public static final String TRAIN_QUESTIONS_PATH = "data/trec/questions-train.txt";
-	public static final String TRAIN_CANDIDATES_PATH = "data/trec/candidates-train.txt";
-
-	public static final String TEST_CASES_DIRECTORY = "CASes/trec/test/";
-	public static final String TEST_QUESTIONS_PATH = "data/trec/questions-test.txt";
-	public static final String TEST_CANDIDATES_PATH = "data/trec/candidates-test.txt";
-
 	public static final String QUESTION_ID_KEY = "QUESTION_ID_KEY";
+	
 	public static final String SEARCH_ENGINE_POSITION_KEY = "SEARCH_ENGINE_POSITION_KEY";
 
 	private Analyzer ae;
