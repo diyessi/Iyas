@@ -6,3 +6,5 @@
 -testCandidatesPath data/trec/candidates-test.txt
 -testCasesDir CASes/trec/test/
 -testOutputDir data/trec/test/
+-candidatesToKeepInTrain -1
+-candidatesToKeepInTest 5
