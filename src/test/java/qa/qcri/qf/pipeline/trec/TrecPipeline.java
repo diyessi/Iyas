@@ -16,22 +16,13 @@ import qa.qcri.qf.annotators.IllinoisChunker;
 import qa.qcri.qf.datagen.DataObject;
 import qa.qcri.qf.datagen.Labelled;
 import qa.qcri.qf.datagen.rr.Reranking;
-import qa.qcri.qf.datagen.rr.RerankingTest;
-import qa.qcri.qf.datagen.rr.RerankingTrain;
-import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
-import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
-import qa.qcri.qf.trees.TreeSerializer;
-import qa.qcri.qf.trees.nodes.RichNode;
-import qa.qcri.qf.trees.providers.PosChunkTreeProvider;
 import util.ChunkReader;
-import cc.mallet.types.Alphabet;
 
 import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
@@ -116,7 +107,7 @@ public class TrecPipeline {
 		return cr;
 	}
 
-	private static Analyzer instantiateAnalyzer(UIMAPersistence persistence)
+	public Analyzer instantiateAnalyzer(UIMAPersistence persistence)
 			throws UIMAException {
 		Analyzer ae = new Analyzer(persistence);
 
@@ -187,66 +178,5 @@ public class TrecPipeline {
 		}
 
 		return candidateObjects;
-	}
-
-	public static void main(String[] args) throws UIMAException {
-
-		/**
-		 * TODO: 1) Add command line arguments: - input questions file - input
-		 * candidates file - output data directory - output CAS directory -
-		 * output token parameters
-		 */
-
-		/**
-		 * The parameter list used to establish matching between trees and
-		 * output the content of the token nodes
-		 */
-		String parameterList = Joiner.on(",").join(
-				new String[] { RichNode.OUTPUT_PAR_LEMMA,
-						RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
-
-		FileManager fm = new FileManager();
-		
-		PairFeatureFactory pf = new PairFeatureFactory(new Alphabet());
-
-		/**
-		 * Sets up the analyzer, initially with the persistence directory for
-		 * train CASes
-		 */
-		Analyzer ae = instantiateAnalyzer(new UIMAFilePersistence(
-				TRAIN_CASES_DIRECTORY));
-
-		TrecPipeline pipeline = new TrecPipeline(fm);
-
-		pipeline.performAnalysis(ae, TRAIN_QUESTIONS_PATH,
-				TRAIN_CANDIDATES_PATH);
-
-		Reranking dataGenerator = new RerankingTrain(fm, "data/trec/train/",
-				ae, new TreeSerializer().enableRelationalTags(),
-				pf, new PosChunkTreeProvider())
-				.setParameterList(parameterList);
-
-		pipeline.performDataGeneration(dataGenerator);
-
-		pipeline.closeFiles();
-
-		/**
-		 * Changes the persistence directory for test CASes
-		 */
-		ae.setPersistence(new UIMAFilePersistence(TEST_CASES_DIRECTORY));
-
-		pipeline.performAnalysis(ae, TEST_QUESTIONS_PATH, TEST_CANDIDATES_PATH);
-
-		/**
-		 * Sets up the generation for test
-		 */
-		dataGenerator = new RerankingTest(fm, "data/trec/test/", ae,
-				new TreeSerializer().enableRelationalTags(),
-				pf, new PosChunkTreeProvider())
-				.setParameterList(parameterList);
-
-		pipeline.performDataGeneration(dataGenerator);
-
-		pipeline.closeFiles();
 	}
 }
