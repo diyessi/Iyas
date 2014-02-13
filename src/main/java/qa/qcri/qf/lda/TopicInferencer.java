@@ -589,7 +589,6 @@ public class TopicInferencer implements Serializable {
 		ois.close();
 
         return inferencer;
-    }
-
+	}
 		
 }
