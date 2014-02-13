@@ -85,6 +85,13 @@ public class RichTokenNode extends BaseRichNode {
 			}
 		}
 
+		/**
+		 * Some tokens (e.g. _ ) may not have a requested representation
+		 */
+		if (output == null) {
+			output = this.getValue();
+		}
+
 		if (lowercase) {
 			output = output.toLowerCase();
 		}
