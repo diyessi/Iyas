@@ -3,6 +3,9 @@
 /data/trec/train
 /data/trec/test
 
+/data/mengqui/train
+/data/mengqui/test
+
 /data/question-classifier/train
 /data/question-classifier/models
 
