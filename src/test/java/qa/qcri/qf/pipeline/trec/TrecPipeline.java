@@ -32,15 +32,8 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
 public class TrecPipeline {
 
-	public static final String TRAIN_CASES_DIRECTORY = "CASes/trec/train/";
-	public static final String TRAIN_QUESTIONS_PATH = "data/trec/questions-train.txt";
-	public static final String TRAIN_CANDIDATES_PATH = "data/trec/candidates-train.txt";
-
-	public static final String TEST_CASES_DIRECTORY = "CASes/trec/test/";
-	public static final String TEST_QUESTIONS_PATH = "data/trec/questions-test.txt";
-	public static final String TEST_CANDIDATES_PATH = "data/trec/candidates-test.txt";
-
 	public static final String QUESTION_ID_KEY = "QUESTION_ID_KEY";
+	
 	public static final String SEARCH_ENGINE_POSITION_KEY = "SEARCH_ENGINE_POSITION_KEY";
 
 	private Analyzer ae;
@@ -52,6 +45,8 @@ public class TrecPipeline {
 	private String questionPath;
 
 	private String candidatesPath;
+	
+	private int candidatesToKeep = -1;
 
 	public TrecPipeline(FileManager fm) throws UIMAException {
 		this.fm = fm;
@@ -80,9 +75,19 @@ public class TrecPipeline {
 
 			if (chunk.isEmpty())
 				continue;
+				
+			List<String> keptLines = new ArrayList<>();
+			if(this.candidatesToKeep == -1 || this.candidatesToKeep > chunk.size()) {
+				keptLines = chunk;
+			} else {
+				int upperBound = Math.min(chunk.size(), this.candidatesToKeep);
+				for(int i = 0; i < upperBound; i++) {
+					keptLines.add(chunk.get(i));
+				}
+			}
 
 			List<DataObject> candidateObjects = this
-					.buildCandidatesObject(chunk);
+					.buildCandidatesObject(keptLines);
 
 			DataObject questionObject = this.idToQuestion.get(this
 					.getQuestionIdFromCandidateObjects(candidateObjects));
@@ -105,6 +110,10 @@ public class TrecPipeline {
 				});
 
 		return cr;
+	}
+	
+	public void setCandidatesToKeep(int candidatesToKeep) {
+		this.candidatesToKeep = candidatesToKeep;
 	}
 
 	public Analyzer instantiateAnalyzer(UIMAPersistence persistence)
@@ -140,10 +149,25 @@ public class TrecPipeline {
 
 	private void processAnalyzables(Iterator<Analyzable> analyzables)
 			throws UIMAException {
-		JCas cas = JCasFactory.createJCas();
-		while (analyzables.hasNext()) {
-			Analyzable analyzable = analyzables.next();
-			this.ae.analyze(cas, analyzable);
+		
+		if(this.candidatesToKeep == -1) {	
+			JCas cas = JCasFactory.createJCas();
+			while (analyzables.hasNext()) {
+				Analyzable analyzable = analyzables.next();
+				this.ae.analyze(cas, analyzable);
+			}
+		} else {
+			int counter = 0;
+			JCas cas = JCasFactory.createJCas();
+			while (analyzables.hasNext()) {
+				Analyzable analyzable = analyzables.next();
+				this.ae.analyze(cas, analyzable);
+				counter++;
+				
+				if(counter >= this.candidatesToKeep) {
+					break;
+				}
+			}
 		}
 	}
 

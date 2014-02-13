@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.uima.UIMAException;
@@ -32,6 +33,7 @@ import com.google.common.io.Files;
 
 public class TrecPipelineRunner {
 
+	private static final String HELP_OPT = "help";
 	private static final String ARGUMENTS_FILE_OPT = "argumentsFilePath";
 	private static final String TRAINING_QUESTIONS_PATH_OPT = "trainQuestionsPath";
 	private static final String TRAINING_CANDIDATES_PATH_OPT = "trainCandidatesPath";
@@ -41,13 +43,13 @@ public class TrecPipelineRunner {
 	private static final String TEST_CANDIDATES_PATH_OPT = "testCandidatesPath";
 	private static final String TEST_CASES_DIR_OPT = "testCasesDir";
 	private static final String TEST_OUTPUT_DIR_OPT = "testOutputDir";
+	private static final String CANDIDATES_TO_KEEP_IN_TRAIN_OPT = "candidatesToKeepInTrain";
+	private static final String CANDIDATES_TO_KEEP_IN_TEST_OPT = "candidatesToKeepInTest";
 
 	public static void main(String[] args) throws UIMAException {
-		
-		System.out.println(Joiner.on(" ").join(args));
 
 		Options options = new Options();
-
+		options.addOption(HELP_OPT, false, "Print the help");
 		options.addOption(ARGUMENTS_FILE_OPT, true,
 				"The path of the file containing the command line arguments");
 		options.addOption(TRAINING_QUESTIONS_PATH_OPT, true,
@@ -68,21 +70,32 @@ public class TrecPipelineRunner {
 		options.addOption(TEST_OUTPUT_DIR_OPT, true,
 				"The path where the test files will be stored");
 
+		options.addOption(CANDIDATES_TO_KEEP_IN_TRAIN_OPT, true,
+				"The number of candidates to keep in training phase");
+		options.addOption(CANDIDATES_TO_KEEP_IN_TEST_OPT, true,
+				"The number of candidates to keep in test phase");
+
 		CommandLineParser parser = new BasicParser();
 
 		try {
 			CommandLine cmd = parser.parse(options, args);
 
+			if (cmd.hasOption(HELP_OPT)) {
+				new HelpFormatter().printHelp("TrecPipelineRunner", options);
+				System.exit(0);
+			}
+
 			String argumentsFilePath = getOptionalPathOption(cmd,
 					ARGUMENTS_FILE_OPT, "Please specify a valid arguments file");
-			
-			if(argumentsFilePath != null) {
+
+			if (argumentsFilePath != null) {
 				String[] newArgs;
 				try {
 					newArgs = readArgs(argumentsFilePath);
 					cmd = new BasicParser().parse(options, newArgs);
 				} catch (IOException e) {
-					System.err.println("Failed to load arguments file. Processing the given arguments...");
+					System.err
+							.println("Failed to load arguments file. Processing the given arguments...");
 				}
 			}
 
@@ -115,6 +128,11 @@ public class TrecPipelineRunner {
 			String testCasesPath = getOptionalPathOption(cmd,
 					TEST_CASES_DIR_OPT,
 					"Please specify a valid directory for the test CASes.");
+
+			int candidatesToKeepInTrain = getIntOptionWithDefault(cmd,
+					CANDIDATES_TO_KEEP_IN_TRAIN_OPT, -1);
+			int candidatesToKeepInTest = getIntOptionWithDefault(cmd,
+					CANDIDATES_TO_KEEP_IN_TEST_OPT, -1);
 
 			UIMAPersistence trainPersistence = trainCasesPath == null ? new UIMANoPersistence()
 					: new UIMAFilePersistence(trainCasesPath);
@@ -149,6 +167,8 @@ public class TrecPipelineRunner {
 					ae, new TreeSerializer().enableRelationalTags(), pf,
 					new PosChunkTreeProvider()).setParameterList(parameterList);
 
+			pipeline.setCandidatesToKeep(candidatesToKeepInTrain);
+
 			pipeline.performDataGeneration(dataGenerator);
 
 			pipeline.closeFiles();
@@ -167,14 +187,35 @@ public class TrecPipelineRunner {
 					new TreeSerializer().enableRelationalTags(), pf,
 					new PosChunkTreeProvider()).setParameterList(parameterList);
 
+			pipeline.setCandidatesToKeep(candidatesToKeepInTest);
+
 			pipeline.performDataGeneration(dataGenerator);
 
 			pipeline.closeFiles();
 
 		} catch (ParseException e) {
-			System.out.println("Error in parsing the command line.");
+			System.out
+					.println("Error in parsing the command line. Use -help for usage.");
 			e.printStackTrace();
 		}
+	}
+
+	private static int getIntOptionWithDefault(CommandLine cmd,
+			String optionName, int defaultValue) {
+
+		int value = defaultValue;
+
+		try {
+			if (cmd.hasOption(optionName)) {
+				int parsedValue = Integer.parseInt(cmd
+						.getOptionValue(optionName));
+				value = parsedValue;
+			}
+		} catch (NumberFormatException e) {
+
+		}
+
+		return value;
 	}
 
 	private static String getFileOption(CommandLine cmd, String optionName,
@@ -220,9 +261,11 @@ public class TrecPipelineRunner {
 			return null;
 		}
 	}
-	
-	private static String[] readArgs(String argumentsFilePath) throws IOException {
-		List<String> lines = Files.readLines(new File(argumentsFilePath), Charset.defaultCharset());
+
+	private static String[] readArgs(String argumentsFilePath)
+			throws IOException {
+		List<String> lines = Files.readLines(new File(argumentsFilePath),
+				Charset.defaultCharset());
 		return Joiner.on(" ").join(lines).split(" ");
 	}
 }
