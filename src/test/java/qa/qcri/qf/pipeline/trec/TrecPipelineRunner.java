@@ -45,6 +45,7 @@ public class TrecPipelineRunner {
 	private static final String TEST_OUTPUT_DIR_OPT = "testOutputDir";
 	private static final String CANDIDATES_TO_KEEP_IN_TRAIN_OPT = "candidatesToKeepInTrain";
 	private static final String CANDIDATES_TO_KEEP_IN_TEST_OPT = "candidatesToKeepInTest";
+	private static final String SKIP_SERIALIZATION_CHECK_OPT = "skipSerializationCheck";
 
 	public static void main(String[] args) throws UIMAException {
 
@@ -74,6 +75,11 @@ public class TrecPipelineRunner {
 				"The number of candidates to keep in training phase");
 		options.addOption(CANDIDATES_TO_KEEP_IN_TEST_OPT, true,
 				"The number of candidates to keep in test phase");
+		options.addOption(SKIP_SERIALIZATION_CHECK_OPT, false,
+				"Skip the serialization"
+						+ " step if the CASes directory already exists."
+						+ " Please be sure that directory contains all the"
+						+ " needed serialized CASes.");
 
 		CommandLineParser parser = new BasicParser();
 
@@ -160,8 +166,11 @@ public class TrecPipelineRunner {
 			 */
 			Analyzer ae = pipeline.instantiateAnalyzer(trainPersistence);
 
-			pipeline.performAnalysis(ae, trainQuestionsPath,
-					trainCandidatesPath);
+			pipeline.setupAnalysis(ae, trainQuestionsPath, trainCandidatesPath);
+
+			if (!(trainCasesPath != null && cmd.hasOption(SKIP_SERIALIZATION_CHECK_OPT))) {
+				pipeline.performAnalysis();
+			}
 
 			Reranking dataGenerator = new RerankingTrain(fm, trainOutputDir,
 					ae, new TreeSerializer().enableRelationalTags(), pf,
@@ -178,7 +187,11 @@ public class TrecPipelineRunner {
 			 */
 			ae.setPersistence(testPersistence);
 
-			pipeline.performAnalysis(ae, testQuestionsPath, testCandidatesPath);
+			pipeline.setupAnalysis(ae, testQuestionsPath, testCandidatesPath);
+
+			if (!(testCasesPath != null && cmd.hasOption(SKIP_SERIALIZATION_CHECK_OPT))) {
+				pipeline.performAnalysis();
+			}
 
 			/**
 			 * Sets up the generation for test

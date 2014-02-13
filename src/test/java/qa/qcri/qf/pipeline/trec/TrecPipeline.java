@@ -52,16 +52,19 @@ public class TrecPipeline {
 		this.fm = fm;
 		this.idToQuestion = new HashMap<>();
 	}
-
-	public void performAnalysis(Analyzer ae, String questionPath,
-			String candidatesPath) throws UIMAException {
+	
+	public void setupAnalysis(Analyzer ae, String questionPath,
+			String candidatesPath) {
 		this.ae = ae;
 		this.questionPath = questionPath;
 		this.candidatesPath = candidatesPath;
-
-		this.processAnalyzables(getTrecQuestionsIterator(questionPath));
-		this.processAnalyzables(getTrecCandidatesIterator(candidatesPath));
+		
 		this.populateIdToQuestionMap();
+	}
+
+	public void performAnalysis() throws UIMAException {
+		this.processAnalyzables(getTrecQuestionsIterator(this.questionPath));
+		this.processAnalyzables(getTrecCandidatesIterator(this.candidatesPath));
 	}
 
 	public void performDataGeneration(Reranking dataGenerator)
