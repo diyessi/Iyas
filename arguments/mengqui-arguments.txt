@@ -6,5 +6,5 @@
 -testCandidatesPath data/mengqui/test-less-than-40.num-recovered.txt
 -testCasesDir CASes/mengqui/test/
 -testOutputDir data/mengqui/test/
--candidatesToKeepInTrain -1
+-candidatesToKeepInTrain 10
 -candidatesToKeepInTest -1
