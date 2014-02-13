@@ -37,13 +37,5 @@ public class LdaModelResource implements LdaModel,
 	public ParallelTopicModel getModel() {
 		return topicModel;
 	}
-	
-	public static void main(String[] args) { 
-		File file = new File("data/lda/answerbag/model/train.topics100.model");
-		System.out.println("Does file \"" + file + "\" exist? " + file.exists());
-		ExternalResourceDescription extDesc = createExternalResourceDescription(
-				LdaModelResource.class, new File("data/lda/answerbag/model/train.topics100.model"));
-		
-	}
 
 }
