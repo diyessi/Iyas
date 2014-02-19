@@ -100,8 +100,8 @@ public class TrecPipelineRunner {
 					newArgs = readArgs(argumentsFilePath);
 					cmd = new BasicParser().parse(options, newArgs);
 				} catch (IOException e) {
-					System.err
-							.println("Failed to load arguments file. Processing the given arguments...");
+					System.err.println(
+							"Failed to load arguments file. Processing the given arguments...");
 				}
 			}
 
@@ -207,8 +207,7 @@ public class TrecPipelineRunner {
 			pipeline.closeFiles();
 
 		} catch (ParseException e) {
-			System.out
-					.println("Error in parsing the command line. Use -help for usage.");
+			System.out.println("Error in parsing the command line. Use -help for usage.");
 			e.printStackTrace();
 		}
 	}
@@ -225,7 +224,7 @@ public class TrecPipelineRunner {
 				value = parsedValue;
 			}
 		} catch (NumberFormatException e) {
-
+			return value;
 		}
 
 		return value;

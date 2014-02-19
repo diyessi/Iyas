@@ -140,6 +140,7 @@ public class TrecPipeline {
 	}
 
 	private void populateIdToQuestionMap() {
+		this.idToQuestion.clear();
 		Iterator<Analyzable> questions = getTrecQuestionsIterator(this.questionPath);
 		while (questions.hasNext()) {
 			Analyzable question = questions.next();
