@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <name>SentenceTokenTypeSystem</name>
+  <description/>
+  <version>1.0</version>
+  <vendor/>
+  <types>
+    <typeDescription>
+      <name>it.unitn.limosine.types.segmentation.Sentence</name>
+      <description/>
+      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <features>
+        <featureDescription>
+          <name>sentenceId</name>
+          <description/>
+          <rangeTypeName>uima.cas.Integer</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>tokenizedSentence</name>
+          <description/>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>annotatorId</name>
+          <description>Name of the module that created this element</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>startToken</name>
+          <description/>
+          <rangeTypeName>it.unitn.limosine.types.segmentation.Token</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>endToken</name>
+          <description/>
+          <rangeTypeName>it.unitn.limosine.types.segmentation.Token</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+    <typeDescription>
+      <name>it.unitn.limosine.types.segmentation.Token</name>
+      <description/>
+      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <features>
+        <featureDescription>
+          <name>tokenId</name>
+          <description/>
+          <rangeTypeName>uima.cas.Integer</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>tokenSentId</name>
+          <description>sentence-level tokenID</description>
+          <rangeTypeName>uima.cas.Integer</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>annotatorId</name>
+          <description>Name of the module that created this element</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>NormalizedText</name>
+          <description>Normalized surface form (escaped, -LRB-, -RRB-) -- see StanfordToken class toXML()</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>StanfordNormalizedText</name>
+          <description>Normalized surface form as obtained from Stanford coreLab.value() -- might be different from NormalizedText</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+  </types>
+</typeSystemDescription>

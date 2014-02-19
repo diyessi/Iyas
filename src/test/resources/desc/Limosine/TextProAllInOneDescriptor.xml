@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>true</primitive>
+  <annotatorImplementationName>it.unitn.limosine.italian.textpro.TextProWrapper</annotatorImplementationName>
+  <analysisEngineMetaData>
+    <name>TextProAllInOneDescriptor</name>
+    <description/>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <typeSystemDescription>
+      <imports>
+        <import location="types/SentenceTokenTypeSystem.xml"/>
+        <import location="types/NERTypeSystem.xml"/>
+        <import location="types/ParseTreePosTypeSystem.xml"/>
+      </imports>
+    </typeSystemDescription>
+    <typePriorities/>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs/>
+        <outputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.ner.NER</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.pos.Pos</type>
+        </outputs>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <externalResourceDependencies>
+    <externalResourceDependency>
+      <key>RunTextPro</key>
+      <description/>
+      <interfaceName>it.unitn.limosine.util.SharedModel</interfaceName>
+      <optional>false</optional>
+    </externalResourceDependency>
+  </externalResourceDependencies>
+  <resourceManagerConfiguration>
+    <externalResources>
+      <externalResource>
+        <name>RunTextProCmd</name>
+        <description/>
+        <fileResourceSpecifier>
+          <fileUrl>/home/noname/workspace/QAPipeline/tools/TextPro1.5.2_Linux64bit</fileUrl>
+        </fileResourceSpecifier>
+        <implementationName>it.unitn.limosine.util.SharedModel_Impl</implementationName>
+      </externalResource>
+    </externalResources>
+    <externalResourceBindings>
+      <externalResourceBinding>
+        <key>RunTextPro</key>
+        <resourceName>RunTextProCmd</resourceName>
+      </externalResourceBinding>
+    </externalResourceBindings>
+  </resourceManagerConfiguration>
+</analysisEngineDescription>

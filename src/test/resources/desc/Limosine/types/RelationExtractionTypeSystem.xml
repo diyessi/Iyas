@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <name>RelationExtractionTypeSystem</name>
+  <description/>
+  <version>1.0</version>
+  <vendor/>
+  <imports>
+    <import location="SentenceTokenTypeSystem.xml"/>
+    <import location="ParseTreePosTypeSystem.xml"/>
+    <import location="NERTypeSystem.xml"/>
+    <import location="EMDTypeSystem.xml"/>
+  </imports>
+  <types>
+    <typeDescription>
+      <name>it.unitn.limosine.types.relation.Relation</name>
+      <description/>
+      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <features>
+        <featureDescription>
+          <name>relationType</name>
+          <description/>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>mention2</name>
+          <description/>
+          <rangeTypeName>it.unitn.limosine.types.emd.EMD</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>mention1</name>
+          <description/>
+          <rangeTypeName>it.unitn.limosine.types.emd.EMD</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>annotatorId</name>
+          <description/>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+  </types>
+</typeSystemDescription>

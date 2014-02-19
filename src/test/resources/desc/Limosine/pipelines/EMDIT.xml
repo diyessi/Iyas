@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>false</primitive>
+  <delegateAnalysisEngineSpecifiers>
+    <delegateAnalysisEngine key="BerkeleyITDescriptor">
+      <import location="../BerkeleyITDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="TextProAllInOneDescriptor">
+      <import location="../TextProAllInOneDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="BARTEMDDescriptor">
+      <import location="../BARTEMDDescriptor.xml"/>
+    </delegateAnalysisEngine>
+  </delegateAnalysisEngineSpecifiers>
+  <analysisEngineMetaData>
+    <name>EMD</name>
+    <description/>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <flowConstraints>
+      <fixedFlow>
+        <node>TextProAllInOneDescriptor</node>
+        <node>BerkeleyITDescriptor</node>
+        <node>BARTEMDDescriptor</node>
+      </fixedFlow>
+    </flowConstraints>
+    <typePriorities/>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs/>
+        <outputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.emd.EMD</type>
+        </outputs>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <resourceManagerConfiguration/>
+</analysisEngineDescription>

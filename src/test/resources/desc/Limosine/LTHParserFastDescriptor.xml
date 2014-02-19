@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>true</primitive>
+  <annotatorImplementationName>it.unitn.limosine.syntax.dependency.LTHParserFast</annotatorImplementationName>
+  <analysisEngineMetaData>
+    <name>LTHParserFastDescriptor</name>
+    <description/>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <typeSystemDescription>
+      <imports>
+        <import location="types/ParseTreePosTypeSystem.xml"/>
+        <import location="types/SentenceTokenTypeSystem.xml"/>
+      </imports>
+    </typeSystemDescription>
+    <typePriorities/>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
+        </inputs>
+        <outputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.pos.Pos</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Lemma</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.syntax.CoNLL2008DependencyTree</type>
+        </outputs>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <externalResourceDependencies>
+    <externalResourceDependency>
+      <key>RunLTHParser</key>
+      <description/>
+      <interfaceName>it.unitn.limosine.util.SharedModel</interfaceName>
+      <optional>false</optional>
+    </externalResourceDependency>
+  </externalResourceDependencies>
+  <resourceManagerConfiguration>
+    <imports>
+      <import location="shared/LTHParserModel.xml"/>
+    </imports>
+  </resourceManagerConfiguration>
+</analysisEngineDescription>

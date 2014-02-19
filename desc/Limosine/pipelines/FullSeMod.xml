@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>false</primitive>
+  <delegateAnalysisEngineSpecifiers>
+    <delegateAnalysisEngine key="StanfordNERDescriptor">
+      <import location="../StanfordNERDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="RelationExtractorDescriptor">
+      <import location="../RelationExtractorDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="RelationExtractorConll04Descriptor">
+      <import location="../RelationExtractorConll04Descriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="StanfordPTBTokenizerDescriptor">
+      <import location="../StanfordPTBTokenizerDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="WikiLinkingDescriptor">
+      <import location="../WikiLinkingDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="BARTCorefDescriptor">
+      <import location="../BARTCorefDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="OpinionMinerDescriptor">
+      <import location="../OpinionMinerDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="BARTEMDDescriptor">
+      <import location="../BARTEMDDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="StanfordParserDescriptor">
+      <import location="../StanfordParserDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="LTHParserFastDescriptor">
+      <import location="../LTHParserFastDescriptor.xml"/>
+    </delegateAnalysisEngine>
+  </delegateAnalysisEngineSpecifiers>
+  <analysisEngineMetaData>
+    <name>FullSeMod</name>
+    <description/>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <flowConstraints>
+      <fixedFlow>
+        <node>StanfordPTBTokenizerDescriptor</node>
+        <node>StanfordNERDescriptor</node>
+        <node>StanfordParserDescriptor</node>
+        <node>LTHParserFastDescriptor</node>
+        <node>OpinionMinerDescriptor</node>
+        <node>BARTEMDDescriptor</node>
+        <node>RelationExtractorDescriptor</node>
+        <node>RelationExtractorConll04Descriptor</node>
+        <node>BARTCorefDescriptor</node>
+        <node>WikiLinkingDescriptor</node>
+      </fixedFlow>
+    </flowConstraints>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs/>
+        <outputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.relation.Relation</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.pos.Pos</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.opinion.OpinionExpression</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.ner.NER</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Lemma</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.emd.EMD</type>
+          <type allAnnotatorFeatures="true">uima.tcas.DocumentAnnotation</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.syntax.DependencyTree</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.coref.CorefMention</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.syntax.ConstituencyTree</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.syntax.CoNLL2008DependencyTree</type>
+        </outputs>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>false</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <resourceManagerConfiguration/>
+</analysisEngineDescription>

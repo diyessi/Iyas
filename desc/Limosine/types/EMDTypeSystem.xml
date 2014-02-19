@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <name>EMDTypeSystem</name>
+  <description/>
+  <version>1.0</version>
+  <vendor/>
+  <imports>
+    <import location="SentenceTokenTypeSystem.xml"/>
+  </imports>
+  <types>
+    <typeDescription>
+      <name>it.unitn.limosine.types.emd.EMD</name>
+      <description>mentions</description>
+      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <features>
+        <featureDescription>
+          <name>startToken</name>
+          <description>start token, corresponds to extended np span</description>
+          <rangeTypeName>it.unitn.limosine.types.segmentation.Token</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>endToken</name>
+          <description>end token corresponds to extended np span</description>
+          <rangeTypeName>it.unitn.limosine.types.segmentation.Token</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>ACEtype</name>
+          <description>NAM-NOM-PRO</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>startTokenMIN</name>
+          <description>start token, corresponds to basic np spans (aka min_ids)</description>
+          <rangeTypeName>it.unitn.limosine.types.segmentation.Token</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>endTokenMIN</name>
+          <description>end token, corresponds to basic np span (aka min_ids)</description>
+          <rangeTypeName>it.unitn.limosine.types.segmentation.Token</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>head</name>
+          <description/>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>EntityType</name>
+          <description/>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>SemanticType</name>
+          <description>semantic type as computed by BART</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>HeadToken</name>
+          <description>Head token from BART (Incorrect for multiword NE)</description>
+          <rangeTypeName>it.unitn.limosine.types.segmentation.Token</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>Bsentenceid</name>
+          <description>Needed for BART-coref</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>Blabel</name>
+          <description>Needed for BART-coref</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>Btype</name>
+          <description>Needed for BART coref</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>Blemmata</name>
+          <description>Needed for BART-coref</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>Bisprenominal</name>
+          <description>Needed for BART-coref</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>Bpos</name>
+          <description>Needed for BART-coref</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>annotatorID</name>
+          <description/>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+  </types>
+</typeSystemDescription>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>true</primitive>
+  <annotatorImplementationName>it.unitn.limosine.ner.StanfordNER</annotatorImplementationName>
+  <analysisEngineMetaData>
+    <name>StanfordNERDescriptor</name>
+    <description/>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <typeSystemDescription>
+      <imports>
+        <import location="types/SentenceTokenTypeSystem.xml"/>
+        <import location="types/NERTypeSystem.xml"/>
+      </imports>
+    </typeSystemDescription>
+    <typePriorities/>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
+        </inputs>
+        <outputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.ner.NER</type>
+        </outputs>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <externalResourceDependencies>
+    <externalResourceDependency>
+      <key>NERModelName</key>
+      <description/>
+      <interfaceName>it.unitn.limosine.util.SharedModel</interfaceName>
+      <optional>false</optional>
+    </externalResourceDependency>
+  </externalResourceDependencies>
+  <resourceManagerConfiguration>
+    <externalResources>
+      <externalResource>
+        <name>NERModelNamePath</name>
+        <description>model file for the Stanford NER-- need to add resources to classpath</description>
+        <fileResourceSpecifier>
+          <fileUrl>file:resources/limosine/models/ner/english.all.3class.distsim.crf.ser.gz</fileUrl>
+        </fileResourceSpecifier>
+        <implementationName>it.unitn.limosine.util.SharedModel_Impl</implementationName>
+      </externalResource>
+    </externalResources>
+    <externalResourceBindings>
+      <externalResourceBinding>
+        <key>NERModelName</key>
+        <resourceName>NERModelNamePath</resourceName>
+      </externalResourceBinding>
+    </externalResourceBindings>
+  </resourceManagerConfiguration>
+</analysisEngineDescription>

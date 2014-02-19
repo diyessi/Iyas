@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <name>LinkingTypeSystem</name>
+  <description/>
+  <version>1.0</version>
+  <vendor/>
+  <types>
+    <typeDescription>
+      <name>it.unitn.limosine.types.wlinking.WikiLink</name>
+      <description>Semantic Linking type system (cf. wp4, deliverable 4.1)</description>
+      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <features>
+        <featureDescription>
+          <name>wikiId</name>
+          <description>wikipedia id, as suggested by the wp4 linking webservice</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>wikiScore</name>
+          <description>score for a particular Wikipedia Id</description>
+          <rangeTypeName>uima.cas.Double</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+  </types>
+</typeSystemDescription>

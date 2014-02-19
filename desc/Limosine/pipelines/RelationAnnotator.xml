@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>false</primitive>
+  <delegateAnalysisEngineSpecifiers>
+    <delegateAnalysisEngine key="RelationExtractorDescriptor">
+      <import location="../RelationExtractorDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="RelationExtractorConll04Descriptor">
+      <import location="../RelationExtractorConll04Descriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="EMD">
+      <import location="EMD.xml"/>
+    </delegateAnalysisEngine>
+  </delegateAnalysisEngineSpecifiers>
+  <analysisEngineMetaData>
+    <name>RelationAnnotator</name>
+    <description/>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters searchStrategy="language_fallback"/>
+    <configurationParameterSettings/>
+    <flowConstraints>
+      <fixedFlow>
+        <node>EMD</node>
+        <node>RelationExtractorDescriptor</node>
+        <node>RelationExtractorConll04Descriptor</node>
+      </fixedFlow>
+    </flowConstraints>
+    <typePriorities/>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.ner.NER</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.syntax.ConstituencyTree</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.emd.EMD</type>
+        </inputs>
+        <outputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.relation.Relation</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.ner.NER</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.emd.EMD</type>
+        </outputs>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <resourceManagerConfiguration/>
+</analysisEngineDescription>
