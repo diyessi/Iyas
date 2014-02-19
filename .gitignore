@@ -26,3 +26,5 @@ src/test/java/qa/qcri/qf/type/
 nohup.out
 
 de.tudarmstadt.ukp.dkpro.core.treetagger-asl/
+
+resources/limosine
