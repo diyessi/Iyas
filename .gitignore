@@ -19,7 +19,6 @@ src/test/java/qa/qcri/qf/type/
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
