@@ -10,6 +10,7 @@
 /data/question-classifier/models
 
 src/test/java/qa/qcri/qf/type/
+src/test/java/it/unitn/limosine/types/
 
 /CASes
 
@@ -23,7 +24,12 @@ src/test/java/qa/qcri/qf/type/
 *.ear
 
 nohup.out
+bart.log
 
 de.tudarmstadt.ukp.dkpro.core.treetagger-asl/
 
 resources/limosine
+
+lib/CRFPP.jar
+resources/ArabicPOSTLib/
+resources/CRF++-0.58/
