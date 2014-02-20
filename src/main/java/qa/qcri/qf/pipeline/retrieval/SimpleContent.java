@@ -21,7 +21,7 @@ public class SimpleContent implements Analyzable {
 	public SimpleContent(String id, String content, String lang) {
 		this.id = id;
 		this.content = content;
-		this.content = lang;
+		this.lang = lang;
 	}
 
 	@Override
