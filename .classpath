@@ -39,6 +39,7 @@
 	<classpathentry kind="lib" path="lib/limosine/weka-3-4-11.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/trove.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/jwordnet-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/CRFPP.jar"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
