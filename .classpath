@@ -28,18 +28,17 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="tools/PTK/PTK.jar"/>
+	<classpathentry kind="lib" path="lib/PTK.jar"/>
+	<classpathentry kind="lib" path="lib/trove.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/BART.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/coref-exp.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/jutil-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/limosine/jwordnet-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/limo.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/lthsrl.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/semod.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/unitn_subjexpr.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/weka-3-4-11.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/trove.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/jwordnet-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/CRFPP.jar"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
