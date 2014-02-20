@@ -1,5 +1,6 @@
 classpath*:desc/Iyas/LdaTopicDistribution.xml
 classpath*:desc/Iyas/LdaTopic.xml
+classpath*:desc/Iyas/NormalizedText.xml
 classpath*:desc/Iyas/QuestionClass.xml
 classpath*:desc/Limosine/types/CorefTypeSystem.xml
 classpath*:desc/Limosine/types/EMDTypeSystem.xml
