@@ -2,7 +2,11 @@ package qa.qcri.qf.trees;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
@@ -10,12 +14,14 @@ import org.apache.uima.jcas.JCas;
 import qa.qcri.qf.trees.nodes.BaseRichNode;
 import qa.qcri.qf.trees.nodes.RichChunkNode;
 import qa.qcri.qf.trees.nodes.RichConstituentNode;
+import qa.qcri.qf.trees.nodes.RichDependencyNode;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 
 /**
  * 
@@ -142,5 +148,77 @@ public class RichTree {
 		}
 
 		return subTree;
+	}
+	
+	public static TokenTree getDependencyTree(JCas cas) {
+		if (cas == null) {
+			throw new NullPointerException("cas is null");
+		}
+
+		TokenTree root = new TokenTree();
+		root.setValue(ROOT_LABEL);
+
+		Map<Token, RichTokenNode> nodeMap = new HashMap<>();
+
+		Collection<Dependency> deps = JCasUtil.select(cas, Dependency.class);
+		for (Dependency dep : deps) {
+			RichTokenNode govNode = getOrAddIfNew(dep.getGovernor(), nodeMap);
+			RichTokenNode depNode = getOrAddIfNew(dep.getDependent(), nodeMap);
+			RichDependencyNode relNode = new RichDependencyNode(dep);
+
+			relNode.addChild(depNode);
+			govNode.addChild(relNode);	
+		}
+
+		// Sort token nodes
+		List<RichTokenNode> tokenNodes = new ArrayList<>(nodeMap.values());
+		Collections.sort(tokenNodes, new Comparator<RichTokenNode>() {
+			@Override
+			public int compare(RichTokenNode o1, RichTokenNode o2) {
+				return o1.getToken().getBegin() - o2.getToken().getBegin();
+			}
+		});
+
+		// Add token nodes
+		for (RichTokenNode tokenNode : tokenNodes) {
+			root.addToken(tokenNode);
+
+			if (!tokenNode.hasParent()) {	
+				// Insert a fake dependency node between the root and the first token node
+				RichDependencyNode depNode = newRichDependencyNode(cas, tokenNode, "root");
+				root.addChild(depNode);
+				depNode.addChild(tokenNode);
+
+				//root.addChild(tokenNode);
+			}
+		}
+		return root;
+	}
+
+	private static RichTokenNode getOrAddIfNew(Token token, Map<Token, RichTokenNode> nodeMap) {
+		assert token != null;
+		assert nodeMap != null;
+
+		RichTokenNode node = nodeMap.get(token);
+		if (node != null) {
+			return node;
+		} else {
+			node = new RichTokenNode(token);
+			nodeMap.put(token, node);
+		}
+		return node;
+	}
+
+	private static RichDependencyNode newRichDependencyNode(JCas cas, RichTokenNode depNode, String dependencyType) {
+		assert cas != null;
+		assert depNode != null;
+		assert dependencyType != null;
+
+		Token dep = depNode.getToken();
+		Dependency dependency = new Dependency(cas, dep.getBegin(), dep.getEnd());
+		dependency.setDependencyType(dependencyType);
+
+		RichDependencyNode relNode = new RichDependencyNode(dependency);
+		return relNode;	
 	}
 }
