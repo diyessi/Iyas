@@ -8,7 +8,7 @@ for dir in "${dirs[@]}"
 do
     for desc in ${dir}/*.xml
     do
-        #echo "Processing descriptor $desc..."
+        echo "Processing $desc..."
         "$UIMA_HOME/bin/runUimaClass.sh" $MAIN -jcasgeninput "$desc" -jcasgenoutput "../src/main/java"
     done
 done
