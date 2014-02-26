@@ -19,6 +19,7 @@ import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Joiner;
 
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 
@@ -32,10 +33,11 @@ public class Pipeline {
 
 		ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
 				.addAEDesc(createEngineDescription(StanfordParser.class))
-				.addAEDesc(createEngineDescription(IllinoisChunker.class));
+				.addAEDesc(createEngineDescription(IllinoisChunker.class))
+				.addAEDesc(createEngineDescription(StanfordNamedEntityRecognizer.class));
 
 		Analyzable content = new SimpleContent("sample-content",
-				"The apple is on the table.");
+				"The apple is on the table and Barack Obama is the president of United States of America.");
 
 		cas = JCasFactory.createJCas();
 
@@ -52,7 +54,7 @@ public class Pipeline {
 		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
 
 		Assert.assertEquals(
-				"(ROOT (S (NP (DT (The))(NN (apple)))(VP (VBZ (is)))(PP (IN (on)))(NP (DT (the))(NN (table)))))",
+				"(ROOT (S (NP (DT (The))(NN (apple)))(VP (VBZ (is)))(PP (IN (on)))(NP (DT (the))(NN (table)))(NP (NNP (Barack))(NNP (Obama)))(VP (VBZ (is)))(NP (DT (the))(NN (president)))(PP (IN (of)))(NP (NNP (United))(NNPS (States)))(PP (IN (of)))(NP (NNP (America)))))",
 				ts.serializeTree(posChunkTree, lowercase));
 	}
 
@@ -66,7 +68,7 @@ public class Pipeline {
 		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
 
 		Assert.assertEquals(
-				"(ROOT (S (NP (DT (the))(NN (apple)))(VP (VBZ (is)))(PP (IN (on)))(NP (DT (the))(NN (table)))))",
+				"(ROOT (S (NP (DT (the))(NN (apple)))(VP (VBZ (is)))(PP (IN (on)))(NP (DT (the))(NN (table)))(NP (NNP (barack))(NNP (obama)))(VP (VBZ (is)))(NP (DT (the))(NN (president)))(PP (IN (of)))(NP (NNP (united))(NNPS (states)))(PP (IN (of)))(NP (NNP (america)))))",
 				ts.serializeTree(posChunkTree, lowercase));
 	}
 
@@ -84,7 +86,7 @@ public class Pipeline {
 		 */
 
 		Assert.assertEquals(
-				"(ROOT (S (NP (DT (the))(NN (apple)))(VP (VBZ (be)))(PP (IN (on)))(NP (DT (the))(NN (table)))))",
+				"(ROOT (S (NP (DT (the))(NN (apple)))(VP (VBZ (be)))(PP (IN (on)))(NP (DT (the))(NN (table)))(NP (NNP (Barack))(NNP (Obama)))(VP (VBZ (be)))(NP (DT (the))(NN (president)))(PP (IN (of)))(NP (NNP (United))(NNPS (States)))(PP (IN (of)))(NP (NNP (America)))))",
 				ts.serializeTree(posChunkTree, lemma));
 	}
 
