@@ -9,6 +9,9 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.FeatureSequence;
@@ -22,7 +25,7 @@ public class TopicInferencer implements Serializable {
 	protected int numTopics; 
 
 	// These values are used to encode type/topic counts as
-	//  count/topic pairs in a single int.
+	// count/topic pairs in a single int.
 	protected int topicMask;
 	protected int topicBits;
 	
@@ -42,6 +45,8 @@ public class TopicInferencer implements Serializable {
 	
 	double smoothingOnlyMass = 0.0;
 	double[] cachedCoefficients;
+	
+	private static Logger logger = LoggerFactory.getLogger(TopicInferencer.class);
 	
 	public TopicInferencer(Alphabet alphabet, int numTopics, int topicMask, int topicBits, int numTypes, double[] alpha,
 			double beta, double betaSum, int[][] typeTopicCounts, int[] tokensPerTopic, Randoms random, 
@@ -76,8 +81,7 @@ public class TopicInferencer implements Serializable {
 			// exact power of 2
 			topicMask = numTopics - 1;
 			topicBits = Integer.bitCount(topicMask);
-		}
-		else {
+		} else {
 			// otherwise add an extra bit
 			topicMask = Integer.highestOneBit(numTopics) * 2 - 1;
 			topicBits = Integer.bitCount(topicMask);
@@ -112,8 +116,8 @@ public class TopicInferencer implements Serializable {
 	/** 
 	 *  Use Gibbs sampling to infer a topic distribution.
 	 *  Topics are initialized to the (or a) most probable topic
-	 *   for each token. Using zero iterations returns exactly this
-	 *   initial topic distribution.<p/>
+	 *  for each token. Using zero iterations returns exactly this
+	 *  initial topic distribution.<p/>
 	 *  This code does not adjust type-topic counts: P(w|t) is clamped.
 	 */
 	public double[] getSampledDistribution(Instance instance, int numIterations,
@@ -130,8 +134,7 @@ public class TopicInferencer implements Serializable {
 		int[] currentTypeTopicCounts;
 
 		// Initialize all positions to the most common topic
-		//  for that type.
-
+		// for that type.
 		for (int position = 0; position < docLength; position++) {
 			type = tokens.getIndexAtPosition(position);
 
@@ -141,20 +144,19 @@ public class TopicInferencer implements Serializable {
 				currentTypeTopicCounts = typeTopicCounts[type];
 
 				// This value should be a topic such that
-				//  no other topic has more tokens of this type 
-				//  assigned to it. If for some reason there were 
-				//  no tokens of this type in the training data, it
-				//  will default to topic 0, which is no worse than 
-				//  random initialization.
-				topics[position] = 
-					currentTypeTopicCounts[0] & topicMask;
+				// no other topic has more tokens of this type 
+				// assigned to it. If for some reason there were 
+				// no tokens of this type in the training data, it
+				// will default to topic 0, which is no worse than 
+				// random initialization.
+				topics[position] = currentTypeTopicCounts[0] & topicMask;
 
 				localTopicCounts[topics[position]]++;
 			}
 		}
 
 		// Build an array that densely lists the topics that														  
-		//  have non-zero counts.																					 
+		// have non-zero counts.																					 
 		int denseIndex = 0;
 		for (int topic = 0; topic < numTopics; topic++) {
 			if (localTopicCounts[topic] != 0) {
@@ -166,20 +168,19 @@ public class TopicInferencer implements Serializable {
 		// Record the total number of non-zero topics																 
 		int nonZeroTopics = denseIndex;
 
-		//	  Initialize the topic count/beta sampling bucket													   
+		// Initialize the topic count/beta sampling bucket													   
 		double topicBetaMass = 0.0;
 
 		// Initialize cached coefficients and the topic/beta														  
-		//  normalizing constant.																					 
-
+		// normalizing constant.																					 
 		for (denseIndex = 0; denseIndex < nonZeroTopics; denseIndex++) {
 			int topic = localTopicIndex[denseIndex];
 			int n = localTopicCounts[topic];
 
-			//  initialize the normalization constant for the (B * n_{t|d}) term									  
+			// Initialize the normalization constant for the (B * n_{t|d}) term									  
 			topicBetaMass += beta * n / (tokensPerTopic[topic] + betaSum);
 
-			//  update the coefficients for the non-zero topics													   
+			// Update the coefficients for the non-zero topics													   
 			cachedCoefficients[topic] = (alpha[topic] + n) / (tokensPerTopic[topic] + betaSum);
 		}
 
@@ -195,9 +196,8 @@ public class TopicInferencer implements Serializable {
 		double[] result = new double[numTopics];
 		double sum = 0.0;
 
-		for (int iteration = 1; iteration <= numIterations; iteration++) {
-			
-			//  Iterate over the positions (words) in the document														
+		for (int iteration = 1; iteration <= numIterations; iteration++) {		
+			// Iterate over the positions (words) in the document														
 			for (int position = 0; position < docLength; position++) {
 				type = tokens.getIndexAtPosition(position);
 				
@@ -209,32 +209,28 @@ public class TopicInferencer implements Serializable {
 
 				// Prepare to sample by adjusting existing counts.
 				// Note that we do not need to change the smoothing-only
-				//  mass since the denominator is clamped.
-
+				// mass since the denominator is clamped.
 				topicBetaMass -= beta * localTopicCounts[oldTopic] /
 					(tokensPerTopic[oldTopic] + betaSum);
 				
-				// Decrement the local doc/topic counts																   
-				
+				// Decrement the local doc/topic counts																   			
 				localTopicCounts[oldTopic]--;
-				//assert(localTopicCounts[oldTopic] >= 0);
+				// assert(localTopicCounts[oldTopic] >= 0);
 
-				// Maintain the dense index, if we are deleting														   
-				//  the old topic																						 
+				// Maintain the dense index, if we are deleting the old topic																						 
 				if (localTopicCounts[oldTopic] == 0) {
 
 					// First get to the dense location associated with													
-					//  the old topic.																					
-
+					// the old topic.																					
 					denseIndex = 0;
 
 					// We know it's in there somewhere, so we don't													   
-					//  need bounds checking.																			 
+					// need bounds checking.																			 
 					while (localTopicIndex[denseIndex] != oldTopic) {
 						denseIndex++;
 					}
 
-					// shift all remaining dense indices to the left.													 
+					// Shift all remaining dense indices to the left.													 
 					while (denseIndex < nonZeroTopics) {
 						if (denseIndex < localTopicIndex.length - 1) {
 						localTopicIndex[denseIndex] =
@@ -244,7 +240,7 @@ public class TopicInferencer implements Serializable {
 					}
 
 					nonZeroTopics --;
-				} // finished maintaining local topic index
+				} // Finished maintaining local topic index
 
 				topicBetaMass += beta * localTopicCounts[oldTopic] /
 					(tokensPerTopic[oldTopic] + betaSum);
@@ -254,10 +250,9 @@ public class TopicInferencer implements Serializable {
 					(alpha[oldTopic] + localTopicCounts[oldTopic]) /
 					(tokensPerTopic[oldTopic] + betaSum);
 				if (cachedCoefficients[oldTopic] <= 0) {
-					System.out.println("zero or less coefficient: " + oldTopic + " = (" + alpha[oldTopic] + " + " + localTopicCounts[oldTopic] + ") / ( " + tokensPerTopic[oldTopic] + " + " + betaSum + " );");
+					logger.info("zero or less coefficient: " + oldTopic + " = (" + alpha[oldTopic] + " + " + localTopicCounts[oldTopic] + ") / ( " + tokensPerTopic[oldTopic] + " + " + betaSum + " );");
 				}
-				
-
+			
 				int index = 0;
 				int currentTopic, currentValue;
 
@@ -270,8 +265,7 @@ public class TopicInferencer implements Serializable {
 					currentTopic = currentTypeTopicCounts[index] & topicMask;
 					currentValue = currentTypeTopicCounts[index] >> topicBits;
 					
-					score =
-						cachedCoefficients[currentTopic] * currentValue;
+					score = cachedCoefficients[currentTopic] * currentValue;
 					topicTermMass += score;
 					topicTermScores[index] = score;
 					
@@ -294,8 +288,7 @@ public class TopicInferencer implements Serializable {
 					}
 
 					newTopic = currentTypeTopicCounts[i] & topicMask;
-				}
-				else {
+				} else {
 					sample -= topicTermMass;
 
 					if (sample < topicBetaMass) {
@@ -313,10 +306,8 @@ public class TopicInferencer implements Serializable {
 								newTopic = topic;
 								break;
 							}
-						}
-						
-					}
-					else {
+						}		
+					} else {
 						sample -= topicBetaMass;
 
 						sample /= beta;
@@ -336,7 +327,7 @@ public class TopicInferencer implements Serializable {
 									currentTopic = currentTypeTopicCounts[index] & topicMask;
 									currentValue = currentTypeTopicCounts[index] >> topicBits;
 									
-									System.out.println(currentTopic + "\t" + currentValue + "\t" + topicTermScores[index] +
+									logger.info(currentTopic + "\t" + currentValue + "\t" + topicTermScores[index] +
 													   "\t" + cachedCoefficients[currentTopic]);
 									index++;
 								}
@@ -345,9 +336,7 @@ public class TopicInferencer implements Serializable {
 							sample -= alpha[newTopic] /
 								(tokensPerTopic[newTopic] + betaSum);
 						}
-						
-					}
-					
+					}				
 				}
 
 				topics[position] = newTopic;
@@ -358,22 +347,20 @@ public class TopicInferencer implements Serializable {
 				localTopicCounts[newTopic]++;
 
 				// If this is a new topic for this document,															  
-				//  add the topic to the dense index.																	 
+				// add the topic to the dense index.																	 
 				if (localTopicCounts[newTopic] == 1) {
-
 					// First find the point where we																	  
-					//  should insert the new topic by going to														   
-					//  the end (which is the only reason we're keeping												   
-					//  track of the number of non-zero																   
-					//  topics) and working backwards																	 
+					// should insert the new topic by going to														   
+					// the end (which is the only reason we're keeping												   
+					// track of the number of non-zero																   
+					// topics) and working backwards																	 
 
 					denseIndex = nonZeroTopics;
 
 					while (denseIndex > 0 &&
 						   localTopicIndex[denseIndex - 1] > newTopic) {
 						
-						localTopicIndex[denseIndex] =
-							localTopicIndex[denseIndex - 1];
+						localTopicIndex[denseIndex] = localTopicIndex[denseIndex - 1];
 						denseIndex--;
 					}
 
@@ -428,16 +415,21 @@ public class TopicInferencer implements Serializable {
 	}
 
 	/**
-	 *  Infer topics for the provided instances and
-	 *   write distributions to the provided file.
-	 *
-	 *  @param instances
-	 *  @param distributionsFile
-	 *  @param numIterations The total number of iterations of sampling per document
-	 *  @param thinning	  The number of iterations between saved samples
-	 *  @param burnIn		The number of iterations before the first saved sample
-	 *  @param threshold	 The minimum proportion of a given topic that will be written
-	 *  @param max		   The total number of topics to report per document]
+	 * Infer topics for the provided instances and write distributions to the
+	 * provided file.
+	 * 
+	 * @param instances
+	 * @param distributionsFile
+	 * @param numIterations
+	 *            The total number of iterations of sampling per document
+	 * @param thinning
+	 *            The number of iterations between saved samples
+	 * @param burnIn
+	 *            The number of iterations before the first saved sample
+	 * @param threshold
+	 *            The minimum proportion of a given topic that will be written
+	 * @param max
+	 *            The total number of topics to report per document]
 	 */
 	public void writeInferredDistributions(InstanceList instances, 
 										   File distributionsFile,
@@ -446,7 +438,7 @@ public class TopicInferencer implements Serializable {
 
 		PrintWriter out = new PrintWriter(distributionsFile);
 		
-		out.print ("#doc source topic proportion ...\n");
+		out.print("#doc source topic proportion ...\n");
 
 		IDSorter[] sortedTopics = new IDSorter[ numTopics ];
 		for (int topic = 0; topic < numTopics; topic++) {
@@ -470,11 +462,10 @@ public class TopicInferencer implements Serializable {
 			// Print the Source field of the instance
 			if (instance.getSource() != null) {
 				out.print (instance.getSource());
+			} else {
+				out.print("null-source");
 			}
-			else {
-				out.print ("null-source");
-			}
-			out.print (' ');
+			out.print(' ');
 
 			for (int topic = 0; topic < numTopics; topic++) {
 				sortedTopics[topic].set(topic, topicDistribution[topic]);
@@ -484,10 +475,10 @@ public class TopicInferencer implements Serializable {
 			for (int i = 0; i < max; i++) {
 				if (sortedTopics[i].getWeight() < threshold) { break; }
 
-				out.print (sortedTopics[i].getID() + " " +
+				out.print(sortedTopics[i].getID() + " " +
 						   sortedTopics[i].getWeight() + " ");
 			}
-			out.print (" \n");
+			out.print("\n");
 			doc++;
 		}
 
@@ -495,7 +486,6 @@ public class TopicInferencer implements Serializable {
 	}
 
 	// Serialization
-
     private static final long serialVersionUID = 1;
     private static final int CURRENT_SERIAL_VERSION = 0;
     private static final int NULL_INTEGER = -1;
@@ -526,7 +516,6 @@ public class TopicInferencer implements Serializable {
 	}
 
 	private void readObject (ObjectInputStream in) throws IOException, ClassNotFoundException {
-
         int version = in.readInt();
 
         alphabet = (Alphabet) in.readObject();
@@ -552,7 +541,7 @@ public class TopicInferencer implements Serializable {
 	}
 
 	public static TopicInferencer readFromStream(ObjectInputStream in) throws Exception {
-        int version = in.readInt ();
+        int version = in.readInt();
 
         Alphabet alphabet = (Alphabet) in.readObject();
 
@@ -580,12 +569,11 @@ public class TopicInferencer implements Serializable {
 	}
 	
 	public static TopicInferencer read (File f) throws Exception {
-
         TopicInferencer inferencer = null;
 
 		ObjectInputStream ois = new ObjectInputStream (new FileInputStream(f));
 		inferencer = (TopicInferencer)ois.readObject();
-//        inferencer = TopicInferencer.readFromStream(ois);
+		// inferencer = TopicInferencer.readFromStream(ois);
 		ois.close();
 
         return inferencer;
