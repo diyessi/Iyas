@@ -66,7 +66,8 @@ public class StanfordPTBTokenizer extends JCasAnnotator_ImplBase {
 	  @Override
 	public void process(JCas jcas) throws AnalysisEngineProcessException {
 		
-		edu.stanford.nlp.process.TokenizerFactory<? extends HasWord> tokenizerFactory = PTBTokenizer.factory(keepNewLines,invertible);
+		edu.stanford.nlp.process.TokenizerFactory<? extends HasWord> tokenizerFactory
+			= PTBTokenizer.factory(keepNewLines, invertible);
 		
 		// tokenize
 		DocumentPreprocessor docPreprocessor = new DocumentPreprocessor(
