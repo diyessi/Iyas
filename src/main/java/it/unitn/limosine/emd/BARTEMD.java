@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import it.unitn.limosine.types.emd.EMD;
@@ -232,10 +233,10 @@ public class BARTEMD extends JCasAnnotator_ImplBase{
 		pipeline.setData(c);
 		pipeline.annotateData();
         
-		List<Mention> mentions=null;
+		List<Mention> mentions= new ArrayList<>();
 		try {	
-			mentions=_mfact.extractMentions(doc);
-		}catch (IOException e){
+			mentions = _mfact.extractMentions(doc);
+		}catch (IOException | NoSuchElementException e){
 			e.printStackTrace();       
         }
         for (Mention m: mentions) {
