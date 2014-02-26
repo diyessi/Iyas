@@ -3,6 +3,7 @@ package it.unitn.limosine;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 import it.unitn.limosine.types.syntax.CoNLL2008DependencyTree;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
@@ -23,6 +24,9 @@ public class AnnotatorTest {
 
 	@Test
 	public void testLimosine() throws UIMAException, IOException {
+		
+		new File("CASes/test/limosine-test").delete();
+		
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
 		
 		ae.addAEDesc(createEngineDescription("desc/Limosine/pipelines/FullSeMod"));
