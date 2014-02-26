@@ -10,10 +10,10 @@ import org.apache.uima.fit.descriptor.TypeCapability;
 import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.type.NormalizedText;
-import arabicpostagger.ArabicAnnotations;
-import arabicpostagger.ArabicToken;
-import arabicpostagger.ArabicWrapper;
-import arabicpostagger.ArabicWrapper.AnalysisMode;
+import arabicpostagger.wrapper.ArabicAnnotations;
+import arabicpostagger.wrapper.ArabicToken;
+import arabicpostagger.wrapper.ArabicWrapper;
+import arabicpostagger.wrapper.ArabicWrapper.AnalysisMode;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.ner.type.Location;
 import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;

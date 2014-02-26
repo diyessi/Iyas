@@ -62,5 +62,7 @@ public class ArabicPipeline {
 		this.ae.addAEDesc(createEngineDescription(ArabicAnalyzer.class));
 		
 		JCas cas = this.getPreliminarCas("arabic-test", SAMPLE_SENTENCE);
+		
+		cas.reset();
 	}
 }

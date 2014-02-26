@@ -1,10 +1,14 @@
-package arabicpostagger;
+package arabicpostagger.wrapper;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import arabicpostagger.ArabicNERAnnotator;
+import arabicpostagger.DenormalizeText;
+import arabicpostagger.POSAnnotator;
 
 public class ArabicWrapper {
 	

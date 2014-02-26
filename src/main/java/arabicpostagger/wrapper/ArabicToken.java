@@ -1,4 +1,4 @@
-package arabicpostagger;
+package arabicpostagger.wrapper;
 
 public class ArabicToken {
 	
