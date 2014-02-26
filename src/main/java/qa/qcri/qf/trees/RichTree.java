@@ -51,16 +51,17 @@ public class RichTree {
 		for (Sentence sentence : JCasUtil.select(cas, Sentence.class)) {
 			RichNode sentenceNode = new BaseRichNode().setValue(SENTENCE_LABEL);
 
-			for (Chunk chunk : JCasUtil.selectCovered(cas, Chunk.class, sentence)) {
+			for (Chunk chunk : JCasUtil.selectCovered(cas, Chunk.class,
+					sentence)) {
 				RichNode chunkNode = new RichChunkNode(chunk);
-				for (Token token : JCasUtil.selectCovered(cas, Token.class, chunk)) {
-					RichNode posNode = new BaseRichNode().setValue(
-							token.getPos().getPosValue());
+				for (Token token : JCasUtil.selectCovered(cas, Token.class,
+						chunk)) {
+					RichNode posNode = new BaseRichNode().setValue(token
+							.getPos().getPosValue());
 
 					RichTokenNode tokenNode = new RichTokenNode(token);
 
-					chunkNode.addChild(
-							posNode.addChild(tokenNode));
+					chunkNode.addChild(posNode.addChild(tokenNode));
 
 					root.addToken(tokenNode);
 				}
@@ -130,18 +131,14 @@ public class RichTree {
 		 * If there are no constituents we are working with a token node
 		 */
 		if (constituents.size() == 0) {
-			Collection<Token> tokens = JCasUtil.select(
-					subTreeRoot.getChildren(), Token.class);
-
+			Collection<Token> tokens = JCasUtil.select(subTreeRoot.getChildren(), Token.class);
 			for (Token token : tokens) {
 				RichNode posNode = new BaseRichNode().setValue(
 						token.getPos().getPosValue());
 
 				RichTokenNode tokenNode = new RichTokenNode(token);
 
-				subTree.addChild(
-						posNode.addChild(tokenNode)
-					);
+				subTree.addChild(posNode.addChild(tokenNode));
 
 				root.addToken(tokenNode);
 			}
@@ -149,10 +146,20 @@ public class RichTree {
 
 		return subTree;
 	}
-	
+
+	/**
+	 * Builds a Dependency tree from an annotated CAS. The CAS must contain
+	 * sentence boundaries, tokens, POStags and dependencies
+	 * 
+	 * @param cas
+	 *            the UIMA JCas
+	 * @return the Dependency tree, as a TokenTree
+	 * 
+	 * @see TokenTree
+	 */
 	public static TokenTree getDependencyTree(JCas cas) {
 		if (cas == null) {
-			throw new NullPointerException("cas is null");
+			throw new NullPointerException("CAS is null");
 		}
 
 		TokenTree root = new TokenTree();
@@ -167,7 +174,7 @@ public class RichTree {
 			RichDependencyNode relNode = new RichDependencyNode(dep);
 
 			relNode.addChild(depNode);
-			govNode.addChild(relNode);	
+			govNode.addChild(relNode);
 		}
 
 		// Sort token nodes
@@ -183,19 +190,30 @@ public class RichTree {
 		for (RichTokenNode tokenNode : tokenNodes) {
 			root.addToken(tokenNode);
 
-			if (!tokenNode.hasParent()) {	
+			if (!tokenNode.hasParent()) {
 				// Insert a fake dependency node between the root and the first token node
-				RichDependencyNode depNode = newRichDependencyNode(cas, tokenNode, "root");
+				RichDependencyNode depNode = newRichDependencyNode(cas,tokenNode, ROOT_LABEL);
 				root.addChild(depNode);
 				depNode.addChild(tokenNode);
-
-				//root.addChild(tokenNode);
 			}
 		}
+		
 		return root;
 	}
 
-	private static RichTokenNode getOrAddIfNew(Token token, Map<Token, RichTokenNode> nodeMap) {
+	/**
+	 * Utility method for retrieving a RichNode corresponding to a Token from a
+	 * map. If the Token is not present it is wrapped in a RichNode and stored
+	 * into the map, for the current and future lookup
+	 * 
+	 * @param token
+	 *            the token to lookup or add as a RichToken
+	 * @param nodeMap
+	 *            the map of <Token, RichTokenNode>
+	 * @return the RichTokenNode corresponding to the Token
+	 */
+	private static RichTokenNode getOrAddIfNew(Token token,
+			Map<Token, RichTokenNode> nodeMap) {
 		assert token != null;
 		assert nodeMap != null;
 
@@ -206,10 +224,19 @@ public class RichTree {
 			node = new RichTokenNode(token);
 			nodeMap.put(token, node);
 		}
+		
 		return node;
 	}
 
-	private static RichDependencyNode newRichDependencyNode(JCas cas, RichTokenNode depNode, String dependencyType) {
+	/**
+	 * Produce a new RichDependencyNode wrapping a given Dependency
+	 * @param cas the Cas from which the Dependency is produced
+	 * @param depNode the node in the dependency
+	 * @param dependencyType the type of dependency
+	 * @return the RichDependencyNode
+	 */
+	private static RichDependencyNode newRichDependencyNode(JCas cas,
+			RichTokenNode depNode, String dependencyType) {
 		assert cas != null;
 		assert depNode != null;
 		assert dependencyType != null;
@@ -218,7 +245,6 @@ public class RichTree {
 		Dependency dependency = new Dependency(cas, dep.getBegin(), dep.getEnd());
 		dependency.setDependencyType(dependencyType);
 
-		RichDependencyNode relNode = new RichDependencyNode(dependency);
-		return relNode;	
+		return new RichDependencyNode(dependency);
 	}
 }
