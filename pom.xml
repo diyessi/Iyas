@@ -6,11 +6,11 @@
        <url>http://cogcomp.cs.illinois.edu/m2repo/</url>
     </repository>
     <repository>
-    <id>ukp-oss</id>
+    <id>ukp-oss-releases</id>
      <url>dav:https://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-ukp-releases-local/</url>
 	</repository>
 <repository>
-     <id>ukp-oss</id>
+     <id>ukp-oss-snapshots</id>
      <url>dav:https://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-ukp-snapshots-local/</url>
 </repository>
   </repositories>
