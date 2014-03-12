@@ -55,6 +55,13 @@ public class BaseRichNode implements RichNode {
 		this.additionalLabels.add(label);
 		return this;
 	}
+	
+	@Override
+	public RichNode removeAdditionalLabel(String label) {
+		this.additionalLabels.remove(label);
+		return this;
+	}
+
 
 	@Override
 	public List<RichNode> getChildren() {
@@ -104,5 +111,5 @@ public class BaseRichNode implements RichNode {
 	public String getRepresentation(String parameterList) {
 		return this.value;
 	}
-
+	
 }

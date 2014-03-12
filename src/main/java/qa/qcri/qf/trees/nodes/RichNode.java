@@ -55,6 +55,15 @@ public interface RichNode {
 	 * @return the object instance for chaining
 	 */
 	public RichNode addAdditionalLabel(String label);
+	
+	/**
+	 * Removes a label from the list of additional labels
+	 * 
+	 * @param label the label to find and remove
+	 * 
+	 * @return the object instance for chaining
+	 */
+	public RichNode removeAdditionalLabel(String label);
 
 	/**
 	 * 
