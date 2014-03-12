@@ -11,8 +11,8 @@ import qa.qcri.qf.features.FeaturesUtil;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
+import qa.qcri.qf.pipeline.GenericPipeline;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
-import qa.qcri.qf.pipeline.trec.TrecPipeline;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.MarkTwoAncestors;
 import qa.qcri.qf.trees.TokenTree;
@@ -134,9 +134,9 @@ public class RerankingTest implements Reranking {
 					questionObject.getId(),
 					candidateObject.getId(),
 					candidateObject.getMetadata().get(
-							TrecPipeline.SEARCH_ENGINE_POSITION_KEY),
+							GenericPipeline.SEARCH_ENGINE_POSITION_KEY),
 					candidateObject.getMetadata().get(
-							TrecPipeline.SEARCH_ENGINE_POSITION_KEY),
+							GenericPipeline.SEARCH_ENGINE_POSITION_KEY),
 					label.equals("+1") ? "true" : "false"));
 
 			this.fm.writeLn(this.outputResFile, sb.toString());

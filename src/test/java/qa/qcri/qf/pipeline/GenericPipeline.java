@@ -1,4 +1,4 @@
-package qa.qcri.qf.pipeline.trec;
+package qa.qcri.qf.pipeline;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
@@ -18,6 +18,7 @@ import qa.qcri.qf.datagen.Labelled;
 import qa.qcri.qf.datagen.rr.Reranking;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
+import qa.qcri.qf.pipeline.readers.AnalyzableReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import util.ChunkReader;
@@ -30,7 +31,7 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
-public class TrecPipeline {
+public class GenericPipeline {
 
 	public static final String QUESTION_ID_KEY = "QUESTION_ID_KEY";
 	
@@ -42,36 +43,36 @@ public class TrecPipeline {
 
 	private FileManager fm;
 
-	private String questionPath;
+	private AnalyzableReader questionReader;
 
-	private String candidatesPath;
+	private AnalyzableReader candidatesReader;
 	
 	private int candidatesToKeep = -1;
 
-	public TrecPipeline(FileManager fm) throws UIMAException {
+	public GenericPipeline(FileManager fm) throws UIMAException {
 		this.fm = fm;
 		this.idToQuestion = new HashMap<>();
 	}
 	
-	public void setupAnalysis(Analyzer ae, String questionPath,
-			String candidatesPath) {
+	public void setupAnalysis(Analyzer ae, AnalyzableReader questionReader,
+			AnalyzableReader candidatesReader) {
 		this.ae = ae;
-		this.questionPath = questionPath;
-		this.candidatesPath = candidatesPath;
+		this.questionReader = questionReader;
+		this.candidatesReader = candidatesReader;
 		
 		this.populateIdToQuestionMap();
 	}
 
 	public void performAnalysis() throws UIMAException {
-		this.processAnalyzables(getTrecQuestionsIterator(this.questionPath));
-		this.processAnalyzables(getTrecCandidatesIterator(this.candidatesPath));
+		this.processAnalyzables(this.questionReader.newReader().iterator());
+		this.processAnalyzables(this.candidatesReader.newReader().iterator());
 	}
 
 	public void performDataGeneration(Reranking dataGenerator)
 			throws UIMAException {
 
 		Iterator<List<String>> chunks = this
-				.getChunkReader(this.candidatesPath).iterator();
+				.getChunkReader(this.candidatesReader.getContentPath()).iterator();
 
 		while (chunks.hasNext()) {
 			List<String> chunk = chunks.next();
@@ -131,17 +132,9 @@ public class TrecPipeline {
 		return ae;
 	}
 
-	private Iterator<Analyzable> getTrecQuestionsIterator(String questionsPath) {
-		return new TrecQuestionsReader(questionsPath).iterator();
-	}
-
-	private Iterator<Analyzable> getTrecCandidatesIterator(String candidatesPath) {
-		return new TrecCandidatesReader(candidatesPath).iterator();
-	}
-
 	private void populateIdToQuestionMap() {
 		this.idToQuestion.clear();
-		Iterator<Analyzable> questions = getTrecQuestionsIterator(this.questionPath);
+		Iterator<Analyzable> questions = this.questionReader.newReader().iterator();
 		while (questions.hasNext()) {
 			Analyzable question = questions.next();
 			DataObject questionObject = new DataObject(Labelled.NEGATIVE_LABEL,

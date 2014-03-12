@@ -20,6 +20,7 @@ import qa.qcri.qf.datagen.rr.RerankingTrain;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
+import qa.qcri.qf.pipeline.GenericPipeline;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
@@ -158,15 +159,17 @@ public class TrecPipelineRunner {
 
 			PairFeatureFactory pf = new PairFeatureFactory(new Alphabet());
 
-			TrecPipeline pipeline = new TrecPipeline(fm);
+			GenericPipeline pipeline = new GenericPipeline(fm);
 
 			/**
 			 * Sets up the analyzer, initially with the persistence directory
 			 * for train CASes
 			 */
-			Analyzer ae = pipeline.instantiateAnalyzer(trainPersistence);
+			Analyzer ae = pipeline.instantiateAnalyzer(trainPersistence);		
 
-			pipeline.setupAnalysis(ae, trainQuestionsPath, trainCandidatesPath);
+			pipeline.setupAnalysis(ae,
+					new TrecQuestionsReader(trainQuestionsPath),
+					new TrecCandidatesReader(trainCandidatesPath));
 
 			if (!(trainCasesPath != null && cmd.hasOption(SKIP_SERIALIZATION_CHECK_OPT))) {
 				pipeline.performAnalysis();
@@ -187,7 +190,9 @@ public class TrecPipelineRunner {
 			 */
 			ae.setPersistence(testPersistence);
 
-			pipeline.setupAnalysis(ae, testQuestionsPath, testCandidatesPath);
+			pipeline.setupAnalysis(ae,
+					new TrecQuestionsReader(testQuestionsPath),
+					new TrecCandidatesReader(testCandidatesPath));
 
 			if (!(testCasesPath != null && cmd.hasOption(SKIP_SERIALIZATION_CHECK_OPT))) {
 				pipeline.performAnalysis();

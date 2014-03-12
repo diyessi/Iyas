@@ -7,15 +7,19 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 import qa.qcri.qf.fileutil.ReadFile;
+import qa.qcri.qf.pipeline.readers.AnalyzableReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 
-public class TrecCandidatesReader implements Iterable<Analyzable> {
+public class TrecCandidatesReader implements AnalyzableReader {
 
+	private String contentPath;
+	
 	private ReadFile in;
 
-	public TrecCandidatesReader(String path) {
-		this.in = new ReadFile(path);
+	public TrecCandidatesReader(String contentPath) {
+		this.contentPath = contentPath;
+		this.in = new ReadFile(this.contentPath);
 	}
 
 	@Override
@@ -51,6 +55,16 @@ public class TrecCandidatesReader implements Iterable<Analyzable> {
 		};
 
 		return iterator;
+	}
+
+	@Override
+	public AnalyzableReader newReader() {
+		return new TrecCandidatesReader(this.contentPath);
+	}
+
+	@Override
+	public String getContentPath() {
+		return this.contentPath;
 	}
 
 }

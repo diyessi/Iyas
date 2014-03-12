@@ -4,18 +4,22 @@ import java.util.Iterator;
 import java.util.List;
 
 import qa.qcri.qf.fileutil.ReadFile;
+import qa.qcri.qf.pipeline.readers.AnalyzableReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
-public class TrecQuestionsReader implements Iterable<Analyzable> {
+public class TrecQuestionsReader implements AnalyzableReader {
 
+	private String contentPath;
+	
 	private ReadFile in;
 
-	public TrecQuestionsReader(String path) {
-		this.in = new ReadFile(path);
+	public TrecQuestionsReader(String contentPath) {
+		this.contentPath = contentPath;
+		this.in = new ReadFile(this.contentPath);
 	}
 
 	@Override
@@ -51,6 +55,16 @@ public class TrecQuestionsReader implements Iterable<Analyzable> {
 		};
 
 		return iterator;
+	}
+
+	@Override
+	public AnalyzableReader newReader() {
+		return new TrecQuestionsReader(this.contentPath);
+	}
+
+	@Override
+	public String getContentPath() {
+		return this.contentPath;
 	}
 
 }

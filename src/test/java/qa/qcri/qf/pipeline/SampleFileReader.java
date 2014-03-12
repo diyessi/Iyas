@@ -3,15 +3,19 @@ package qa.qcri.qf.pipeline;
 import java.util.Iterator;
 
 import qa.qcri.qf.fileutil.ReadFile;
+import qa.qcri.qf.pipeline.readers.AnalyzableReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 
-public class SampleFileReader implements Iterable<Analyzable> {
+public class SampleFileReader implements AnalyzableReader {
 
+	private String contentPath;
+	
 	private ReadFile in;
 
-	public SampleFileReader(String path) {
-		this.in = new ReadFile(path);
+	public SampleFileReader(String contentPath) {
+		this.contentPath = contentPath;
+		this.in = new ReadFile(this.contentPath);
 	}
 
 	@Override
@@ -45,6 +49,16 @@ public class SampleFileReader implements Iterable<Analyzable> {
 		};
 
 		return iterator;
+	}
+
+	@Override
+	public AnalyzableReader newReader() {
+		return new SampleFileReader(this.contentPath);
+	}
+
+	@Override
+	public String getContentPath() {
+		return this.contentPath;
 	}
 
 }
