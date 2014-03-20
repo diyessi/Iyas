@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.uima.util.InvalidXMLException;
 import org.apache.uima.util.Level;
 
 import it.unitn.limosine.types.pos.Pos;
@@ -15,6 +16,7 @@ import java.lang.Character.UnicodeBlock;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.uima.UIMAException;
@@ -25,8 +27,8 @@ import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 
 import com.google.common.base.Joiner;
-import com.ibm.icu.lang.UCharacter;
 
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
@@ -44,7 +46,9 @@ public class TextProWrapperFixTest {
 		Analyzable content = new SimpleContent("0", text2);
 		Analyzer analyzer = new Analyzer();
 		
-		AnalysisEngineDescription desc = createEngineDescription("desc/Limosine/TextProAllInOneDescriptor");
+		AnalysisEngineDescription desc = createEngineDescription(
+			"desc/Limosine/TextProFixAllInOneDescriptor"
+		);
 		analyzer.addAEDesc(desc);
 
 		JCas cas = JCasFactory.createJCas();
@@ -56,6 +60,25 @@ public class TextProWrapperFixTest {
 			System.out.println(sent.getCoveredText());
 		}
 	}
+	
+	@Test
+	public void testChunker() throws IOException, UIMAException {
+		String text3 = "Bernardo Magnini lavora alla Fondazione Kessler di Povo, vicino a Trento";
+
+		Analyzable content = new SimpleContent("0", text3);
+		AnalysisEngineDescription desc = createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor");
+		Analyzer analyzer = new Analyzer();
+		
+		analyzer.addAEDesc(desc);
+		JCas cas = JCasFactory.createJCas();
+		analyzer.analyze(cas, content);
+		
+		Collection<Chunk> chunks = JCasUtil.select(cas, Chunk.class);
+		System.out.println("#chunks: " + chunks.size());
+		for (Chunk chunk : chunks) {
+			System.out.println("[" + chunk.getChunkValue() + " " + chunk.getCoveredText() + " ]");
+		}
+	}
 
 	
 	@Test
@@ -63,6 +86,7 @@ public class TextProWrapperFixTest {
 		String text3 = "Bernardo Magnini lavora alla Fondazione Kessler di Povo, vicino a Trento";
 		
 		Analyzable content = new SimpleContent("0", text3);
+		
 		AnalysisEngineDescription desc = createEngineDescription("desc/Limosine/TextProAllInOneDescriptor");
 		Analyzer analyzer = new Analyzer();
 		
