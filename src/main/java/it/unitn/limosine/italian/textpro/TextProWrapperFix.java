@@ -1,8 +1,9 @@
 package it.unitn.limosine.italian.textpro;
 
 
-import it.unitn.limosine.types.segmentation.Token;
-import it.unitn.limosine.types.segmentation.Sentence;
+//import it.unitn.limosine.types.segmentation.Token;
+
+//import it.unitn.limosine.types.segmentation.Sentence;
 import it.unitn.limosine.types.ner.NER;
 import it.unitn.limosine.util.SharedModel;
 import it.unitn.limosine.util.StreamGobbler;
@@ -33,7 +34,10 @@ import org.uimafit.descriptor.ConfigurationParameter;
 import com.ibm.icu.lang.UCharacter;
 
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
-import it.unitn.limosine.types.pos.Pos;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma;
 
 
 public class TextProWrapperFix extends JCasAnnotator_ImplBase {
@@ -201,18 +205,20 @@ public class TextProWrapperFix extends JCasAnnotator_ImplBase {
 			
 				//token.setBegin(Integer.parseInt(txpvals[1]));
 				//token.setEnd(Integer.parseInt(txpvals[2]));
-				token.setTokenId(tokenCount);
-				token.setTokenSentId(tokenSentCount);
-				token.setAnnotatorId(getClass().getCanonicalName()+":token");
+				//token.setTokenId(tokenCount);
+				//token.setTokenSentId(tokenSentCount);
+				//token.setAnnotatorId(getClass().getCanonicalName()+":token");
 			
 				String text = txpvals[0];
 				int begin = doctxt.indexOf(text, idx);
 				int end = begin + text.length();
 				token.setBegin(begin);
-				token.setEnd(end);
+				token.setEnd(end);		
+				
 				idx = end;
-				token.setNormalizedText(forXML(txt.substring(begin, end)));
-				token.setStanfordNormalizedText(forXML(txt.substring(begin, end)));
+				//token.setNormalizedText(forXML(txt.substring(begin, end)));
+				//token.setStanfordNormalizedText(forXML(txt.substring(begin, end)));
+				
 	
 				//token.setNormalizedText(forXML(token.getCoveredText()));
 				//			token.setStanfordNormalizedText(coreLab.value());
@@ -220,25 +226,31 @@ public class TextProWrapperFix extends JCasAnnotator_ImplBase {
 				token.addToIndexes();
 
 				tokenCount++;
+				
+				// LEMMA
+				Lemma lemma = new Lemma(jcas);
+				lemma.setValue(txpvals[5]);
+				token.setLemma(lemma);
+				lemma.addToIndexes();
 			
 				// SENTENCE
 			
 				if (tokenSentCount==0) {
 					sentence = new Sentence(jcas);
-					sentence.setSentenceId(sentenceCount);
-					sentence.setStartToken(token);
+					//sentence.setSentenceId(sentenceCount);
+					//sentence.setStartToken(token);
 					sentence.setBegin(token.getBegin());
-					sentence.setAnnotatorId(getClass().getCanonicalName()+":sentence");
+					//sentence.setAnnotatorId(getClass().getCanonicalName()+":sentence");
 					sentenceCount++;
 					tokenizedSentence.setLength(0);
 				}
-				tokenizedSentence.append(token.getNormalizedText() + " ");
+				//tokenizedSentence.append(token.getNormalizedText() + " ");
 				tokenSentCount++;
 			
 				if (txpvals[3].equals("<eos>")) {
-					sentence.setEndToken(token);
+					//sentence.setEndToken(token);
 					sentence.setEnd(token.getEnd());
-					sentence.setTokenizedSentence(tokenizedSentence.toString().trim());
+					//sentence.setTokenizedSentence(tokenizedSentence.toString().trim());
 					sentence.addToIndexes();
 
 					tokenSentCount = 0; //sentence-level counter for tokens
@@ -250,7 +262,7 @@ public class TextProWrapperFix extends JCasAnnotator_ImplBase {
 				// store finished/ongoing NE
 				if (nestart) {
 					if (txpvals[6].startsWith("I-")) {
-						ne.setEndToken(token);
+						//ne.setEndToken(token);
 						ne.setEnd(token.getEnd());					
 					} else {
 						ne.addToIndexes();
@@ -261,9 +273,9 @@ public class TextProWrapperFix extends JCasAnnotator_ImplBase {
 				if (txpvals[6].startsWith("B-")) {
 					nestart=true;
 					ne= new NER(jcas);
-					ne.setStartToken(token);
+					//ne.setStartToken(token);
 					ne.setBegin(token.getBegin());
-					ne.setEndToken(token);
+					//ne.setEndToken(token);
 					ne.setEnd(token.getEnd());					
 					ne.setNetag(txp2ner(txpvals[6].substring(2,txpvals[6].length())));
 					ne.setAnnotatorId(getClass().getCanonicalName()+":ner");				
@@ -290,12 +302,15 @@ public class TextProWrapperFix extends JCasAnnotator_ImplBase {
 				}
 			
 				// POS
-				Pos pos = new Pos(jcas);
+				//Pos pos = new Pos(jcas);
+				POS pos = new POS(jcas);
+				token.setPos(pos);
 				pos.setBegin(token.getBegin());
 				pos.setEnd(token.getEnd());
-				pos.setPostag(txpvals[4]);
-				pos.setToken(token);
-				pos.setAnnotatorId(getClass().getCanonicalName()+":pos");				
+				pos.setPosValue(txpvals[4]);
+				//pos.setPostag(txpvals[4]);
+				//pos.setToken(token);
+				//pos.setAnnotatorId(getClass().getCanonicalName()+":pos");				
 				pos.addToIndexes();
 			}
  

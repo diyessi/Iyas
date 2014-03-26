@@ -22,12 +22,13 @@
     <capabilities>
       <capability>
         <inputs/>
-	<outputs>
-	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk</type>
-          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
-          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
-          <type allAnnotatorFeatures="true">it.unitn.limosine.types.ner.NER</type>
-          <type allAnnotatorFeatures="true">it.unitn.limosine.types.pos.Pos</type>
+		<outputs>
+	  		<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk</type>
+      		<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</type>
+          	<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</type>
+          	<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma</type>
+          	<type allAnnotatorFeatures="true">it.unitn.limosine.types.ner.NER</type>
+      		<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</type>
         </outputs>
         <languagesSupported/>
       </capability>

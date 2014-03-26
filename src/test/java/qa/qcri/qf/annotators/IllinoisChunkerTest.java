@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import com.google.common.base.Joiner;
 
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
@@ -24,6 +25,7 @@ public class IllinoisChunkerTest {
 	@Test
 	public void test() throws Exception {
 		String text = "Jack and Jill went up the hill to fetch a pail of water";
+		//String text = "Bernardo Magnini works at Kessler Foundation in Povo, near Trento.";
 		
 		AnalysisEngineDescription segmenter = createEngineDescription(OpenNlpSegmenter.class);
 		AnalysisEngineDescription ptagger = createEngineDescription(OpenNlpPosTagger.class);
@@ -40,10 +42,17 @@ public class IllinoisChunkerTest {
 		List<String> chunks = new ArrayList<>();
 		for (Chunk chunk : JCasUtil.select(jcas, Chunk.class)) {
 			chunks.add("[" + chunk.getChunkValue() + " " + chunk.getCoveredText() + " ]");
+			/*
+			for (POS pos : JCasUtil.selectCovered(jcas, POS.class, chunk)) {
+				System.out.print(pos.getCoveredText() + "/" + pos.getPosValue() + " ");
+			}
+			System.out.println();
+			*/
 		}
 		chunks.add(".");
 		String expected = "[NP Jack and Jill ] [VP went ] [ADVP up ] [NP the hill ] [VP to fetch ] [NP a pail ] [PP of ] [NP water ] .";
 		String actual = Joiner.on(" ").join(chunks);
+		System.out.println(actual);
 		
 		assertEquals(actual, expected);
 	}
