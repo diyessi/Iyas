@@ -8,3 +8,4 @@
 -testOutputDir data/trec/test/
 -candidatesToKeepInTrain -1
 -candidatesToKeepInTest 5
+-lang en
