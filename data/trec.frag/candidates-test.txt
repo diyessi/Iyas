@@ -1,0 +1,9 @@
+61 61-0 1 1.0 true If you want to try a Cuban white rum you would be better off with Havana Club .
+61 61-1 2 1.0 true The radio also reports that innovators from the Ministry of Construction 's Enterprise No. 1 in Pinar del Rio Province have developed a cement-hardener made from molasses and other materials available locally .
+61 61-2 3 1.0 false Rum is distilled wherever sugar cane is grown and in a few places where it is not .
+62 62-0 1 1.0 false Although MS has been the subject of intensive research activity worldwide , there is still no effective treatment for the disease , in which the body 's immune system attacks the protective coating of myelin protein around nerve fibres .
+62 62-1 2 1.0 false In MS , white blood cells -LRB- T- cells -RRB- destroy the protein sheath called myelin which protects nerve fibres .
+62 62-2 3 1.0 false But the progress of MS is variable .
+63 63-0 1 1.0 false NEZAVISIMAYA GAZETA on the Komsomolets nuclear-powered submarine which sank in the Norwegian Sea five years ago : `` A radiation disaster in the Norwegian Sea is more than probable .
+63 63-1 2 1.0 false The author of this book -- the assistant chief designer of the submarine `` Komsomolets '' -- offers his interpretation of the tragedy that played itself out in the Sea of Norway on 7 April 1989 .
+63 63-2 3 1.0 false Russian specialists and scientists have proposed a unique method of preserving the submarine Komsomolets which sank 7 April 1989 in the Norwegian Sea approximately 180 miles southeast of Bear Island .

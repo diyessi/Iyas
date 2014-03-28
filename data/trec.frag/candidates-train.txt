@@ -1,0 +1,9 @@
+1 1-0 1 1.0 false the IRON LADY ; A Biography of Margaret Thatcher by Hugo Young -LRB- Farrar , Straus & Giroux -RRB-
+1 1-1 2 1.0 false in this same revisionist mold , Hugo Young , the distinguished British journalist , has performed a brilliant dissection of the notion of Thatcher as a conservative icon .
+1 1-2 3 1.0 false in `` The Iron Lady , '' Young traces the winding staircase of fortune that transformed the younger daughter of a provincial English grocer into the greatest woman political leader since Catherine the Great .
+10 10-0 1 1.0 false Trasko calls members of the haute shoe-buying clique `` shoe collectors or shoe enthusiasts .
+10 10-1 2 1.0 false Yet every enthusiast can name a designer who sends her into ecstasy .
+10 10-2 3 1.0 false So when her mother asked her which shoe she wanted , the lavender or the black , she picked up one of each , '' recalls Ragsdale .
+11 11-0 1 1.0 false Grover Cleveland , who in June 1886 married 21-year-old Frances Folsom , Cleveland 's ward since her father died in 1875 .
+11 11-1 2 1.0 false Which state produced the President who held office for only one day ?
+11 11-2 3 1.0 true Which President 's birthplace is claimed by two states ?
