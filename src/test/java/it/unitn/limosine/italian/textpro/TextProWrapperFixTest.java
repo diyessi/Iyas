@@ -38,6 +38,9 @@ public class TextProWrapperFixTest {
 		text2 += "Più Quagliarella di Llorente. ";
 		text2 += "Il borsino dell’attacco bianconero a tre giorni dal Derby d’Italia segna in deciso rialzo le quotazioni della punta napoletana nel ballottaggio per un posto da titolare con Carlitos Tevez.";
 		
+		byte[] bytes = text2.getBytes();
+		text2 = new String(bytes, "UTF-8");
+		
 		Analyzable content = new SimpleContent("0", text2);
 		Analyzer analyzer = new Analyzer();
 		
@@ -55,6 +58,7 @@ public class TextProWrapperFixTest {
 			System.out.println(sent.getCoveredText());
 		}
 	}
+	
 	
 	@Test
 	public void testChunker() throws IOException, UIMAException {

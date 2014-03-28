@@ -21,6 +21,7 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.readers.AnalyzableReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
+import qa.qcri.qf.pipeline.trec.AnalyzerFactory;
 import util.ChunkReader;
 
 import com.google.common.base.Function;
@@ -119,7 +120,20 @@ public class GenericPipeline {
 	public void setCandidatesToKeep(int candidatesToKeep) {
 		this.candidatesToKeep = candidatesToKeep;
 	}
+	
+	public Analyzer instantiateAnalyzer(String lang, UIMAPersistence persistence) 
+		throws UIMAException { 
+		if (lang == null) {
+			throw new NullPointerException("lang is null");
+		}
+		if (persistence == null) { 
+			throw new NullPointerException("persistence is null");
+		}
+		
+		return AnalyzerFactory.newTrecPipeline(lang, persistence);
+	}
 
+	/*
 	public Analyzer instantiateAnalyzer(UIMAPersistence persistence)
 			throws UIMAException {
 		Analyzer ae = new Analyzer(persistence);
@@ -131,6 +145,7 @@ public class GenericPipeline {
 
 		return ae;
 	}
+	*/
 
 	private void populateIdToQuestionMap() {
 		this.idToQuestion.clear();

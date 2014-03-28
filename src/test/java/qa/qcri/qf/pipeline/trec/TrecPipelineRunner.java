@@ -35,6 +35,7 @@ import com.google.common.io.Files;
 public class TrecPipelineRunner {
 
 	private static final String HELP_OPT = "help";
+	private static final String LANG = "lang";
 	private static final String ARGUMENTS_FILE_OPT = "argumentsFilePath";
 	private static final String TRAINING_QUESTIONS_PATH_OPT = "trainQuestionsPath";
 	private static final String TRAINING_CANDIDATES_PATH_OPT = "trainCandidatesPath";
@@ -51,7 +52,9 @@ public class TrecPipelineRunner {
 	public static void main(String[] args) throws UIMAException {
 
 		Options options = new Options();
-		options.addOption(HELP_OPT, false, "Print the help");
+		options.addOption(HELP_OPT, true, "Print the help");
+		options.addOption(LANG, true, // handle questions and answers lang
+				"The lang of the processing data");
 		options.addOption(ARGUMENTS_FILE_OPT, true,
 				"The path of the file containing the command line arguments");
 		options.addOption(TRAINING_QUESTIONS_PATH_OPT, true,
@@ -105,6 +108,8 @@ public class TrecPipelineRunner {
 							"Failed to load arguments file. Processing the given arguments...");
 				}
 			}
+			
+			String lang = cmd.getOptionValue(LANG);
 
 			String trainQuestionsPath = getFileOption(cmd,
 					TRAINING_QUESTIONS_PATH_OPT,
@@ -165,7 +170,8 @@ public class TrecPipelineRunner {
 			 * Sets up the analyzer, initially with the persistence directory
 			 * for train CASes
 			 */
-			Analyzer ae = pipeline.instantiateAnalyzer(trainPersistence);		
+			//Analyzer ae = pipeline.instantiateAnalyzer(trainPersistence);
+			Analyzer ae = pipeline.instantiateAnalyzer(lang, trainPersistence);
 
 			pipeline.setupAnalysis(ae,
 					new TrecQuestionsReader(trainQuestionsPath),

@@ -1,0 +1,9 @@
+1 1-1 1 1.5242481 false 2012, Meryl Streep è Margaret Thatcher in The Iron Lady
+1 1-2 2 1.5242481 false Alexandra Roach in The Iron Lady (Margaret Thatcher da giovane)
+1 1-3 3 0.76212406 false The Iron Lady è un film diretto da Phyllida Lloyd, che racconta la vita dell'ex primo ministro britannico Margaret Thatcher, interpretata da Meryl Streep, che per la sua interpretazione ha ricevuto il suo terzo Oscar.
+2 2-1 1 0.6149552 false 1989 – Tenzin Gyatso, il 14° Dalai Lama riceve il Premio Nobel per la pace
+2 2-2 2 0.46380687 false Nobelprize.org - Premi Nobel per la pace
+2 2-3 3 0.46380687 false Premio Nobel per la pace 1994
+3 3-1 1 0.573066 false Peugeot, Armand Peugeot, Armand Peugeot, Armand
+3 3-2 2 0.573066 false Peugeot Buxy Peugeot Speedake Peugeot Zenith
+3 3-3 3 0.54589087 true Peugeot D3A - furgone della Peugeot

@@ -27,7 +27,7 @@
       		<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</type>
           	<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</type>
           	<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma</type>
-          	<type allAnnotatorFeatures="true">it.unitn.limosine.types.ner.NER</type>
+          	<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity</type>
       		<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</type>
         </outputs>
         <languagesSupported/>
