@@ -53,7 +53,7 @@
         <name>RunTextProCmd</name>
         <description/>
         <fileResourceSpecifier>
-          <fileUrl>/home/antonio/workspace-java/Iyas/tools/TextPro1.5.2_Linux64bit</fileUrl>
+          <fileUrl>tools/TextPro1.5.2_Linux64bit</fileUrl>
         </fileResourceSpecifier>
         <implementationName>it.unitn.limosine.util.SharedModel_Impl</implementationName>
       </externalResource>
