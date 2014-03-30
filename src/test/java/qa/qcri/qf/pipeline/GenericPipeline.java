@@ -1,7 +1,5 @@
 package qa.qcri.qf.pipeline;
 
-import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,12 +10,10 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
-import qa.qcri.qf.annotators.IllinoisChunker;
 import qa.qcri.qf.datagen.DataObject;
 import qa.qcri.qf.datagen.Labelled;
 import qa.qcri.qf.datagen.rr.Reranking;
 import qa.qcri.qf.fileutil.FileManager;
-import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.readers.AnalyzableReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
@@ -27,10 +23,6 @@ import util.ChunkReader;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
 public class GenericPipeline {
 
