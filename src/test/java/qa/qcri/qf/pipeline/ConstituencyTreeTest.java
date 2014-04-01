@@ -22,17 +22,22 @@ public class ConstituencyTreeTest {
 
 	@Test
 	public void testConstituencyTree() throws UIMAException {
+		
+		String expectedOutput = "(ROOT (S (NP (PRP$ (My))(NN (dog)))(ADVP (RB (also)))"
+				+ "(VP (VBZ (likes))(VP (VBG (eating))(NP (NN (sausage)))))(. (.)))"
+				+ "(FRAG (WHNP (WHNP (WP (What)))(PP (IN (about))(NP (PRP$ (your))"
+				+ "(NN (cat)))))(. (?))))";
+		
 		Analyzer ae = instantiateAnalyzer();
 		JCas cas = JCasFactory.createJCas();
 
 		ae.analyze(cas, new SimpleContent("constituency-test",
 				"My dog also likes eating sausage. What about your cat?"));
-
+		
 		TokenTree tree = RichTree.getConstituencyTree(cas);
 		TreeSerializer ts = new TreeSerializer();
 
-		Assert.assertEquals(
-				"(ROOT (S (NP (PRP$ (My))(NN (dog)))(ADVP (RB (also)))(VP (VP (NP (NN (sausage))))))(FRAG (WHNP (WHNP (WP (What)))(PP (NP (PRP$ (your))(NN (cat)))))))",
+		Assert.assertEquals(expectedOutput,
 				ts.serializeTree(tree, ""));
 	}
 

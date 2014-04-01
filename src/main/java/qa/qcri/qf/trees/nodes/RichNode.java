@@ -81,6 +81,16 @@ public interface RichNode {
 	public RichNode addChild(RichNode node);
 	
 	/**
+	 * Adds a child to this node, at position index
+	 * 
+	 * @param node
+	 * @param node
+	 * 
+	 * @return the object instance for chaining
+	 */
+	public RichNode addChild(int index, RichNode node);
+	
+	/**
 	 * 
 	 * @return whether the node has a parent
 	 */

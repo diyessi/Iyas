@@ -76,6 +76,13 @@ public class BaseRichNode implements RichNode {
 	}
 	
 	@Override
+	public RichNode addChild(int index, RichNode node) {
+		node.setParent(this);
+		this.children.add(index, node);
+		return this;
+	}
+	
+	@Override
 	public boolean hasParent() {
 		return this.parent != null;
 	}

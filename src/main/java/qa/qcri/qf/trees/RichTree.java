@@ -11,6 +11,8 @@ import java.util.Map;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
+import com.google.common.collect.Lists;
+
 import qa.qcri.qf.trees.nodes.BaseRichNode;
 import qa.qcri.qf.trees.nodes.RichChunkNode;
 import qa.qcri.qf.trees.nodes.RichConstituentNode;
@@ -85,6 +87,7 @@ public class RichTree {
 	 * @see TokenTree
 	 */
 	public static TokenTree getConstituencyTree(JCas cas) {
+		
 		TokenTree root = new TokenTree();
 		root.setValue(ROOT_LABEL);
 
@@ -97,10 +100,9 @@ public class RichTree {
 		}
 
 		for (Constituent node : roots) {
-			RichNode subTree = getConstituencySubTree(node, root);
-			// Step required to skip each sentence root node
-			for (RichNode sentenceNode : subTree.getChildren()) {
-				root.addChild(sentenceNode);
+			RichNode subTrees = getConstituencySubTree(node, root);
+			for(RichNode subTree : subTrees.getChildren()) {
+				root.addChild(subTree);
 			}
 		}
 
@@ -127,21 +129,24 @@ public class RichTree {
 			subTree.addChild(getConstituencySubTree(constituent, root));
 		}
 
-		/**
-		 * If there are no constituents we are working with a token node
-		 */
-		if (constituents.size() == 0) {
-			Collection<Token> tokens = JCasUtil.select(subTreeRoot.getChildren(), Token.class);
-			for (Token token : tokens) {
-				RichNode posNode = new BaseRichNode().setValue(
-						token.getPos().getPosValue());
+		List<Token> tokens = Lists.newArrayList(JCasUtil.select(subTreeRoot.getChildren(), Token.class));
+		Collections.reverse(tokens);
+		for (Token token : tokens) {
+			RichNode posNode = new BaseRichNode().setValue(
+					token.getPos().getPosValue());
 
-				RichTokenNode tokenNode = new RichTokenNode(token);
+			RichTokenNode tokenNode = new RichTokenNode(token);
 
-				subTree.addChild(posNode.addChild(tokenNode));
-
-				root.addToken(tokenNode);
+			int insertionIndex = 0;
+			for(Constituent constituent : constituents) {
+				if(token.getBegin() > constituent.getBegin()) {
+					insertionIndex++;
+				}
 			}
+			
+			subTree.addChild(insertionIndex, posNode.addChild(tokenNode));
+
+			root.addToken(tokenNode);
 		}
 
 		return subTree;
@@ -247,4 +252,5 @@ public class RichTree {
 
 		return new RichDependencyNode(dependency);
 	}
+
 }
