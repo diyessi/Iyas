@@ -1,4 +1,4 @@
-package qa.qcri.qf.pipeline;
+package qa.qcri.qf.annotators;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 import junit.framework.Assert;
@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import qa.qcri.qf.annotators.QuestionClassifier;
+import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
@@ -19,7 +20,7 @@ import qa.qcri.qf.type.QuestionClass;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 
-public class QuestionClassTest {
+public class QuestionClassifierTest {
 
 	private static JCas cas;
 
