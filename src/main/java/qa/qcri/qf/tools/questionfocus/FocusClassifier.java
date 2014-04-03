@@ -25,11 +25,12 @@ import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
+import util.Pair;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 public class FocusClassifier {
 	
-	public static final String DATA = "data/question-focus/data_2k.txt";
+	public static final String DATA = Commons.QUESTION_FOCUS_DATA + "data_2k.txt";
 	
 	public static final String CASES_DIRECTORY = "CASes/question-focus/";
 	
@@ -46,10 +47,6 @@ public class FocusClassifier {
 	private TreeSerializer ts;	
 	
 	private Map<Integer, List<String>> examples;
-	
-	/*
-	 * Variables for statistics
-	 */
 	
 	private Map<String, Integer> posToFreq = new HashMap<>();
 	
@@ -90,9 +87,7 @@ public class FocusClassifier {
 			
 			this.addFocusMetadata(tree, beginPos, endPos);
 			
-			List<String> questionExamples = produceExamples(qid, tree);
-			
-			this.examples.put(qid, questionExamples);
+			this.examples.put(qid, produceExamples(qid, tree));
 			
 			qid++;
 		}
@@ -100,6 +95,37 @@ public class FocusClassifier {
 		in.close();
 		
 		return this;
+	}
+	
+	public static List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree,
+			TreeSerializer ts) {
+		List<Pair<String, RichTokenNode>> examples = new ArrayList<>();
+		
+		for(RichTokenNode node : tree.getTokens()) {
+			
+			RichNode posTag = node.getParent();
+			
+			if(!allowedTags.contains(posTag.getValue())) continue;
+			
+			posTag.addAdditionalLabel(Commons.QUESTION_FOCUS_KEY);
+			
+			boolean isFocus = node.getMetadata().containsKey(Commons.QUESTION_FOCUS_KEY);
+			
+			String label = isFocus ? "+1" : "-1";
+			
+			String taggedTree = ts.serializeTree(tree, Commons.getParameterList());
+			
+			String example = label
+					+ "|BT| "
+					+ taggedTree
+					+ " |ET|";
+			
+			examples.add(new Pair<>(example, node));
+			
+			posTag.removeAdditionalLabel(Commons.QUESTION_FOCUS_KEY);
+		}
+		
+		return examples;
 	}
 	
 	public List<String> produceExamples(int qid, TokenTree tree) {
@@ -236,9 +262,11 @@ public class FocusClassifier {
 	}
 	
 	public static void main(String[] args) throws UIMAException {
+		
 		new FocusClassifier().generateExamples(DATA)
 			.printStatistics()
-			.writeExamplesInFolds("data/question-focus/folds", 5);
+			.writeExamplesToDisk(Commons.QUESTION_FOCUS_DATA + "svm.train");
+			//.writeExamplesInFolds("data/question-focus/folds", 5);
 	}
 	
 }

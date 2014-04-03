@@ -15,6 +15,8 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
 public class Commons {
 	
+	public static final String QUESTION_FOCUS_DATA = "data/question-focus/";
+	
 	public static final String QUESTION_FOCUS_KEY = "FOCUS";
 
 	public static Analyzer instantiateAnalyzer(UIMAPersistence persistence)
