@@ -37,9 +37,6 @@ public class QuestionFocusTest {
 		cas = JCasFactory.createJCas();
 
 		ae.analyze(cas, content);
-
-		SimplePipeline.runPipeline(cas,
-				createEngineDescription(QuestionClassifier.class));
 	}
 
 	@Test
