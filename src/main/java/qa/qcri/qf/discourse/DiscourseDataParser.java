@@ -79,11 +79,19 @@ public class DiscourseDataParser {
 			String tokenizedText = Joiner.on(" ").join(tokens);
 			
 			if(!tokenizedText.equals(discourseText)) {
+				/**
 				System.out.println(passageId);
 				System.out.println("D- " + discourseText);
 				System.out.println("T- " + tokenizedText);
 				System.out.println("");
+				**/
 			}
+			
+			// Parse the discourse tree, align these nodes to our tokenized text
+			
+			// Add the discourse annotation to the CAS
+			
+			// Build the tree
 			
 			cas.reset();
 			
