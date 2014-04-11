@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>true</primitive>
+  <annotatorImplementationName>it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapper</annotatorImplementationName>
+  <analysisEngineMetaData>
+    <name>BerkeleyITDescriptor</name>
+    <description/>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <typeSystemDescription>
+      <imports>
+        <import location="types/SentenceTokenTypeSystem.xml"/>
+        <import location="types/ParseTreePosTypeSystem.xml"/>
+      </imports>
+    </typeSystemDescription>
+    <typePriorities/>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+      	<!-- 
+        <inputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.pos.Pos</type>
+        </inputs>
+       -->
+       	<inputs>
+       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</type>
+       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</type>
+       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</type>
+       	</inputs>
+       	<outputs>
+       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent</type>
+       	</outputs>
+       	<!-- 
+        <outputs>
+          <type allAnnotatorFeatures="true">it.unitn.limosine.types.syntax.ConstituencyTree</type>
+        </outputs>
+        -->
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <externalResourceDependencies>
+    <externalResourceDependency>
+      <key>BerkeleyIt</key>
+      <description/>
+      <interfaceName>it.unitn.limosine.util.SharedModel</interfaceName>
+      <optional>false</optional>
+    </externalResourceDependency>
+  </externalResourceDependencies>
+  <resourceManagerConfiguration>
+    <externalResources>
+      <externalResource>
+        <name>BerkeleyItPath</name>
+        <description>Path to the Berkeley parser with its Italian model and conversion scripts</description>
+        <fileResourceSpecifier>
+          <fileUrl>tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian</fileUrl>
+        </fileResourceSpecifier>
+        <implementationName>it.unitn.limosine.util.SharedModel_Impl</implementationName>
+      </externalResource>
+    </externalResources>
+    <externalResourceBindings>
+      <externalResourceBinding>
+        <key>BerkeleyIt</key>
+        <resourceName>BerkeleyItPath</resourceName>
+      </externalResourceBinding>
+    </externalResourceBindings>
+  </resourceManagerConfiguration>
+</analysisEngineDescription>
