@@ -47,7 +47,8 @@ import edu.stanford.nlp.trees.ConstituentFactory;
 public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 
  	private String berkeleyitpath;
-	private String berkeleycommand="bin/berkeleyparser-runio.sh";
+	//private String berkeleycommand="bin/berkeleyparser-runio.sh";
+ 	private String berkeleycommand="tools/berkeleyparser-runio.sh";
  	
 	@Override
 	public void initialize(UimaContext aContext)
@@ -117,7 +118,8 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 
 				 //DUMP 1 sentence in the TXP format
 				 
-					String fullberkitcommand = berkeleyitpath + "/" + berkeleycommand; 	
+					//String fullberkitcommand = berkeleyitpath + "/" + berkeleycommand;
+				 	String fullberkitcommand = berkeleycommand;
 					/*
 					List<String> fulltxpcmdline=new ArrayList<String>();
 					fulltxpcmdline.add(fulltxpcommand);
