@@ -74,8 +74,24 @@ public class TreeUtil {
 	public static List<RichNode> getLeaves(RichNode tree) {
 		return TreeUtil.getNodesWithFilter(tree, new Function<RichNode, Boolean>() {
 			@Override
-			public Boolean apply(RichNode input) {
-				return input.isLeaf();
+			public Boolean apply(RichNode node) {
+				return node.isLeaf();
+			}
+		});
+	}
+	
+	/**
+	 * Returns the nodes of the tree which are not leaves
+	 * 
+	 * @param tree
+	 *            the tree to traverse
+	 * @return the node which are not leaves of the tree
+	 */
+	public static List<RichNode> getNonLeaves(RichNode tree) {
+		return TreeUtil.getNodesWithFilter(tree, new Function<RichNode, Boolean>() {
+			@Override
+			public Boolean apply(RichNode node) {
+				return !node.isLeaf();
 			}
 		});
 	}
