@@ -1,4 +1,5 @@
 package it.unitn.limosine.italian.syntax.constituency;
+import it.unitn.limosine.types.syntax.ConstituencyTree;
 import it.unitn.limosine.util.SharedModel;
 import it.unitn.limosine.util.StreamGobbler;
 
@@ -11,10 +12,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import it.unitn.limosine.types.pos.Pos;
-import it.unitn.limosine.types.segmentation.Sentence;
-import it.unitn.limosine.types.segmentation.Token;
-import it.unitn.limosine.types.syntax.ConstituencyTree;
+
+
+
+
+
+
+
+
+//import it.unitn.limosine.types.pos.Pos;
+//import it.unitn.limosine.types.segmentation.Sentence;
+//import it.unitn.limosine.types.segmentation.Token;
+//import it.unitn.limosine.types.syntax.ConstituencyTree;
 import it.unitn.limosine.util.*;
 
 import org.apache.uima.UimaContext;
@@ -27,12 +36,19 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Level;
+import org.uimafit.util.JCasUtil;
+
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import edu.stanford.nlp.trees.ConstituentFactory;
 
 
 public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 
  	private String berkeleyitpath;
-	private String berkeleycommand="bin/berkeleyparser-runio.sh";
+	//private String berkeleycommand="bin/berkeleyparser-runio.sh";
+ 	private String berkeleycommand="tools/berkeleyparser-runio.sh";
  	
 	@Override
 	public void initialize(UimaContext aContext)
@@ -54,8 +70,26 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 			
 		} catch (ResourceAccessException e) {
 			e.printStackTrace();
-		}
+		}	
+	}
+	
+	/* 
+	 * replace '( (' with '(('
+	 * replace ') )' with '))'
+	 * replace ') (' with ')('
+	 */
+	private String stripSpacesAroundBrackets(String str) {
+		assert str != null;
 		
+		String result = str;
+		return result.replaceAll("([()])\\s+([()])", "$1$2");
+		/*
+		result = result.replaceAll("\\( \\(", "\\(\\(");
+        result = result.replaceAll("\\) \\)", "\\)\\)");
+        result = result.replaceAll("\\) \\(", "\\)\\(");
+		
+        return result;
+        */
 	}
 
 	@Override
@@ -75,7 +109,8 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 			 Sentence sentence = (Sentence) sentenceIterator.next();
 			 
 			//get tokens+pos of sentence, prepare txp input
-			 List<AnnotationFS> myPos = JCasUtility.selectCovered(cas, Pos.class, sentence);
+			// List<AnnotationFS> myPos = JCasUtility.selectCovered(cas, POS.class, sentence);
+			 List<AnnotationFS> myToks = JCasUtility.selectCovered(cas, Token.class, sentence);
 	
 			 
 			 
@@ -83,7 +118,8 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 
 				 //DUMP 1 sentence in the TXP format
 				 
-					String fullberkitcommand = berkeleyitpath + "/" + berkeleycommand; 	
+					//String fullberkitcommand = berkeleyitpath + "/" + berkeleycommand;
+				 	String fullberkitcommand = berkeleycommand;
 					/*
 					List<String> fulltxpcmdline=new ArrayList<String>();
 					fulltxpcmdline.add(fulltxpcommand);
@@ -101,10 +137,23 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 				
 					PrintWriter writer = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(process.getOutputStream())),true);
 
+					/*
 					 for (AnnotationFS p : myPos) {
-						 Pos pos = (Pos)p;
-						 Token tok = pos.getToken();
-						 writer.println(tok.getNormalizedText() + "\t" + pos.getPostag());
+						 POS pos = (POS)p;
+						 Token tok;
+						 
+						 //Token tok = pos.getToken();
+						 Token tok = JCasUtil.selectS
+						 writer.println(tok.getN);
+						 //writer.println(tok.getNormalizedText() + "\t" + pos.getPostag());
+					 }
+					 */
+					
+					 for (AnnotationFS t : myToks) {
+						 Token tok = (Token)t;
+						 
+						 POS pos = tok.getPos();
+						 writer.println(tok.getCoveredText() + "\t" + pos.getPosValue());
 					 }
 					 writer.println();
 					 
@@ -134,15 +183,34 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 				        	System.err.println(out.trim());
 				        
 				        for(String out : output) {
-
-				        	ConstituencyTree pennTree = new ConstituencyTree(cas);
-				        	pennTree.setBegin(sentence.getBegin());
-				        	pennTree.setEnd(sentence.getEnd());
-				        	pennTree.setRawParse(out.trim());
-				        	pennTree.setAnnotatorId(getClass().getCanonicalName());
-				        	pennTree.setSentence(sentence);
-				        	pennTree.addToIndexes();
-				        }
+				        	String constituencyTree = out.trim();
+				        	
+				        /*
+				        constituencyTree = constituencyTree.replaceAll("\\( \\(", "\\(\\(");
+				        constituencyTree = constituencyTree.replaceAll("\\) \\)", "\\)\\)");
+				        constituencyTree = constituencyTree.replaceAll("\\) \\(", "\\)\\(");
+				        constituencyTree = constituencyTree.substring(1, constituencyTree.length() - 1);
+				        */
+				        	
+				        // Strip spaces around brackets
+				        constituencyTree = constituencyTree.replaceAll("([()])\\s+([()])", "$1$2");
+				        constituencyTree = constituencyTree.replaceAll("\\(Start", "\\(TOP");
+				        constituencyTree = constituencyTree.substring(1, constituencyTree.length() - 1);
+				        			        		
+				        //ConstituencyUtils.addConstituentsToIndexes(constituencyTree, cas);
+				        ConstituencyFactory.buildConstituents(cas, constituencyTree);
+				        
+				        /*
+				        ConstituencyTree pennTree = new ConstituencyTree(cas);
+				        pennTree.setBegin(sentence.getBegin());
+				        pennTree.setEnd(sentence.getEnd());
+				        pennTree.setRawParse(out.trim());
+				        pennTree.setAnnotatorId(getClass().getCanonicalName());
+				        	
+				        pennTree.setSentence(sentence);
+				        pennTree.addToIndexes();
+				        */   	
+				     }
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
