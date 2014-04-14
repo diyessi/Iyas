@@ -141,4 +141,16 @@ public class TreeSerializer {
 
 		return Joiner.on("").join(leftParts);
 	}
+	
+	/**
+	 * Serializes a tree starting from the specified node
+	 * using an empty parameter list
+	 * 
+	 * @param node
+	 *            the root node of the tree
+	 * @return the serialized tree
+	 */
+	public String serializeTree(RichNode node) {
+		return this.serializeTree(node, "");
+	}
 }
