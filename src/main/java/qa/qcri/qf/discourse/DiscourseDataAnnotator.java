@@ -15,7 +15,9 @@ import org.uimafit.util.JCasUtil;
 
 import qa.qcri.qf.fileutil.ReadFile;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
+import qa.qcri.qf.trees.DiscourseTree;
 import qa.qcri.qf.trees.TokenTree;
+import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.TreeUtil;
 import qa.qcri.qf.trees.nodes.BaseRichNode;
 import qa.qcri.qf.trees.nodes.RichNode;
@@ -196,6 +198,12 @@ public class DiscourseDataAnnotator {
 				}
 			}
 		}
+		
+		TreeSerializer ts = new TreeSerializer().useSquareBrackets();
+
+		TokenTree discourseTree = DiscourseTree.getDiscourseTreeWithTokensAndChunks(cas);
+		
+		System.out.println(ts.serializeTree(discourseTree));
 	}
 	
 	
