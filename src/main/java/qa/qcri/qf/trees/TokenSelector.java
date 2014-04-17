@@ -13,8 +13,25 @@ import qa.qcri.qf.trees.nodes.RichTokenNode;
 import util.Pair;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
+/**
+ * 
+ * Class for retrieving tokens from token trees
+ * 
+ */
 public class TokenSelector {
 
+	/**
+	 * Retrieves the specified annotation and the tokens in the tree which are
+	 * covered by that annotation
+	 * 
+	 * @param cas
+	 *            the cas containing the covering annotation
+	 * @param tree
+	 *            the tokenTree built from the same cas
+	 * @param type
+	 *            the type of the covering annotation
+	 * @return a list of pair <annotation, list of RichTokenNode>
+	 */
 	public static <T extends Annotation> List<Pair<T, List<RichTokenNode>>> selectTokenNodeCovered(
 			JCas cas, TokenTree tree, Class<T> type) {
 		List<Pair<T, List<RichTokenNode>>> mappings = new ArrayList<>();
