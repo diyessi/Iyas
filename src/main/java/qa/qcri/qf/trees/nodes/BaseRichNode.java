@@ -119,4 +119,9 @@ public class BaseRichNode implements RichNode {
 		return this.value;
 	}
 	
+	@Override
+	public String toString() {
+		return getRepresentation(this.value);
+	}
+	
 }
