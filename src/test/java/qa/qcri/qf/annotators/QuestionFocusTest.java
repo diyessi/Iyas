@@ -21,6 +21,7 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 
 public class QuestionFocusTest {
+	
 	private static JCas cas;
 
 	@BeforeClass
