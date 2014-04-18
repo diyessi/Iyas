@@ -105,6 +105,7 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 		 // this will be superslow for a moment
 		 // ToDo: process the whole doc at one go
 
+		 StringBuilder tree = new StringBuilder("(ROOT ");
 		 while (sentenceIterator.hasNext()) {
 			 Sentence sentence = (Sentence) sentenceIterator.next();
 			 
@@ -183,39 +184,43 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 				        	System.err.println(out.trim());
 				        
 				        for(String out : output) {
-				        	String constituencyTree = out.trim();
+				        	String subtree = out.trim();
 				        	
-				        /*
-				        constituencyTree = constituencyTree.replaceAll("\\( \\(", "\\(\\(");
-				        constituencyTree = constituencyTree.replaceAll("\\) \\)", "\\)\\)");
-				        constituencyTree = constituencyTree.replaceAll("\\) \\(", "\\)\\(");
-				        constituencyTree = constituencyTree.substring(1, constituencyTree.length() - 1);
-				        */
+				        	/*
+				        	constituencyTree = constituencyTree.replaceAll("\\( \\(", "\\(\\(");
+				        	constituencyTree = constituencyTree.replaceAll("\\) \\)", "\\)\\)");
+				        	constituencyTree = constituencyTree.replaceAll("\\) \\(", "\\)\\(");
+				        	constituencyTree = constituencyTree.substring(1, constituencyTree.length() - 1);
+				        	 */
 				        	
-				        // Strip spaces around brackets
-				        constituencyTree = constituencyTree.replaceAll("([()])\\s+([()])", "$1$2");
-				        constituencyTree = constituencyTree.replaceAll("\\(Start", "\\(TOP");
-				        constituencyTree = constituencyTree.substring(1, constituencyTree.length() - 1);
+				        	// Strip spaces around brackets
+				        	subtree = subtree.replaceAll("([()])\\s+([()])", "$1$2");
+				        	subtree = subtree.replaceAll("\\(Start", "\\(TOP");
+				        	subtree = subtree.substring(1, subtree.length() - 1);
+				        	
+				          	tree.append(subtree);
 				        			        		
-				        //ConstituencyUtils.addConstituentsToIndexes(constituencyTree, cas);
-				        ConstituencyFactory.buildConstituents(cas, constituencyTree);
+				        	//ConstituencyUtils.addConstituentsToIndexes(constituencyTree, cas);
+				        	//ConstituencyFactory.buildConstituents(cas, constituencyTree);
 				        
-				        /*
-				        ConstituencyTree pennTree = new ConstituencyTree(cas);
-				        pennTree.setBegin(sentence.getBegin());
-				        pennTree.setEnd(sentence.getEnd());
-				        pennTree.setRawParse(out.trim());
-				        pennTree.setAnnotatorId(getClass().getCanonicalName());
+				        	/*
+				        	ConstituencyTree pennTree = new ConstituencyTree(cas);
+				        	pennTree.setBegin(sentence.getBegin());
+				        	pennTree.setEnd(sentence.getEnd());
+				        	pennTree.setRawParse(out.trim());
+				        	pennTree.setAnnotatorId(getClass().getCanonicalName());
 				        	
-				        pennTree.setSentence(sentence);
-				        pennTree.addToIndexes();
-				        */   	
+				        	pennTree.setSentence(sentence);
+				        	pennTree.addToIndexes();
+				        	 */   	
 				     }
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			 
+			 	tree.append(")");			 
 			 }
+		 	 System.out.println("BerkeleyWrapper: " + tree.toString());
+		 	 ConstituencyFactory.buildConstituents(cas, tree.toString());
 		}
 	}
 

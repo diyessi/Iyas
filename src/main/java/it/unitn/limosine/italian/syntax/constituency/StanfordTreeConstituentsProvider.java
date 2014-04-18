@@ -12,10 +12,11 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 import edu.stanford.nlp.trees.Tree;
 
 /**
- * A factory class for tree constituent objects.
+ * A factory class for tree constituent objects. 
+ * Use a stanford tree for getting constituents.
  *
  */
-public class ConstituencyFactory {
+public class StanfordTreeConstituentsProvider {
 	
 	/**
 	 * Builds constituents from a tree string representation.
@@ -29,6 +30,8 @@ public class ConstituencyFactory {
 			throw new NullPointerException("jcas is null");
 		if (treeStr == null)
 			throw new NullPointerException("treeStr is null");
+		
+		System.out.println("str(tree): " + treeStr);
 		
 		Tree tree = Tree.valueOf(treeStr);
 		tree.setSpans();
@@ -103,8 +106,10 @@ public class ConstituencyFactory {
 			throw new IllegalArgumentException("begin < 0: " + begin);
 		if (end < 0) 
 			throw new IllegalArgumentException("end < 0: " + end);
+		/*
 		if (begin > end)
 			throw new IllegalArgumentException("begin > end: " + begin + " > " + end);
+		*/
 		
 		Constituent constituent = new Constituent(jcas, begin, end);
 		constituent.setParent(parent);

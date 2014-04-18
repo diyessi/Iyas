@@ -1,0 +1,1228 @@
+CURRENCY:valore Qual era il valore monetario del Premio Nobel per la pace nel 1989 ?
+ENTITY:entità Che cosa produce l'azienda Peugeot ?
+CURRENCY:valuta Quanto ha speso Mercury in pubblicità nel 1993 ?
+WHO:nome Qual è il nome dell'amministratore delegato di Apricot computer?
+WHY:spiegazione Perché David Koresh ha chiesto all'FBI un word processor ?
+CURRENCY:debiti Che debiti ha lasciato il gruppo Qintex ?
+ENTITY:nome Qual è il nome della rara malattia neurologica con sintomi quali : movimenti involontari - LRB - tic - RRB - ,  bestemmie, e vocalizzazioni incoerenti - LRB - grugniti, grida, etc. - RRB - ?
+QUANTITY:dimensione Quanto dista Yaroslavl da Mosca ?
+WHO:progettista Nominare il progettista della scarpa che ha generato milioni di imitazioni in plastica , nota come `` jellies '' .
+WHO:moglie Chi era la moglie del presidente Cleveland ?
+CURRENCY:valuta Quanto ha speso il Manchester United per i giocatori nel 1993 ?
+CURRENCY:valuta A quanto potevate noleggiare un Maggiolino nel 1966?
+LOCATION:paese Quale paese è il più grande produttore di tungsteno ?
+WHEN:data Quando fu costruita la Docklands Light Railway di Londra ?
+WHO:biochimici Quali due biochimici statunitensi hanno vinto il Premio Nobel per la medicina nel 1992 ?
+DURATION:durata Quanto durò il processo per l'omicidio di Charles Manson ?
+WHO:presidente Chi è stato il primo presidente taiwanese ?
+WHO:leader Chi era il leader della setta davidiana affrontata dall' FBI a Waco , in Texas nel 1993 ?
+WHO:americano Chi è stato il primo americano nello spazio ?
+WHEN:data Quando finì il periodo Giurassico ?
+WHEN:data Quando iniziarono Spagna e Corea le relazioni ambasciatoriali ?
+WHEN:data Quando visitò Nixon la Cina ?
+WHO:attrice Chi era l'attrice protagonista nel film ``Sleepless in Seattle'' ?
+ENTITY:nome Qual è il nome della controparte femminile a El Nino , che produce temperature rinfresacanti e clima molto secco ?
+LOCATION:luogo Dove si è svolto il sesto incontro annuale degli esperti forestali indonesiani - malesi ?
+WHO:persona Chi può essere meglio conosciuto per avere infranto la color line nel baseball ?
+ENTITY:stella Qual è la stella più luminosa visibile dalla Terra ?
+DESC:Principi Valdez Cosa sono i Principi Valdez ?
+LOCATION:luogo Dove è nato Ulysses S. Grant ?
+WHO:persona Chi ha ricevuto il Will Rogers Award nel 1989 ?
+LOCATION:città Qual è la città più grande della Germania ?
+LOCATION:nome Qual è il nome della montagna più alta in Africa?
+WHO:nome Qual era il nome del pilota di elicottero americano abbattuto sulla Corea del Nord ?
+LOCATION:luogo Dove è nato George Washington ?
+WHO:presidente Chi fu scelto per essere il primo presidente nero delle forze armate Joint Chiefs of Staff ?
+WHO:persona Chi ha vinto il Premio Nobel per la Pace nel 1991 ?
+QUANTITY:limite Qual è il limite legale di alcol nel sangue per lo stato della California ?
+QUANTITY:target rate Qual è stato il target rate di crescita M3 nel 1992 ?
+WHO:costumista Quale costumista ha deciso che Michael Jackson deve indossare solo un guanto ?
+WHO:direttore Chi è il direttore del gruppo internazionale chiamato Human Genome Organization - LRB - HUGO - RRB , che sta cercando di coordinare la ricerca della mappatura del gene in tutto il mondo?
+WHO:sindaco Chi è il sindaco di Marbella ?
+ENTITY:compagnia Quale compagnia è la più grande costruttrice di navi giapponese ?
+LOCATION:luogo Dove si trova l'imponente complesso nucleare nordcoreano ?
+WHO:persona Chi licenziò Maria Ybarra dalla sua posizione nel consiglio di San Diego ?
+WHEN:data Quando fu costruita la prima casa di cemento di Dubai ?
+WHO:presidente Chi è il presidente della Stanford University ?
+WHO:persona Chi ha inventato il cono stradale ?
+WHO:medico Chi è stato il primo medico a trapiantare con successo un fegato ?
+WHEN:data Quando è morto Nixon ?
+LOCATION:luogo Dove si trova la sede centrale di Microsoft ?
+QUANTITY:calorie Quante calorie ci sono in un Big Mac ?
+ABBR:acronimo Qual è l'acronimo per il sistema di rating per l'efficienza dei condizionatori d'aria ?
+ENTITY:film Nominare un film che ha vinto l'Orso d'Oro al Festival di Berlino ?
+WHO:presidente Chi era presidente della Costa Rica nel 1994 ?
+CURRENCY:tariffa Qual è la tariffa per il viaggio di andata e ritorno tra New York e Londra in Concorde ?
+ENTITY:marca Che marca di rum bianco è ancora prodotta a Cuba ?
+ENTITY:nome Qual è il nome della malattia neurologica cronica autoimmune che attacca la guaina proteica che circonda le cellule nervose causando una progressiva perdita di movimento nel corpo ?
+ENTITY:sottomarino Quale sottomarino russo a propulsione nucleare affondò nel Mare di Norvegia il 7 aprile 1989 ?
+WHO:persona Chi è la voce di Miss Piggy ?
+LOCATION:paese Nominare un paese che sta sviluppando un sistema ferroviario a levitazione magnetica ?
+WHO:cittadino Nominare il primo cittadino privato che ha volato nello spazio .
+LOCATION:fiume Qual è il fiume più lungo degli Stati Uniti ?
+ENTITY:El Nino Che cosa significa El Nino in spagnolo ?
+WHO:persona Chi emerse con il nome , El Nino ?
+QUANTITY:vite Quante vite sono andate perdute nell'incidente della China Airlines a Nagoya , in Giappone ?
+WHEN:anno In quale anno Joe DiMaggio compì i suoi 56 game hitting streak ?
+WHEN:data Quando è andato fuori onda lo spettacolo originale di Howdy Doody ?
+LOCATION:luogo Dove si trova il Taj Mahal ?
+WHO:persona Chi comanda la nave stellare Enterprise in Star Trek ?
+ENTITY:cancro Quale cancro è comunemente associato all'AIDS ?
+WHEN:anno In quale anno la Nuova Zelanda è stata esclusa dall'alleanza ANZUS ?
+LOCATION:città Quale grande città degli Stati Uniti ha avuto il tasso di omicidi più alto per il 1988 ?
+ENTITY:entità Che cosa ha scritto Shostakovich per Rostropovich ?
+ENTITY:nome Qual è il nome del promettente composto antitumorale derivato dall'albero del tasso del Pacifico ?
+QUANTITY:abitanti Quanti abitanti vivono nella città di Ushuaia ?
+QUANTITY:partite Quante partite di baseball consecutive ha giocato Lou Gehrig ?
+ENTITY:edificio Qual è l'edificio più alto in Giappone?
+LOCATION:paese Quale paese è il più grande mercato di esportazione dell'Australia  ?
+WHO:membro Quale ex membro del Ku Klux Klan ha vinto un carica elettiva negli Stati Uniti?
+WHO:persona Chi ha vinto due medaglie d'oro nello sci ai Giochi olimpici di Calgary ?
+WHO:persona Chi ha seguito Willy Brandt come cancelliere della Repubblica federale di Germania ?
+ENTITY:prodotto Qual è il principale prodotto di esportazione di Grenada ?
+WHEN:età A che età Rossini smise di scrivere opere ?
+WHO:fondatore Chi è il fondatore di Scientology?
+LOCATION:città Quale città in Cina ha il maggior numero di società finanziarie estere ?
+WHO:persona Chi rilasciò l'internet worm alla fine degli anni 80 ?
+WHO:persona Chi per primo circumnavigò il globo ?
+WHO:persona Chi ha scritto la canzone , ``Stardust'' ?
+LOCATION:paese Quale paese è il principale fornitore mondiale di cannabis ?
+QUANTITY:dimensione Quanto è grande il rifugio Artico per preservare la fauna unica e di valore selvaggio sulla costa nord dell'Alaska ?
+LOCATION:luogo Dove si trova il punto più alto in Giappone?
+ENTITY:termine Qual è il termine per la somma di tutto il materiale genetico in un dato organismo ?
+ENTITY:disastro Qual è considerato il disastro più costoso che il settore assicurativo abbia mai affrontato ?
+WHO:project manager Chi è il project manager di Voyager ?
+QUANTITY:persone Quante persone sono morte quando l'Estonia è affondata nel 1994 ?
+ENTITY:lingua Che lingua è più comunemente usata in Bombay ?
+LOCATION:vetta Qual è la seconda vetta montana più alta del mondo?
+WHEN:data Quando è stato il primo test nucleare della Cina ?
+ENTITY:azienda Quale azienda ha creato il browser Internet Mosaic ?
+WHO:persona Chi ha ucciso Lee Harvey Oswald ?
+WHO:presidente Chi è il presidente del Ghana ?
+DESC:Head Start Che cosa è Head Start ?
+ENTITY:squadra Quale squadra ha vinto il Super Bowl nel 1968 ?
+WHO:ricercatori Quali sono i due ricercatori che scoprirono la struttura a doppia elica del DNA nel 1953 ?
+QUANTITY:percentuale Quale percentuale di specie animali e vegetali del mondo si può trovare nelle foreste amazzoniche ?
+WHO:section manager Chi è il section manager per sistemi di guida e controllo al JPL ?
+QUANTITY:Vietnamiti Quanti Vietnamiti c'erano in Unione Sovietica ?
+DESC:spiegazione Per cosa era usato l'Agent Orange durante la guerra del Vietnam ?
+LOCATION:città Quale città ha il rapporto più antico come città gemellata con Los Angeles ?
+WHO:uomo Chi fu il secondo uomo a camminare sulla luna ?
+QUANTITY:volte Quante volte è stato lanciatore , Warren Spahn , un vincitore di 20 game nelle sue 21 stagioni in major league ?
+WHEN:data Quando è stato riunificato lo Yemen?
+LOCATION:capitale Qual è la capitale dell'Uruguay ?
+LOCATION:luogo Dove si prevede di ancorare la nave mercantile , Lane Victory , che i veterani della Merchant Marine stanno convertendo in un museo galleggiante ?
+WHO:presidente Chi è il presidente del governo spagnolo?
+QUANTITY:persone Quante persone le Nazioni Unite hanno assegnato per contribuire a ristabilire l'ordine e distribuire aiuti umanitari in Somalia nel settembre 1992 ?
+QUANTITY:persone Quante persone sono state uccise a terra dal bombardamento del volo Pan Am 103 su Lockerbie , in Scozia , il 21 dicembre 1988 ?
+QUANTITY:popolazione Qual è la popolazione di Ulan Bator , capitale della Mongolia ?
+LOCATION:luogo Da dove arriva la maggior parte della marijuana che entra negli Sati Uniti?
+LOCATION:luogo Dove ha sede la squadra di basket Bulls ?
+QUANTITY:lunghezza Qual è la lunghezza del confine tra l'Ucraina e la Russia ?
+QUANTITY:persone Quante persone vivono a Tokyo ?
+LOCATION:capitale Qual è la capitale della California?
+QUANTITY:titoli Quanti titoli del Grande Slam ha vinto Bjorn Borg ?
+WHO:candidato Chi è stato il candidato democratico alle elezioni presidenziali americane ?
+LOCATION:luogo Dove si trova il Dartmouth College?
+CURRENCY:currency Quanto è ricco Bill Gates ?
+LOCATION:capitale Qual è la capitale del Kosovo ?
+LOCATION:stato Quale stato rappresenta Charles Robb ?
+ENTITY:concorrente Chi è il principale concorrente della Trans Union Company ?
+ENTITY:tipo Quale tipo di sommergibile è stato acquistato di recente dalla Corea del Sud ?
+ENTITY:nazionalità Di che nazionalità è Papa Giovanni Paolo II?
+WHO:capitano Chi era il capitano della petroliera Exxon Valdez , coinvolta nella fuoriuscita di petrolio nel Prince William Sound , Alaska 1989 ?
+WHO:Presidente Chi era Presidente dell'Afghanistan nel 1994 ?
+WHO:direttore Chi è il direttore degli affari intergovernativi per la contea di San Diego ?
+LOCATION:luogo Dove si trova il telescopio Keck ?
+QUANTITY:lune Quante lune ha Giove ?
+LOCATION:capitale Qual è la capitale del Congo ?
+LOCATION:capitale Qual è la capitale d'Italia ?
+LOCATION:capitale Qual è la capitale dello Sri Lanka ?
+ENTITY:opera Qual è stata la prima opera di Gilbert e Sullivan ?
+ENTITY:nome Qual era il nome del computer in ``2001: Odissea nello spazio'' ?
+WHEN:data Quando è stata combattuta la battaglia della Somme ?
+WHEN:data Quando fu approvato l'emendamento per il suffragio delle donne ?
+LOCATION:luogo Dove è nato Harry Truman ?
+WHO:segretario Chi era il segretario di Stato durante l'amministrazione Nixon ?
+WHO:persona Chi ha scritto ``I Pini di Roma'' ?
+WHO:persona Chi ha scritto ``Amleto'' ?
+DESC:spiegazione Che cosa disse Richard Feynman dopo aver saputo che avrebbe ricevuto il Premio Nobel per la Fisica ?
+ENTITY:tipo Che tipo di ponte è il Golden Gate Bridge ?
+QUANTITY:dimensione Quanto dista la Luna ?
+DESC:spiegazione Per cosa è meglio conosciuto Francis Scott Key ?
+WHO:persona Chi ha inventato la graffetta ?
+QUANTITY:cani Quanti cani tirano una slitta nella Iditarod ?
+WHO:persona Chi ha inventato la chitarra elettrica ?
+ENTITY:mammifero Nominare un mammifero volante.
+QUANTITY:esagoni Quanti esagoni ci sono su un pallone da calcio ?
+WHO:leader Chi è il leader dell' India?
+ENTITY:lingua Qual è la lingua principale delle Filippine ?
+QUANTITY:popolazione Qual è la popolazione del Giappone ?
+WHO:persona Chi ha ucciso Martin Luther King ?
+WHO:dio Chi è il dio greco del mare ?
+WHO:nuotatore Chi è il nuotatore più veloce del mondo ?
+WHO:presidente Chi era il presidente della Francia di Vichy ?
+WHO:persona Chi ha inventato la televisione ?
+WHO:persona Chi costruì il primo aereo ?
+WHO:persona Chi ha realizzato il primo aereo in grado di volare ?
+QUANTITY:astronauti Quanti astronauti sono stati sulla luna ?
+WHO:Barbara Jordan Chi è Barbara Jordan ?
+ENTITY:nome Qual era il nome della famosa battaglia nel 1836 tra il Texas e il Messico ?
+WHO:persona Chi ha inventato il baseball ?
+LOCATION:luogo Dove si può trovare la venere acchiappamosche ?
+LOCATION:luogo Che cosa ha scoperto Vasco da Gama ?
+WHO:persona Chi ha vinto la battaglia di Gettysburg ?
+ENTITY:serpente Qual è il serpente più grande del mondo ?
+LOCATION:luogo Dove si trova la Valle dei Re ?
+QUANTITY:persone Quante persone vivono in Cile ?
+WHEN:data Quando è stato inventato il primo sciacquone ?
+WHO:William Wordsworth Chi è William Wordsworth ?
+ENTITY:uccello Qual è l'uccello dello stato della California ?
+WHO:persona Chi è sepolto nella grande piramide di Giza ?
+LOCATION:luogo Dove piace vivere alle aragoste ?
+ENTITY:NAFTA Cosa significa NAFTA ?
+WHEN:data Quando nacque Babe Ruth ?
+WHO:persona Chi ha scritto il Farmer's Almanac ?
+ENTITY:pianeta Qual è il pianeta più lontano dal sole ?
+WHO:presidente Chi è stato in assoluto il primo presidente degli Stati Uniti a dimettersi ?
+WHO:persona Chi ha inventato il gioco Scrabble ?
+QUANTITY:soldati All'incirca quanti soldati morirono nella seconda guerra mondiale ?
+CURRENCY:valuta Quanti soldi ha il sultano del Brunei ?
+QUANTITY:bilancio Qual è stato il bilancio delle vittime alla eruzione del Monte Pinatubo ?
+ENTITY:edificio Qual è l'edificio più alto di New York City?
+WHEN:data Quando concorse Geraldine Ferraro per la vicepresidenza ?
+ENTITY:entità Cosa mangiano le coccinelle ?
+LOCATION:luogo Dove si trova Uluru ?
+ENTITY:John C. Calhoun Come sono conosciuti John C. Calhoun e Henry Clay ?
+WHEN:data Quando è stato l'uragano Hugo ?
+WHO:persona Chi è la persona più ricca del mondo?
+CURRENCY:salario Qual è il salario minimo federale ?
+ENTITY:albero Qual è l'albero dello stato della California ?
+WHO:allenatore Chi è stato il primo allenatore dei Cleveland Browns ?
+WHO:profeta Chi è il profeta della religione islamica ?
+LOCATION:luogo Dove si trova Tornado Alley ?
+WHO:Peter Weir Chi è Peter Weir ?
+QUANTITY:fuoricampo Quanti fuoricampo ha colpito Babe Ruth nella sua vita ?
+WHO:Buffalo Bill Chi era Buffalo Bill ?
+LOCATION:luogo Dove si trova il ponte sul fiume Kwai ?
+QUANTITY:SUPERBOWLS Quanti SUPERBOWLS hanno vinto i 49ers ?
+WHO:architetto Chi fu l'architetto di Central Park?
+WHO:persona Chi ha inventato la carta ?
+ENTITY:tigre Nominare una tigre che si è estinta ?
+LOCATION:luogo Dove si trova la Romania?
+WHEN:data Quando è stata fondata l'azienda De Beers ?
+WHO:donna Chi è la donna più ricca del mondo ?
+LOCATION:capitale Qual è la capitale della California ?
+QUANTITY:dimensione Qual è la dimensione dell' Argentina ?
+WHEN:data Quando è stato l'incendio di San Francisco ?
+WHO:nome Qual era il nome dell'uomo che è stato ucciso in un duello con Aaron Burr ?
+QUANTITY:popolazione Qual è la popolazione del Messico ?
+QUANTITY:temperatura Quanto è caldo il nucleo della terra ?
+DURATION:durata Quanto ci vuole per arrivare dalla Terra a Marte ?
+QUANTITY:apertura Qual è l'apertura alare di un condor ?
+WHEN:data Quando fu istituita Microsoft ?
+CURRENCY:stipendio Qual è lo stipendio medio di un giocatore professionista di baseball ?
+WHO:persona Chi ha inventato il basket ?
+WHO:Zebulon Pike Chi è Zebulon Pike ?
+QUANTITY:dimensione Quanto è grande l'Oceano Atlantico ?
+DESC:effetto Che effetto ha un prisma sulla luce?
+LOCATION:fiume Qual è il fiume più lungo del mondo ?
+WHO:persona Chi era considerato il padre della psicologia ?
+WHO:Langston Hughes Chi è Langston Hughes ?
+WHO:persona Chi ha costruito la prima piramide ?
+ENTITY:libro Qual è il libro più venduto di tutti i tempi ?
+QUANTITY:violini Quanti violini Stradivari sono stati realizzati ?
+WHO:Charles Lindbergh Chi è Charles Lindbergh ?
+WHO:persona Chi ha inventato il gioco di bowling ?
+ENTITY:auto Qual è l'auto più costosa al mondo ?
+QUANTITY:dimensione Quanto è in miglia una corsa di dieci K ?
+QUANTITY:temperatura Quanto caldo raggiunge l'interno di un vulcano attivo ?
+LOCATION:capitale Qual è la capitale del Burkina Faso ?
+LOCATION:capitale Qual è la capitale di Haiti ?
+QUANTITY:popolazione Qual è la popolazione del Mozambico ?
+ENTITY:entità Chi ha vinto il Superbowl nel 1982 ?
+WHEN:compleanno Qual è il vero compleanno di Martin Luther King Jr. ?
+ENTITY:tumore Qual è il tumore più comune ?
+WHEN:data Quando è stato l'incendio dellaTriangle Shirtwaist ?
+LOCATION:luogo Dove si trova il deserto del Kalahari ?
+WHO:presidente Chi è stato il 33 ¡ presidente degli Stati Uniti ?
+QUANTITY:velocità A che velocità ruota la Terra intorno al sole ?
+QUANTITY:dimensione Quanto è grande la nostra galassia in diametro ?
+ENTITY:lingua Che lingua è principalmente parlata in Brasile ?
+WHO:persona Chi ha assassinato il presidente McKinley ?
+WHO:persona Chi ha inventato la radio ?
+DESC:anoressia Che cosa è l'anoressia nervosa ?
+WHEN:anno In che anno il Montana diventò uno Stato ?
+ENTITY:nomi Quali sono i nomi delle tre navi utilizzate da Colombo ?
+WHO:presidente Chi è stato il 21 ¡ presidente degli Stati Uniti ?
+LOCATION:luogo Dove nacque John Adams ?
+ENTITY:entità Dov'è il tuo corpo calloso ?
+ENTITY:parola Qual è la parola più lunga della lingua inglese ?
+WHO:persona Chi ha inventato il silly putty ?
+ENTITY:nome Qual è il nome dell'alfabeto ebraico ?
+WHO:Maria Teresa Chi era Maria Teresa ?
+ENTITY:nazionalità Di che nazionalità era Jackson Pollock ?
+LOCATION:soprannome Qual è il soprannome dello stato del Mississippi ?
+ENTITY:entità Chi era solito costruire automobili con motori rotativi ?
+LOCATION:montagna Qual è la montagna più alta ?
+DESC:spiegazione Per cosa sono più famose le Black Hills in South Dakota  ?
+ENTITY:tipo Che tipo di animale era Winnie the Pooh ?
+ENTITY:nome Qual è un altro nome per l'aspartame ?
+LOCATION:luogo Dov'è la sede generale statunitense di Procter & Gamble ?
+ENTITY:nome Qual è il nome formale della malattia di Lou Gehrig ?
+WHO:persona Chi possiede la CNN ?
+ENTITY:nome Qual è il nome di un giornale Salt Lake City?
+WHO:Jane Goodall Chi era Jane Goodall ?
+WHEN:data Quando si sposarono la principessa Diana e il principe Carlo ?
+QUANTITY:mesi Quanti mesi dura un normale gravidanza umana ?
+ENTITY:formato Che formato era il principale concorso VHS ?
+LOCATION:luogo Dove si trova Logan International ?
+ENTITY:università Di quale università era presidente Woodrow Wilson ?
+LOCATION:luogo Dove si trovano i Paesi Baschi ?
+DESC:Nine Inch Nails Che cos'è ""Nine Inch Nails"" ?
+LOCATION:luogo Dove è nato Poe ?
+WHO:re Quale re fu costretto ad accettare la Magna Carta ?
+ENTITY:nome Qual è il nome della squadra di baseball di Pittsburgh ?
+LOCATION:posizione Dove si trova la posizione dell'Orange Bowl ?
+WHEN:data Quando è stata l' ultima grande eruzione del Mount St. Helens ?
+ABBR:abbreviazione Qual è l'abbreviazione di Original Equipment Manufacturer ?
+LOCATION:luogo Dove si trova il Rider College?
+DESC:spiegazione Cosa fa Nicholas Cage per vivere?
+ENTITY:caliente Che cosa significa caliente - LRB - in inglese - RRB - ?
+LOCATION:luogo Dove si trova l'aeroporto di McCarren?
+WHO:persona Chi ha creato i Muppets ?
+ENTITY:controparte Qual è la controparte islamica alla Croce Rossa ?
+DESC:spiegazione Per cosa è meglio conosciuto Colin Powell ?
+WHEN:stagione Qual è la stagione più affollata di viaggi aerei ?
+LOCATION:luogo Dov'è la Webster University?
+WHEN:data Quando nacque John D. Rockefeller ?
+ENTITY:lingua Nominare una lingua gaelica .
+ENTITY:entità Che cosa si misura in curies ?
+LOCATION:luogo Dove è la sede della Eli Lilly ?
+LOCATION:luogo Dove si è laureata Hillary Clinton ?
+WHO:persona Chi ha coniato il termine cyberspazio nel suo romanzo Neuromancer ?
+WHO:presidente Chi è il presidente della Bolivia ?
+WHEN:data Quando finì la guerra civile americana ?
+WHO:persona Chi ha creato il personaggio Scrooge ?
+WHO:persona Chi per primo ha rotto la barriera del suono ?
+CURRENCY:stipendio Qual è lo stipendio di un rappresentante degli Stati Uniti ?
+ENTITY:Sette Meraviglie Nominare una delle Sette Meraviglie del Mondo Antico .
+QUANTITY:codice Qual è il codice dell'aeroporto di Los Angeles International ?
+ENTITY:entità Chi fornisce il servizio telefonico a Orange County , in California ?
+QUANTITY:codice Qual è il codice di avviamento postale per Fremont , CA ?
+WHO:persona Chi ha sparato a Billy the Kid ?
+WHO:monarca Chi è il monarca del Regno Unito ?
+QUANTITY:stati Quanti stati hanno una ""lemon law"" per le nuove automobili ?
+LOCATION:continente Su quale continente è la Bolivia ?
+ENTITY:nome Qual è il nome del vaccino per la varicella ?
+DESC:spiegazione Per cosa è famosa Betsy Ross ?
+WHO:persona Chi ha scritto il libro , ``The Grinch Who Stole Christmas'' ?
+WHEN:data Quando ha scritto Aldous Huxley, Brave New World ?
+WHO:persona Chi ha scritto il libro , ``Cantico dei Cantici'' ?
+WHO:persona Chi ha interpretato Jake nello show televisivo , ""Due come noi"" ?
+WHO:persona Chi ha interpretato Fatman nello show televisivo ""Due come noi""?
+LOCATION:città Qual è una delle città in cui si trova l'Università del Minnesota ?
+ENTITY:tipo Che tipo di squadra sportiva è il Buffalo Sabres ?
+LOCATION:città In quale città è situato il Massachusetts General Hospital ?
+WHO:persona Chi riferisce il meteo sullo show televisivo Good Morning America ?
+LOCATION:luogo Dove si trova Los Vegas?
+WHEN:data Quando nacque Beethoven ?
+ENTITY:nome Qual è il nome della tigre che pubblicizza i cereali Frosted Flakes?
+LOCATION:luogo Dove si trova la Tufts University ?
+ENTITY:cereale Quale cereale fa ``snap , crackle , pop"" ?
+ENTITY:malattia Per quale malattia è usato come trattamento il farmaco Sinemet ?
+WHO:Henry Butler Chi è Henry Butler ?
+LOCATION:provincia In quale provincia si trova a Edmonton ?
+LOCATION:zona In quale zona del mondo fu combattuta la guerra dei sei giorni ?
+LOCATION:luogo Dove sono estratti i diamanti ?
+WHO:Terrence Malick Chi è Terrence Malick ?
+ENTITY:nome Con quale altro nome erano conosciuti i Little Rascals ?
+ENTITY:nome Qual era il nome del cane delle ""Simpatiche canaglie""?
+ENTITY:entità Chi ha vinto la coppa del mondo di rugby nel 1987 ?
+LOCATION:luogo Dove si trova il Castello di Windsor ?
+QUANTITY:popolazione Qual è la popolazione degli Stati Uniti ?
+ENTITY:animale Da quale animale provengono le buffalo wings ?
+ENTITY:amamelide Che cos'è l'amamelide ?
+ABBR:abbreviazione Qual è l'abbreviazione di società in accomandita semplice ?
+DESC:scopo Qual era lo scopo del progetto Manhattan ?
+ENTITY:tipo Qual è il tipo più comune di cancro della pelle negli Stati Uniti?
+LOCATION:campo di battaglia Nominare un campo di battaglia della guerra civile .
+WHEN:data Quando fu costruita la diga di Hoover ?
+DESC:spiegazione Che cosa ha causato le inondazioni di Lynmouth ?
+QUANTITY:zip codes Quanti zip codes ci sono negli Stati Uniti ?
+WHO:nome Qual era il nome del capitano del Titanic ?
+QUANTITY:copie Quante copie di un album devono essere vendute per essere un album d'oro ?
+WHEN:data Quando è il Tulip Festival in Michigan ?
+DESC:spiegazione Per cosa è famoso Giorgio Vasari ?
+WHO:persona Chi ha creato il personaggio di James Bond ?
+ENTITY:Cruise Line Per quale Cruise Line Kathie Lee Gifford fa pubblicità ?
+LOCATION:luogo Dove si trova il Museo di Thomas Edison ?
+ENTITY:squadra Per quale squadra di hockey ha giocato Wayne Gretzky ?
+QUANTITY:fuorigioco Quanti fuorigioco fece Lou Gehrig nel corso della sua carriera ?
+QUANTITY:Stati Quanti Stati hanno una lotteria ?
+ENTITY:tipo Che tipo di squadra sportiva è il Wisconsin Badgers ?
+WHO:nome Qual è il vero nome della cantante , Madonna ?
+ENTITY:fiore Che fiore ha dipinto di Vincent Van Gogh ?
+WHO:modello Quale modello famoso era sposato con Billy Joel ?
+WHEN:data Quando cominciò la Prima Guerra Mondiale ?
+WHEN:data Quando è stato fatto il film Caligola ?
+ENTITY:aereo Nominare un aereo da guerra americano ?
+ENTITY:romanzo Nominare un romanzo scritto da John Steinbeck .
+ENTITY:febbre tifoide Che cosa è la febbre tifoide ?
+WHO:entità Chi produce il software PhotoShop ?
+WHO:donna Chi fu la prima donna nello spazio ?
+DESC:spiegazione Per cosa sono famosi Cushman e Wakefield ?
+WHEN:data Quando è stata la Grande Depressione ?
+ENTITY:condizione Qual è la condizione medica dell' ipertensione ?
+WHO:persona Chi ha creato il fumetto , Garfield ?
+LOCATION:luogo Dove si trova l'Isola di Man ?
+WHO:persona Chi ha scritto il libro Huckleberry Finn ?
+WHEN:giorno Che giorno è conosciuto come la ""giornata nazionale di preghiera"" ?
+DESC:scopo Qual è lo scopo di un car bra?
+ENTITY:nome Qual è il nome dell' arte di coltivare alberi in miniatura ?
+WHO:persona Chi ha scritto ""La Lettera Scarlatta"" ?
+ENTITY:galleria Nomina una galleria d'arte a New York .
+ENTITY:partito Di quale partito era membro Winston Churchill ?
+WHEN:data Quando si è verificato l'incidente nucleare di Chernobyl ?
+WHO:nome Qual è il nome della stella dello show cooking , ``Galloping Gourmet'' ?
+WHO:presidente Quale presidente è diventato Chief Justice dopo la sua presidenza ?
+WHO:persona Chi ha vinto il premio Nobel per la letteratura nel 1988 ?
+ENTITY:nome Qual è il nome del giornale di Tampa ?
+WHO:cognome Qual è il cognome di Dr. Ruth ?
+ENTITY:entità L'Italia è la maggior produttrice di che cosa?
+WHO:stella Quale stella del wrestling è diventato ``The Incredible Hulk'' ?
+WHO:persona Chi ha scritto ``Il pozzo e il pendolo'' ?
+WHEN:data Quando è stato pubblicato il primo Wall Street Journal ?
+QUANTITY:frequenza Qual è la normale frequenza cardiaca a riposo di un adulto sano ?
+WHO:cantante Chi è il cantante della band Led Zeppelin ?
+WHO:persona Chi ha scritto ``An Ideal Husband'' ?
+WHO:moglie Chi era la moglie di Charles Lindbergh ?
+QUANTITY:miglia Quante miglia ci si sono da Londra , in Inghilterra a Plymouth , in Inghilterra ?
+WHO:Segretario Generale Chi è Segretario Generale delle Nazioni Unite ?
+WHO:persona Chi ha interpretato l'insegnante in L'Attimo Fuggente ?
+QUANTITY:province Quante province ci sono in Indiana ?
+WHO:attrice Quale attrice ha recitato in ""Il leone d'inverno"" ?
+ENTITY:nome Qual è il nome di un hotel a Indianapolis ?
+LOCATION:luogo Dove si trova Kings Canyon ?
+LOCATION:luogo Dove si trova la Mayo Clinic ?
+QUANTITY:dimensione Quanto è grande il collegio elettorale ?
+CURRENCY:valuta Quanto costa una tonnellata di cemento ?
+LOCATION:luogo Dove vive Madre Angelica ?
+WHO:nome Qual è il nome di un dio greco ?
+QUANTITY:popolazione Qual è la popolazione del Mississippi ?
+ENTITY:nome Qual era il nome della nave di Jacques Cousteau ?
+DESC:Final Four A cosa si riferisce Final Four nel mondo dello sport ?
+ENTITY:entità Che cosa pubblica Knight Ridder ?
+DESC:compito Quale compito esegue la razza di cane Bouvier ?
+ENTITY:compagnia Nominare una compagnia di balletto per cui ha danzato Mikhail Baryshnikov ?
+WHO:membro fondatore Chi è stato il membro fondatore della band Pink Floyd ?
+ENTITY:nome Qual è il nome della Borsa di Tokyo ?
+WHO:attore Quale attore per primo ha interpretato James Bond ?
+ENTITY:entità Che cosa mangiano le lontre di fiume ?
+LOCATION:luogo Dove si trova l'Istituto Smithsonian ?
+WHEN:anno In che anno è finita la guerra del Vietnam ?
+LOCATION:paese Da quale paese provengono i cioccolatini Godiva ?
+QUANTITY:isole Quante isole hanno le Fiji ?
+WHEN:anno In che anno Desmond Tutu Mpilo è stato insignito del Premio Nobel per la Pace ?
+WHO:presidente Chi era il più vecchio presidente degli Stati Uniti ?
+LOCATION:luogo Dove si trova Santa Lucia ?
+LOCATION:luogo Dove si trova Ocho Rios ?
+ENTITY:tipo Che tipo di animale è Winnie the Pooh ?
+ENTITY:specie Di quale specie era Winnie the Pooh ?
+ENTITY:specie Qual era la specie di Winnie the Pooh ?
+ENTITY:aspartame L'aspartame è anche conosciuto come cosa ?
+ENTITY:nome Con quale altro nome è noto l'aspartame ?
+ENTITY:film In quale film era Jude Law ?
+ENTITY:film In quale film c'era Jude Law ?
+LOCATION:città Procter & Gamble ha sede in quale città degli Stati Uniti ?
+LOCATION:luogo Dove ha sede Procter & Gamble negli Stati Uniti ?
+WHEN:anno In quale anno ha iniziato a trasmettere la CNN ?
+WHEN:data Quando è andata in onda la CNN ?
+WHO:proprietario Chi è il proprietario della CNN ?
+WHO:persona CNN è di proprietà di chi?
+ENTITY:giornale Quali giornale serve Salt Lake City?
+ENTITY:giornale Nominare un giornale di Salt Lake City.
+DESC:spiegazione Per cosa è famosa il Jane Goodall ?
+DESC:spiegazione Per cosa è nota Jane Goodall ?
+WHY:spiegazione Perché è famosa Jane Goodall?
+DESC:spiegazione Cosa ha reso famosa Jane Goodall?
+ENTITY:nome collettivo Qual è il nome collettivo per le oche ?
+DURATION:periodo Qual è il periodo di gestazione per le gravidanze umane ?
+DURATION:durata Quanto dura la gestazione umana ?
+DURATION:periodo Qual è il periodo di gestazione per gli esseri umani ?
+DURATION:mesi Quanti mesi dura una normale gravidanza umana ?
+ENTITY:formato Quale formato video era un'alternativa alla VHS ?
+ENTITY:formato Quale formato è stato il maggiore concorrente delle VHS ?
+LOCATION:luogo Dove si trova il Logan Airport?
+LOCATION:città In quale città è il Logan Airport ?
+LOCATION:città Quale città serve il Logan International ?
+LOCATION:città In quale città si trova il Logan International ?
+LOCATION:città L'aeroporto di quale città prende il nome di Logan International ?
+LOCATION:città Quale città è servita da Logan International Airport?
+ENTITY:università Woodrow Wilson è stato presidente di quale università ?
+ENTITY:università Nominare l'università di cui era presidente Woodrow Wilson .
+ENTITY:università Woodrow Wilson è stato presidente di quale università ?
+ENTITY:entità Che cosa ha ucciso Bob Marley ?
+WHO:monarca Quale monarca firmò la Magna Carta ?
+WHO:re Quale re firmò la Magna Carta ?
+WHO:re Chi era il re che è stato costretto ad accettare la Magna Carta ?
+WHO:re Quale re firmò la Magna Carta ?
+WHO:re Chi fu il re che firmò la Magna Carta ?
+ENTITY:entità Dove si trova il corpo calloso ?
+ENTITY:parola Quale parola inglese ha il maggior numero di lettere ?
+ENTITY:parola Qual è la parola inglese più lunga ?
+WHO:persona Da chi è stato inventato il Silly Putty ?
+WHO:inventore Chi è stato l'inventore del silly putty ?
+LOCATION:posizione Qual è la posizione del McCarren Airport?
+LOCATION:luogo Dove si trova McCarren Airport?
+WHO:nome Qual era il nome del creatore di ""The Muppets"" ?
+WHO:persona ""The Muppets"" da chi è stato creato ?
+WHO:creatore Nominare il creatore di ""The Muppets"".
+WHO:creatore Chi è il creatore di ""The Muppets"" ?
+WHEN:data Qual è la data della festa nazionale francese ?
+WHEN:data In quale data cade la festa nazionale francese  ?
+ENTITY:equivalente Qual è l'equivalente della Croce Rossa in Medio Oriente ?
+ENTITY:nome Qual è il nome della controparte islamica alla Croce Rossa ?
+ENTITY:controparte Nominare la controparte islamica alla Croce Rossa .
+ENTITY:equivalente Qual è l'equivalente islamico della Croce Rossa ?
+ENTITY:nome Qual è il nome dato alla controparte islamica della Croce Rossa ?
+DESC:spiegazione Colin Powell è più famoso per che cosa ?
+DESC:successo Per quale successo è meglio conosciuto Colin Powell ?
+DESC:spiegazione Per cosa è famoso Colin Powell ?
+WHEN:periodo In quale periodo dell'anno volano la maggior parte delle persone ?
+WHEN:periodo In quale periodo dell'anno c'è il maggior traffico aereo ?
+WHEN:periodo In quale periodo dell'anno i viaggi aerei sono nel periodo di punta ?
+ENTITY:campo Nominare un campo da golf a Myrtle Beach .
+ENTITY:squadra Come si chiama la squadra di baseball di major league a Pittsburgh ?
+ENTITY:squadra Nominare la squadra di baseball di Pittsburgh.
+LOCATION:città In quale città è l'Orange Bowl ?
+LOCATION:città In quale città è L'Orange Bowl ?
+LOCATION:città In quale città si trova L'Orange Bowl ?
+LOCATION:luogo Dove si trova l'Orange Bowl ?
+WHEN:data Quando ha eruttato Mount St. Helens l'ultima volta ?
+WHEN:data Quando è stata un'ultima grande eruzione del Mount St. Helen  ?
+WHEN:data Quando è stata l'ultima significativa eruzione del Mount St. Helen ?
+ABBR:entità Come si abbrevia ""Original Equipment Manufacturer"" ?
+ABBR:entità Com'è abbreviato ""Original Equipment Manufacturer"" ?
+LOCATION:luogo Dove si può trovare Rider College?
+LOCATION:posizione Qual è la posizione del Rider College?
+LOCATION:luogo Dove si trova Rider College?
+ENTITY:occupazione Qual è l'occupazione di Nicholas Cage ?
+ENTITY:professione Qual è la professione di Nicholas Cage ?
+ENTITY:occupazione Qual è l'occupazione di Nicholas Cage ?
+ENTITY:caliente Qual è il significato di caliente - LRB - in inglese - RRB - ?
+ENTITY:entità Com'è chiamato l'alfabeto ebraico ?
+ENTITY:entità Come si chiama l'alfabeto ebraico ?
+ENTITY:entità Com'è conosciuto l'alfabeto ebraico ?
+ENTITY:nazionalità Di che nazionalità è Jackson Pollock ?
+LOCATION:luogo dove si trova il Kentucky Horse Park ?
+LOCATION:luogo Dove si trova il Kentucky Horse Park ?
+LOCATION:città A quale città è vicino il Kentucky Horse Park ?
+LOCATION:soprannome Qual è il soprannome per lo stato del Mississippi ?
+LOCATION:soprannome Qual è il soprannome dello stato del Mississippi ?
+ENTITY:entità Chi ha fatto l'automobile con motore rotativo ?
+ENTITY:compagnia Da quale compagnia erano costruite le auto a motore rotativo   ?
+ENTITY:entità Solitamente da chi erano fatti i motori rotativi ?
+ENTITY:compagnia Quale compagnia ha prodotto veicoli con motore rotativo ?
+LOCATION:vetta Qual è la vetta più alta del mondo ?
+LOCATION:montagna Qual è la montagna più alta del mondo ?
+LOCATION:montagna Nominare la montagna più alta .
+LOCATION:nome Qual è il nome della montagna più alta del mondo ?
+DESC:spiegazione Cosa rende le Black Hills , South Dakota un'attrazione turistica ?
+DESC:spiegazione Per cosa sono note le Black Hills ?
+QUANTITY:dimensione Quanto dista Denver da Aspen ?
+LOCATION:provincia In quale provincia è Modesto California ?
+WHEN:data Quando sono diventate stato le Hawaii ?
+QUANTITY:dimensione Quanto è alto il Sears Building ?
+ENTITY:squadra George Bush ha acquistato un piccolo interesse di quale squadra di baseball
+WHY:spiegazione Perché la luna diventa arancione ?
+LOCATION:città Quale città aveva una fiera mondiale nel 1900 ?
+WHEN:data Quand'è diventato uno Stato l'Idaho ?
+ENTITY:metallo Quale metallo ha il punto di fusione più alto ?
+WHO:persona Chi ha sviluppato la vaccinazione contro la polio ?
+WHO:americano Chi è stato il primo americano a camminare nello spazio ?
+LOCATION:fiume Quale fiume negli Stati Uniti è conosciuto come il Big Muddy ?
+DESC:disturbo bipolare Che cos'è il disturbo bipolare ?
+WHO:person Chi ha sviluppato il computer Macintosh ?
+LOCATION:luogo Dove si trova l'aeroporto John Wayne ?
+LOCATION:emisfero In quale emisfero sono le Filippine ?
+LOCATION:luogo Dove sono le Montagne Rocciose ?
+QUANTITY:temperatura Qual è la temperatura al centro della terra ?
+WHEN:data Quando fu eletto John F. Kennedy come presidente ?
+QUANTITY:età Quanti anni aveva Elvis Presley quando morì ?
+LOCATION:luogo Dove si trova il fiume Orinoco ?
+QUANTITY:Grandi Laghi Quanti Grandi Laghi ci sono ?
+DURATION:durata Per quanto tempo ha dormito Rip Van Winkle ?
+QUANTITY:litri Quanti litri in un gallone ?
+ENTITY:nome Qual è il nome dell'azienda del cioccolato a San Francisco ?
+WHO:persona Chi ha scoperto i raggi X ?
+DESC:spiegazione Cosa viene fatto con le bandiere usurate o vecchie ?
+WHEN:data Quando è morto Elvis Presley ?
+LOCATION:capitale Qual è la capitale della Jugoslavia ?
+QUANTITY:velocità A quale velocità volano i colibrì ?
+LOCATION:città Qual è la città più antica degli Stati Uniti ?
+LOCATION:fiume Quale fiume scorre tra Fargo Nord Dakota e Minnesota Moorhead ?
+ENTITY:entità Cosa mangiano i pipistrelli ?
+WHO:Abramo Lincoln Chi era Abramo Lincoln ?
+DESC:teleangectasia Cos'è la teleangectasia ?
+LOCATION:stretto Quale stretto separa il Nord America dall'Asia ?
+LOCATION:città Qual è la città più grande del mondo ?
+WHO:compositore Quale compositore americano ha scritto la musica per West Side Story ?
+LOCATION:luogo Dove è il Mall of America ?
+DESC:scala del pH Cos'è la scala del pH ?
+ENTITY:tipo Che tipo di valuta è usata in Australia
+WHEN:data Quando è stato il primo trapianto di fegato ?
+WHO:presidente Chi fu eletto presidente del Sud Africa nel 1994 ?
+QUANTITY:popolazione Qual è la popolazione della Cina ?
+ENTITY:Dipartimento del Tesoro Il Dipartimento del Tesoro degli Stati Uniti emise prima carta moneta ?
+DESC:desktop publishing Cos'è il desktop publishing ?
+QUANTITY:temperatura Qual è la temperatura della superficie del sole ?
+ENTITY:università Qual è la più antica università degli Stati Uniti ?
+LOCATION:luogo Dove si trova l'Isola del Principe Edoardo ?
+DESC:barriere coralline Cosa sono le barriere coralline ?
+DESC:spiegazione Come si misurano i terremoti ?
+WHO:Duke Ellington Chi è Duke Ellington ?
+LOCATION:provincia In quale provincia è Phoenix AZ ?
+QUANTITY:temperatura Qual è la temperatura del nucleo del sole ?
+ENTITY:fiore Qual è il fiore dello stato delle Hawaii ?
+WHEN:data Quando precipitò l'Hindenberg ?
+WHEN:anno Qual è stato l'ultimo anno in cui i Chicago Cubs hanno vinto la World Series ?
+WHO:persona Chi ha scoperto l'America ?
+QUANTITY:diametro Qual è il diametro della terra ?
+QUANTITY:dimensione Quanto è grande la Via Lattea ?
+QUANTITY:dimensione Quanto dista un miglio nautico ?
+WHO:abolizionista Chi fu l'abolizionista che guidò il raid su Harper Ferry nel 1859 ?
+DESC:frequenza cardiaca media Che cosa significa frequenza cardiaca media ?
+ENTITY:satellite Qual è stato il primo satellite ad andare nello spazio ?
+ENTITY:faglia Qual è la maggiore faglia vicino al Kentucky ?
+LOCATION:luogo Dove si trova l'Holland Tunnel ?
+WHO:persona Chi ha scritto l'inno Amazing Grace ?
+LOCATION:luogo Dove sono i National Archives ?
+WHO:filosofo Chi è un filosofo tedesco ?
+ENTITY:navi Quali erano le tre navi di Cristoforo Colombo ?
+DESC:Phi Beta Kappa Che cosa significa Phi Beta Kappa ?
+ENTITY:nome Qual è un altro nome per la vitamina B1 ?
+WHO:persona Chi ha scoperto il radio ?
+LOCATION:continente Su quale continente è l'Egitto ?
+LOCATION:capitale Qual è la capitale della Mongolia ?
+WHEN:data Quando è la stagione degli uragani nei Caraibi ?
+LOCATION:luogo Dove si trova il vulcano Mauna Loa
+LOCATION:penisola Di quale penisola fa parte la Spagna ?
+WHEN:data Quando nacque Lyndon B. Johnson ?
+WHO:persona Chi fondò la Croce Rossa Americana ?
+WHEN:anno In quale anno i Milwaukee Braves diventarono gli Atlanta Braves ?
+WHEN:data Quando è il solstizio d'estate ?
+LOCATION:luogo Dove si trova la Foresta Nazionale di Shawnee ?
+LOCATION:stato Quale stato americano adotta il motto Live free or die ?
+WHEN:data Quando fu emesso il primo francobollo ?
+QUANTITY:dimensione Quanto dista Plutone dal Sole ?
+LOCATION:bacino In quale bacino sono le isole Canarie ?
+LOCATION:luogo Dove si trova il fiume Eufrate ?
+ENTITY:entità Da cosa è composto il gas naturale ?
+WHO:sovrano Quale sovrano francese fu sconfitto nella battaglia di Waterloo ?
+QUANTITY:distanza Qual è la distanza in miglia dalla terra al sole ?
+WHEN:data Quando è stato aperto il primo negozio Wal- Mart ?
+DESC:umidità relativa Che cosa è l'umidità relativa ?
+ENTITY:valuta Che valuta viene utilizzata in Algeria ?
+ENTITY:nome Qual è il nome di un satellite delll'Unione Sovietica ?
+ENTITY:animali Come sono chiamati gli animali che non hanno la spina dorsale ?
+WHO:Presidente Chi è stato il 23 ¡ Presidente degli Stati Uniti ?
+QUANTITY:temperatura Qual è la temperatura media del corpo ?
+DESC:effetto Qual è l'effetto delle piogge acide ?
+QUANTITY:velocità Quanto veloce è la velocità della luce ?
+LOCATION:provincia In quale provincia è Montreal ?
+ENTITY:edificio Quale edificio di New York City è conosciuto anche come le Torri Gemelle ?
+ENTITY:lingua Qual è la lingua più parlata nei Paesi Bassi ?
+DESC:cloruro di sodio Che cosa è il cloruro di sodio
+QUANTITY:chili Quanti chili ci sono in una tonnellata ?
+DESC:esaurimento Che cos'è l'esaurimento dell'ozono ?
+DESC:Sitting Shiva Che cosa significa Sitting Shiva ?
+ENTITY:plastica Di cosa è fatta la plastica ?
+QUANTITY:popolazione Qual è la popolazione della Nigeria ?
+LOCATION:luogo Dove si trova il Grand Canyon ?
+WHO:persona Chi ha inventato il telefono ?
+WHO:nome Qual è il nome del leader di Irlanda ?
+QUANTITY:galloni Quanti galloni di acqua ci sono in un piede cubico ?
+LOCATION:luogo In Polonia dove vivono la maggior parte delle persone ?
+LOCATION:posizione Qual è la posizione del Mare della Tranquillità ?
+QUANTITY:velocità Quanto è veloce il suono ?
+DESC:spiegazione Che cosa causa i capelli grigi ?
+ENTITY:ponte Qual è il ponte sospeso più lungo negli Stati Uniti. ?
+DESC:criterio Qual è il criterio per essere legalmente cieco ?
+WHO:uomo Chi è l'uomo più alto del mondo ?
+DESC:twin cities Cosa sono le twin cities ?
+ENTITY:pianeta Che pianeta è conosciuto come il pianeta rosso ?
+ENTITY:abito Com'è chiamato il colorato abito tradizionale coreano ?
+DESC:Mardi Gras Che cosa è Mardi Gras ?
+WHO:afroamericano Chi è stato il primo afroamericano a giocare per i Brooklyn Dodgers ?
+WHO:Primo Ministro Chi è stato il primo Primo Ministro del Canada ?
+QUANTITY:ammiragli Quanti ammiragli ci sono nella Marina degli Stati Uniti ?
+LOCATION:capitale Qual è la capitale dell'Etiopia ?
+DURATION:durata Per quanto resta incinta un'elefantessa ?
+ENTITY:lingua Qual è la lingua principale in Islanda ?
+WHO:governatrice Chi fu la prima governatrice negli Stati Uniti ?
+WHEN:anno In quale anno l'Oklahoma è diventato uno stato?
+DESC:spiegazione Di cosa è fatto uno specchio ?
+DESC:fibrosi polmonare Che cosa è la fibrosi polmonare ?
+DESC:mal di gola Che cosa è il mal di gola ?
+LOCATION:città Qual è la più grande città degli U.S. ?
+DESC:afta epizootica Che cosa è l'afta epizootica ?
+DURATION:aspettativa di vita Qual è l' aspettativa di vita di una banconota di dollaro ?
+ENTITY:colore Che colore è l'indaco ?
+WHEN:anno In quale anno scioperò la NFL ?
+DESC:vento solare Che cosa è il vento solare ?
+WHEN:data In quale data Neil Armstrong atterrò sulla Luna ?
+WHEN:data Quando fu bombardata Hiroshima ?
+WHO:governatore Chi è il governatore dell'Alaska ?
+WHEN:anno In quale anno Mussolini prese il potere in Italia ?
+LOCATION:capitale Qual è la capitale della Persia ?
+LOCATION:luogo Dove è la Torre Eiffel ?
+LOCATION:lago Qual è il lago più profondo degli Stati Uniti ?
+DESC:cella a combustibile Che cosa è una cella a combustibile ?
+WHO:presidente Chi è stato il primo presidente americano a comparire in TV ?
+LOCATION:luogo Dove si trova il Museo Little League ?
+ENTITY:stella Qual è la stella più luminosa ?
+WHEN:data Quando è colpito il presidente Kennedy ?
+WHEN:data In quale data è nato Dwight D. Eisenhower ?
+WHY:spiegazione Perché il sole è giallo ?
+WHEN:data Quando nacque Abraham Lincoln ?
+DESC:Via Lattea Cos'è la Via Lattea ?
+WHEN:anno In che anno è nato Mozart ?
+QUANTITY:punto di fusione Qual è il punto di fusione dell'oro ?
+LOCATION:indirizzo Qual è l' indirizzo della Casa Bianca ?
+ENTITY:frutto Da quale frutto è ricavata la salsa Melba ?
+DESC:Orsa Maggiore Che cosa è l'Orsa Maggiore ?
+QUANTITY:percentuale Qual è la percentuale di acqua nel corpo umano ?
+ENTITY:programma Come è stato chiamato il programma di riforme del presidente Lyndon Johnson ?
+QUANTITY:popolazione Qual è la popolazione dell'Australia ?
+WHO:persona Chi ha dipinto il soffitto della Cappella Sistina ?
+ENTITY:stimolante Nominare uno stimolante .
+DESC:effetto Qual è l'effetto dei vulcani sul clima ?
+WHEN:anno In quale anno è iniziato lo spettacolo Andy Griffith ?
+DESC:pioggia acida Che cosa è la pioggia acida ?
+WHEN:data Qual è la data dell'indipendenza del Messico ?
+LOCATION:posizione Qual è la posizione del lago Champlain ?
+ENTITY:fiore Qual è il fiore dello stato dell'Illinois ?
+QUANTITY:velocità Qual è la velocità della luce ?
+WHY:spiegazione Perché nel tennis gli zero punti sono chiamati amore ?
+ENTITY:tipo Che tipo di cane era Toto nel Mago di Oz ?
+ENTITY:arteria Qual è l'unica arteria che trasporta il sangue blu dal cuore ai polmoni ?
+DESC:acido acetico Che cosa è l'acido acetico ?
+ENTITY:colori Quali sono i colori della bandiera tedesca ?
+DESC:Moulin Rouge Che cos'è il Moulin Rouge ?
+ENTITY:porto Quale porto sovietico è sul Mar Nero ?
+QUANTITY:peso atomico Qual è il peso atomico dell'argento ?
+ENTITY:valuta Che valuta usano in Brasile ?
+DESC:malattia della mucca pazza Che cosa è la malattia della mucca pazza ?
+LOCATION:luogo Dove vivono le ampullarie ?
+WHO:persona Chi ha ucciso John F. Kennedy ?
+WHO:vice presidente Chi è stato il primo vice presidente degli Stati Uniti. ?
+WHEN:data Quando nacque Ulysses S. Grant ?
+DESC:distrofia muscolare Cos'è la distrofia muscolare ?
+WHO:persona Chi visse nel castello di Neuschwanstein ?
+DESC:glicole propilenico Che cosa'è il glicole propilenico ?
+DESC:disturbo di panico Che cosa è un disturbo di panico ?
+WHO:persona Chi ha inventato la macchina fotografica istantanea Polaroid ?
+QUANTITY:popolazione Qual è la popolazione mondiale ?
+QUANTITY:tasso Qual è il tasso di imposta sulle vendite a New York ?
+LOCATION:montagna Qual è la quarta montagna più alta del mondo ?
+ENTITY:elemento Qual è l' elemento naturale più pesante ?
+DESC:anidride carbonica Che cosa è l'anidride carbonica ?
+WHEN:data Quando avvenne il Boston Tea Party ?
+ENTITY:sigarette Di cosa sono fatte le sigarette ?
+LOCATION:capitale Qual è la capitale dello Zimbabwe ?
+ENTITY:fiore Qual è il fiore dello stato del Michigan ?
+DESC:energia nucleare Che cosa è l'energia nucleare ?
+WHO:deputato Chi è il deputato dallo stato del Texas nel comitato delle forze armate ?
+WHO:presidente Chi era presidente nel 1913 ?
+WHEN:data Quando è stato il primo trapianto di rene ?
+LOCATION:territori Quali sono i due territori del Canada ?
+ENTITY:nome Quale era il nome dell'aereo con cui Lindbergh volò da solo attraverso l'Atlantico ?
+LOCATION:luogo Dove si trovano le più alte montagne russe ?
+WHO:persona Chi ha scoperto l'ossigeno ?
+DESC:bangers and mash Che cosa è bangers and mash ?
+ENTITY:nome Qual è il nome dato alla tigre alla Louisiana State University ?
+ENTITY:entità Dove sono custoditi i gioielli della corona britannica ?
+WHO:persona Chi è stata la prima persona a raggiungere il Polo Nord ?
+WHO:persona Chi ha inventato Trivial Pursuit ?
+WHO:afro-americano Chi è stato il primo afro-americano a vincere il Premio Nobel per la letteratura ?
+WHEN:data Quando è St. Patrick Day ?
+ENTITY:nome Qual era il nome del cane di FDR ?
+ENTITY:sport Qual è lo sport più popolare in Giappone ?
+ENTITY:principio attivo Qual è il principio attivo del bicarbonato di sodio ?
+WHEN:data Quando è nato Thomas Jefferson ?
+WHEN:data Quando è stato inventato il telefono ?
+ENTITY:uccello Qual è l'uccello di stato di New York ?
+ENTITY:National Park Qual è il National Park nello Utah ?
+WHEN:compleanno Qual è il compleanno di Susan B. Anthony ?
+LOCATION:stato In quale stato si trovano le Catskill Mountains ?
+ENTITY:catena Quale catena di negozi ha sede a Bentonville Arkansas ?
+DESC:celle solari Che cosa sono le celle solari ?
+ENTITY:valuta Che valuta usa il Lussemburgo ?
+QUANTITY:popolazione Qual è la popolazione del Venezuela ?
+ENTITY:valuta Che valuta usa l'Argentina ?
+LOCATION:città Quale città canadese ha la maggiore popolazione ?
+LOCATION:paese Quale paese ha dato a New York la Statua della Libertà ?
+ENTITY:nome Qual era il nome del primo satellite americano inviato nello spazio ?
+ENTITY:pietra Che pietra preziosa è una forma di puro carbonio ?
+DESC:artrite reumatoide Che cosa'è l'artrite reumatoide ?
+DESC:paralisi cerebrale Che cos'è la paralisi cerebrale ?
+LOCATION:città Che città è anche conosciuta come la porta verso l'Occidente ?
+QUANTITY:dimensione Quanto dista la Luna ?
+ENTITY:fonte Qual è la fonte del gas naturale ?
+WHO:Presidente Chi è stato il 22 ¡ Presidente degli Stati Uniti ?
+QUANTITY:piedi Quanti piedi in un miglio ?
+WHO:persona Con chi è sposato Tom Cruise ?
+QUANTITY:pubblico Qual è stato il pubblico più grande radunato per vedere Michael Jordan ?
+WHEN:data Quando fu inventato il telegrafo ?
+ENTITY:simbolo Qual è il simbolo del partito democratico ?
+WHEN:anno In quale anno Wilt Chamberlain segnò 100 punti ?
+QUANTITY:cromosomi Quanti cromosomi ha uno zigote umano sono?
+QUANTITY:once Quante once ci sono in un gallone ?
+ENTITY:partito politico Di quale partito politico che è membro Lionel Jospin ?
+ENTITY:entità Cosa depone le uova blu ?
+WHO:esploratore Quale esploratore spagnolo scoprì il fiume Mississippi ?
+WHO:governatore Chi è il governatore del Colorado ?
+QUANTITY:lunghezza Qual è stata la lunghezza del primo volo dei fratelli Wright ?
+WHEN:data Quando è stata fondata Wendy's ?
+WHO:persona Chi è stata la prima persona a correre il miglio in meno di quattro minuti ?
+WHEN:data Quando avvenne il caso Rosenberg ?
+WHEN:anno In quale anno l'Alaska è diventato uno Stato ?
+WHEN:data Quando è che Mike Tyson morse l'orecchio di Holyfield ?
+LOCATION:penisola Qual è una penisola nelle Filippine ?
+WHO:governatore Chi è il governatore del Tennessee ?
+WHO:persona Chi ha vinto il Premio Nobel per la Pace nel 1992 ?
+WHO:nome Quale era il nome della moglie di Andrew Jackson ?
+LOCATION:luogo Dove si trova la Torre del Diavolo ?
+QUANTITY:altezza Qual è l'altezza della sequoia più alta ?
+QUANTITY:dimensione Quanto è profondo Crater Lake?
+LOCATION:posto Qual è il posto più freddo sulla terra?
+WHO:leader Quale leader femminile successe Ferdinand Marcos come presidente delle Filippine ?
+LOCATION:capitale Qual è la capitale della Siria ?
+ENTITY:collegio Quale collegio ha frequentato Magic Johnson ?
+LOCATION:luogo dove è stato aperto il primo negozio JC Penney ?
+CURRENCY:valuta Quanti soldi fa la Corte Suprema degli Stati Uniti ?
+LOCATION:Keystone State Qual è il Keystone State ?
+WHO:persona Chi successe a Ferdinand Marcos ?
+LOCATION:parco nazionale Qual è un parco nazionale in Indiana ?
+ENTITY:inno nazionale Qual è l'inno nazionale della Corea del Nord ?
+WHO:detective Chi è il detective in ""Diagnosis Murder"" ?
+ENTITY:compagnia Quale compagnia produce le automobili Bentley ?
+QUANTITY:dimensione Quanto è alto Allen Iverson ?
+WHEN:anno In quale anno il South Dakota è diventato uno Stato ?
+WHEN:data Quando morì il presidente Herbert Hoover ?
+QUANTITY:velocità Quanto corre veloce un ghepardo ?
+ENTITY:casa Come si dice ""casa"" in spagnolo ?
+WHEN:data quando nacque Lyndon B. Johnson ?
+LOCATION:punto Qual è il punto più basso della terra ?
+WHO:persona Chi è stata la prima persona a raggiungere il Polo Sud ?
+LOCATION:porto Qual è il porto principale in Ecuador ?
+LOCATION:capitale Qual è la capitale dell'Algeria ?
+LOCATION:provincia In quale provincia è Wilmington , Delaware ?
+LOCATION:luogo Dove si trova il punto più alto sulla terra?
+CURRENCY:valuta Quanto costano i biglietti per Disney World ?
+LOCATION:continente Su quale continente è l'India ?
+WHO:nome Qual è il nome dello strangolatore di Boston ?
+WHO:nome Qual era il nome del fratello di Sherlock Holmes' ?
+WHEN:data Quando nacque Davy Crockett ?
+WHO:persona Chi ha scritto ""East is east , west is west and never the twain shall meet"" ?
+LOCATION:nazione In quale nazione è Berlino ?
+ENTITY:scuola Che scuola frequentò Emmitt Smith ?
+LOCATION:paese Quale paese africano è il maggior esportatore di caffè ?
+LOCATION:luogo Dov'è Georgetown University ?
+QUANTITY:quantità Quanta energia degli Stati Uniti deriva dall'energia nucleare ?
+WHEN:anno In quale anno è stato ucciso il presidente Kennedy ?
+LOCATION:isola Qual è la seconda isola più grande del mondo ?
+LOCATION:luogo Dov'è il Salton Sea ?
+ENTITY:valuta Qual è la valuta utilizzata in Cina?
+ENTITY:nome Qual è il nome della spada di Re Artù ?
+ENTITY:inno nazionale Qual è l'inno nazionale in Inghilterra ?
+WHO:soprannome Qual è il soprannome di Frank Sinatra ?
+LOCATION:luogo Dove si trova il diario di Anne Frank ?
+QUANTITY:età Qual è l'età del nostro sistema solare ?
+WHO:nome Qual era il vero nome di Dr. Seuss ?
+ENTITY:uccello Qual è l'uccello dello stato dell'Alaska ?
+LOCATION:luogo dove è nato Hans Christian Anderson ?
+LOCATION:capitale Qual è la capitale del Kentucky ?
+QUANTITY:percentuale Quale percentuale degli Stati Uniti è afro-americana ?
+ENTITY:nome Qual è il nome del campo da baseball in cui giocano i Milwaukee Brewers ?
+ENTITY:università Quale università fondò Thomas Jefferson ?
+LOCATION:città Qual è la città dell'amore fraterno ?
+ENTITY:college bowl game Qual è il più antico college bowl game ?
+LOCATION:capitale Qual è la capitale della Nuova Zelanda ?
+QUANTITY:tasso Qual è il tasso di alfabetizzazione a Cuba ?
+WHO:persona Chi ha dipinto ``Girasoli'' ?
+LOCATION:città A quale città è vicino Lake Washington ?
+QUANTITY:voti Quanti collegi elettorali votano in Tennessee ?
+WHO:H.R. Director Chi è il malvagio H.R. Director in ""Dilbert"" ?
+ENTITY:caramella Qual è la caramella preferita Ronald Reagan ?
+LOCATION:lago Qual è il lago più profondo in America?
+LOCATION:luogo Dov'è la Hill Air Force Base ?
+LOCATION:paese Qual è il paese più popolato del mondo ?
+QUANTITY:numero atomico Qual è il numero atomico dell'uranio ?
+LOCATION:punta Qual è la punta più sud-occidentale dell'Inghilterra ?
+ENTITY:entità Chi produce i frigoriferi Magic Chef ?
+WHEN:data Quando è stata l'offensiva del Tet in Vietnam ?
+ENTITY:satellite Qual è stato il primo satellite nello spazio ?
+LOCATION:luogo Dove fece il suo discorso Dr. King  a Washington?
+WHEN:data Quando è stato depositato il primo brevetto sul cono gelato ?
+WHO:persona Chi ha iniziato la riforma protestante ?
+WHO:soprannome Qual è il soprannome di Karl Malone ?
+WHO:poeta Quale famoso poeta spagnolo morì nella guerra civile spagnola ?
+WHEN:data Quando finì la guerra del Vietnam ?
+WHO:capo Chi è il capo del FBI ?
+QUANTITY:grado Qual è il grado di inclinazione della Terra ?
+QUANTITY:dimensione Quanto è alta la Sfinge ?
+WHEN:data Quando fu eletto George W. Bush come governatore del Texas ?
+WHEN:data Quando fu terminato il Golden Gate Bridge ?
+WHEN:data Quando è stato lanciato l'Apollo 11 ?
+WHO:golfista Chi è stato l'unico golfista a vincere gli opens e gli amateurs statunitensi e britannici ?
+QUANTITY:percentuale Quale percentuale della popolazione egiziana vive al Cairo ?
+WHEN:anno In quale anno Mussolini prese il potere in Italia ?
+QUANTITY:popolazione Qual è la popolazione totale del Sud Africa ?
+WHEN:data Quando è morto Einstein ?
+WHEN:data Quando si arrese Robert E. Lee nella guerra civile ?
+ABBR:entità Che cosa significa R&B ?
+QUANTITY:dimensione Quanto correresti se partecipassi ad una maratona ?
+QUANTITY:punto Qual è il punto di ebollizione dell'acqua ?
+QUANTITY:livello Qual è il normale livello di glicemia per le persone ?
+WHEN:data Quando avvenne l'invasione degli Stati Uniti ad Haiti ?
+WHEN:data Quando fu primo ministro Benjamin Disraeli?
+LOCATION:capitale Qual è la capitale del Victoria ?
+LOCATION:paese Qual è il più grande paese dell'Africa ?
+WHEN:data Quando si è verificata la corsa all'oro del Klondike ?
+ENTITY:entità Dove è prodotta la bile ?
+WHO:star Quale star del baseball ha rubato 130 basi nel 1982 ?
+WHEN:anno In che anno si è tenuta la prima Macy's Thanksgiving Day Parade ?
+WHO:First Lady Chi era la First Lady di Woodrow Wilson ?
+ENTITY:principio attivo Qual è il principio attivo del Tylenol ?
+WHEN:anno In quale anno uscì ""New Coke"" ?
+LOCATION:lago Qual è il lago più profondo del mondo ?
+DESC:spiegazione Che cosa è scritto sulla tomba statunitense del milite ignoto ?
+QUANTITY:dimensione Che superficie ricoprono le Everglades ?
+LOCATION:luogo Dove'è sepolto Mae West?
+ENTITY:montagne russe Quali sono le montagne russe più veloci al mondo ?
+WHEN:data Quando è stata combattuta la battaglia di Chancellorsville ?
+WHO:persona Chi ha fondato il taoismo ?
+WHO:persona Chi ha fondato Rhode Island?
+CURRENCY:valuta Quanto è previsto che venga a costare la stazione spaziale internazionale ?
+WHEN:data Quando fu sganciata la prima bomba atomica ?
+WHEN:anno In quale anno esplose lo shuttle Challenger ?
+LOCATION:paese In quale paese è Elmira , NY ?
+ENTITY:nome Qual è un altro nome per la stella polare ?
+WHEN:data Quando entrarono nella Seconda Guerra Mondiale gli Stati Uniti  ?
+ENTITY:entità Come si dice ""patatine fritte"" in francese ?
+LOCATION:luogo Dov'è la Prairie View A & M University?
+LOCATION:luogo Dove nacque Abramo Lincoln ?
+DESC:Manica Che cos'è che i francesi chiamano Manica ?
+WHEN:anno In che anno è nato Robert Frost ?
+LOCATION:luogo Dove è nato Bob Dylan ?
+DESC:spiegazione Che cosa significa ""E Pluribus Unum"" ?
+WHEN:data Quando ha cantato Marian Anderson al Lincoln Memorial ?
+ENTITY:nome Qual è il nome della base militare statunitense a Cuba ?
+ABBR:sigla Qual è la sigla della Borsa di Londra ?
+QUANTITY:dimensione Quanto è alto il Monte McKinley ?
+LOCATION:luogo Dove si trova il Big Ben ?
+LOCATION:paese Quale paese latino-americano è il maggiore esportatore di canna da zucchero ?
+WHEN:giorno In quale giorno Neil Armstrong atterrò sulla Luna ?
+WHEN:data Quando è stata trovata l'acqua su Marte ?
+WHO:presidente Chi era il presidente degli Stati Uniti nel 1929 ?
+WHEN:data Quando nacque Martin Luther King Jr. ?
+WHO:nome Con quale nome è meglio conosciuto l'attore horror William Henry Pratt ?
+LOCATION:città Qual è la città più popolosa degli Stati Uniti ?
+WHO:persona Chi sconfisse l'armata spagnola ?
+WHO:presidente Quale presidente proclamò la Festa della Mamma ?
+WHEN:anno In quale anno è stato costruito il gateway arch ?
+ENTITY:guerra Quale guerra è collegata con il libro ""Carica della Brigata Leggera"" ?
+LOCATION:luogo Dov'è stato girato il film ""Somewhere in Time"" ?
+WHEN:data Quando nacque Jackie Robinson ?
+ENTITY:razza Di che razza era Trigger il cavallo di Roy Rogers ?
+LOCATION:luogo Dove si trova la Statua della Libertà ?
+WHEN:data Quando nacque Giulio Cesare ?
+LOCATION:città In quale città si trova la Purdue University ?
+LOCATION:luogo Dove si trova lo Stonehenge americano ?
+WHEN:data Quando avvenne la fuoriuscita di petrolio della Exxon Valdez ?
+ENTITY:colori Quali sono i colori della bandiera italiana ?
+WHEN:data Quando è stato inventato il primo jet ?
+WHO:persona Chi ha inventato il mulinello da pesca ?
+QUANTITY:vitamina Quanta vitamina C si dovrebbe prendere in un giorno ?
+WHO:vincitore Chi è stato il primo vincitore della Triple Crown ?
+LOCATION:città Qual è stata la prima città al mondo ad avere una popolazione di oltre un milione ?
+WHEN:data Quando è stata costruita la Casa Bianca ?
+QUANTITY:distanza Qual è la distanza da Giove al sole ?
+QUANTITY:dimensione Quanto dista il tumulo di brocca dalla casa base nel softball ?
+WHEN:anno In che anno morì la poetessa Emily Dickinson ?
+WHO:cognome Qual è il cognome di Madonna ?
+ENTITY:nome Qual è il nome dell'aeroporto di Amsterdam ?
+WHO:nome Qual è il vero nome di Mark Twain ?
+DESC:parole Quali sono le parole di apertura della Dichiarazione di Indipendenza  ?
+WHO:presidente Chi è il presidente pro tempore del Senato degli Stati Uniti ?
+ENTITY:entità Come si dice ""maiale"" in spagnolo ?
+LOCATION:città In quale città è la Southwestern University ?
+DURATION:durata Di quanto sonno necessita un bambino durante la notte ?
+ENTITY:entità Di cosa è fatta la Stanley Cup ?
+DESC:spiegazione Cosa causa il singhiozzo ?
+WHO:persona Chi ha accoltellato Monica Seles ?
+LOCATION:luogo Dove si trova il national hurricane center ?
+WHEN:data Quando avvennero le rivolte di Los Angeles ?
+WHEN:data Quando fu lanciato Sputnik ?
+QUANTITY:popolazione Qual è la popolazione del Messico ?
+LOCATION:luogo Dov'è il Mesa Verde National Park ?
+WHEN:data Quando avvenne l'attentato di Oklahoma City?
+WHEN:data Quando è stato costruito il Vietnam Veterans Memorial a Washington, DC ?
+WHEN:data Quando si è verificata la guerra del Golfo Persico ?
+ENTITY:professione Qual era la professione del patriota americano Paul Revere ?
+LOCATION:Sunflower State Qual è il ""Sunflower State"" ?
+WHO:persona Chi ha scritto ""Il violinista sul tetto"" ?
+QUANTITY:quantità Quanti anni ha l'universo?
+ENTITY:fiore Qual è il fiore nazionale dell'Australia ?
+WHEN:data Quando è stata fatta la prima Ford Mustang ?
+WHO:proprietario Chi è il proprietario del St. Petersburg Times ?
+WHO:persona Chi ha inventato la sgranatrice di cotone ?
+LOCATION:città Qual è la città più antica dell'Australia ?
+WHO:persona Chi ha più no hitters nella Major League Baseball ?
+WHEN:anno In quale anno uscì ""Biancaneve"" ?
+WHO:donna Chi fu la prima donna a correre per la presidenza ?
+ENTITY:entità Chi produce il viagra ?
+LOCATION:paese In quale paese si trova la città santa della Mecca ?
+ENTITY:edificio Qual è l'edificio adibito ad uffici più alto del mondo ?
+LOCATION:continente In quale continente si trova l'Egitto ?
+QUANTITY:dimensione Quanto è alto Tom Cruise ?
+WHEN:data Quand'è che Willis Haviland Carrier inventò l'aria condizionata ?
+LOCATION:fiume Quale fiume attraversa Dublino?
+WHO:Presidente Chi è stato eletto Presidente del Sud Africa nel 1994 ?
+WHEN:data Quando è stato il primo trapianto di cuore ?
+QUANTITY:numero Qual è il numero di passeggeri che può trasportare un Boeing 747 ?
+LOCATION:isola Quale isola hanno acquisito gli Stati Uniti dopo la guerra ispano americana ?
+WHEN:data Quando fu costruito Buckingham Palace a Londra , Inghilterra ?
+LOCATION:luogo dove sono conservati i gioielli della Corona Britannica ?
+WHEN:data Quando si suicidò Marilyn Monroe ?
+WHEN:data Quand'è l'indipendenza del Messico ?
+WHO:architetti Chi erano gli architetti che hanno progettato l'Empire State Building ?
+QUANTITY:numero Che numero indossava Michael Jordan ?
+LOCATION:luogo Dove'è stata combattuta la battaglia di Alamo ?
+QUANTITY:dimensione Quanto è alta la Torre CNN a Toronto?
+LOCATION:città In quale città si conclude il Tour de France ?
+ENTITY:nome Qual è il nome del famoso numero di Gianni e Pinotto ?
+WHEN:anno In quale anno è stato costruito Ebbets Field, sede dei Brooklyn Dodgers ?
+ENTITY:nome Qual era il nome del cane di FDR ?
+LOCATION:paese Che paese è stata fondato nel 1948 ?
+ENTITY:canzone Qual è la canzone dello stato del Kansas ?
+WHEN:mese In che mese sono nati la maggior parte dei bambini?
+LOCATION:provincia In quale provincia si trova Calgary ?
+ENTITY:trofeo Qual è il più antico trofeo sportivo ?
+ENTITY:nome Qual era il nome dell'aereo che sganciò la bomba atomica su Hiroshima ?
+LOCATION:luogo Dov'era la prigione di Andersonville ?
+LOCATION:città Quale città è conosciuta come la capitale mondiale della gomma ?
+ENTITY:ramo Che ramo delle forze armate ha la sua accademia di Annapolis ?
+LOCATION:luogo dove è nato Bill Gates ?
+ENTITY:PIL Qual è il PIL della Cina?
+WHO:persona Chi ha detto ""Ma non ho ancora incominciato a combattere!"" ?
+WHO:nome Quale fu il nome del primo figlio di genitori inglesi ?
+LOCATION:città Quale città italiana ospita la Cattedrale di Santa Maria del Fiore ?
+LOCATION:nazione In quale nazione si trova Pretoria ?
+QUANTITY:gravità Quanta gravità c'è su Marte ?
+DESC:motto Qual è il motto per la California?
+WHEN:data Quando fu la battaglia di Shiloh ?
+QUANTITY:dimensione Quanto lontano dalla terra è il sole ?
+WHEN:anno In quale anno è stato inventato il fonografo ?
+WHEN:data quando nacque il re Luigi XIV ?
+ENTITY:nazionalità Di quale nazionalità è Sean Connery ?
+QUANTITY:strato Quanto dello strato di ozono è esaurito ?
+LOCATION:luogo Dove si trova il Mare della Tranquillità ?
+ENTITY:lingua Che lingua si parla in Nuova Caledonia ?
+ENTITY:colori Quali sono i colori nazionali del Brasile ?
+WHEN:anno In che anno è stata inventata la lampadina ?
+WHO:autore Chi è l'autore del poema ""The Midnight Ride di Paul Revere"" ?
+WHO:campione Chi è stato il primo campione nero dei pesi massimi ?
+QUANTITY:dimensione Quanto dista la Terra da Marte ?
+ENTITY:nome Qual è il nome dell'aeroporto a Dallas Ft . Worth ?
+LOCATION:città In quale città è Disneyland ?
+ENTITY:libro Che libro ha scritto Rachel Carson nel 1962 ?
+LOCATION:paese In quale paese si trova Aswan High Dam ?
+QUANTITY:fusi orari Quanti fusi orari ci sono nel mondo ?
+QUANTITY:popolazione Qual è la popolazione dell'Islanda ?
+ENTITY:entità Di cosa sono fatti i pennies ?
+LOCATION:città In quale città è la Senna ?
+LOCATION:città Che città è la sede del Rock and Roll Hall of Fame ?
+LOCATION:città In quale città viveva Duke Ellington ?
+WHEN:data Quando fu scritto ""Cold Mountain"" ?
+ENTITY:band Quale band ha fatto le musiche per il film del 1970 ""Febbre del Sabato Sera"" ?
+ENTITY:band In quale band era Jerry Garcia ?
+WHEN:data Quando nacque il principe Carlo ?
+ENTITY:opera Su quale opera è basato ""West Side Story"" ?
+ENTITY:colore Di che colore è la striscia in alto sulla bandiera degli Stati Uniti ?
+QUANTITY:piani Quanti piani ci sono nella Sears Tower ?
+WHO:nome Qual è il nome della compagna di Ling Ling  ?
+ENTITY:entità Come chiamava George Washington casa sua?
+WHEN:data Quando nacque Adolf Hitler ?
+LOCATION:paese Quale paese ha governato Caterina la Grande ?
+ENTITY:soprannome Qual è il soprannome della bandiera britannica ?
+QUANTITY:squadre Quante squadre di NFL ci sono?
+DURATION:durata Quanto velocemente può ucciderti un cobra reale ?
+QUANTITY:distributori Quanti distributori di benzina ci sono negli Stati Uniti ?
+LOCATION:paese Che paese è conosciuto come ""Terra del Sol Levante"" ?
+LOCATION:capitale Quale capitale si vede dalla cima del Bunker Hill ?
+ENTITY:partito Che partito ha guidato l'Australia dal 1983 al 1996 ?
+ENTITY:compagnia Qual è la compagnia aerea nazionale della Spagna ?
+LOCATION:città In quale città è attualmente situata la Liberty Bell ?
+WHO:cognome Qual è il cognome di Richie su ""Happy Days"" ?
+DESC:motto Qual è il motto dei Boy Scout ?
+QUANTITY:dimensione Quanto dista la Luna dalla Terra in miglia ?
+QUANTITY:dimensione Quanto è lunga la Grande Barriera Corallina ?
+ENTITY:film Quale film ha vinto l' Academy Award per la migliore fotografia nel 1989 ?
+WHEN:data Quando fu presidente Lyndon B. Johnson ?
+ENTITY:persone Come sono chiamate le persone nate nel 1965 durante il 1980 ?
+ENTITY:nome Qual è il nome dell'arena delle Cav ?
+QUANTITY:temperatura Quanto caldo è il sole ?
+QUANTITY:lingue Quante lingue ufficiali ha la Svizzera ?
+ENTITY:hit Qual è stata la prima hit numero uno dei Beatles ?
+LOCATION:città In quale città è la Duke University ?
+QUANTITY:et Che età aveva Babe Ruth quando è morto ?
+LOCATION:stato Qual è lo stato con la più scarsa popolazione ?
+DURATION:giorni Quanti giorni terrestri servono a Marte per orbitare intorno al sole ?
+QUANTITY:quantità A quanto ammontano i lati opposti di un dado ?
+ENTITY:montagne russe Quali sono le montagne russe più veloci ?
+QUANTITY:anni Quanti anni ci sono in un mandato del presidente francese ?
+LOCATION:isola In quale isola fu esiliato Napoleone dopo la sconfitta a Waterloo ?
+WHEN:data Quando è nato Leonardo da Vinci ?
+QUANTITY:strisce Quante strisce ci sono sulla bandiera americana?
+ENTITY:edificio In quale edificio si è tenuta la Academy of Country Music Awards  ?
+LOCATION:area Qual è l'area della Germania occidentale, che è nota per i suoi ricchi giacimenti di carbone ?
+QUANTITY:percentuale Quale percentuale del formaggio nazionale produce il Wisconsin ?
+QUANTITY:giorni Quanti giorni ci sono in un anno marziano ?
+LOCATION:città In quale città trovereste il Louvre ?
+LOCATION:barriera Qual è la più grande barriera corallina del mondo ?
+LOCATION:città In quale città inglese passa il primo meridiano ?
+ENTITY:stadio Quale stadio sportivo è stato pubblicizzato come ""l'ottava meraviglia del mondo"" ?
+WHEN:data Quando fu arrestato OJ Simpson per omicidio ?
+QUANTITY:voti Quanti voti elettorali ha il Tennessee ?
+QUANTITY:tipi Quanti tipi di sangue umano ci sono ?
+QUANTITY:province Quante province ci sono in California ?
+ENTITY:museo Quale museo di Filadelfia è stato utilizzato in ""Rocky"" ?
+WHEN:data Quando è stata fondata la città di New Orleans ?
+QUANTITY:dimensione Quanto vicino è Mercurio al Sole ?
+WHEN:data Quando è stato avviato MTV ?
+LOCATION:contea In quale contea è San Antonio , Texas ?
+QUANTITY:bambini Quanti bambini ha Bob Marley ?
+ENTITY:motto Qual è il motto del ""New York Times"" ?
+ENTITY:processo Quale processo ribaltò la Plessy v Furgeson ?
+ENTITY:alce Come è chiamato un alce femmina ?
+ENTITY:entità Con cosa è fatta la tequila ?
+QUANTITY:Grandi Laghi Quanti Grandi Laghi ci sono?
+WHEN:data Quando è stato fatto il primo film di Star Wars ?
+QUANTITY:isole Quante isole ci sono in Indonesia ?
+QUANTITY:dimensione Quanto è alta la piramide più alta ?
+QUANTITY:dimensione Quanto grande diventa un maiale ?
+ENTITY:trattato Con quale trattato di pace si è conclusa la prima guerra mondiale ?
+QUANTITY:fuoricampo Quanti fuoricampo ha colpito Babe Ruth ?
+QUANTITY:dimensione Quanto vicino è Mesa a Phoenix ?
+LOCATION:città Che città canadese ha la maggiore popolazione ?
+QUANTITY:camere Quante camere ci sono alla Casa Bianca ?
+LOCATION:isola Su quale isola dei Caraibi era governatore Ponce de Leon ?
+WHO:nome Qual è il vero nome di Eminem ?
+WHEN:data Quando fu inventato il telegrafo ?
+LOCATION:città Quale città è la patria di Superman ?
+ENTITY:gruppo Di quale gruppo comico faceva parte John Cleese ?
+LOCATION:nazione Di quale nazione era originaria Caterina la Grande ?
+ENTITY:punto Che punto di riferimento americano sorge su Liberty Island ?
+WHO:generale confederato Quale generale confederato fu responsabile della sconfitta di Gettysburg ?
+LOCATION:paese Che paese produce la maggior parte della seta ?
+WHO:nome Qual è il nome completo di Barbie ?
+ENTITY:moneta Qual è la moneta della Danimarca ?
+QUANTITY:volte Quante volte gli Yankees hanno vinto le World Series ?
+LOCATION:provincia In quale provincia canadese sono la maggior parte delle persone di origine francese?
+WHEN:compleanno Quando è il compleanno di Jennifer Lopez ?
+LOCATION:paese Da quale paese Panama guadagnò la propria indipendenza ?
+QUANTITY:fuori campo Quanti fuori campo ha colpito Henry ""Hank Aaron""  nella sua carriera in major league ?
+WHO:sindaco Chi è il sindaco di San Francisco ?
+WHEN:data Quando nacque Abramo Lincoln ?
+QUANTITY:lune Quante lune ha Nettuno ?
+ENTITY:gas Quale gas forma il 78 per cento dell'atmosfera della terra?
+QUANTITY:giudici Quanti giudici ha la Corte Suprema degli Stati Uniti ?
+QUANTITY:medaglie Quante medaglie d'oro olimpiche ha vinto Carl Lewis ?
+WHEN:data Quando è stata costruita la Grande Muraglia Cinese ?
+ENTITY:entità Com'è chiamato il bianco d'uovo ?
+QUANTITY:velocità Quanto veloce lancia Randy Johnson ?
+QUANTITY:temperatura Qual è la temperatura del corpo di un cane ?
+WHEN:data In che data è stata firmata la Dichiarazione di Indipendenza ?
+LOCATION:paese Quale paese produce il maggior numero di smeraldi ?
+ENTITY:logo Qual è il logo di ""Playboy"" ?
+LOCATION:paese Quale paese invase l'Iraq nel 1990 ?
+QUANTITY:dimensione Quanto dista il Titanic sotto l'acqua ?
+ENTITY:club Quale club di Liverpool ha dato origine ai Beatles ?
+WHO:persona Chi cantava ""Tennessee Waltz"" ?
+LOCATION:paese Di che paese è la Hyundai ?
+QUANTITY:dimensione Quanti metri sopra il livello del mare è Gerusalemme?
+WHEN:data Quando fu colpito Ronald Reagan ?
+LOCATION:oceano In quale oceano sono le Isole Gilbert ?
+WHO:nome Qual è il nome del Chief Justice della Corte Suprema ?
+QUANTITY:funzionari Quanti funzionari di gabinetto ci sono?
+QUANTITY:grammi Quanti grammi in un'oncia ?
+LOCATION:paese Che paese oltre la Germania ha il tedesco come lingua ufficiale ?
+QUANTITY:dimensione Quanto è alto Al Pacino ?
+WHEN:data Quando è stato legalizzato l'aborto negli Stati Uniti?
+LOCATION:stato Qual è lo stato del Bluegrass ?
+ENTITY:diga Quale diga è detta la più grande centrale idroelettrica del mondo ?
+WHO:figlia Quale figlia dello zar Nicola II si dice che sia sfuggita alla morte nella rivoluzione russa ?
+LOCATION:montagna Qual è la montagna più alta del Sud America ?
+ENTITY:bandiera Quale bandiera nazionale sventola sopra le isole Canarie ?
+ENTITY:prigione In quale prigione è Charles Manson ?
+QUANTITY:dimensione Quanto è alto il mostro verde a Fenway ?
+QUANTITY:pianeti Quanti pianeti ci sono nel nostro sistema solare ?
+WHEN:data Quando fu reso il Canale di Panama a Panama ?
+QUANTITY:dimensione Quanto è profondo il Grand Canyon ?
+LOCATION:paese Qual è il paese più ricco del mondo ?
+ENTITY:università Quale università frequentò Magic Johnson ?
+QUANTITY:et Quale età aveva Elvis quando è morto ?
+LOCATION:capitale Qual è la capitale del Maryland ?
+QUANTITY:agenzie Quante agenzie di intelligence hanno gli USA ?
+QUANTITY:probabilità Quali sono le probabilità di non essere colpito da un fulmine ?
+QUANTITY:camere Quante camere ha il Las Vegas MGM Grand Hotel ?
+WHO:commodoro Quale commodoro americano chiese che il Giappone commerciasse con gli Stati Uniti ?
+LOCATION:canale Che canale si trova tra il Mar Mediterraneo e il Mar Rosso ?
+ENTITY:dinastia Che dinastia cinese c'era durante il 1412-1431 ?
+QUANTITY:dimensione Quanto pesa la cupola del Campidoglio ?
+LOCATION:continente Su quale continente è il Togo ?
+QUANTITY:volte Quante volte al giorno pregano i musulmani osservanti ?
+LOCATION:continente Su quale continente è l'India ?
+ENTITY:decisione Che decisione del 1857 della Corte Suprema degli Stati Uniti ha negato che i neri fossero cittadini ?
+ENTITY:monumento Che monumento nazionale è stato designato come primo monumento nazionale nel 1906 ?
+QUANTITY:mph A quanti mph dovresti andare per rompere la barriera del suono ?
+LOCATION:paese Da quale paese proveniva Marco Polo ?
+WHO:compositore Che compositore scrisse ``Die Gotterdammerung'' ?
+CURRENCY:valuta Quanto costava la prima Barbie ?
+LOCATION:fiume Qual è il fiume più lungo del mondo ?
+QUANTITY:dimensione Quanto è grande la Grande Piramide ?
+QUANTITY:mandati Per quanti mandati fu presidente Dwight D. Eisenhower ?
+QUANTITY:morti Quante morti americane ci furono nella guerra di Corea ?
+QUANTITY:repubbliche Quante repubbliche costituivano l'Unione Sovietica ?
+QUANTITY:tentacoli Quanti tentacoli hanno effettivamente i calamari ?
+ENTITY:squadra Quale squadra ingaggiò Brett Favre ?
+QUANTITY:dimensione Quanto dista il tumulo di brocca dalla casa base ?
+LOCATION:stato In quale stato è nata Amelia Earhart ?
+QUANTITY:muscoli Quanti muscoli ci sono nel corpo umano ?
+LOCATION:fiume Quale fiume c'è sotto il ponte George Washington di New York ?
+WHO:attrice Quale attrice ha ricevuto il maggior numero di nomination agli Oscar ?
+QUANTITY:strati Quanti strati di pelle abbiamo?
+DESC:spiegazione Come morì John Quincy Adams ?
+WHEN:data Quando fu la prima World Series teletrasmessa ?
+LOCATION:città Che città ha ospitato le Olimpiadi estive del 1936 ?
+LOCATION:luogo Dove si trova il Monte Olimpo ?
+QUANTITY:dimensione Quanto è grande l'orca ?
+DURATION:durata Quanto tempo prima il fallimento viene rimosso da un rapporto di credito ?
+WHO:ingegnere Quale ingegnere ha progettato il Canale di Erie ?
+DESC:spiegazione Che cosa faceva il padre di Osama bin Laden per vivere?
+ENTITY:strumento Quale strumento suonava Louis Armstrong ?
+LOCATION:paese Di quale nazionalità erano i soldati nascosti nel cavallo di Troia ?
+QUANTITY:dimensione Quanto è alto Pikes Peak?
+QUANTITY:temperatura Che caldo fa nella Death Valley ?
+QUANTITY:dimensione Quanto è alto il monumento a Washington ?
+ENTITY:tipo Che tipo di ape fora il legno ?
+ENTITY:colore Di che colore è la cintura del migliore nel karate ?
+ENTITY:nome Qual è il nome della residenza ufficiale del presidente della Francia ?
+DESC:spiegazione Qual è il rapporto tra Horatio e Amleto ?
+DESC:spiegazione Come morì Jerry Garcia ?
+QUANTITY:popolazione Qual è la popolazione di Canberra ?
+WHO:presidente Quale presidente creò la social security ?
+WHEN:data Quando fu fondata la Croce Rossa ?

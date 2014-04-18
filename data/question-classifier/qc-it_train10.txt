@@ -1,0 +1,10 @@
+CURRENCY:valore Qual era il valore monetario del Premio Nobel per la pace nel 1989 ?
+ENTITY:entità Che cosa produce l'azienda Peugeot ?
+CURRENCY:valuta Quanto ha speso Mercury in pubblicità nel 1993 ?
+WHO:nome Qual è il nome dell'amministratore delegato di Apricot computer?
+WHY:spiegazione Perché David Koresh ha chiesto all'FBI un word processor ?
+CURRENCY:debiti Che debiti ha lasciato il gruppo Qintex ?
+ENTITY:nome Qual è il nome della rara malattia neurologica con sintomi quali : movimenti involontari - LRB - tic - RRB - ,  bestemmie, e vocalizzazioni incoerenti - LRB - grugniti, grida, etc. - RRB - ?
+QUANTITY:dimensione Quanto dista Yaroslavl da Mosca ?
+WHO:progettista Nominare il progettista della scarpa che ha generato milioni di imitazioni in plastica , nota come `` jellies '' .
+WHO:moglie Chi era la moglie del presidente Cleveland ?

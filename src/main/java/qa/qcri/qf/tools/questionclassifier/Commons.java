@@ -1,7 +1,11 @@
 package qa.qcri.qf.tools.questionclassifier;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+import it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapper;
+import it.unitn.limosine.italian.textpro.TextProWrapperFix;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -19,6 +23,7 @@ import qa.qcri.qf.trees.nodes.RichNode;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
+import edu.berkeley.nlp.util.Logger;
 
 public class Commons {
 
@@ -30,6 +35,7 @@ public class Commons {
 	public static final String MODELS_DIRECTORY = Commons.QF_DIRECTORY
 			+ "models/";
 
+	/*
 	public static Analyzer instantiateAnalyzer(UIMAPersistence persistence)
 			throws UIMAException {
 		Analyzer ae = new Analyzer(persistence);
@@ -39,6 +45,47 @@ public class Commons {
 				.addAEDesc(createEngineDescription(StanfordParser.class));
 
 		return ae;
+	}
+	*/
+	
+	public static Analyzer instantiateQuestionClassifierAnalyzer(String lang) throws UIMAException, IOException { 
+		if (lang == null) 
+			throw new NullPointerException("lang is null");
+		
+		Analyzer analyzer = null;
+		if (lang.equals("en")) {
+			analyzer = instantiateEnglishQuestionClassifierAnalyzer();
+		} else if (lang.equals("it")) {
+			analyzer = instantiateItalianQuestionClassifierAnalyzer();
+		} else {
+			Logger.warn("No QuestionClassifier analyzer found for lang: " + lang + ". Returned default QuestionClassifier analyzer for english language.");
+			analyzer = instantiateEnglishQuestionClassifierAnalyzer();
+		}
+		
+		return analyzer;		
+	}
+	
+	private static Analyzer instantiateEnglishQuestionClassifierAnalyzer() throws UIMAException {
+		Analyzer analyzer = new Analyzer();
+
+		analyzer.addAEDesc(createEngineDescription(StanfordSegmenter.class))
+				.addAEDesc(createEngineDescription(StanfordPosTagger.class))
+				.addAEDesc(createEngineDescription(StanfordParser.class));
+
+		return analyzer;
+	}
+	
+	private static Analyzer instantiateItalianQuestionClassifierAnalyzer() throws UIMAException, IOException {
+		Analyzer analyzer = new Analyzer();
+		
+		analyzer.addAEDesc(createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor"))
+				.addAEDesc(createEngineDescription("desc/Limosine/BerkeleyITDescriptor"));
+		/*
+		analyzer.addAEDesc(createEngineDescription(TextProWrapperFix.class))
+		  		.addAEDesc(createEngineDescription(BerkeleyWrapper.class));
+		*/
+		  	
+		return analyzer;
 	}
 
 	/**
@@ -55,9 +102,14 @@ public class Commons {
 			Analyzer ae) throws UIMAException {
 		Set<String> categories = new HashSet<>();
 		JCas cas = JCasFactory.createJCas();
+		
+		System.out.println("questionsPath: " + questionsPath);
 		Iterator<CategoryContent> questions = new QuestionReader(questionsPath)
 				.iterator();
+		
+		int questionsNum = 0;
 		while (questions.hasNext()) {
+			System.out.println("Processing questionNum: " + questionsNum++ + "...");
 			CategoryContent question = questions.next();
 			categories.add(question.getCategory());
 			ae.analyze(cas, question);

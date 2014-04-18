@@ -12,7 +12,7 @@ import org.apache.uima.resource.ResourceInitializationException;
 
 import qa.qcri.qf.classifiers.Classifier;
 import qa.qcri.qf.classifiers.SVMLightTKClassifierFactory;
-import qa.qcri.qf.tools.questionfocus.FocusClassifier;
+import qa.qcri.qf.tools.questionfocus.FocusClassifierEn;
 import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
@@ -54,7 +54,7 @@ public class QuestionFocusClassifier extends JCasAnnotator_ImplBase {
 		TokenTree tree = RichTree.getConstituencyTree(cas);
 		
 		List<Pair<String, RichTokenNode>> examples 
-			= FocusClassifier.generateExamples(tree, this.ts);
+			= FocusClassifierEn.generateExamples(tree, this.ts);
 		
 		RichTokenNode focusNode = null;
 		

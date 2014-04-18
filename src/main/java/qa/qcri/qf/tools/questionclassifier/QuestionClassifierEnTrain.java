@@ -1,5 +1,6 @@
 package qa.qcri.qf.tools.questionclassifier;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -15,17 +16,21 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.providers.ConstituencyTreeProvider;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
 
-public class QuestionClassifierTrain {
+public class QuestionClassifierEnTrain {
 
-	public static final String TRAIN_CASES_DIRECTORY = "CASes/question-classifier/train/";
+	public static final String TRAIN_CASES_DIRECTORY = "CASes/question-classifier/train.en/";
 
 	public static final String TRAIN_QUESTIONS_PATH = Commons.QF_DIRECTORY + "train_5500.label";
 	
 	public static final String TRAIN_DIRECTORY = Commons.QF_DIRECTORY + "train/";
 
-	public static void main(String[] args) throws UIMAException {		
+	public static void main(String[] args) throws UIMAException, IOException {
+		/*
 		Analyzer ae = Commons.instantiateAnalyzer(new UIMAFilePersistence(
 				TRAIN_CASES_DIRECTORY));
+		*/
+		Analyzer ae = Commons.instantiateQuestionClassifierAnalyzer("en");
+		ae.setPersistence(new UIMAFilePersistence(TRAIN_CASES_DIRECTORY));
 		
 		Set<String> categories = Commons.analyzeAndCollectCategories(TRAIN_QUESTIONS_PATH, ae);
 		
@@ -58,3 +63,4 @@ public class QuestionClassifierTrain {
 		fm.closeFiles();
 	}
 }
+	

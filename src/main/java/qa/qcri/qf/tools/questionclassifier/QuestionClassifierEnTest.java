@@ -1,5 +1,6 @@
 package qa.qcri.qf.tools.questionclassifier;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -19,18 +20,22 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.providers.ConstituencyTreeProvider;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
 
-public class QuestionClassifierTest {
+public class QuestionClassifierEnTest {
 
-	public static final String TEST_CASES_DIRECTORY = "CASes/question-classifier/test/";
+	public static final String TEST_CASES_DIRECTORY = "CASes/question-classifier/test.en/";
 
 	public static final String TEST_QUESTIONS_PATH = Commons.QF_DIRECTORY
 			+ "TREC_10.label";
 
-	private static final Logger logger = LoggerFactory.getLogger(QuestionClassifierTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(QuestionClassifierEnTest.class);
 
-	public static void main(String[] args) throws UIMAException {
+	public static void main(String[] args) throws UIMAException, IOException {
+		/*
 		Analyzer ae = Commons.instantiateAnalyzer(new UIMAFilePersistence(
 				TEST_CASES_DIRECTORY));
+		*/
+		Analyzer ae = Commons.instantiateQuestionClassifierAnalyzer("en");
+		ae.setPersistence(new UIMAFilePersistence(TEST_CASES_DIRECTORY));
 
 		Set<String> categories = Commons.analyzeAndCollectCategories(
 				TEST_QUESTIONS_PATH, ae);
