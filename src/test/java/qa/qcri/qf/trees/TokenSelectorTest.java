@@ -7,6 +7,8 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.junit.BeforeClass;
@@ -23,10 +25,9 @@ import util.Pair;
 import com.google.common.base.Joiner;
 
 import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
+import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 
 public class TokenSelectorTest {
 
@@ -35,12 +36,23 @@ public class TokenSelectorTest {
 	@BeforeClass
 	public static void setUp() throws UIMAException {
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
+		
+		AnalysisEngine breakIteratorSegmenter = AnalysisEngineFactory.createEngine(
+				createEngineDescription(BreakIteratorSegmenter.class));
+		
+		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordParser.class));
+		
+		AnalysisEngine illinoisChunker = AnalysisEngineFactory.createEngine(
+				createEngineDescription(IllinoisChunker.class));
+		
+		AnalysisEngine stanfordNamedEntityRecognizer = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordNamedEntityRecognizer.class));
 
-		ae.addAEDesc(createEngineDescription(StanfordSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordPosTagger.class))
-				.addAEDesc(createEngineDescription(StanfordLemmatizer.class))
-				.addAEDesc(createEngineDescription(IllinoisChunker.class))
-				.addAEDesc(createEngineDescription(StanfordNamedEntityRecognizer.class));
+		ae.addAE(breakIteratorSegmenter)
+			.addAE(stanfordParser)
+			.addAE(illinoisChunker)
+			.addAE(stanfordNamedEntityRecognizer);
 
 		Analyzable content = new SimpleContent(
 				"token-selector-test",

@@ -3,6 +3,7 @@ package it.unitn.limosine.italian.syntax.constituency;
 import static org.junit.Assert.*;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.junit.Before;
@@ -34,8 +35,10 @@ public class BerkeleyWrapperTest {
 		
 		JCas cas = JCasFactory.createJCas();
 		Analyzer analyzer = new Analyzer();
-		analyzer.addAEDesc(createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor"));
-		analyzer.addAEDesc(createEngineDescription("desc/Limosine/BerkeleyITDescriptor"));
+		analyzer.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor")));
+		analyzer.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription("desc/Limosine/BerkeleyITDescriptor")));
 		analyzer.analyze(cas, content);		
 		
 		return cas;

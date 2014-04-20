@@ -8,18 +8,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.util.InvalidXMLException;
 import org.junit.Test;
 
-import com.google.common.base.Joiner;
-
-import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
@@ -27,6 +21,12 @@ import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
+
+import com.google.common.base.Joiner;
+
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
 public class TextProWrapperFixTest {
 	
@@ -44,10 +44,8 @@ public class TextProWrapperFixTest {
 		Analyzable content = new SimpleContent("0", text2);
 		Analyzer analyzer = new Analyzer();
 		
-		AnalysisEngineDescription desc = createEngineDescription(
-			"desc/Limosine/TextProFixAllInOneDescriptor"
-		);
-		analyzer.addAEDesc(desc);
+		analyzer.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor")));
 
 		JCas cas = JCasFactory.createJCas();
 		analyzer.analyze(cas, content);
@@ -65,10 +63,11 @@ public class TextProWrapperFixTest {
 		String text3 = "Bernardo Magnini lavora alla Fondazione Kessler di Povo, vicino a Trento";
 
 		Analyzable content = new SimpleContent("0", text3);
-		AnalysisEngineDescription desc = createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor");
 		Analyzer analyzer = new Analyzer();
 		
-		analyzer.addAEDesc(desc);
+		analyzer.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor")));
+		
 		JCas cas = JCasFactory.createJCas();
 		analyzer.analyze(cas, content);
 		
@@ -86,10 +85,10 @@ public class TextProWrapperFixTest {
 		
 		Analyzable content = new SimpleContent("0", text3);
 		
-		AnalysisEngineDescription desc = createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor");
-		Analyzer analyzer = new Analyzer();
+		Analyzer analyzer = new Analyzer();		
+		analyzer.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor")));
 		
-		analyzer.addAEDesc(desc);
 		JCas cas = JCasFactory.createJCas();
 		analyzer.analyze(cas, content);
 		
@@ -108,10 +107,10 @@ public class TextProWrapperFixTest {
 		
 		Analyzable content = new SimpleContent("0", text3);
 		
-		AnalysisEngineDescription desc = createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor");
-		Analyzer analyzer = new Analyzer();
+		Analyzer analyzer = new Analyzer();	
+		analyzer.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor")));
 		
-		analyzer.addAEDesc(desc);
 		JCas cas = JCasFactory.createJCas();
 		analyzer.analyze(cas, content);
 		

@@ -4,8 +4,9 @@ import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDesc
 import junit.framework.Assert;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
-import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.junit.BeforeClass;
@@ -27,10 +28,19 @@ public class QuestionFocusTest {
 	@BeforeClass
 	public static void setUp() throws UIMAException {
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
+		
+		AnalysisEngine breakIteratorSegmenter = AnalysisEngineFactory.createEngine(
+				createEngineDescription(BreakIteratorSegmenter.class));
+		
+		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordParser.class));
+		
+		AnalysisEngine questionFocusClassifier = AnalysisEngineFactory.createEngine(
+				createEngineDescription(QuestionFocusClassifier.class));
 
-		ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordParser.class))
-				.addAEDesc(createEngineDescription(QuestionFocusClassifier.class));
+		ae.addAE(breakIteratorSegmenter)
+			.addAE(stanfordParser)
+			.addAE(questionFocusClassifier);
 
 		Analyzable content = new SimpleContent("question-focus-test",
 				"What United States President had dreamed that he was assassinated");

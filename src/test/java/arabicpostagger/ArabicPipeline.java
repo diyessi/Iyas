@@ -6,6 +6,7 @@ import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDesc
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.CasCopier;
@@ -59,7 +60,8 @@ public class ArabicPipeline {
 	@Test
 	public void testArabicPipeline() throws UIMAException, IOException {
 		this.ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
-		this.ae.addAEDesc(createEngineDescription(ArabicAnalyzer.class));
+		this.ae.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription(ArabicAnalyzer.class)));
 		
 		JCas cas = this.getPreliminarCas("arabic-test", SAMPLE_SENTENCE);
 		
