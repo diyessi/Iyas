@@ -53,8 +53,7 @@ public class TrecPipelineRunner {
 
 		Options options = new Options();
 		options.addOption(HELP_OPT, true, "Print the help");
-		options.addOption(LANG, true, // handle questions and answers lang
-				"The lang of the processing data");
+		options.addOption(LANG, true, "The language of the processing data");
 		options.addOption(ARGUMENTS_FILE_OPT, true,
 				"The path of the file containing the command line arguments");
 		options.addOption(TRAINING_QUESTIONS_PATH_OPT, true,
@@ -170,7 +169,6 @@ public class TrecPipelineRunner {
 			 * Sets up the analyzer, initially with the persistence directory
 			 * for train CASes
 			 */
-			//Analyzer ae = pipeline.instantiateAnalyzer(trainPersistence);
 			Analyzer ae = pipeline.instantiateAnalyzer(lang, trainPersistence);
 
 			pipeline.setupAnalysis(ae,
