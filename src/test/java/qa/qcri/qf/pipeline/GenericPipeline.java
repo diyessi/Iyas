@@ -57,7 +57,18 @@ public class GenericPipeline {
 	}
 
 	public void performAnalysis() throws UIMAException {
-		this.processAnalyzables(this.questionReader.newReader().iterator());
+		/**
+		 * We assume we use a specific analysis pipeline for questions.
+		 * If the specified QA pipeline id is not found the default main
+		 * pipeline will be used
+		 */
+		this.processAnalyzables(this.questionReader.newReader().iterator(),
+				AnalyzerFactory.QUESTION_ANALYSIS);
+		
+		/**
+		 * We use the default main pipeline for analyzing candidate passages.
+		 * It is not required to specify the main pipeline id
+		 */
 		this.processAnalyzables(this.candidatesReader.newReader().iterator());
 	}
 
@@ -114,30 +125,9 @@ public class GenericPipeline {
 	}
 	
 	public Analyzer instantiateAnalyzer(String lang, UIMAPersistence persistence) 
-		throws UIMAException { 
-		if (lang == null) {
-			throw new NullPointerException("lang is null");
-		}
-		if (persistence == null) { 
-			throw new NullPointerException("persistence is null");
-		}
-		
+		throws UIMAException {
 		return AnalyzerFactory.newTrecPipeline(lang, persistence);
 	}
-
-	/*
-	public Analyzer instantiateAnalyzer(UIMAPersistence persistence)
-			throws UIMAException {
-		Analyzer ae = new Analyzer(persistence);
-
-		ae.addAEDesc(createEngineDescription(StanfordSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordPosTagger.class))
-				.addAEDesc(createEngineDescription(StanfordLemmatizer.class))
-				.addAEDesc(createEngineDescription(IllinoisChunker.class));
-
-		return ae;
-	}
-	*/
 
 	private void populateIdToQuestionMap() {
 		this.idToQuestion.clear();
@@ -150,22 +140,27 @@ public class GenericPipeline {
 			this.idToQuestion.put(question.getId(), questionObject);
 		}
 	}
-
+	
 	private void processAnalyzables(Iterator<Analyzable> analyzables)
 			throws UIMAException {
+		this.processAnalyzables(analyzables, Analyzer.MAIN_AES_LIST);
+	}
+
+	private void processAnalyzables(Iterator<Analyzable> analyzables,
+			String aesListId) throws UIMAException {
 		
 		if(this.candidatesToKeep == -1) {	
 			JCas cas = JCasFactory.createJCas();
 			while (analyzables.hasNext()) {
 				Analyzable analyzable = analyzables.next();
-				this.ae.analyze(cas, analyzable);
+				this.ae.analyze(cas, analyzable, aesListId);
 			}
 		} else {
 			int counter = 0;
 			JCas cas = JCasFactory.createJCas();
 			while (analyzables.hasNext()) {
 				Analyzable analyzable = analyzables.next();
-				this.ae.analyze(cas, analyzable);
+				this.ae.analyze(cas, analyzable, aesListId);
 				counter++;
 				
 				if(counter >= this.candidatesToKeep) {
@@ -198,9 +193,10 @@ public class GenericPipeline {
 			metadata.put(SEARCH_ENGINE_POSITION_KEY, searchEnginePosition);
 
 			DataObject candidateObject = new DataObject(
-					relevant == true ? Labelled.POSITIVE_LABEL
-							: Labelled.NEGATIVE_LABEL, candidateId, features,
-					metadata);
+					relevant == true
+					? Labelled.POSITIVE_LABEL
+					: Labelled.NEGATIVE_LABEL,
+					candidateId, features, metadata);
 
 			candidateObjects.add(candidateObject);
 		}
