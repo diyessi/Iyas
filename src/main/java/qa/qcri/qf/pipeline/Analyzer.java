@@ -62,12 +62,14 @@ public class Analyzer {
 	 *            the id of the list of analysis engine
 	 * @return the Analyzer object instance for chaining
 	 */
-	public Analyzer addAE(AnalysisEngine ae, String aesListid) {	
-		if(!this.idToAEs.containsKey(aesListid)) {
-			this.idToAEs.put(aesListid, new ArrayList<AnalysisEngine>());
+	public Analyzer addAE(AnalysisEngine ae, String aesListId) {	
+		if(!this.idToAEs.containsKey(aesListId)) {
+			this.idToAEs.put(aesListId, new ArrayList<AnalysisEngine>());
 		}
 		
-		this.idToAEs.get(aesListid).add(ae);
+		this.idToAEs.get(aesListId).add(ae);
+		
+		System.out.println(aesListId + " " + this.idToAEs.get(aesListId).size());
 		
 		return this;
 	}
@@ -126,6 +128,16 @@ public class Analyzer {
 			this.persistence.deserialize(cas, id);
 		} else {
 			List<AnalysisEngine> aesList = this.idToAEs.get(aesListId);
+			
+			/**
+			 * Fallback to main analysis engine list
+			 */
+			if(aesList == null) {
+				aesList = this.idToAEs.get(MAIN_AES_LIST);
+				logger.warn("AE list with id " + aesListId + " not found."
+						+ " Falling back to the main analysis engine list.");
+			}
+			
 			for (AnalysisEngine ae : aesList) {
 				try {
 					SimplePipeline.runPipeline(cas, ae);
