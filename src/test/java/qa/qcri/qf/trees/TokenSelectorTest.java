@@ -20,6 +20,7 @@ import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
+import qa.qcri.qf.type.QuestionFocus;
 import util.Pair;
 
 import com.google.common.base.Joiner;
@@ -66,7 +67,7 @@ public class TokenSelectorTest {
 	}
 
 	@Test
-	public void test() {
+	public void testNamedEntities() {
 		TokenTree tree = RichTree.getPosChunkTree(cas);
 
 		List<Pair<NamedEntity, List<RichTokenNode>>> annsAndTokens = TokenSelector
@@ -78,6 +79,16 @@ public class TokenSelectorTest {
 			Assert.assertEquals(neText, Joiner.on(" ").join(annAndTokens.getB()));
 		}
 
+	}
+	
+	@Test
+	public void testAnAbsentAnnotation() {
+		TokenTree tree = RichTree.getPosChunkTree(cas);
+
+		List<Pair<QuestionFocus, List<RichTokenNode>>> annsAndTokens = TokenSelector
+				.selectTokenNodeCovered(cas, tree, QuestionFocus.class);
+
+		Assert.assertEquals(true, annsAndTokens.isEmpty());
 	}
 
 }
