@@ -69,8 +69,6 @@ public class Analyzer {
 		
 		this.idToAEs.get(aesListId).add(ae);
 		
-		System.out.println(aesListId + " " + this.idToAEs.get(aesListId).size());
-		
 		return this;
 	}
 
