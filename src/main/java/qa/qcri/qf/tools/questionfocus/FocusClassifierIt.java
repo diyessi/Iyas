@@ -3,6 +3,7 @@ package qa.qcri.qf.tools.questionfocus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +15,6 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 import org.apache.uima.jcas.JCas;
 import org.codehaus.plexus.util.StringUtils;
-import org.maltparser.core.helper.HashSet;
 
 import com.google.common.collect.Lists;
 
@@ -30,28 +30,31 @@ import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import util.Pair;
 
-public class FocusClassifierIt {
+public class FocusClassifierIt extends FocusClassifier {
 	
 	public static final String DATA = Commons.QUESTION_FOCUS_DATA + "qf-it_train10.txt";
 	
 	public static final String CASES_DIRECTORY = "CASes/question-focus/train.it";
 	
-	/*
+
 	public static Set<String> allowedTags =
-			// TODO: To fill with high-freq ita postags
-			new HashSet<>(Arrays.asList(new String[0]));
-	*/
-			
-	private Analyzer ae;
+			new HashSet<>(Arrays.asList(new String[]{ "SN", "SP", "SPN", "SS" }));
 	
-	private JCas cas;
+	//private JCas cas;
+
+	//private Analyzer analyzer;
 	
-	private TreeSerializer ts;
+	//private TreeSerializer ts;
 	
-	private Map<Integer, List<String>> examples;
+	//private Map<Integer, List<String>> examples;
 	
-	private Map<String, Integer> postoFreq = new HashMap<>();
+	//private Map<String, Integer> postoFreq = new HashMap<>();
 	
+	public FocusClassifierIt(Analyzer analyzer) throws UIMAException {
+		super(analyzer, allowedTags);		 
+	}
+	
+	/**
 	private FocusClassifierIt() throws UIMAException {
 		//this.ae = Commons.instantiateQuestionFocusAnalyzer("it");
 		this.ae = Commons.instantiateQuestionFocusAnalyzer("it");		
@@ -62,11 +65,11 @@ public class FocusClassifierIt {
 		this.examples = new HashMap<>();
 	}
 	
-	/**
-	 * Produces the examples from a training data
-	 * @param dataPath the path of the training data
-	 * @return this class instance for chaining
-	 */
+	//
+	// Produces the examples from a training data
+	// @param dataPath the path of the training data
+	// @return this class instance for chaining
+	//
 	public FocusClassifierIt generateExamples(String dataPath) { 
 		ReadFile in = new ReadFile(dataPath);
 		
@@ -75,9 +78,9 @@ public class FocusClassifierIt {
 		while (in.hasNextLine()) {
 			String line = this.filterText(in.nextLine());
 		
-			/**
-			 * Input check
-			 */
+			
+			// Input check
+			
 			if (line.startsWith("IMPL")) continue;
 			if (StringUtils.countMatches(line, "#") != 1) continue;
 			assert line.contains("#");
@@ -106,13 +109,13 @@ public class FocusClassifierIt {
 		return this;
 	}
 	
-	/**
-	 * Generates a list of examples from a tree with tagged focus.
-	 * @param tree Tree tree from which examples are generated
-	 * @param ts The serializer used to output the trees
-	 * @return A list of pair of examples, and the rich token tagged in that example
-	 */
-	public static List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree,
+	
+	 // Generates a list of examples from a tree with tagged focus.
+	 // @param tree Tree tree from which examples are generated
+	 // @param ts The serializer used to output the trees
+	 // @return A list of pair of examples, and the rich token tagged in that example
+	 
+	public List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree,
 			TreeSerializer ts) {
 		List<Pair<String, RichTokenNode>> examples = new ArrayList<>();
 		
@@ -120,21 +123,27 @@ public class FocusClassifierIt {
 			
 			RichNode posTag = node.getParent();
 			
-			//if (!allowedTags.contains(posTag.getValue())) continue;
+			if (!allowedTags.contains(posTag.getValue())) continue;
 			
 			posTag.addAdditionalLabel(Commons.QUESTION_FOCUS_KEY);
 			
+			System.out.println(posTag.getValue() + "/" + posTag.getAdditionalLabels());
+						
 			boolean isFocus = node.getMetadata().containsKey(Commons.QUESTION_FOCUS_KEY);
 			
 			String label = isFocus ? "+1" : "-1";
 			
 			String taggedTree = ts.serializeTree(tree, Commons.getParameterList());
 			
+			System.out.println("ts: " + taggedTree);
+			
 			String example = "";
 			example += label;
 			example += "|BT| ";
 			example += taggedTree;
 			example += " |ET|";		
+			
+			System.out.println("example: " + example);
 			
 			examples.add(new Pair<>(example, node));
 			
@@ -145,19 +154,19 @@ public class FocusClassifierIt {
 				
 	}
 	
-	/**
-	 * Generates examples for a given question
-	 * @param qid the id of the question
-	 * @param tree the tree representation of the question
-	 * @return a list of examples
-	 */
+	//
+	// Generates examples for a given question
+	// @param qid the id of the question
+	// @param tree the tree representation of the question
+	// @return a list of examples
+	//
 	private List<String> produceExamples(int qid, TokenTree tree) {
 		List<String> examples = new ArrayList<>();
 		
 		for (RichTokenNode node : tree.getTokens())  {
 			RichNode posTag = node.getParent();
 			
-			//if (!allowedTags.contains(posTag.getValue())) continue;
+			if (!allowedTags.contains(posTag.getValue())) continue;
 			
 			posTag.addAdditionalLabel(Commons.QUESTION_FOCUS_KEY);
 			
@@ -194,12 +203,12 @@ public class FocusClassifierIt {
 		return examples;
 	}
 
-	/**
-	 * Add a FOCUS metadata to the leaf node of the tree delimited by the given indexes
-	 * @param tree The tree to augment with metadata
-	 * @param beginPos The starting index of the token
-	 * @param endPos The ending index of the token
-	 */
+	//
+	// Add a FOCUS metadata to the leaf node of the tree delimited by the given indexes
+	// @param tree The tree to augment with metadata
+	// @param beginPos The starting index of the token
+	// @param endPos The ending index of the token
+	//
 	private void addFocusMetadata(TokenTree tree, int beginPos, int endPos) {
 		for (RichTokenNode node : tree.getTokens()) { 
 			Token token = node.getToken();
@@ -209,21 +218,21 @@ public class FocusClassifierIt {
 		}
 	}
 
-	/**
-	 * Performs basic whitespace filtering on a string.
-	 * @param text
-	 * @return the filtered text
-	 */
+	//
+	// Performs basic whitespace filtering on a string.
+	// @param text
+	// @return the filtered text
+	//
 	private String filterText(String text) {
 		String filteredText = text.trim();
 		filteredText = filteredText.replaceAll(" +", " ");
 		return filteredText;
 	}
 	
-	/**
-	 * Print useful statistics on the generated data
-	 * @return this class instance for chaining
-	 */
+	//
+	// Print useful statistics on the generated data
+	// @return this class instance for chaining
+	//
 	public FocusClassifierIt printStatistics() { 
 		System.out.println("F-POS\tFREQUENCY");
 		for (String pos : this.postoFreq.keySet()) { 
@@ -240,12 +249,12 @@ public class FocusClassifierIt {
 		return this;
 	}
 	
-	/**
-	 * Writes the examples on disk
-	 * @param outputPath A string holding the output file
-	 * @param examples The data structure containing the examples mapped to questions
-	 * @return This class instance for chaining
-	 */
+	//
+	// Writes the examples on disk
+	// @param outputPath A string holding the output file
+	// @param examples The data structure containing the examples mapped to questions
+	// @return This class instance for chaining
+	//
 	public FocusClassifierIt writeExamplesToDisk(String outputPath, 
 			Map<Integer, List<String>> examples) {
 		
@@ -268,12 +277,12 @@ public class FocusClassifierIt {
 		return this.writeExamplesToDisk(outputPath, this.examples);
 	}
 	
-	/**
-	 * Writes all the examples on disk, but producing several folds
-	 * @param outputDir The directory which will contain the output files
-	 * @param folds The number of folds to create
-	 * @return This class instance for chaining
-	 */
+	//
+	// Writes all the examples on disk, but producing several folds
+	// @param outputDir The directory which will contain the output files
+	// @param folds The number of folds to create
+	// @return This class instance for chaining
+	//
 	public FocusClassifierIt writeExamplesInFolds(String outputDir, int foldsNum) { 
 		List<Integer> questionIds = Lists.newArrayList(this.examples.keySet());
 		List<List<Integer>> foldsOfIds = Lists.partition(questionIds, questionIds.size() / foldsNum);
@@ -301,12 +310,12 @@ public class FocusClassifierIt {
 		return this;
 	}
 
-	/**
-	 * Writes the examples related to the questions with the specified
-	 *  question id
-	 * @param outputFile The output file which will contain the examples
-	 * @param qids The ids of questions to consider
-	 */
+	//
+	// Writes the examples related to the questions with the specified
+	//  question id
+	// @param outputFile The output file which will contain the examples
+	// @param qids The ids of questions to consider
+	//
 	private void writeExamples(String outputFile, List<Integer> qids) {
 		WriteFile out = new WriteFile(outputFile);
 		for (Integer qid : qids) { 
@@ -316,12 +325,22 @@ public class FocusClassifierIt {
 		}
 		out.close();
 	}
-	
-	public static void main(String[] args) throws UIMAException { 
+	*/
+	public static void main(String[] args) throws UIMAException {
+		Analyzer analyzer = Commons.instantiateItalianQuestionFocusAnalyzer();
+		
+		new FocusClassifierIt(analyzer)
+			.generateExamples(DATA)
+			.printStatistics()
+			.writeExamplesToDisk(Commons.QUESTION_FOCUS_DATA + "svm.train");
+			
+		
+		/*
 		new FocusClassifierIt()
 			.generateExamples(DATA)
 			.printStatistics()
 			.writeExamplesToDisk(Commons.QUESTION_FOCUS_DATA + "svm.train");
+		*/
 	}
 
 }

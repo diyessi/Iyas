@@ -16,30 +16,30 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
+import qa.qcri.qf.tools.questionclassifier.Commons;
 import qa.qcri.qf.type.QuestionClass;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
-import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 
-public class QuestionClassifierTest {
+public class QuestionClassifierEnTest {
 
 	private static JCas cas;
-
+	
 	@BeforeClass
 	public static void setUp() throws UIMAException {
-		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
-
-		ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordParser.class));
-
-		Analyzable content = new SimpleContent("question-test",
+		
+		Analyzer analyzer = Commons.instantiateQuestionClassifierAnalyzer("en");
+		analyzer.setPersistence(new UIMAFilePersistence("CASes/test_en"));
+		
+		Analyzable content = new SimpleContent("question-classifier-test",
 				"Where is the Tornado Tower?");
 
 		cas = JCasFactory.createJCas();
 
-		ae.analyze(cas, content);
-
-		SimplePipeline.runPipeline(cas,
-				createEngineDescription(QuestionClassifier.class));
+		analyzer.analyze(cas, content);
+		
+		SimplePipeline.runPipeline(cas, createEngineDescription(
+				QuestionClassifier.class,
+				QuestionClassifier.PARAM_LANGUAGE, "en",
+				QuestionClassifier.PARAM_MODELS_DIRPATH, "data/question-classifier/models-ptk_en"));
 	}
 
 	@Test

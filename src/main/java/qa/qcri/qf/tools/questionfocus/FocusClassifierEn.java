@@ -28,7 +28,7 @@ import qa.qcri.qf.trees.nodes.RichTokenNode;
 import util.Pair;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
-public class FocusClassifierEn {
+public class FocusClassifierEn extends FocusClassifier {
 	
 	public static final String DATA = Commons.QUESTION_FOCUS_DATA + "data_2k.txt";
 	
@@ -38,18 +38,24 @@ public class FocusClassifierEn {
 		= new HashSet<>(Arrays.asList(
 				//"NNPS", "VBN", "JJ", "JJS", // These postags are seen just once as focus
 				"NNS", "NNP",  "NN" // These are high frequency postags
+				//"SN", "SP", "SPN", "SS"
 				));
 	
-	private Analyzer ae;
+	//private Analyzer ae;
 	
-	private JCas cas;
+	//private JCas cas;
 	
-	private TreeSerializer ts;	
+	//private TreeSerializer ts;	
 	
-	private Map<Integer, List<String>> examples;
+	//private Map<Integer, List<String>> examples;
 	
-	private Map<String, Integer> posToFreq = new HashMap<>();
+	//private Map<String, Integer> posToFreq = new HashMap<>();
 	
+	public FocusClassifierEn(Analyzer analyzer) throws UIMAException {
+		super(analyzer, allowedTags);
+	}
+	
+	/*
 	public FocusClassifierEn() throws UIMAException {
 		this.ae = Commons.instantiateQuestionFocusAnalyzer("en");
 		this.ae.setPersistence(new UIMAFilePersistence(	CASES_DIRECTORY));
@@ -62,7 +68,7 @@ public class FocusClassifierEn {
 	 * Produces the examples from a training data
 	 * @param dataPath the path of the training data
 	 * @return this class instance for chaining
-	 */
+	 *
 	public FocusClassifierEn generateExamples(String dataPath) {
 		ReadFile in = new ReadFile(dataPath);
 		
@@ -73,7 +79,7 @@ public class FocusClassifierEn {
 			
 			/**
 			 * Input check
-			 */
+			 *
 			if(line.startsWith("IMPL")) continue;		
 			if(StringUtils.countMatches(line, "#") != 1) continue;
 			assert line.contains("#");
@@ -107,7 +113,7 @@ public class FocusClassifierEn {
 	 * @param tree the tree from which examples are generated
 	 * @param ts the serializer used to output the trees
 	 * @return a list of pair of examples, and the rich token tagged in that example
-	 */
+	 *
 	public static List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree,
 			TreeSerializer ts) {
 		List<Pair<String, RichTokenNode>> examples = new ArrayList<>();
@@ -144,7 +150,7 @@ public class FocusClassifierEn {
 	 * @param qid the id of the question
 	 * @param tree the tree representation of the question
 	 * @return a list of examples
-	 */
+	 *
 	public List<String> produceExamples(int qid, TokenTree tree) {
 		List<String> examples = new ArrayList<>();
 		
@@ -192,7 +198,7 @@ public class FocusClassifierEn {
 	 * @param tree the tree to augment with metadata
 	 * @param beginPos the starting index of the token
 	 * @param endPos the ending index of the token
-	 */
+	 *
 	public void addFocusMetadata(TokenTree tree, int beginPos, int endPos) {
 		for(RichTokenNode node : tree.getTokens()) {
 			Token token = node.getToken();
@@ -206,7 +212,7 @@ public class FocusClassifierEn {
 	 * Performs basic whitespace filtering on a string
 	 * @param text 
 	 * @return the filtered text
-	 */
+	 *
 	public String filterText(String text) {
 		String filteredText = text.trim();
 		filteredText = filteredText.replaceAll(" +", " ");
@@ -216,7 +222,7 @@ public class FocusClassifierEn {
 	/**
 	 * Prints useful statistics on the generated data
 	 * @return this class instance for chaining
-	 */
+	 *
 	public FocusClassifierEn printStatistics() {
 		System.out.println("F-POS\tFREQUENCY");
 		for(String pos : this.posToFreq.keySet()) {
@@ -238,7 +244,7 @@ public class FocusClassifierEn {
 	 * @param examples the data structure containing the examples mapped to questions
 	 * @param outputPath the output file
 	 * @return this class instance for chaining
-	 */
+	 *
 	public FocusClassifierEn writeExamplesToDisk(String outputPath,
 			Map<Integer, List<String>> examples) {
 		
@@ -266,7 +272,7 @@ public class FocusClassifierEn {
 	 * @param outputDir the directory which will contain the output files
 	 * @param folds the number of folds to create
 	 * @return this class instance for chaining
-	 */
+	 *
 	public FocusClassifierEn writeExamplesInFolds(String outputDir, int folds) {
 		
 		List<Integer> questionIds = Lists.newArrayList(this.examples.keySet());
@@ -301,7 +307,7 @@ public class FocusClassifierEn {
 	 * question ids	
 	 * @param outputFile the output file which will contain the examples
 	 * @param qIds the ids of questions to consider
-	 */
+	 *
 	public void writeExamples(String outputFile, List<Integer> qIds) {
 		WriteFile out = new WriteFile(outputFile);
 		for(Integer qid : qIds) {
@@ -318,5 +324,6 @@ public class FocusClassifierEn {
 			.writeExamplesToDisk(Commons.QUESTION_FOCUS_DATA + "svm.train");
 			//.writeExamplesInFolds("data/question-focus/folds", 5);
 	}
+	*/
 	
 }

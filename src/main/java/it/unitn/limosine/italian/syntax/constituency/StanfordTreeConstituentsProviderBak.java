@@ -7,7 +7,6 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 import org.uimafit.util.JCasUtil;
 
-import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 import edu.stanford.nlp.trees.Tree;
@@ -26,18 +25,20 @@ public class StanfordTreeConstituentsProvider {
 	 * @param treeStr A string holding the tree string representation
 	 * @return the constituent for the specified tree string representation
 	 */
-	public static Constituent buildConstituents(JCas jcas, String treeStr, int tokenStart) {
+	public static Constituent buildConstituents(JCas jcas, String treeStr) {
 		if (jcas == null)
 			throw new NullPointerException("jcas is null");
 		if (treeStr == null)
 			throw new NullPointerException("treeStr is null");
+		
+		System.out.println("str(tree): " + treeStr);
 		
 		Tree tree = Tree.valueOf(treeStr);
 		tree.setSpans();
 		
 		List<Token> tokens = new ArrayList<>(
 				JCasUtil.select(jcas, Token.class));
-		return buildConstituentsFromStanfordTree(jcas, tree, tokens, tokenStart);		
+		return buildConstituentsFromStanfordTree(jcas, tree, tokens);		
 	}
 	
 	/**
@@ -48,65 +49,37 @@ public class StanfordTreeConstituentsProvider {
 	 * @param tokens A list of tokens
 	 * @return The constituent for the specified tree
 	 */
-	private static Constituent buildConstituentsFromStanfordTree(JCas jcas, Tree tree, List<Token> tokens, int tokenStart) { 
+	private static Constituent buildConstituentsFromStanfordTree(JCas jcas, Tree tree, List<Token> tokens) { 
 		assert jcas != null;
 		assert tree != null;
 		assert tokens != null;
 		
-		int begin = tokens.get(tree.getSpan().get(0) + tokenStart).getBegin();
-		int end = tokens.get(tree.getSpan().get(1) + tokenStart).getEnd();
+		int begin = tokens.get(tree.getSpan().get(0)).getBegin();
+		int end = tokens.get(tree.getSpan().get(1)).getEnd();
 		Constituent constituent = newConstituent(jcas, begin, end, tree.value());
-			
-		// JUST FOR DEBUG
 		/*
-		String doctxt = jcas.getDocumentText();
 		System.out.println("type " + tree.value() +  ", " +
 						   "span: " + tree.getSpan() + ", " +
-						   "span(sentence alligned): (" + (tree.getSpan().get(0) + tokenStart) + ", " + (tree.getSpan().get(1) + tokenStart) + "), " +
 						   "PPT: " + tree.isPrePreTerminal() + ", " + 
 				           "begin: " + begin + ", " +
 				           "end: " + end + ", " + 
-				           "childrenNum: " + tree.getChildrenAsList().size() + ", " +
-				           "children: " +
-				           "text: " + doctxt.substring(begin, end) + " " + 
-				           "children: ");
-		*/           
+				           "childrenNum: " + tree.getChildrenAsList().size());
+		*/	           
+		
 		List<Tree> children = tree.getChildrenAsList();
 		constituent.setChildren(new FSArray(jcas, children.size()));
 		
-		// JUST FOR DEBUG
-		/*
 		for (int i = 0; i < children.size(); i++) {
-			Tree child = tree.getChild(i);
-			
-			int childBegin = tokens.get(child.getSpan().get(0) + tokenStart).getBegin();
-			int childEnd = tokens.get(child.getSpan().get(1) + tokenStart).getEnd();
-			
-			String childText = doctxt.substring(childBegin, childEnd);
-			
-			System.out.println(childText + "/" + child.value() + " ");
-		}
-		System.out.println();
-		*/
-		
-		for (int i = 0; i < children.size(); i++) {
-			Tree child = tree.getChild(i);
+			Tree child = tree.getChild(i);			
 			
 			if (child.isPreTerminal()) {
 				// Add token to children annotations
-				int tokenNum = child.getSpan().get(0) + tokenStart;
-				
+				int tokenNum = child.getSpan().get(0);
 				Token token = tokens.get(tokenNum);
-			     // Replace tokens poss with the BerkeleyParser Poss
-				/*
-				 POS pos = token.getPos();
-				 pos.setPosValue(child.value());
-				*/
 				constituent.setChildren(i, token);
 			} else {
-
 				// Add constituent to children annotations
-				Constituent childConstituent = buildConstituentsFromStanfordTree(jcas, child, tokens, tokenStart);
+				Constituent childConstituent = buildConstituentsFromStanfordTree(jcas, child, tokens);
 				childConstituent.setParent(constituent);
 				constituent.setChildren(i, childConstituent);
 			}

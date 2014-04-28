@@ -1,7 +1,7 @@
 package qa.qcri.qf.tools.questionclassifier;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
-import it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapper;
+import it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapperFix;
 import it.unitn.limosine.italian.textpro.TextProWrapperFix;
 
 import java.io.IOError;
@@ -48,7 +48,7 @@ public class Commons {
 	}
 	*/
 	
-	public static Analyzer instantiateQuestionClassifierAnalyzer(String lang) throws UIMAException, IOException { 
+	public static Analyzer instantiateQuestionClassifierAnalyzer(String lang) throws UIMAException { 
 		if (lang == null) 
 			throw new NullPointerException("lang is null");
 		
@@ -56,7 +56,11 @@ public class Commons {
 		if (lang.equals("en")) {
 			analyzer = instantiateEnglishQuestionClassifierAnalyzer();
 		} else if (lang.equals("it")) {
-			analyzer = instantiateItalianQuestionClassifierAnalyzer();
+			try {
+				analyzer = instantiateItalianQuestionClassifierAnalyzer();
+			} catch (IOException e) { 
+				throw new UIMAException(e);
+			}
 		} else {
 			Logger.warn("No QuestionClassifier analyzer found for lang: " + lang + ". Returned default QuestionClassifier analyzer for english language.");
 			analyzer = instantiateEnglishQuestionClassifierAnalyzer();
@@ -103,14 +107,15 @@ public class Commons {
 		Set<String> categories = new HashSet<>();
 		JCas cas = JCasFactory.createJCas();
 		
-		System.out.println("questionsPath: " + questionsPath);
+		//System.out.println("questionsPath: " + questionsPath);
 		Iterator<CategoryContent> questions = new QuestionReader(questionsPath)
 				.iterator();
 		
 		int questionsNum = 0;
 		while (questions.hasNext()) {
-			System.out.println("Processing questionNum: " + questionsNum++ + "...");
+			//System.out.println("Processing questionNum: " + questionsNum++ + "...");
 			CategoryContent question = questions.next();
+			System.out.format("doctxt(%d): %s\n", questionsNum++, question.getContent());
 			categories.add(question.getCategory());
 			ae.analyze(cas, question);
 		}

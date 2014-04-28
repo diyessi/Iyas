@@ -50,6 +50,9 @@ public class OneVsAllClassifier {
 		for (String id : this.models.keySet()) {
 			Classifier svm = this.models.get(id);
 			double confidence = svm.classify(instance);
+			
+			// Just for DEBUG
+			// System.err.println("classifier: \"" + id + "\", score: " + confidence);
 			if (confidence > currentConfidence) {
 				currentConfidence = confidence;
 				cat = id;

@@ -1,0 +1,4 @@
+-trainQuestionsFocusPath data/question-focus/data_2k.txt
+-trainCasesDir CASes/question-focus_en
+-trainOutputDir data/question-focus_en
+-lang en

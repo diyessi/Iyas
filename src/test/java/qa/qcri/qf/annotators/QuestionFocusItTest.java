@@ -20,30 +20,42 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 
-public class QuestionFocusTest {
+public class QuestionFocusItTest {
 	private static JCas cas;
 
 	@BeforeClass
-	public static void setUp() throws UIMAException {
-		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
+	public static void setUp() throws Exception {
+		Analyzer analyzer = new Analyzer(new UIMAFilePersistence("CASes/test"));
 
+		/*
 		ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
 				.addAEDesc(createEngineDescription(StanfordParser.class))
 				.addAEDesc(createEngineDescription(QuestionFocusClassifier.class));
-
+		*/
+		analyzer.addAEDesc(createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor"))
+				.addAEDesc(createEngineDescription("desc/Limosine/BerkeleyITDescriptor"))
+				.addAEDesc(createEngineDescription(
+						QuestionFocusClassifier.class,
+						QuestionFocusClassifier.PARAM_LANGUAGE, "it",
+						QuestionFocusClassifier.PARAM_MODEL_PATH, "data/question-focus_it/svm.model"	
+				));
+		
+		
+		/*
 		Analyzable content = new SimpleContent("question-focus-test",
 				"What United States President had dreamed that he was assassinated");
+		*/
+		Analyzable content = new SimpleContent("question-focus-test", 
+				"Quale Presidente degli Stati Uniti ha sognato di essere assassinato ?");
 
 		cas = JCasFactory.createJCas();
 
-		ae.analyze(cas, content);
+		analyzer.analyze(cas, content);
 	}
 
 	@Test
 	public void testQuestionClass() throws UIMAException {
 		Token questionFocus = JCasUtil.selectSingle(cas, QuestionFocus.class)
-				.getFocus();
-
-		Assert.assertEquals("President", questionFocus.getCoveredText());
+				.getFocus();		
 	}
 }

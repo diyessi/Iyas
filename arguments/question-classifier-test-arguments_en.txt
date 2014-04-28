@@ -1,0 +1,4 @@
+-testQuestionClassifierPath data/question-classifier-test_en.txt
+-testCasesDir CASes/question-classifier_test_en
+-testModelsDir data/question-classifier_en/models-ptk
+-lang en

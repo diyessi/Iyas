@@ -1,0 +1,5 @@
+-trainQuestionClassifierPath data/question-classifier-train_en.txt
+-trainCasesDir CASes/question-classifier_en
+-trainOutputDir data/question-classifier_en
+-lang en
+
