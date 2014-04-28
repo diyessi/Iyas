@@ -1,0 +1,322 @@
+SVM-light Version V5.01-TK-1.5
+5 # kernel type
+3 # kernel parameter -d 
+1 # kernel parameter -g 
+1 # kernel parameter -s 
+1 # kernel parameter -r 
+empty# kernel parameter -u 
+0.4 # kernel parameter -L 
+1 # kernel parameter -T 
++ # kernel parameter -C 
+3 # kernel parameter -F 
+1 # kernel parameter -S 
+0.400000 # kernel parameter -M 
+3 # kernel parameter -N 
+S # kernel parameter -V 
+S # kernel parameter -W 
+0 # kernel parameter -U 
+10 # highest feature index 
+1228 # number of training documents 
+302 # number of support vectors plus 1 
+1.0659917 # threshold b, each following line is a SV (starting with alpha*y)
+-0.086446728086180493755286136092764  |BT| (ROOT (VP (VXF (VF (nominare)))(NP (RS (det))(SS (creatore))(PX (E (di))(NP (XPO (&quot;&quot;))(SPN (the))(SPN (muppets))(XPO (&quot;&quot;))))))(XPS (full_stop))) |ET| 
+-0.28846919559621320150455403563683  |BT| (ROOT (S (NP (CCHI (chi)))(VXI (VI (fornire)))(NP (RS (det))(SS (servizio))(ADJP (AS (telefonico))))(PX (E (a))(NP (SPN (orange))(SPN (county))))(XPW (,))(PX (E (in))(NP (SPN (california)))))(XPS (?))) |ET| 
+-0.11123572998346861750995628881356  |BT| (ROOT (S (ADJP (QNS (quanto)))(VXI (VIY (avere))(VSP (spendere)))(NP (SPN (mercury)))(PX (E (in))(NP (SN (pubblicit�))))(PX (ES (in/det))(NP (NUMP (N (1993))))))(XPS (?))) |ET| 
+-0.11724695615894788203181775543271  |BT| (ROOT (S (ADVP (CADV (dove)))(VXI (VIY (essere))(VPP (custodire)))(NP (RP (det))(SP (gioiello))(PX (ES (di/det))(NP (SS (corona))(ADJP (AS (britannico)))))))(XPS (?))) |ET| 
+-0.58787161622540440308881670716801  |BT| (ROOT (S (ADVP (C (perch�)))(NP (SPN (david))(SPN (koresh)))(VXI (VIY (avere))(VSP (chiedere)))(PX (ES (a/det))(NP (SPN (fbi))))(NP (RS (indet))(SS (word))(ADJP (AS (processor)))))(XPS (?))) |ET| 
+0.86405730511713019215136455386528  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (essere))(VSP (costruire)))(NP (RS (det))(SPN (docklands)))))(NP (SPN (light)))(VXI (SPN (railway)))(PX (E (di))(NP (SPN (londra)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere))(VSP (andare)))(PX (B (fuori))(NP (SS (onda))))(NP (RS (det))(SS (spettacolo))(ADJP (AS (originale)))(PX (E (di))(NP (SPN (howdy))(SPN (doody))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (iniziare)))(NP (NP (SPN (spagna)))(C (e))(NP (SPN (corea))))(NP (RP (det))(SP (relazione))(ADJP (AP (ambasciatoriali)))))(XPS (?))) |ET| 
+-0.64392140612243153885430047012051  |BT| (ROOT (S (NP (ADJP (CCHE (che)))(SS (fiore)))(VXI (VIY (avere))(VSP (dipingere)))(PX (E (di))(NP (SPN (vincent))(SPN (van))(SPN (gogh)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere))(VSP (costruire)))(NP (RS (det))(ADJP (AS (prima)))(SS (casa))(PX (E (di))(NP (SS (cemento))(PX (E (di))(NP (SPN (dubai))))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(NP (PN (rifl)))(VXI (VIY (essere))(VSP (verificare)))(NP (RS (det))(SS (guerra))(PX (ES (di/det))(NP (SS (golfo))(SPN (persico))))))(XPS (?))) |ET| 
+-0.68134474555150270624892527848715  |BT| (ROOT (S (ADVP (CADV (dove)))(VXI (VI (essere)))(NP (RS (det))(SPN (torre))(ADJP (SPN (eiffel)))))(XPS (?))) |ET| 
+-0.15102055135041378419735735860741  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (lingua))(ADJP (AS (principale))))(PX (E (in))(NP (SPN (islanda)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (periodo))(PX (ES (di/det))(NP (SS (anno))))))(NP (RP (det))(SP (viaggio))(ADJP (AP (aereo))))(VXI (VI (essere)))(PX (ES (in/det))(NP (SS (periodo))(PX (E (di))(NP (SS (punta)))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (periodo))(PX (ES (di/det))(NP (SS (anno))))))(VXI (VI (volare)))(NP (RS (det))(ADJP (AS (maggior)))(SS (parte))(PX (EP (di/det))(NP (SP (persona))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (data))(PX (ES (di/det))(NP (SS (indipendenza))(PX (ES (di/det))(NP (SPN (messico))))))))(XPS (?))) |ET| 
+-0.010802622206916492192396717086922  |BT| (ROOT (S (PX (E (di))(ADVP (B (quanto))(NP (SS (sonno)))))(VXI (VI (necessitare)))(NP (RS (indet))(SS (bambino)))(PX (E (durante))(NP (RS (det))(SS (notte)))))(XPS (?))) |ET| 
+-0.015632274251371446049940772127229  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (capitale))(PX (ES (di/det))(NP (SPN (burkina))(SPN (faso))))))(XPS (?))) |ET| 
+-0.5351204133509421811965012238943  |BT| (ROOT (PX (E (di))(NP (SS (battaglia)))(VP (VXF (VF (nominare)))(NP (RS (indet))(SS (campo))(PX (E (di))(NP (SS (battaglia))(PX (ES (di/det))(NP (SS (guerra))(ADJP (AS (civile))))))))))(XPS (full_stop))) |ET| 
+-0.01719015577716058451596126133154  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (capitale))(PX (ES (di/det))(NP (SPN (sri))(SPN (lanka))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere))(AS (morto)))(NP (SPN (elvis))(SPN (presley))))(XPS (?))) |ET| 
+-0.11369140614473004224915797522044  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (termine))(PX (E (per))(NP (RS (det))(SS (somma))(PX (E (di))(NP (PREDETP (DS (tutto)))(RS (det))(SS (materiale))(ADJP (AS (genetico)))(PX (E (in))(NP (RS (indet))(SS (dato))(NP (SS (organismo)))))))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (ADJP (DP (quanti)))(SP (anno)))(VXI (VI (avere)))(NP (SPN (elvis))(SPN (presley)))(SBAR (CADV (quando))(S (VXI (VI (morire))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SN (et�)))(VXI (VI (avere)))(NP (SPN (elvis)))(SBAR (CADV (quando))(S (VXI (VI (essere)))(ADJP (AS (morto))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SN (et�)))(VXI (VI (avere)))(NP (SPN (babe))(SPN (ruth)))(SBAR (CADV (quando))(S (VXI (VI (essere)))(ADJP (AS (morto)))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (PX (E (a))(SBAR (CCHE (che))(S (NP (SN (et�))(NP (SPN (rossini))))(VXI (VI (smettere)))(PX (E (di))(VP (VXF (VF (scrivere)))(NP (SP (opera))))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (data))))(VXI (VI (essere))(VSPY (stata))(VSP (firmare)))(NP (RS (det))(SS (dichiarazione))(PX (E (di))(NP (SPN (indipendenza))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (anno))))(NP (RS (det))(SPN (montana)))(VXI (VI (diventare)))(NP (RS (indet))(SS (stato))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (stato))))(VXI (VI (essere)))(VP (VXS (VSP (nascere)))(NP (SPN (amelia))(SPN (earhart)))))(XPS (?))) |ET| 
+-0.41698636534298577638324445615581  |BT| (ROOT (S (NP (SPN (dov&#039;)))(VXI (VI (essere)))(NP (RS (det))(SPN (prairie))(SPN (view)))(PX (E (a))(NP (XPO (&amp;))(SPN (m))(SPN (university)))))(XPS (?))) |ET| 
+-0.31760750682166610792123151441047  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SN (citt�))))(VXI (VI (essere)))(VP (VXS (VSP (situare)))(NP (RS (det))(SPN (massachusetts))(NP (SPN (general))(SPN (hospital))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (ADJP (CCHE (che)))(SS (giorno)))(VXI (VI (essere)))(VP (VXS (VSP (conoscere))))(SBAR (CADV (come))(S (NP (RS (det))(XPO (&quot;&quot;))(SS (giornata))(ADJP (AS (nazionale))))(PX (E (di))(NP (SS (preghiera))))))(XPO (&quot;&quot;)))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (data))))(VXI (VI (cadere)))(NP (RS (det))(SS (festa))(ADJP (AS (nazionale)))(ADJP (AS (francese)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (data))(PX (ES (di/det))(NP (SS (festa))(ADJP (AS (nazionale)))(ADJP (AS (francese)))))))(XPS (?))) |ET| 
+-0.088209352379193126103551492178667  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (canzone))(PX (ES (di/det))(NP (SS (stato))(PX (ES (di/det))(NP (SPN (kansas))))))))(XPS (?))) |ET| 
+-0.15696014083133846828133073358913  |BT| (ROOT (S (PX (ES (di/det))(NP (SS (mucca))(ADJP (AS (pazzo)))))(NP (ADJP (CCHE (che)))(SS (cosa)))(VXI (VI (essere)))(NP (RS (det))(SS (malattia))(PX (ES (di/det))(NP (SS (mucca))(ADJP (AS (pazzo)))))))(XPS (?))) |ET| 
+-0.92911144745602114447535768704256  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (provincia))(ADJP (AS (canadese)))))(VXI (VI (essere)))(NP (RS (det))(ADJP (AS (maggior)))(SS (parte))(PX (EP (di/det))(NP (SP (persona))(PX (E (di))(NP (SS (origine))(ADJP (AS (francese)))))))))(XPS (?))) |ET| 
+0.041393232256526961421183585798644  |BT| (ROOT (SBAR (CADV (quando))(S (VXI (VI (nascere)))(NP (SPN (martin))(SPN (luther))(SPN (king))(SPN (jr)))))(XPS (full_stop))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VIY (avere))(VSP (cantare)))(NP (SPN (marian))(SPN (anderson)))(PX (ES (a/det))(NP (SPN (lincoln))(SPN (memorial)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (avere))(VSP (scrivere)))(NP (SPN (aldous))(SPN (huxley))(XPW (,))(NP (SPN (brave))(SPN (new))(SPN (world)))))(XPS (?))) |ET| 
+-0.41763856028697748934419564648124  |BT| (ROOT (S (ADVP (CADV (come)))(VXI (VI (morire)))(NP (SPN (jerry))(SPN (garcia))))(XPS (?))) |ET| 
+-0.083884198915332899848529280006915  |BT| (ROOT (S (ADVP (CADV (come)))(NP (PN (rifl)))(VXI (VI (abbreviare)))(NP (XPO (&quot;&quot;))(SPN (original))(SPN (equipment))(SPN (manufacturer))(XPO (&quot;&quot;))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (ADVP (CADV (come)))(NP (VI (morire)))(NP (SPN (john))(SPN (quincy)))(VXI (SPN (adams))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (mese))))(VXI (VI (essere)))(ADJP (AP (natio (nato))))(NP (RS (det))(ADJP (AS (maggior)))(SS (parte))(PX (EP (di/det))(NP (SP (bambino))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (periodo))(PX (ES (di/det))(NP (SS (anno))))))(ADVP (B (c&#039;)))(VXI (VI (essere)))(NP (RS (det))(ADJP (AS (maggior)))(SS (traffico))(ADJP (AS (aereo)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (anno))))(VXI (VI (essere)))(ADJP (AS (finito)))(NP (RS (det))(SS (guerra))(PX (ES (di/det))(NP (SPN (vietnam))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (di))(NP (ADJP (CCHE (che)))(SS (colore))))(VXI (VI (essere)))(NP (RS (det))(SS (striscia)))(PX (E (in))(NP (SS (alto))))(PX (ES (su/det))(NP (SS (bandiera))(PX (EP (di/det))(NP (SPN (stati))(NP (SPN (uniti))))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (CCHI (chi)))(VXI (VIY (avere))(VSP (interpretare)))(NP (RS (det))(SS (insegnante)))(PX (E (in))(NP (RS (det))(SS (attimo))(ADJP (AS (fuggente))))))(XPS (?))) |ET| 
+-0.99034770599243027167091213414096  |BT| (ROOT (S (NP (ADJP (AS (nazionale)))(SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (inno))(ADJP (AS (nazionale))))(PX (E (in))(NP (SPN (inghilterra)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(NP (PN (rifl)))(VXI (VI (suicidare)))(NP (SPN (marilyn))(SPN (monroe))))(XPS (?))) |ET| 
+0.022804381986909986329559174578208  |BT| (ROOT (NP (NUMP (ADVP (CADV (quando)))(VI (nascere))(NP (SPN (john))(SPN (d))))(XPS (full_stop))(SPN (rockefeller)))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (SPN (qual)))(S (VXI (VI (essere)))(NP (RS (det))(SS (compleanno))(PX (E (di))(NP (SPN (susan))(SPN (b)))))(XPS (full_stop)))(VP (NP (SPN (anthony)))))(XPS (?))) |ET| 
+-0.89608763928502455087254929821938  |BT| (ROOT (NP (CADV (dove))(S (VXI (VI (essere))(AS (nato)))(NP (SPN (hans))(SPN (christian))(SPN (anderson)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (NUMP (SPN (c)))(XPS (full_stop))(SPN (calhoun)))(S (ADVP (CADV (come)))(VXI (VI (essere))(AP (conosciuto)))(NP (SPN (john))(SPN (c)))(XPS (full_stop)))(NP (NP (SPN (calhoun)))(C (e))(NP (SPN (henry))))(VXI (SPN (clay))))(XPS (?))) |ET| 
+-0.0057449576303076855740559203411522  |BT| (ROOT (S (ADVP (CADV (dove)))(NP (PN (rifl)))(VXI (VI (trovare)))(NP (RS (det))(SS (diario))(PX (E (di))(NP (SPN (anne))(SPN (frank))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(VXI (VIY (avere))(VSP (iniziare)))(PX (E (a))(VP (VXF (VF (trasmettere)))(NP (RS (det))(SPN (cnn))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(NP (SPN (joe))(SPN (dimaggio)))(VXI (VI (compire)))(NP (RP (det))(ADJP (DP (suo)))(NUMP (N (56)))(SP (game))(NP (ADJP (AP (hitting)))(YF (streak)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(VXI (VI (uscire)))(NP (XPO (&quot;&quot;))(SPN (biancaneve))(XPO (&quot;&quot;))))(XPS (?))) |ET| 
+-0.19268934190707348586002467527578  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (isola))))(VXI (VI (essere)))(VP (VXS (VSP (esiliare)))(NP (SS (napoleone)))(PX (E (dopo))(NP (RS (det))(SS (sconfitta))(PX (E (a))(NP (SPN (waterloo))))))))(XPS (?))) |ET| 
+-0.05099486855718087657818315960867  |BT| (ROOT (S (SBAR (CADV (come))(S (VXI (VIY (essere))(VPP (chiamare)))(NP (RP (det))(SP (animale)))))(NP (CCHE (che)))(ADVP (B (non)))(VXI (VI (avere)))(NP (RS (det))(SS (spina))(ADJP (AS (dorsale)))))(XPS (?))) |ET| 
+-0.56124403611819950743466733911191  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (zona))(PX (ES (di/det))(NP (SS (mondo))))))(VXI (VI (essere)))(VP (VXS (VSP (combattere)))(NP (RS (det))(SS (guerra))(PX (EP (di/det))(NP (NUMP (N (sei)))(SP (giorno)))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (SPN (quand&#039;)))(VXI (VI (essere)))(SBAR (CCHE (che))(S (NP (SPN (willis)))(NP (SPN (haviland))(SPN (carrier)))(VXI (VI (inventare)))(NP (RS (det))(SS (aria))(ADJP (AS (condizionato)))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (SPN (quand&#039;)))(VXI (VI (essere)))(ADJP (AS (diventato)))(NP (RS (indet))(SS (stato))(NP (RS (det))(SPN (idaho)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (essere)))(ADJP (AS (eletto)))(NP (SPN (john))(SPN (f)))(XPS (full_stop))))(NP (SPN (kennedy)))(CONJP (CADV (come))(VP (NP (SS (presidente))))))(XPS (?))) |ET| 
+-0.20896372489341000222573541122983  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (motto))(PX (ES (di/det))(NP (XPO (&quot;&quot;))(SPN (new))(SPN (york))(SPN (times))(XPO (&quot;&quot;))))))(XPS (?))) |ET| 
+-0.009693025114342656081700688730507  |BT| (ROOT (NP (SPN (inch))(SPN (nails))(SBAR (CCHE (che))(S (NP (PS (cosa)))(VXI (VI (essere)))(NP (XPO (&quot;&quot;))(SPN (nine))(SPN (inch))(SPN (nails))(XPO (&quot;&quot;))))))(XPS (?))) |ET| 
+-0.38869855659492075217187334601476  |BT| (ROOT (S (ADVP (B (quanto)))(VXI (VI (essere)))(ADJP (AS (lungo)))(NP (RS (det))(SPN (grande))(NP (SPN (barriera))(SPN (corallina)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (giorno))))(NP (SPN (neil))(SPN (armstrong)))(VXI (VI (attenere (atterrare))))(PX (ES (su/det))(NP (SPN (luna)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (data))))(NP (SPN (neil))(SPN (armstrong)))(VXI (VI (attenere (atterrare))))(PX (ES (su/det))(NP (SPN (luna)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (essere))(VSP (approvare)))))(NP (RS (det)))(VXI (SS (emendamento)))(PX (E (per))(NP (RS (det))(SS (suffragio))(PX (EP (di/det))(NP (SP (donna)))))))(XPS (?))) |ET| 
+-0.22961865783455326361917059330153  |BT| (ROOT (S (PX (E (da))(NP (ADJP (DS (quale)))(SS (paese))))(NP (SPN (panama)))(VXI (VI (guadagnare)))(NP (RS (det))(ADJP (DS (propria)))(SS (indipendenza))))(XPS (?))) |ET| 
+-0.52474955846335791243006951845018  |BT| (ROOT (S (ADVP (B (quanto)))(VXI (VI (distare)))(NP (RS (det))(SPN (luna))(PX (ES (da/det))(NP (SS (terra))(PX (E (in))(NP (SS (miglia))))))))(XPS (?))) |ET| 
+-0.010233196272400628054621840590244  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (posizione))(PX (ES (di/det))(NP (SPN (mccarren))(SPN (airport))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(ADJP (AS (vero)))(SS (compleanno))(PX (E (di))(NP (SPN (martin))(SPN (luther))(SPN (king))(SPN (jr))))))(XPS (full_stop))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere))(VSP (scrivere)))(NP (XPO (&quot;&quot;))(SPN (cold))(SPN (mountain))(XPO (&quot;&quot;))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (stagione))(ADJP (ADVP (B (pi�)))(AS (affollato)))(PX (E (di))(NP (SP (viaggio))(ADJP (AP (aereo)))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (equivalente))(PX (ES (di/det))(NP (SPN (croce))(SPN (rossa)))))(PX (E (in))(NP (SPN (medio))(SPN (oriente)))))(XPS (?))) |ET| 
+-0.55354576069064087562310305656865  |BT| (ROOT (S (NP (ADJP (CCHE (che)))(SS (paese)))(VXI (VI (essere))(VSPY (stata))(VSP (fondare)))(PX (ES (in/det))(NP (NUMP (N (1948))))))(XPS (?))) |ET| 
+-0.79666224515980521569957772953785  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (nome))(PX (ES (di/det))(NP (SPN (chief))(SPN (justice))))(PX (ES (di/det))(NP (SPN (corte))(SPN (suprema))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))(VP (VXP (VPP (esplodere)))(NP (RS (det))(SS (shuttle))(SPN (challenger))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(VXI (VI (essere))(VSPY (stato))(VSP (costruire)))(NP (RS (det))(SS (gateway))(ADJP (AS (arch)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(VXI (VI (essere))(VSPY (stato))(VSP (inventare)))(NP (RS (det))(SS (fonografo))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (ADJP (DP (quanti)))(SP (giorno)))(ADVP (B (ci)))(VXI (VI (essere)))(PX (E (in))(NP (RS (indet))(SS (anno))(ADJP (AS (marziano))))))(XPS (?))) |ET| 
+-0.37003884826205435398804866053979  |BT| (ROOT (S (NP (CCHI (chi)))(VXI (VIY (avere))(VSP (realizzare)))(NP (RS (det))(ADJP (AS (primo)))(SS (aereo)))(PX (E (in))(NP (SS (grado))))(PX (E (di))(VP (VXF (VF (volare))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (con))(NP (ADJP (DS (quale)))(SS (trattato))(PX (E (di))(NP (SS (pace))))))(NP (PN (rifl)))(VXI (VIY (essere))(VSP (concludere)))(NP (RS (det))(ADJP (AS (prima)))(SS (guerra))(ADJP (AS (mondiale)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (SPN (quand&#039;)))(VXI (VI (essere)))(NP (RS (det))(SS (indipendenza))(PX (ES (di/det))(NP (SPN (messico))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (entrare)))(PX (ES (in/det))(NP (ADJP (AS (seconda)))))(NP (SPN (guerra)))))(VXI (SPN (mondiale)))(NP (RP (det))(SPN (stati))(NP (SPN (uniti)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (avvenire)))(NP (RS (det))(SS (invasione))(PX (EP (di/det))(NP (SPN (stati))(NP (SPN (uniti)))))(PX (E (ad))(NP (SPN (haiti))))))(XPS (?))) |ET| 
+-0.24118059750659356921254072858574  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (valuta)))(VXI (VI (usare)))(NP (RS (det))(SPN (lussemburgo)))))(XPS (?))) |ET| 
+-0.24118059750659881501633208245039  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (valuta)))(VXI (VI (usare)))(NP (RS (det))(SPN (argentina)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (ADJP (DP (quante)))(SP (persona)))(VXI (VI (essere)))(ADJP (AP (morto)))(SBAR (CADV (quando))(S (NP (RS (det))(SPN (estonia)))(VXI (VI (essere)))(NP (SS (affondata)))(PX (ES (in/det))(NP (NUMP (N (1994))))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(NP (SPN (wilt))(SPN (chamberlain)))(VXI (VI (segnare)))(NP (NUMP (N (100)))(SP (punto))))(XPS (?))) |ET| 
+1  |BT| (ROOT (PX (PX (E (in))(NP (ADJP (DS (quale)))(SS (data)))(S (VXI (VI (essere)))(ADJP (AS (nato)))(NP (SPN (dwight))(SPN (d)))(XPS (full_stop))))(NP (SPN (eisenhower))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (anno))))(VXI (VI (essere)))(ADJP (AS (nato)))(NP (SPN (mozart))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (contea))))(VXI (VI (essere)))(NP (SPN (san))(SPN (antonio))(XPW (,))(NP (SPN (texas)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (prigione))))(VXI (VI (essere)))(NP (SPN (charles))(SPN (manson))))(XPS (?))) |ET| 
+-0.59143927693820885771458506496856  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (provincia))))(VXI (VI (�)))(NP (SPN (wilmington))(XPW (,))(SPN (delaware))))(XPS (?))) |ET| 
+0.98324908477766892467286652390612  |BT| (ROOT (SBAR (CADV (quando))(S (VXI (VI (nascere)))(NP (RS (det))(SN (re)))(NP (SPN (luigi))(NP (NUMP (N (xiv)))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (CONJP (SBAR (CADV (quando))(S (NP (PN (rifl)))(VXI (VI (sposare)))(NP (RS (det))(SS (principessa))(ADJP (SPN (diana))))))(C (e))(NP (RS (det))(SS (principe))(ADJP (SPN (carlo)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(NP (PN (rifl)))(VXI (VIY (essere))(VSP (verificare)))(NP (RS (det))(SS (corsa))(PX (ES (a/det))(NP (SS (oro))(PX (ES (di/det))(NP (SPN (klondike))))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (ADVP (CADV (come)))(VXI (VI (essere))(VSPY (stato))(VSP (chiamare)))(NP (RS (det))(SS (programma))(PX (E (di))(NP (SP (riforma))(PX (ES (di/det))(NP (SS (presidente))(NP (SPN (lyndon))(SPN (johnson)))))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (CADV (dove)))(VXI (VI (essere))(VSPY (stato))(VSP (aprire)))(NP (RS (det))(ADJP (AS (primo)))(SS (negozio))(PX (N (jc))(NP (SPN (penney))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (SPN (dov&#039;)))(VXI (VI (essere))(VSPY (stato))(VSP (girare)))(NP (RS (det))(SN (film))(XPO (&quot;&quot;))(NP (SPN (somewhere)))(PX (E (in))(NP (SPN (time))))(XPO (&quot;&quot;))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(VXI (VI (uscire)))(NP (XPO (&quot;&quot;))(SPN (new))(SPN (coke))(XPO (&quot;&quot;))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(NP (SPN (mussolini)))(VXI (VI (prendere)))(NP (RS (det))(SS (potere)))(PX (E (in))(NP (SPN (italia)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(NP (SPN (mussolini)))(VXI (VI (prendere)))(NP (RS (det))(SS (potere)))(PX (E (in))(NP (SPN (italia)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (edificio))))(NP (PN (rifl)))(VXI (VIY (essere))(VSP (tenere)))(NP (RS (det))(SPN (academy))(PX (YA (of))(NP (SPN (country))(SPN (music))(SPN (awards))))))(XPS (?))) |ET| 
+-0.96383739299960646818021814397071  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (continente))))(NP (PN (rifl)))(VXI (VI (trovare)))(NP (RS (det))(SPN (egitto))))(XPS (?))) |ET| 
+-0.84637374651552432780476920015644  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SS (compositore))(ADJP (AS (americano))))(VXI (VIY (avere))(VSP (scrivere)))(NP (RS (det))(SS (musica))(PX (E (per))(NP (SPN (west))(SPN (side))(SPN (story))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere))(VSP (essere (stare))))(NP (RS (det))(ADJP (AS (ultimo)))(SS (anno))(S (PX (E (in))(NP (PN (cui))))(NP (RP (det))(SPN (chicago))(SPN (cubs)))(VXI (VIY (avere))(VSP (vincere)))(NP (RS (det))(SPN (world))(SPN (series))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (anno))))(NP (SPN (desmond)))(NP (SPN (tutu))(SPN (mpilo)))(VXI (VI (essere))(VSPY (stato))(VSP (insignire)))(PX (ES (di/det))(NP (SS (premio))(NP (SPN (nobel)))(PX (E (per))(NP (RS (det))(SPN (pace)))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (essere)))(VP (VXS (VSP (costruire)))(NP (SPN (buckingham))(SPN (palace))(PX (E (a))(NP (SPN (londra))))))))(XPW (,))(VP (NP (SPN (inghilterra)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (SBAR (CADV (dove))(S (VXI (VI (fare)))(NP (RS (det))(ADJP (DS (suo)))(SS (discorso))(VP (NP (SPN (dr)))))))(XPS (full_stop))(VP (NP (SPN (king)))(PX (E (a))(NP (SPN (washington)))))(XPS (?))) |ET| 
+-0.32513506653049950578804327960825  |BT| (ROOT (PX (E (per))(VP (VXF (QNP (quanto)))(NP (NUMP (ADVP (SP (mandato)))(VI (essere))(NP (SS (presidente))(NP (SPN (dwight))(SPN (d)))))(XPS (full_stop))(SPN (eisenhower)))))(XPS (?))) |ET| 
+-0.90591195022444470641431735202787  |BT| (ROOT (S (PX (E (per))(NP (SS (cosa))))(VXI (VI (essere)))(ADJP (ADVP (B (pi�)))(AP (famoso)))(NP (RP (det))(SPN (black))(NP (SPN (hills)))(PX (E (in))(NP (SPN (south))(SPN (dakota))))))(XPS (?))) |ET| 
+0.30713191524277283495081292130635  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere))(VSP (essere (stare))))(NP (RS (det))(ADJP (AS (primo)))(SS (trapianto))(PX (E (di))(NP (SS (fegato))))))(XPS (?))) |ET| 
+0.30713191524276584054575778282015  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere))(VSP (essere (stare))))(NP (RS (det))(ADJP (AS (primo)))(SS (trapianto))(PX (E (di))(NP (SS (rene))))))(XPS (?))) |ET| 
+0.30633552442414485605937102263852  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere))(VSP (essere (stare))))(NP (RS (det))(ADJP (AS (primo)))(SS (trapianto))(PX (E (di))(NP (SS (cuore))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (ADJP (CCHE (che)))(SS (monumento))(ADJP (AS (nazionale))))(VXI (VI (essere))(VSPY (stato))(VSP (designare)))(SBAR (CADV (come))(S (NP (ADJP (AS (primo)))(SS (monumento))(ADJP (AS (nazionale))))(PX (ES (in/det))(NP (NUMP (N (1906))))))))(XPS (?))) |ET| 
+-0.96434218053976727969001103701885  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SS (stadio))(ADJP (AS (sportivo))))(VXI (VI (essere))(VSPY (stato))(VSP (pubblicizzare)))(CONJP (CADV (come))(VP (NP (XPO (&quot;&quot;))(RS (det))(ADJP (AS (ottava))))(NP (SS (meraviglia))(PX (ES (di/det))(NP (SS (mondo))))(XPO (&quot;&quot;))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (RS (det))(SPN (italia)))(VXI (VI (essere)))(NP (RS (det))(ADJP (AS (maggior)))(SS (produttrice))(PX (E (di))(NP (ADJP (CCHE (che)))(SS (cosa))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(NP (RP (det))(SPN (milwaukee))(SPN (braves)))(VXI (VI (diventare)))(NP (RP (det))(SPN (atlanta))(NP (SPN (braves)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (anno))))(NP (PN (rifl)))(VXI (VIY (essere))(VSP (tenere)))(NP (RS (det))(ADJP (AS (prima)))(SPN (macy&#039;))(PX (YF (s))(NP (SPN (thanksgiving))(SPN (day))(SPN (parade))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(VXI (VI (essere))(VSPY (stato))(VSP (costruire)))(NP (SPN (ebbets))(SPN (field))(XPW (,))(NP (SS (sede))(PX (EP (di/det))(NP (SPN (brooklyn))(SPN (dodgers)))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (SBAR (CCHE (che))(S (VXI (VI (valutare)))))(VXI (VIY (venire))(VSP (utilizzare)))(PX (E (in))(NP (SPN (algeria)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (CCHI (chi)))(VXI (VI (essere))(VSP (essere (stare))))(PX (E (in))(NP (SS (assoluto))))(NP (RS (det))(ADJP (AS (primo)))(SS (presidente))(PX (EP (di/det))(NP (SPN (stati))(NP (SPN (uniti))))))(PX (E (a))(VP (VXF (VF+E (dimettere/rifl))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (oceano))))(VXI (VI (essere)))(NP (RP (det))(SPN (isole))(NP (SPN (gilbert)))))(XPS (?))) |ET| 
+0.71953580799449101679243767648586  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (finire)))(NP (RS (det))(SS (guerra))(ADJP (AS (civile)))(ADJP (AS (americano)))))(XPS (?))) |ET| 
+0.87548601639161516274612040433567  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere))(VSPY (stato))(VSP (depositare)))(NP (RS (det))(ADJP (AS (primo)))(SS (brevetto))(PX (ES (su/det))(NP (SS (cono))(ADJP (AS (gelato)))))))(XPS (?))) |ET| 
+0.39866792429676695119766804964456  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere))(VSP (sganciare)))(NP (RS (det))(ADJP (AS (prima)))(SS (bomba))(ADJP (AS (atomico)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (ADVP (CADV (come)))(VXI (VI (essere))(VSP (chiamare)))(NP (RS (indet))(ADJP (SS (alce)))(AS (femmina))))(XPS (?))) |ET| 
+-0.21237968747321631091118376843951  |BT| (ROOT (S (ADVP (CADV (come)))(NP (PN (rifl)))(VXI (VI (chiamare)))(NP (RS (det))(SS (alfabeto))(ADJP (AS (ebraico)))))(XPS (?))) |ET| 
+-0.67694487329790353768999011663254  |BT| (ROOT (S (NP (SPN (com&#039;)))(VXI (VI (essere)))(ADJP (AS (conosciuto)))(NP (RS (det))(SS (alfabeto))(ADJP (AS (ebraico)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(NP (RS (det))(SPN (nuova)))(NP (SPN (zelanda)))(VXI (VI (essere))(VSPY (stata))(VSP (escludere)))(PX (ES (da/det))(NP (SS (alleanza))(NP (SPN (anzus))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (anno))))(VXI (VI (morire)))(NP (RS (det))(SS (poetessa))(NP (SPN (emily))(SPN (dickinson)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (essere)))(CCHE (che))))(NP (SPN (mike)))(NP (SPN (tyson)))(VP (VXP (VPP (mordere)))(NP (RS (det))(SS (orecchio))(PX (E (di))(NP (SPN (holyfield)))))))(XPS (?))) |ET| 
+-0.3186736336772760802560355841706  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (NP (RS (det))(SS (tariffa))(PX (E (per))(NP (RS (det))(SS (viaggio))(PX (E (di))(NP (SS (andata)))))))(C (e))(NP (SS (ritorno))(PX (E (tra))(NP (NP (SPN (new))(NP (SPN (york))))(C (e))(NP (SPN (londra)))))(PX (E (in))(NP (SPN (concorde)))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere))(VSP (essere (stare))))(NP (RS (det))(ADJP (AS (prima)))(SS (opera))(PX (E (di))(NP (NP (SPN (gilbert)))(C (e))(NP (SPN (sullivan)))))))(XPS (?))) |ET| 
+-0.16493612197787016482308786180511  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (uccello))(PX (E (di))(NP (SS (stato))(PX (E (di))(NP (SPN (new))(SPN (york))))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(S (NP (PN (rifl)))(VXI (VI (arrendere)))(NP (SPN (robert))(C (e)))(XPS (full_stop)))(VXI (SPN (lee)))(PX (ES (in/det))(NP (SS (guerra))(ADJP (AS (civile))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere))(AS (arrestato)))(NP (N (oj))(SPN (simpson)))(PX (E (per))(NUMP (SS (omicidio)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(NP (RS (det))(SPN (oklahoma)))(VXI (VI (essere)))(ADJP (AS (diventato)))(NP (RS (indet))(SS (stato))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (emisfero))))(VXI (VI (essere)))(NP (RP (det))(SPN (filippine))))(XPS (?))) |ET| 
+-0.48116253235690414902236966554483  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (nazione))))(VXI (VI (essere)))(NP (SPN (berlino))))(XPS (?))) |ET| 
+-0.60714456521647686138010158174438  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (provincia))))(VXI (VI (�)))(NP (SPN (modesto))(SPN (california))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere))(VSP (rendere)))(NP (RS (det))(SS (canale))(PX (E (di))(NP (SPN (panama))))(PX (E (a))(NP (SPN (panama))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere)))(NP (RS (det))(SS (stagione))(PX (EP (di/det))(NP (SP (uragano))))(PX (EP (in/det))(NP (SPN (caraibi))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (SBAR (CADV (quando))(S (VXI (VIY (avere))(VSP (eruttare)))(NP (SPN (mount))(NP (SPN (st))))))(XPS (full_stop))(VP (NP (SPN (helens)))(NP (RS (det))(ADJP (AS (ultimo)))(SS (volta))))(XPS (?))) |ET| 
+-0.59304961416646295724319770670263  |BT| (ROOT (S (NP (CCHI (chi)))(VXI (VI (rilasciare)))(NP (RS (det))(SS (internet))(ADJP (AS (worm)))(PX (ES (a/det))(NP (SS (fine))(PX (EP (di/det))(NP (SP (anno))(NUMP (N (80)))))))))(XPS (?))) |ET| 
+-0.14348435535401765639207383173925  |BT| (ROOT (S (NP (SPN (dov&#039;)))(VXI (VI (essere)))(NP (RS (det))(SS (sede))(ADJP (AS (generale)))(ADJP (AS (statunitense)))(PX (E (di))(NP (SPN (procter))))(XPO (&amp;))(SPN (gamble))))(XPS (?))) |ET| 
+-0.21041879100202792729490397505288  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(VP (VXS (VSP (essere (stare))))(NP (RS (det))(SS (bilancio))(PX (EP (di/det))(NP (SP (vittima)))))(PX (ES (a/det))(NP (SS (eruzione))(PX (ES (di/det))(NP (SPN (monte))(SPN (pinatubo))))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(VXI (VI (essere)))(ADJP (AS (iniziato)))(NP (RS (det))(SS (spettacolo))(NP (SPN (andy))(SPN (griffith)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(NP (RS (det))(SPN (south))(SPN (dakota)))(VXI (VI (essere)))(ADJP (AS (diventato)))(NP (RS (indet))(SS (stato))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(NP (RS (det))(SPN (alaska)))(VXI (VI (essere)))(ADJP (AS (diventato)))(NP (RS (indet))(SS (stato))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SN (citt�))(ADJP (AS (inglese)))))(VXI (VI (passare)))(NP (RS (det))(ADJP (AS (primo)))(SS (meridiano))))(XPS (?))) |ET| 
+-0.71147313739113038355554863301222  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SS (isola)))(VXI (VIY (avere))(VSP (acquisire)))(NP (RP (det))(SPN (stati))(NP (SPN (uniti)))(PX (E (dopo))(NP (RS (det))(SS (guerra))(ADJP (AS (ispano)))(ADJP (AS (americano)))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (ADJP (CCHE (che)))(SS (paese)))(PX (E (oltre))(NP (RS (det))(SPN (germania))))(VXI (VI (avere)))(NP (RS (det))(SS (tedesco)))(CONJP (CADV (come)))(PX (NP (SS (lingua))(ADJP (AS (ufficiale))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (avvenire)))(NP (RS (det))(SS (fuoriuscita))(PX (E (di))(NP (SS (petrolio))))(PX (ES (di/det))(NP (SPN (exxon))(SPN (valdez))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (VXI (CADV (quando))(VI (avvenire)))(NP (RP (det))(SP (rivolta)))(PX (E (di))(NP (SPN (los))(SPN (angeles)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (essere)))(NP (SS (presidente)))))(VXI (SPN (lyndon)))(NP (NUMP (SPN (b)))(XPS (full_stop))(SPN (johnson))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (ADVP (CADV (dove)))(VXI (VI (essere))(AS (nato)))(NP (SPN (ulysses)))(NP (NUMP (SPN (s)))(XPS (full_stop))(SPN (grant))))(XPS (?))) |ET| 
+-0.54809219895147098799981222327915  |BT| (ROOT (S (ADVP (CADV (dove)))(VXI (VI (nascere)))(NP (SPN (abramo))(SPN (lincoln))))(XPS (?))) |ET| 
+-0.61274670630532879211926911011687  |BT| (ROOT (S (ADVP (CADV (dove)))(VXI (VI (essere)))(NP (RS (det))(SPN (mall))(PX (SPN (of))(NP (SPN (america))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(VXI (VI (scioperare)))(NP (RS (det))(SPN (nfl))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (anno))))(VXI (VI (essere))(VSPY (stato))(VSP (uccidere)))(NP (RS (det))(SS (presidente))(NP (SPN (kennedy)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (anno))))(VXI (VI (essere)))(ADJP (AS (nato)))(NP (SPN (robert))(SPN (frost))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (per))(NP (ADJP (DS (quale)))(SS (malattia))))(VXI (VI (essere)))(VP (VXS (VSP (usare))))(SBAR (CADV (come))(S (NP (SS (trattamento)))(PX (NP (RS (det))(SS (farmaco))(SPN (sinemet)))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (ADJP (DP (quanti)))(SP (anno)))(ADVP (B (ci)))(VXI (VI (essere)))(PX (E (in))(NP (RS (indet))(SS (mandato))))(PX (ES (di/det))(NP (SS (presidente))(ADJP (AS (francese))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (SPN (dove&#039;)))(VXI (VI (essere))(VSPY (stata))(VSP (combattere)))(NP (RS (det))(SS (battaglia))(PX (E (di))(NP (SPN (alamo))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere))(VSP (essere (stare))))(NP (RS (det))(ADJP (AS (primo)))(SN (test))(ADJP (AS (nucleare)))(PX (ES (di/det))(NP (SPN (cina))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (essere)))(ADJP (AS (eletto)))(NP (SPN (george))(SPN (w)))(XPS (full_stop))))(NP (SPN (bush)))(CONJP (CADV (come))(VP (NP (SS (governatore)))))(PX (ES (di/det))(NP (SPN (texas)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (SBAR (CADV (quando))(S (VXI (VI (essere)))(VP (VXS (VSP (essere (stare)))))(NP (RS (indet))(ADJP (AS (ultimo)))(ADJP (AS (grande)))(SS (eruzione))(PX (ES (di/det))(NP (SPN (mount))(SPN (st)))))))(XPS (full_stop))(NP (SPN (helen)))(XPS (?))) |ET| 
+-0.050805845365404535274311825787663  |BT| (ROOT (S (NP (SPN (dove&#039;)))(VXI (VI (essere)))(ADJP (AS (sepolto)))(NP (SPN (mae))(SPN (west))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (CADV (dove)))(VXI (VI (essere))(AS (nato)))(NP (SPN (bill))(SPN (gates))))(XPS (?))) |ET| 
+-0.19742952074799302586427529604407  |BT| (ROOT (S (PX (E (di))(NP (ADJP (CCHE (che)))(SS (colore))))(VXI (VI (essere)))(NP (RS (det))(SS (cintura))(PX (ES (di/det))(NP (SS (migliore))(PX (ES (in/det))(NP (SN (karate))))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere)))(NP (RS (det))(SS (solstizio))(PX (E (d&#039;))(NP (SS (estate))))))(XPS (?))) |ET| 
+-0.83493304529126266544380996492691  |BT| (ROOT (S (SBAR (CADV (dove))(S (NP (PN (rifl)))(VXI (VI (prevedere)))(PX (E (di))(VP (VXF (VF (ancorare)))(NP (RS (det))(SS (nave))(ADJP (AS (mercantile))))))))(XPW (,))(VP (NP (SPN (lane))(SPN (victory))(XPW (,))(S (NP (CCHE (che)))(NP (RP (det))(SP (veterano))(PX (ES (di/det))(NP (SPN (merchant))(SPN (marine)))))(VXI (VI (stare)))(VP (VXG (VG (convertire)))(PX (E (in))(NP (RS (indet))(SS (museo)))))))(ADJP (AS (galleggiante)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (VP (NP (PX (E (in))(NP (SPN (polonia)))))(SBAR (CADV (dove))(S (VXI (VI (vivere)))(NP (RS (det))(ADJP (AS (maggior)))(SS (parte))(PX (EP (di/det))(NP (SP (persona))))))))(XPS (?))) |ET| 
+-0.80570947932645931022221930106753  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (nome))(PX (ES (di/det))(NP (SS (uomo))))(S (NP (CCHE (che)))(VXI (VI (essere))(VSPY (stato))(VSP (uccidere)))(PX (E (in))(NP (RS (indet))(SS (duello))(PX (E (con))(NP (SPN (aaron))(SPN (burr)))))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere))(AS (nato)))(ADVP (SPN (leonardo)))(PX (E (da))(NP (SPN (vinci)))))(XPS (?))) |ET| 
+0.62823344005585524119084084304632  |BT| (ROOT (NP (NUMP (ADVP (CADV (quando)))(VI (nascere))(NP (SPN (ulysses))(SPN (s))))(XPS (full_stop))(SPN (grant)))(XPS (?))) |ET| 
+0.25028038592004647755473456527398  |BT| (ROOT (VP (VXG (CADV (quando)))(ADVP (VI (nascere)))(NP (SPN (babe))(SPN (ruth))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (CCHE (che)))(SS (anno))))(VXI (VI (essere))(VSPY (stata))(VSP (inventare)))(NP (RS (det))(SS (lampadina))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (ADVP (CADV (dove)))(VXI (VI (essere)))(NP (RS (det))(SS (sede))(PX (ES (di/det))(NP (SPN (eli))(SPN (lilly))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (PX (E (da))(NP (S (CCHI (chi))(VXI (VI (essere))(VSPY (stato))(VSP (inventare)))(NP (RS (det))(SPN (silly))(SPN (putty))))))(XPS (?))) |ET| 
+-0.0081678277622340925839816705433805  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (codice))(PX (ES (di/det))(NP (SS (aeroporto))(PX (E (di))(NP (SPN (los))))(NP (SPN (angeles))(SPN (international)))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere))(VSPY (stato))(VSP (aprire)))(NP (RS (det))(ADJP (AS (primo)))(SS (negozio))(NP (SPN (wal))(XPO (-))(NP (SPN (mart))))))(XPS (?))) |ET| 
+0.98186605614291477817090481039486  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere))(VSPY (stato))(VSP (fare)))(NP (RS (det))(ADJP (AS (primo)))(SN (film))(PX (E (di))(NP (SPN (star))(SPN (wars))))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SS (museo))(PX (E (di))(NP (SPN (filadelfia)))))(VXI (VI (essere))(VSPY (stato))(VSP (utilizzare)))(PX (E (in))(NP (XPO (&quot;&quot;))(SPN (rocky))(XPO (&quot;&quot;)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (RS (det))(SS (aspartame)))(VXI (VI (essere))(ADVP (C (anche)))(VSP (conoscere)))(PX (CADV (come))(NP (SS (cosa)))))(XPS (?))) |ET| 
+-0.48102985000967452000608659545833  |BT| (ROOT (S (PX (E (di))(NP (SS (cosa))))(VXI (VI (essere)))(ADJP (AS (fatto)))(NP (RS (det))(SS (plastica))))(XPS (?))) |ET| 
+0.55184746716429333712738980466384  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (essere))(VSPY (stato))(VSP (costruire)))(NP (RS (det))(SPN (vietnam))(SPN (veterans))(SPN (memorial))(PX (E (a))(NP (SPN (washington)))))))(XPW (,))(VXI (YA (dc))))(XPS (?))) |ET| 
+1  |BT| (ROOT (SBAR (CADV (quando))(S (VXI (VI (essere)))(VP (VXS (VSP (essere (stare))))(NP (RS (det))(SS (ultima))(ADJP (AS (significativo)))))(NP (SS (eruzione))(PX (ES (di/det))(NP (SPN (mount))(SPN (st)))))))(XPS (full_stop))(NP (SPN (helen)))(XPS (?))) |ET| 
+-0.45878524537278675410334471962415  |BT| (ROOT (SBAR (CCHE (che))(S (VP (VXS (VSP (formare))))(VXI (VI (essere)))(NP (RS (det))(ADJP (AS (principale)))(SS (concorso))(NP (SPN (vhs))))))(XPS (?))) |ET| 
+-0.68906180641119907370750752306776  |BT| (ROOT (S (NP (SPN (dov&#039;)))(VXI (VI (essere)))(NP (RS (det))(NP (SPN (hill))(SPN (air))(NP (SPN (force))(SPN (base))))))(XPS (?))) |ET| 
+-0.52036238492189323956438329332741  |BT| (ROOT (S (ADVP (CADV (dove)))(NP (PN (rifl)))(VXI (VIY (essere))(VSP (laureare)))(NP (SPN (hillary))(SPN (clinton))))(XPS (?))) |ET| 
+-0.31132183048254258306286601509782  |BT| (ROOT (S (NP (ADJP (CCHE (che)))(SS (lingua)))(NP (PN (rifl)))(VXI (VI (parlare)))(PX (E (in))(NP (SPN (nuova))(SPN (caledonia)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (da))(SBAR (CADV (dove))(S (VXI (VI (arrivare)))(NP (RS (det))(ADJP (AS (maggior)))(SS (parte))(PX (ES (di/det))(NP (SS (marijuana))))))))(NP (CCHE (che)))(VXI (VI (entrare)))(PX (EP (in/det))(NP (SPN (sati))(SPN (uniti)))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (stato))))(NP (PN (rifl)))(VXI (VI (trovare)))(NP (RP (det))(SPN (catskill))(NP (SPN (mountains)))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere)))(NP (ADJP (AS (primo)))(SS (ministro))(NP (SPN (benjamin))(SPN (disraeli)))))(XPS (?))) |ET| 
+-0.65049803636910452642183599891723  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (porto))(ADJP (AS (principale))))(PX (E (in))(NP (SPN (ecuador)))))(XPS (?))) |ET| 
+-0.095282047531691144159893269716122  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (abbreviazione))(PX (E (di))(NP (SN (societ�)))))(PX (E (in))(NP (SS (accomandita))(ADJP (AS (semplice))))))(XPS (?))) |ET| 
+1  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere)))(NP (RS (det))(SPN (tulip))(SPN (festival)))(PX (E (in))(NP (SPN (michigan)))))(XPS (?))) |ET| 
+0.79575731188200116150710528017953  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere))(VSPY (stata))(VSP (fondare)))(NP (RS (det))(SN (citt�))(PX (E (di))(NP (SPN (new))(SPN (orleans))))))(XPS (?))) |ET| 
+0.067458362458147291818022495135665  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (cominciare)))))(NP (RS (det)))(VXI (AS (prima)))(NP (ADJP (SPN (guerra)))(SPN (mondiale))))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (nome))(PX (ES (di/det))(NP (SS (aeroporto))))(PX (E (a))(NP (SPN (dallas))(SPN (ft))))))(XPS (full_stop))(NP (SPN (worth)))(XPS (?))) |ET| 
+-0.81170201590678059400119082056335  |BT| (ROOT (S (NP (SPN (dov&#039;)))(VXI (VI (essere)))(NP (RS (det))(SS (mesa))(NP (SPN (verde))(SPN (national))(SPN (park)))))(XPS (?))) |ET| 
+-0.59565677791786986183808494388359  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (tipo))(PX (E (di))(NP (SS (ponte)))))(VXI (VI (essere)))(NP (RS (det))(SPN (golden))(NP (SPN (gate))(SPN (bridge))))))(XPS (?))) |ET| 
+-0.55443250176799963035989549098304  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SS (tipo))(PX (E (di))(NP (SS (sommergibile)))))(VXI (VI (essere))(VSPY (stato))(VSP (acquistare)))(PX (E (di)))(ADJP (AS (recente)))(PX (ES (da/det))(NP (SS (corea))(PX (ES (del))(NP (SN (sud)))))))(XPS (?))) |ET| 
+-0.52114695131985810938601844100049  |BT| (ROOT (S (ADVP (CADV (dove)))(NP (PN (rifl)))(VXI (VIY (essere))(VSP (svolgere)))(NP (RS (det))(AS (sesto))(ADJP (ADVP (SS (incontro)))(AS (annuale))))(PX (EP (di/det))(NP (SP (esperto))(ADJP (AP (forestale)))(ADJP (AP (indonesiano)))(XPO (-))(NP (AP (malese))))))(XPS (?))) |ET| 
+-0.33459194792958246722491821856238  |BT| (ROOT (S (PX (E (da))(NP (ADJP (DS (quale)))(SS (compagnia))))(VXI (VIY (essere))(VPP (costruire)))(NP (RP (det))(SN (auto)))(PX (E (a))(NP (SS (motore))(ADJP (AS (rotativo))))))(XPS (?))) |ET| 
+0.87308592791135686272951943465159  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere)))(NP (RS (det))(SS (compleanno))(PX (E (di))(NP (SPN (jennifer))(SPN (lopez))))))(XPS (?))) |ET| 
+-0.63369638689135443510025424984633  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (cognome))(PX (E (di))(NP (SPN (dr))))))(XPS (full_stop))(NP (SPN (ruth)))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (di))(NP (ADJP (CCHE (che)))(SS (paese))))(VXI (VI (essere)))(NP (RS (det))(SPN (hyundai))))(XPS (?))) |ET| 
+-0.87730801433579241876969945224118  |BT| (ROOT (S (ADVP (CADV (come)))(NP (PN (rifl)))(VXI (VI (dire)))(NP (XPO (&quot;&quot;))(SS (casa))(XPO (&quot;&quot;))(PX (E (in))(NP (SS (spagnolo))))))(XPS (?))) |ET| 
+-0.55305976245951571357295506459195  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (bacino))))(VXI (VI (essere)))(NP (RP (det))(SP (isole)))(NP (SPN (canarie))))(XPS (?))) |ET| 
+-0.25928009025963760780797429106315  |BT| (ROOT (S (ADVP (CADV (come)))(NP (PN (rifl)))(VXI (VI (dire)))(VP (XPO (&quot;&quot;))(ADVP (SS (patatine)))(VXP (VPP (friggere)))(XPO (&quot;&quot;))(PX (E (in))(NP (SS (francese))))))(XPS (?))) |ET| 
+0.9728721151425175905913533824787  |BT| (ROOT (S (ADVP (CADV (quando)))(VXI (VI (essere)))(NP (RS (det))(SS (battaglia))(PX (E (di))(NP (SPN (shiloh))))))(XPS (?))) |ET| 
+-0.39869547361895685266830469117849  |BT| (ROOT (VP (VXF (VF (nominare)))(NP (RS (det))(SS (controparte))(ADJP (AS (islamico))))(PX (ES (a/det))(NP (SPN (croce))(SPN (rossa)))))(XPS (full_stop))) |ET| 
+-0.38183614193598702790666266082553  |BT| (ROOT (VP (VXF (VF (nominare)))(NP (RS (indet))(SS (giornale))(PX (E (di))(NP (SPN (salt))(SPN (lake))(SPN (city))))))(XPS (full_stop))) |ET| 
+-0.22687899833155381057459010207822  |BT| (ROOT (SBAR (CCHE (che))(S (ADJP (AS (caldo)))(VXI (VI (fare)))(PX (ES (in/det))(NP (SPN (death))(SPN (valley))))))(XPS (?))) |ET| 
+0.35421326605118952368655982354539  |BT| (ROOT (SBAR (CADV (quando))(S (VXI (VI (essere)))(NP (SPN (st)))))(XPS (full_stop))(NP (SPN (patrick))(NP (SPN (day))))(XPS (?))) |ET| 
+-0.55949883225582108803308756250772  |BT| (ROOT (S (NP (ADJP (DP (quanti)))(SP (anno)))(VXI (VI (avere)))(NP (RS (det))(SS (universo))))(XPS (?))) |ET| 
+-0.52015575540807656995667684896034  |BT| (ROOT (S (ADVP (CADV (dove)))(VXI (VI (essere))(AS (prodotto)))(NP (RS (det))(SS (bile))))(XPS (?))) |ET| 
+-0.75338705498154490136641925346339  |BT| (ROOT (VP (NP (SPN (nomina)))(NP (RS (indet))(SS (galleria))(PX (E (d&#039;))(NP (SS (arte))))(PX (E (a))(NP (SPN (new))(SPN (york))))))(XPS (full_stop))) |ET| 
+0.72719168990286353615459802313126  |BT| (ROOT (S (SBAR (CADV (quando))(S (NP (PN (rifl)))(VXI (VIY (essere))(VSP (verificare)))))(NP (RS (det))(SS (incidente)))(VXI (AS (nucleare)))(PX (E (di))(NP (SPN (chernobyl)))))(XPS (?))) |ET| 
+-0.50187312382464555060579414202948  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (pianeta)))(VXI (VI (essere)))(VP (VXS (VSP (conoscere))))(CONJP (CADV (come))(VP (NP (RS (det))(SS (pianeta))(ADJP (AS (rosso))))))))(XPS (?))) |ET| 
+-0.040962865969592053561054711963152  |BT| (ROOT (S (PX (E (su))(NP (ADJP (DS (quale)))(SS (isola))(PX (EP (di/det))(NP (SPN (caraibi))))))(VXI (VI (essere)))(NP (SS (governatore))(NP (SPN (ponce)))(PX (E (de))(NP (SPN (leon))))))(XPS (?))) |ET| 
+-0.33983824456097755373207291995641  |BT| (ROOT (S (PX (E (di))(SBAR (CCHE (che))(S (VXI (VI (razzare))))))(VXI (VI (essere)))(NP (SPN (trigger)))(NP (RS (det))(SS (cavallo))(PX (E (di))(NP (SPN (roy))(SPN (rogers))))))(XPS (?))) |ET| 
+-0.38384526915204530972403063060483  |BT| (ROOT (S (PX (AP (rato))(NP (SPN (qual))))(VXI (VI (essere))(VSP (essere (stare))))(NP (RS (det))(SS (target))(ADJP (AP (rato)))(PX (E (di))(NP (ADJP (SS (crescita)))(YA (m3))))(PX (ES (in/det))(NP (NUMP (N (1992)))))))(XPS (?))) |ET| 
+-0.55221379462328623599631782781216  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SN (citt�))))(VXI (VI (essere)))(NP (RS (det))(SPN (logan))(SPN (airport))))(XPS (?))) |ET| 
+0.87497136551757015432428943313425  |BT| (ROOT (SBAR (CADV (quando))(S (VXI (VI (essere)))(VP (VXS (VSP (essere (stare)))))(NP (RS (det))(ADJP (AS (ultimo)))(ADJP (AS (grande)))(SS (eruzione))(PX (ES (di/det))(NP (SPN (mount))(SPN (st)))))))(XPS (full_stop))(NP (SPN (helens)))(XPS (?))) |ET| 
+-1  |BT| (ROOT (S (PX (E (di))(NP (ADJP (DS (quale)))(SS (nazione))))(VXI (VI (essere)))(ADJP (AS (originario)))(NP (SPN (caterina)))(NP (RS (det))(SPN (grande))))(XPS (?))) |ET| 
+-0.41220492388503254810316889233945  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SN (citt�))))(VXI (VI (essere)))(NP (RS (det))(SPN (orange))(SPN (bowl))))(XPS (?))) |ET| 
+-0.16011262733864706220288098847959  |BT| (ROOT (S (VXI (VF (nominare)))(NP (RS (det))(SS (progettista))(PX (ES (di/det))(NP (SS (scarpa))(S (NP (CCHE (che)))(VXI (VIY (avere))(VSP (generare)))(NP (SP (milione))(PX (E (di))(NP (SP (imitazione))(PX (E (in))(NP (SS (plastica))))(XPW (,))(ADJP (SS (nota))(PX (CADV (come))(NP (XPO (``))(YF (jellies))(XPO (&#039;)))))))(XPO (&#039;))))))))(XPS (full_stop))) |ET| 
+-0.15098652007515775408386105027603  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SS (presidente)))(VXI (VI (proclamare)))(NP (RS (det))(SS (festa))(PX (ES (di/det))(NP (SS (mamma))))))(XPS (?))) |ET| 
+-0.13896187290414199755339552666555  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (significato))(PX (E (di))(NP (SS (caliente))))(XPO (-))(NP (SPN (lrb)))(XPO (-))(PX (E (in))(NP (SS (inglese))))(XPO (-))(NP (SPN (rrb))(XPO (-)))))(XPS (?))) |ET| 
+0.62540007311084899743747200773214  |BT| (ROOT (S (SBAR (CADV (quando))(S (VXI (VI (essere))(VSPY (stato))(VSP (legalizzare)))))(NP (RS (det)))(VXI (SS (aborto)))(PX (EP (in/det))(NP (SPN (stati))(NP (SPN (uniti))))))(XPS (?))) |ET| 
+-0.52055735859085561223480453918455  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (capitale))(PX (ES (di/det))(NP (SPN (nuova))(SPN (zelanda))))))(XPS (?))) |ET| 
+-0.20411332963281597630000874232792  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (indirizzo))(PX (ES (di/det))(NP (SPN (casa))(SPN (bianca))))))(XPS (?))) |ET| 
+-0.055901538216319449081659342937201  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (provincia))))(VXI (VI (�)))(NP (SPN (montreal))))(XPS (?))) |ET| 
+-0.43870665207460729506649954601016  |BT| (ROOT (S (NP (CADV (dove)))(NP (PN (rifl)))(VXI (VI (trovare)))(NP (RS (det))(SPN (kentucky))(NP (SPN (horse))(SPN (park)))))(XPS (?))) |ET| 
+-0.12648655549766343875184304579307  |BT| (ROOT (S (ADJP (ADVP (B (quanto)))(AS (caldo)))(VXI (VI (raggiungere)))(NP (RS (det))(SS (interno))(PX (E (di))(NP (RS (indet))(SS (vulcano))(ADJP (AS (attivo)))))))(XPS (?))) |ET| 
+-0.59947523711627681564095837529749  |BT| (ROOT (S (NP (CCHI (chi)))(VXI (VI (comandare)))(NP (RS (det))(SS (nave))(ADJP (AS (stellare)))(NP (SPN (enterprise))))(PX (E (in))(NP (SPN (star))(SPN (trek)))))(XPS (?))) |ET| 
+-0.3112345951114248721047772505699  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(ADJP (AS (vero)))(SS (nome))(PX (E (di))(NP (SPN (dr))))))(XPS (full_stop))(NP (SPN (seuss)))(XPS (?))) |ET| 
+-0.4072694524865437815108748509374  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SS (azienda)))(VXI (VIY (avere))(VSP (creare)))(NP (RS (det))(SS (browser))(NP (SPN (internet))(SPN (mosaic)))))(XPS (?))) |ET| 
+-0.28568368608958399912367553952208  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SS (ingegnere)))(VXI (VIY (avere))(VSP (progettare)))(NP (RS (det))(SS (canale))(PX (E (di))(NP (SPN (erie))))))(XPS (?))) |ET| 
+-0.35166087489449243674854983510158  |BT| (ROOT (S (NP (PS (quale)))(NP (SS (attrice)))(VXI (VIY (avere))(VSP (ricevere)))(NP (RS (det))(ADJP (AS (maggior)))(SS (numero))(PX (E (di))(NP (SS (nomination))))(PX (EP (a/det))(NP (SPN (oscar))))))(XPS (?))) |ET| 
+-0.14969289401547988815899259407161  |BT| (ROOT (S (VXI (VF (nominare)))(NP (RS (det))(SN (universit�))(S (PX (E (di))(NP (PN (cui))))(VXI (VI (essere)))(NP (SS (presidente))(NP (SPN (woodrow))(SPN (wilson)))))))(XPS (full_stop))) |ET| 
+-0.22768858630084906624624352389219  |BT| (ROOT (S (NP (SPN (ministro)))(NP (CCHI (chi)))(VXI (VI (essere)))(PX (VP (VXS (VSP (essere (stare))))(NP (RS (det))(ADJP (AS (primo)))(ADJP (AS (primo)))(SS (ministro))(PX (ES (di/det))(NP (SPN (canada))))))))(XPS (?))) |ET| 
+-0.17813769242361821021347623172915  |BT| (ROOT (PX (E (a))(SBAR (CCHE (che))(S (NP (SN (velocit�)))(VXI (VI (ruotare)))(NP (RS (det))(SPN (terra)))(PX (E (intorno))(PX (ES (a/det))(NP (SS (sole))))))))(XPS (?))) |ET| 
+-0.033654327940137652996899220170235  |BT| (ROOT (S (PX (E (di))(NP (ADJP (DS (quale)))(SS (gruppo))(ADJP (AS (comico)))))(VXI (VI (fare)))(NP (SS (parte)))(NP (SPN (john))(SPN (cleese))))(XPS (?))) |ET| 
+-0.21827924696676984095411455655267  |BT| (ROOT (S (NP (RS (det))(SS (aeroporto))(PX (E (di))(NP (ADJP (DS (quale)))(SN (citt�)))))(VXI (VI (prendere)))(NP (RS (det))(SS (nome))(PX (E (di))(NP (SPN (logan))(SPN (international))))))(XPS (?))) |ET| 
+-0.1185484103609280998048447486326  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (tipo))(PX (E (di))(NP (SS (ape)))))(VXI (VI (forare)))(NP (RS (det))(SS (legno)))))(XPS (?))) |ET| 
+-0.51314374137037399581373620094382  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (stato))(PX (ES (di/det))(NP (SPN (bluegrass))))))(XPS (?))) |ET| 
+-0.32993037346837955636758010768972  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (lunghezza))(PX (ES (di/det))(NP (SS (confine))))(PX (E (tra))(NP (NP (RS (det))(SPN (ucraina)))(C (e))(NP (RS (det))(SPN (russia)))))))(XPS (?))) |ET| 
+-0.72277133648259939135982676816639  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (band))))(VXI (VI (essere)))(NP (SPN (jerry))(SPN (garcia))))(XPS (?))) |ET| 
+-0.47135421099272645228950295859249  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SS (provincia))))(VXI (VI (essere)))(NP (SPN (phoenix))(SPN (az))))(XPS (?))) |ET| 
+-0.37797980176899320658989722687693  |BT| (ROOT (S (PX (E (per))(NP (SS (cosa))))(VXI (VI (essere)))(ADJP (AS (famoso)))(NP (RS (det))(SPN (jane))(NP (SPN (goodall)))))(XPS (?))) |ET| 
+0.85886338788810367983472815467394  |BT| (ROOT (S (NP (CADV (quando)))(VXI (VI (essere))(VSP (essere (stare))))(NP (RS (det))(SS (offensiva))(PX (ES (di/det))(NP (SPN (tet)))))(PX (E (in))(NP (SPN (vietnam)))))(XPS (?))) |ET| 
+-0.23933895576492203449703310980112  |BT| (ROOT (S (ADVP (CADV (dove)))(NP (PN (rifl)))(VXI (VI (trovare)))(NP (RS (det))(SS (isola))(PX (ES (di/det))(NP (SPN (principe))(SPN (edoardo))))))(XPS (?))) |ET| 
+-0.033519013416071288813391504390893  |BT| (ROOT (S (NP (PS (quale)))(NP (SS (attrice)))(VXI (VIY (avere))(VSP (recitare)))(PX (E (in))(NP (XPO (&quot;&quot;))(RS (det))(NP (SS (leone)))(PX (E (d&#039;))(NP (SS (inverno))))(XPO (&quot;&quot;)))))(XPS (?))) |ET| 
+-0.20463126950429655348528967806487  |BT| (ROOT (S (NP (B (quanto)))(VXI (VI (essere)))(ADJP (AS (grande)))(NP (RS (det))(SS (rifugio))(AS (artico))(PX (PX (E (per))(VP (VXF (VF (preservare)))(NP (RS (det))(SS (fauna))(ADJP (AS (unico))))))(C (e))(PX (E (di))(NP (SS (valore))(ADJP (AS (selvaggio)))(PX (ES (su/det))(NP (SS (costa))(NP (AN (nord)))(PX (ES (di/det))(NP (SPN (alaska)))))))))))(XPS (?))) |ET| 
+-0.10265544116281620501407445544828  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (scuola)))(VXI (VI (frequentare)))(NP (SPN (emmitt))(SPN (smith)))))(XPS (?))) |ET| 
+-0.36374285526437694082702023479214  |BT| (ROOT (S (NP (ADJP (DS (quale)))(SS (fiume))(PX (EP (in/det))(NP (SPN (stati))(NP (SPN (uniti))))))(VXI (VI (essere)))(ADJP (AS (conosciuto)))(CONJP (CADV (come))(VP (NP (RS (det))(SPN (big))(NP (SPN (muddy)))))))(XPS (?))) |ET| 
+-0.24203880655266107879697301541455  |BT| (ROOT (S (NP (SPN (com&#039;)))(VXI (VI (essere)))(ADJP (AS (abbreviato)))(NP (XPO (&quot;&quot;))(SPN (original))(SPN (equipment))(SPN (manufacturer))(XPO (&quot;&quot;))))(XPS (?))) |ET| 
+-0.18252480217725206013135164084815  |BT| (ROOT (NP (ADJP (CCHE (che)))(SS (cosa))(ADJP (AS (pubblico)))(NP (SPN (knight))(SPN (ridder))))(XPS (?))) |ET| 
+-0.44703227961166680515248117444571  |BT| (ROOT (S (PX (E (per))(NP (SS (cosa))))(VXI (VI (essere)))(VP (VXS (VSP (usare)))(NP (RS (det))(SPN (agent))(SPN (orange)))(PX (E (durante))(NP (RS (det))(SS (guerra))(PX (ES (di/det))(NP (SPN (vietnam))))))))(XPS (?))) |ET| 
+-0.30052445603168514987046933129022  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (fiore))(PX (ES (di/det))(NP (SS (stato))(PX (ES (di/det))(NP (SPN (michigan))))))))(XPS (?))) |ET| 
+-0.44774621854126472886292731345748  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (uccello))(PX (ES (di/det))(NP (SS (stato))(PX (ES (di/det))(NP (SPN (alaska))))))))(XPS (?))) |ET| 
+-0.18149710901116250516551531291043  |BT| (ROOT (S (PX (E (di))(NP (ADJP (DS (quale)))(SS (penisola))))(ADVP (B (fa)))(VXI (VI (partire)))(NP (RS (det))(SPN (spagna))))(XPS (?))) |ET| 
+-0.106109100081332258236344046054  |BT| (ROOT (S (NP (QNS (quanto)))(VXI (VI (costare)))(NP (RS (det))(ADJP (AS (prima)))(SPN (barbie))))(XPS (?))) |ET| 
+-0.097074134221106722630878493873752  |BT| (ROOT (S (ADVP (CADV (dove)))(VXI (VI (essere))(AP (conservato)))(NP (RP (det))(SP (gioiello))(PX (ES (di/det))(NP (SPN (corona))(SPN (britannica))))))(XPS (?))) |ET| 
+-0.12071329791271176445910384700255  |BT| (ROOT (NP (ADJP (ADVP (B (quanto)))(AS (veloce)))(SS (lancia))(NP (SPN (randy))(SPN (johnson))))(XPS (?))) |ET| 
+-0.20925214634229874488546840893832  |BT| (ROOT (S (S (NP (SPN (qual)))(VXI (VI (essere)))(VP (VXS (VSP (essere (stare))))(NP (RS (det))(ADJP (AS (prima)))(SS (hit)))))(VXI (VI (numerare)))(NP (RS (indet)))(PX (EP (di/det))(NP (SPN (beatles)))))(XPS (?))) |ET| 
+-0.16776686576429072905725092823559  |BT| (ROOT (S (PX (E (di))(NP (SS (cosa))))(VXI (VI (essere)))(ADJP (AS (fatto)))(NP (RS (det))(SPN (stanley))(VP (NP (SPN (cup))))))(XPS (?))) |ET| 
+-0.22865111586089759132534027230577  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (libro)))(VXI (VIY (avere))(VSP (scrivere)))(NP (SPN (rachel))(SPN (carson)))(PX (ES (in/det))(NP (NUMP (N (1962)))))))(XPS (?))) |ET| 
+-0.06730619276124720495868558600705  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (soprannome))(PX (ES (di/det))(NP (SS (stato))(PX (ES (di/det))(NP (SPN (mississippi))))))))(XPS (?))) |ET| 
+-0.085216521511566473146004341288062  |BT| (ROOT (S (ADVP (C (perch�)))(NP (RS (det))(SS (luna)))(VXI (VI (diventare)))(VP (VXF (AS (arancione)))))(XPS (?))) |ET| 
+-0.17409256839430245489275250747596  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (popolazione))(PX (ES (di/det))(NP (SPN (messico))))))(XPS (?))) |ET| 
+-0.196690768025211376590632994521  |BT| (ROOT (S (ADVP (B (quanto)))(VXI (VI (essere)))(PX (E (in))(NP (SS (miglia))))(NP (RS (indet))(SS (corsa))(PX (E (di))(NUMP (N (dieci))(NP (SPN (k)))))))(XPS (?))) |ET| 
+-0.10642618288184448049893404686372  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (punto))(PX (E (di))(NP (SS (riferimento))(ADJP (AS (americano))))))(VXI (VI (sorgere)))(PX (E (su))(NP (SPN (liberty))(SPN (island))))))(XPS (?))) |ET| 
+-0.27104082783095367892300942003203  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(VP (VXS (VSP (essere (stare))))(NP (RS (det))(SS (lunghezza))(PX (ES (di/det))(NP (ADJP (AS (primo)))(SS (volo))(PX (EP (di/det))(NP (SP (fratello))))))(SPN (wright)))))(XPS (?))) |ET| 
+-0.15763232948538935529469995344698  |BT| (ROOT (S (NP (CCHI (chi)))(VXI (VI (essere)))(VP (VXS (VSP (essere (stare))))(NP (RS (det))(SS (primo))))(ADJP (ADJP (AS (afro)))(XPO (-))(ADJP (AS (americano))))(PX (E (a))(VP (VXF (VF (vincere)))(NP (RS (det))(SS (premio))(SPN (nobel)))(PX (E (per))(NP (RS (det))(SS (letteratura)))))))(XPS (?))) |ET| 
+-0.13909773658723936784475938566175  |BT| (ROOT (S (SBAR (CCHE (che))(S (VXI (VI (valutare)))))(VXI (VI (usare)))(PX (E (in))(NP (SPN (brasile)))))(XPS (?))) |ET| 
+-0.14841399827470133643281258173374  |BT| (ROOT (S (ADVP (CADV (dove)))(NP (PN (rifl)))(VXI (VI (trovare)))(NP (RS (det))(SS (punto))(ADJP (ADVP (B (pi�)))(AS (alto))))(PX (E (in))(NP (SPN (giappone)))))(XPS (?))) |ET| 
+-0.094584802821446142817585212014819  |BT| (ROOT (S (ADVP (B (quanto)))(VXI (VI (essere)))(ADJP (AS (profondo)))(NP (RS (det))(SPN (grand))(NP (SPN (canyon)))))(XPS (?))) |ET| 
+-0.091519637998554337343648512614891  |BT| (ROOT (S (NP (ADJP (DP (quante)))(SP (vita)))(VXI (VI (essere)))(NP (SP (andata))(ADJP (AP (perduto))))(PX (ES (in/det))(NP (SS (incidente))(PX (ES (di/det))(NP (SPN (china))(SPN (airlines))))))(PX (E (a))(NP (SPN (nagoya))))(XPW (,))(PX (E (in))(NP (SPN (giappone)))))(XPS (?))) |ET| 
+-0.078021421176635685768019357055891  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (superficie)))(VXI (VI (ricoprire)))(NP (RP (det))(SPN (everglades)))))(XPS (?))) |ET| 
+-0.053650263465843298082980084018345  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (compagnia))(ADJP (AS (aereo)))(ADJP (AS (nazionale)))(PX (ES (di/det))(NP (SPN (spagna))))))(XPS (?))) |ET| 
+-0.053876352469911681364322930676281  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (tipo))(PX (E (di))(NP (SS (squadra))))(ADJP (AS (sportivo))))(VXI (VI (essere)))(NP (RS (det))(NP (SPN (buffalo)))(SPN (sabres)))))(XPS (?))) |ET| 
+-0.050936573633689828655146669689202  |BT| (ROOT (SBAR (CCHE (che))(S (NP (SS (tipo))(PX (E (di))(NP (SS (squadra))))(ADJP (AS (sportivo))))(VXI (VI (essere)))(NP (RS (det))(NP (SPN (wisconsin)))(SPN (badgers)))))(XPS (?))) |ET| 
+-0.022988885172722576394344073946741  |BT| (ROOT (S (ADVP (B (quanto)))(NP (SS (tempo))(ADJP (AS (prima))))(NP (RS (det))(SS (fallimento)))(VXI (VIY (venire))(VSP (rimuovere)))(PX (E (da))(NP (RS (indet))(SS (rapporto))(PX (E (di))(NP (SS (credito)))))))(XPS (?))) |ET| 
+-0.24263606151626684881428275275539  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (abbreviazione))(PX (E (di))(NP (SPN (original))(SPN (equipment))(SPN (manufacturer))))))(XPS (?))) |ET| 
+-0.086811669559935120132898589417891  |BT| (ROOT (S (ADVP (B (quanto)))(VXI (VI (essere)))(ADJP (AS (alto)))(NP (RS (det))(SPN (torre))(SPN (cnn))(PX (E (a))(NP (SPN (toronto))))))(XPS (?))) |ET| 
+-0.035171026231895469171817580900097  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (soprannome))(PX (E (per))(NP (RS (det))(SS (stato))(PX (ES (di/det))(NP (SPN (mississippi))))))))(XPS (?))) |ET| 
+-0.050382649746480524799441269578892  |BT| (ROOT (S (NP (ADJP (DS (quanta)))(SS (energia))(PX (EP (di/det))(NP (SPN (stati))(NP (SPN (uniti))))))(VXI (VI (derivare)))(PX (ES (da/det))(NP (SS (energia))(ADJP (AS (nucleare))))))(XPS (?))) |ET| 
+-0.070135188674320350643576205129648  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SN (citt�))))(VXI (VI (essere)))(NP (RS (det))(SPN (southwestern)))(NP (SPN (university))))(XPS (?))) |ET| 
+-0.070135188674322543334049839813815  |BT| (ROOT (S (PX (E (in))(NP (ADJP (DS (quale)))(SN (citt�))))(VXI (VI (essere)))(NP (RS (det))(SPN (duke)))(NP (SPN (university))))(XPS (?))) |ET| 
+-0.032742158202785233422904553890476  |BT| (ROOT (S (PX (E (su))(NP (ADJP (DS (quale)))(SS (opera))))(VXI (VI (essere)))(ADJP (AS (basato)))(NP (XPO (&quot;&quot;))(SPN (west))(SPN (side))(SPN (story))(XPO (&quot;&quot;))))(XPS (?))) |ET| 
+-0.0059137939666545303804556787952151  |BT| (ROOT (S (NP (SPN (qual)))(VXI (VI (essere)))(NP (RS (det))(SS (motto))(PX (EP (di/det))(NP (SPN (boy))(SPN (scout))))))(XPS (?))) |ET| 
