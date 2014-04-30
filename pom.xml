@@ -76,11 +76,6 @@
     </dependency>
     <dependency>
     <groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
-    <artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-gpl</artifactId>
-    <version>1.5.0</version>
-    </dependency>
-    <dependency>
-    <groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
     <artifactId>de.tudarmstadt.ukp.dkpro.core.treetagger-asl</artifactId>
     <scope>test</scope>
     </dependency>
@@ -135,11 +130,6 @@
     	<version>2.0.5</version>
     </dependency>
     <dependency>
-    	<groupId>edu.stanford.nlp</groupId>
-    	<artifactId>stanford-parser</artifactId>
-    	<version>3.3.1</version>
-    </dependency>
-    <dependency>
     	<groupId>net.sf.sociaal</groupId>
     	<artifactId>xmlpull-xpp3</artifactId>
     	<version>3.0.0.20130526</version>
@@ -158,6 +148,28 @@
 		<groupId>org.apache.ws.commons.axiom</groupId>
 		<artifactId>axiom-impl</artifactId>
 		<version>1.2.13</version>
+	</dependency>
+	<dependency>
+		<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+		<artifactId>
+			de.tudarmstadt.ukp.dkpro.core.stanfordnlp-gpl
+		</artifactId>
+		<version>1.6.0</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-core</artifactId>
+		<version>4.7.2</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-queryparser</artifactId>
+		<version>4.7.2</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-analyzers-common</artifactId>
+		<version>4.7.2</version>
 	</dependency>
   </dependencies>
 </project>
