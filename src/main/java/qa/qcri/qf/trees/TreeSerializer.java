@@ -115,7 +115,7 @@ public class TreeSerializer {
 
 		List<String> labels = new ArrayList<>();
 		labels.add(node.getRepresentation(parameterList));
-
+		
 		if (this.enableAdditionalLabels) {
 			labels.addAll(node.getAdditionalLabels());
 		}

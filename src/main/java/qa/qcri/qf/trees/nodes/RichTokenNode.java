@@ -73,8 +73,14 @@ public class RichTokenNode extends BaseRichNode {
 			case RichNode.OUTPUT_PAR_TOKEN:
 				output = this.token.getCoveredText();
 				break;
-			case RichNode.OUTPUT_PAR_LEMMA:
-				output = this.token.getLemma().getValue();
+			case RichNode.OUTPUT_PAR_LEMMA:				
+				if (output.equals("(")) {
+					output = "-LRB-";
+				} else if (output.equals(")")) {
+					output = "-RRB-";
+				} else {
+					output = this.token.getLemma().getValue(); 
+				}
 				break;
 			case RichNode.OUTPUT_PAR_STEM:
 				output = this.token.getStem().getValue();

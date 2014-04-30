@@ -39,7 +39,7 @@ public class QuestionClassifierEnTest {
 		SimplePipeline.runPipeline(cas, createEngineDescription(
 				QuestionClassifier.class,
 				QuestionClassifier.PARAM_LANGUAGE, "en",
-				QuestionClassifier.PARAM_MODELS_DIRPATH, "data/question-classifier/models-ptk_en"));
+				QuestionClassifier.PARAM_MODELS_DIRPATH, "data/question-classifier_en/models-ptk"));
 	}
 
 	@Test

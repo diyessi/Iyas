@@ -94,19 +94,16 @@ public class RichTree {
 		List<Constituent> roots = new ArrayList<>();
 
 		for (Constituent constituent : JCasUtil.select(cas, Constituent.class)) {
-			if (constituent.getConstituentType().equals("TOP") ||  // BerkeleyParserIt uses TOP as root label 
-				constituent.getConstituentType().equals(ROOT_LABEL) ) {
+			//if (constituent.getConstituentType().equals("TOP") ||  // BerkeleyParserIt uses TOP as root label 
+			  if (constituent.getConstituentType().equals(ROOT_LABEL) ) {
 				roots.add(constituent);
 			}
-			/*
-			if (constituent.getConstituentType().equals(ROOT_LABEL)) {
-				roots.add(constituent);
-			}
-			*/
 		}
 
 		for (Constituent node : roots) {
+			
 			RichNode subTrees = getConstituencySubTree(node, root);
+			
 			for(RichNode subTree : subTrees.getChildren()) {
 				root.addChild(subTree);
 			}
