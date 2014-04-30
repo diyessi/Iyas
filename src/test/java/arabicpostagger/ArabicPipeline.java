@@ -13,6 +13,8 @@ import org.apache.uima.util.CasCopier;
 import org.junit.Test;
 import org.uimafit.util.JCasUtil;
 
+import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import qa.qcri.qf.annotators.arabic.ArabicAnalyzer;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
@@ -64,6 +66,14 @@ public class ArabicPipeline {
 				createEngineDescription(ArabicAnalyzer.class)));
 		
 		JCas cas = this.getPreliminarCas("arabic-test", SAMPLE_SENTENCE);
+		
+		for(Token token : JCasUtil.select(cas, Token.class)) {
+			System.out.println(token.getCoveredText() + " " + token.getPos().getPosValue());
+		}
+		
+		for(NamedEntity ne : JCasUtil.select(cas, NamedEntity.class)) {
+			System.out.println(ne.getCoveredText());
+		}
 		
 		cas.reset();
 	}
