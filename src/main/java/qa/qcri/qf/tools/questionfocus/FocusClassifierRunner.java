@@ -1,27 +1,12 @@
 package qa.qcri.qf.tools.questionfocus;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
-import org.apache.commons.cli.BasicParser;
-//import org.apache.commons.cli.CommandLine;
-//import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.uima.UIMAException;
 
-import com.google.common.base.Joiner;
-import com.google.common.io.Files;
-
-import edu.berkeley.nlp.PCFGLA.TreeScorer;
 import qa.qcri.qf.cli.CommandLine;
 import qa.qcri.qf.cli.CommandLineParser;
 import qa.qcri.qf.pipeline.Analyzer;
@@ -29,7 +14,6 @@ import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 //import util.ArrayBuilder;
-import util.ListBuilder;
 
 public class FocusClassifierRunner {
 
