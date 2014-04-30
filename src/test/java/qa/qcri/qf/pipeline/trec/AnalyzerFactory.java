@@ -8,6 +8,7 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
 
+import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
@@ -61,8 +62,13 @@ public abstract class AnalyzerFactory {
 		AnalysisEngine stanfordSegmenter = AnalysisEngineFactory
 				.createEngine(createEngineDescription(StanfordSegmenter.class));
 
+		/**
+		 * StanfordPosTagger puts wrong POS-tags on parentheses
+		 * The OpenNlpPosTagger is our choice for now.
+		 */
 		AnalysisEngine stanfordPosTagger = AnalysisEngineFactory
-				.createEngine(createEngineDescription(StanfordPosTagger.class));
+				.createEngine(createEngineDescription(OpenNlpPosTagger.class,
+						 StanfordPosTagger.PARAM_LANGUAGE, "en"));
 
 		AnalysisEngine stanfordLemmatizer = AnalysisEngineFactory
 				.createEngine(createEngineDescription(StanfordLemmatizer.class));
@@ -77,10 +83,14 @@ public abstract class AnalyzerFactory {
 				.createEngine(createEngineDescription(StanfordNamedEntityRecognizer.class));
 
 		AnalysisEngine questionClassifier = AnalysisEngineFactory
-				.createEngine(createEngineDescription(QuestionClassifier.class));
+				.createEngine(createEngineDescription(QuestionClassifier.class,
+						QuestionClassifier.PARAM_LANGUAGE, "en",
+						QuestionClassifier.PARAM_MODELS_DIRPATH, "data/question-classifier_en/models-ptk"));
 
 		AnalysisEngine questionFocusClassifier = AnalysisEngineFactory
-				.createEngine(createEngineDescription(QuestionFocusClassifier.class));
+				.createEngine(createEngineDescription(QuestionFocusClassifier.class,
+						QuestionFocusClassifier.PARAM_LANGUAGE, "en",
+						QuestionFocusClassifier.PARAM_MODEL_PATH, "data/question-focus_en/svm.model"));
 
 		ae.addAE(stanfordSegmenter)
 			.addAE(stanfordPosTagger)
