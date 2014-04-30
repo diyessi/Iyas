@@ -27,7 +27,9 @@ public class StanfordTreeConstituentsProviderTest {
 	
 	private String berkeleyParse = "(Start (ROOT (S (NP (SPN Renault))(VXI (VI ha))(NP (RS una)(ADJP (AS completa))(SS gamma)(PX (E di)(NP (SP veicoli)(ADJP (AP elettrici))))))(XPS .)))";
 
-	private String expectedConstituencyTree = "(ROOT (S (NP (SPN (Renault)))(VXI (VI (ha)))(NP (RS (una))(ADJP (AS (completa)))(SS (gamma))(PX (E (di))(NP (SP (veicoli))(ADJP (AP (elettrici)))))))(XPS (.))";
+	//private String expectedConstituencyTree = "(ROOT (S (NP (SPN (Renault)))(VXI (VI (ha)))(NP (RS (una))(ADJP (AS (completa)))(SS (gamma))(PX (E (di))(NP (SP (veicoli))(ADJP (AP (elettrici)))))))(XPS (.))";
+	
+	private String expectedConstituencyTree = "(ROOT (S (NP (SPN (Renault)))(VXI (VI (ha)))(NP (RS (una))(ADJP (AS (completa)))(SS (gamma))(PX (E (di))(NP (SP (veicoli))(ADJP (AP (elettrici)))))))(XPS (.)))";
 	
 	private String doctxt = "Renault ha una completa gamma di veicoli elettrici.";
 	
@@ -99,7 +101,8 @@ public class StanfordTreeConstituentsProviderTest {
 			System.out.println(token.getCoveredText() + "/" + token.getPos().getPosValue());
 		}
 		*/
-		StanfordTreeConstituentsProviderBak.buildConstituents(cas, berkeleyParse);
+		//StanfordTreeConstituentsProvider.buildConstituents(cas, berkeleyParse);
+		StanfordTreeConstituentsProvider.buildConstituents(cas, berkeleyParse, 0);
 		
 		/*
 		ConstituencyFactory.buildConstituentsFromStanfordTree(cas, tree, tokens);
