@@ -23,11 +23,11 @@ import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 
-public class ConstituencyFactoryTest {
+public class StanfordTreeConstituentsProviderTest {
 	
-	private String berkeleyParse = "(TOP (S (NP (SPN Renault))(VXI (VI ha))(NP (RS una)(ADJP (AS completa))(SS gamma)(PX (E di)(NP (SP veicoli)(ADJP (AP elettrici))))))(XPS .))";
+	private String berkeleyParse = "(Start (ROOT (S (NP (SPN Renault))(VXI (VI ha))(NP (RS una)(ADJP (AS completa))(SS gamma)(PX (E di)(NP (SP veicoli)(ADJP (AP elettrici))))))(XPS .)))";
 
-	private String expectedConstituencyTree = "(ROOT (S (NP (SPN (Renault)))(VXI (VI (ha)))(NP (RS (una))(ADJP (AS (completa)))(SS (gamma))(PX (E (di))(NP (SP (veicoli))(ADJP (AP (elettrici)))))))(XPS (.)))";
+	private String expectedConstituencyTree = "(ROOT (S (NP (SPN (Renault)))(VXI (VI (ha)))(NP (RS (una))(ADJP (AS (completa)))(SS (gamma))(PX (E (di))(NP (SP (veicoli))(ADJP (AP (elettrici)))))))(XPS (.))";
 	
 	private String doctxt = "Renault ha una completa gamma di veicoli elettrici.";
 	
@@ -99,7 +99,7 @@ public class ConstituencyFactoryTest {
 			System.out.println(token.getCoveredText() + "/" + token.getPos().getPosValue());
 		}
 		*/
-		ConstituencyFactory.buildConstituents(cas, berkeleyParse);
+		StanfordTreeConstituentsProviderBak.buildConstituents(cas, berkeleyParse);
 		
 		/*
 		ConstituencyFactory.buildConstituentsFromStanfordTree(cas, tree, tokens);
@@ -111,7 +111,7 @@ public class ConstituencyFactoryTest {
 		TokenTree constituencyTree = RichTree.getConstituencyTree(cas);
 		TreeSerializer ts = new TreeSerializer();
 		String serializedTree = ts.serializeTree(constituencyTree, RichNode.OUTPUT_PAR_TOKEN);
-		//System.out.println(serializedTree);
+		System.out.println(serializedTree);
 		
 		assertEquals(expectedConstituencyTree, serializedTree);
 	}

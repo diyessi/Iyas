@@ -3,12 +3,11 @@ package qa.qcri.qf.tools.questionfocus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 
@@ -23,8 +22,7 @@ import qa.qcri.qf.fileutil.ReadFile;
 import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
-import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
-import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
+import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
@@ -32,107 +30,32 @@ import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import util.Pair;
 
-public class FocusClassifier {
+public class FocusClassifierIt extends FocusClassifier {
 	
 	public static final String DATA = Commons.QUESTION_FOCUS_DATA + "qf-it_train10.txt";
 	
 	public static final String CASES_DIRECTORY = "CASes/question-focus/train.it";
 	
-	private static Logger logger = Logger.getLogger(FocusClassifier.class);
-		
-	//private final String trainQuestionFocusPath;
-	
-	//private final String trainOutputPath;
-		
-	//private final String trainCasesDir;
-	
-	//private final String lang;
-	
-	/*
+
 	public static Set<String> allowedTags =
-			// TODO: To fill with high-freq ita postags
-			new HashSet<>(Arrays.asList(new String[0]));
-	*/
+			new HashSet<>(Arrays.asList(new String[]{ "SN", "SP", "SPN", "SS" }));
 	
-	private final Set<String> allowedTags;
-	
-	private static String[] emptyTagset = { };
-	
-	private static String[] englishTagset = { 
-		//"NNPS", "VBN", "JJ", "JJS", // These postags are seen just once as focus
-		"NNS", "NNP",  "NN" // These are high frequency postags
-	};
-	
-	private static String[] italianTagset = { 
-		"SN", "SP", "SPN", "SS" 
-	};
-	
-	//private final UIMAPersistence persistence;
-	
-	private JCas cas;
+	//private JCas cas;
 
-	private Analyzer analyzer;
+	//private Analyzer analyzer;
 	
-	private TreeSerializer treeSerializer =
-			new TreeSerializer().enableAdditionalLabels();
+	//private TreeSerializer ts;
 	
-	private Map<Integer, List<String>> examples;
+	//private Map<Integer, List<String>> examples;
 	
-	private Map<String, Integer> postoFreq = new HashMap<>();
+	//private Map<String, Integer> postoFreq = new HashMap<>();
 	
-	public FocusClassifier(Analyzer analyzer, Set<String> allowedTags) throws UIMAException {
-		if (analyzer == null)
-			throw new NullPointerException("analyzer is null");
-		if (allowedTags == null)
-			throw new NullPointerException("allowedTags is null");
-		 
-		this.analyzer = analyzer;
-		this.allowedTags = allowedTags;
-		this.cas = JCasFactory.createJCas();
-		this.examples = new HashMap<>();		
+	public FocusClassifierIt(Analyzer analyzer) throws UIMAException {
+		super(analyzer, allowedTags);		 
 	}
-	/*
-	public FocusClassifier(String lang) throws UIMAException {
-		this(lang, new UIMANoPersistence());
-	}
-	*/
 	
-	/*
-	FocusClassifier(
-			String lang,
-			UIMAPersistence persistence			
-			//String trainQuestionFocusPath,
-			//String trainOutputDir,
-			//String trainCasesDir)
-			) throws UIMAException {
-		if (lang == null)
-			throw new NullPointerException("lang is null");
-		if (persistence == null)
-			throw new NullPointerException("persistence is null");
-		//if (trainQuestionFocusPath == null) 
-		//	throw new NullPointerException("trainQuestionsPath is null");
-		//if (trainOutputDir == null)
-		//	throw new NullPointerException("trainOutputDir is null");
-
-		//this.lang = lang;
-		//this.trainQuestionFocusPath = trainQuestionFocusPath;
-		///this.trainOutputDir = trainOutputDir;
-		this.allowedTags = getTagsetByLang(lang);
-		this.ae = Commons.instantiateQuestionFocusAnalyzer(lang);
-		
-		this.ae.setPersistence(persistence);
-		this.cas = JCasFactory.createJCas();
-		this.ts = new TreeSerializer().enableAdditionalLabels();
-		this.examples = new HashMap<>();
-	}
-	*/
-	
-	
-	
-	
-	
-	/*
-	private FocusClassifier() throws UIMAException {
+	/**
+	private FocusClassifierIt() throws UIMAException {
 		//this.ae = Commons.instantiateQuestionFocusAnalyzer("it");
 		this.ae = Commons.instantiateQuestionFocusAnalyzer("it");		
 		System.out.println("CASES_DIRECTORY: " + CASES_DIRECTORY);
@@ -141,16 +64,13 @@ public class FocusClassifier {
 		this.ts = new TreeSerializer().enableAdditionalLabels();
 		this.examples = new HashMap<>();
 	}
-	*/
 	
-	/**
-	 * Produces the examples from a training data
-	 * @param dataPath the path of the training data
-	 * @return this class instance for chaining
-	 */
-	public FocusClassifier generateExamples(String dataPath) {
-	//public FocusClassifier generateExamples() { 
-		//String dataPath = trainQuestionFocusPath;
+	//
+	// Produces the examples from a training data
+	// @param dataPath the path of the training data
+	// @return this class instance for chaining
+	//
+	public FocusClassifierIt generateExamples(String dataPath) { 
 		ReadFile in = new ReadFile(dataPath);
 		
 		int qid = 0;
@@ -158,9 +78,9 @@ public class FocusClassifier {
 		while (in.hasNextLine()) {
 			String line = this.filterText(in.nextLine());
 		
-			/**
-			 * Input check
-			 */
+			
+			// Input check
+			
 			if (line.startsWith("IMPL")) continue;
 			if (StringUtils.countMatches(line, "#") != 1) continue;
 			assert line.contains("#");
@@ -173,7 +93,7 @@ public class FocusClassifier {
 			
 			String text = line.replaceAll("#", "");
 			
-			this.analyzer.analyze(this.cas, new SimpleContent("q-" + qid, text));
+			this.ae.analyze(this.cas, new SimpleContent("q-" + qid, text));
 			
 			TokenTree tree = RichTree.getConstituencyTree(this.cas);
 			
@@ -189,12 +109,12 @@ public class FocusClassifier {
 		return this;
 	}
 	
-	/**
-	 * Generates a list of examples from a tree with tagged focus.
-	 * @param tree Tree tree from which examples are generated
-	 * @param ts The serializer used to output the trees
-	 * @return A list of pair of examples, and the rich token tagged in that example
-	 */
+	
+	 // Generates a list of examples from a tree with tagged focus.
+	 // @param tree Tree tree from which examples are generated
+	 // @param ts The serializer used to output the trees
+	 // @return A list of pair of examples, and the rich token tagged in that example
+	 
 	public List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree,
 			TreeSerializer ts) {
 		List<Pair<String, RichTokenNode>> examples = new ArrayList<>();
@@ -207,17 +127,23 @@ public class FocusClassifier {
 			
 			posTag.addAdditionalLabel(Commons.QUESTION_FOCUS_KEY);
 			
+			System.out.println(posTag.getValue() + "/" + posTag.getAdditionalLabels());
+						
 			boolean isFocus = node.getMetadata().containsKey(Commons.QUESTION_FOCUS_KEY);
 			
 			String label = isFocus ? "+1" : "-1";
 			
 			String taggedTree = ts.serializeTree(tree, Commons.getParameterList());
 			
+			System.out.println("ts: " + taggedTree);
+			
 			String example = "";
 			example += label;
 			example += "|BT| ";
 			example += taggedTree;
 			example += " |ET|";		
+			
+			System.out.println("example: " + example);
 			
 			examples.add(new Pair<>(example, node));
 			
@@ -228,12 +154,12 @@ public class FocusClassifier {
 				
 	}
 	
-	/**
-	 * Generates examples for a given question
-	 * @param qid the id of the question
-	 * @param tree the tree representation of the question
-	 * @return a list of examples
-	 */
+	//
+	// Generates examples for a given question
+	// @param qid the id of the question
+	// @param tree the tree representation of the question
+	// @return a list of examples
+	//
 	private List<String> produceExamples(int qid, TokenTree tree) {
 		List<String> examples = new ArrayList<>();
 		
@@ -248,7 +174,7 @@ public class FocusClassifier {
 			
 			String label = isFocus ? "+1" : "-1";
 			
-			String taggedTree = treeSerializer.serializeTree(tree, Commons.getParameterList());
+			String taggedTree = ts.serializeTree(tree, Commons.getParameterList());
 			
 			String example = "";
 			example += label;
@@ -277,12 +203,12 @@ public class FocusClassifier {
 		return examples;
 	}
 
-	/**
-	 * Add a FOCUS metadata to the leaf node of the tree delimited by the given indexes
-	 * @param tree The tree to augment with metadata
-	 * @param beginPos The starting index of the token
-	 * @param endPos The ending index of the token
-	 */
+	//
+	// Add a FOCUS metadata to the leaf node of the tree delimited by the given indexes
+	// @param tree The tree to augment with metadata
+	// @param beginPos The starting index of the token
+	// @param endPos The ending index of the token
+	//
 	private void addFocusMetadata(TokenTree tree, int beginPos, int endPos) {
 		for (RichTokenNode node : tree.getTokens()) { 
 			Token token = node.getToken();
@@ -292,22 +218,22 @@ public class FocusClassifier {
 		}
 	}
 
-	/**
-	 * Performs basic whitespace filtering on a string.
-	 * @param text
-	 * @return the filtered text
-	 */
+	//
+	// Performs basic whitespace filtering on a string.
+	// @param text
+	// @return the filtered text
+	//
 	private String filterText(String text) {
 		String filteredText = text.trim();
 		filteredText = filteredText.replaceAll(" +", " ");
 		return filteredText;
 	}
 	
-	/**
-	 * Print useful statistics on the generated data
-	 * @return this class instance for chaining
-	 */
-	public FocusClassifier printStatistics() { 
+	//
+	// Print useful statistics on the generated data
+	// @return this class instance for chaining
+	//
+	public FocusClassifierIt printStatistics() { 
 		System.out.println("F-POS\tFREQUENCY");
 		for (String pos : this.postoFreq.keySet()) { 
 			System.out.println(pos + "\t" + this.postoFreq.get(pos));
@@ -323,13 +249,13 @@ public class FocusClassifier {
 		return this;
 	}
 	
-	/**
-	 * Writes the examples on disk
-	 * @param outputPath A string holding the output file
-	 * @param examples The data structure containing the examples mapped to questions
-	 * @return This class instance for chaining
-	 */
-	public FocusClassifier writeExamplesToDisk(String outputPath, 
+	//
+	// Writes the examples on disk
+	// @param outputPath A string holding the output file
+	// @param examples The data structure containing the examples mapped to questions
+	// @return This class instance for chaining
+	//
+	public FocusClassifierIt writeExamplesToDisk(String outputPath, 
 			Map<Integer, List<String>> examples) {
 		
 		WriteFile out = new WriteFile(outputPath);
@@ -347,17 +273,17 @@ public class FocusClassifier {
 		return this;
 	}
 	
-	public FocusClassifier writeExamplesToDisk(String outputPath) {
+	public FocusClassifierIt writeExamplesToDisk(String outputPath) {
 		return this.writeExamplesToDisk(outputPath, this.examples);
 	}
 	
-	/**
-	 * Writes all the examples on disk, but producing several folds
-	 * @param outputDir The directory which will contain the output files
-	 * @param folds The number of folds to create
-	 * @return This class instance for chaining
-	 */
-	public FocusClassifier writeExamplesInFolds(String outputDir, int foldsNum) { 
+	//
+	// Writes all the examples on disk, but producing several folds
+	// @param outputDir The directory which will contain the output files
+	// @param folds The number of folds to create
+	// @return This class instance for chaining
+	//
+	public FocusClassifierIt writeExamplesInFolds(String outputDir, int foldsNum) { 
 		List<Integer> questionIds = Lists.newArrayList(this.examples.keySet());
 		List<List<Integer>> foldsOfIds = Lists.partition(questionIds, questionIds.size() / foldsNum);
 		
@@ -384,12 +310,12 @@ public class FocusClassifier {
 		return this;
 	}
 
-	/**
-	 * Writes the examples related to the questions with the specified
-	 *  question id
-	 * @param outputFile The output file which will contain the examples
-	 * @param qids The ids of questions to consider
-	 */
+	//
+	// Writes the examples related to the questions with the specified
+	//  question id
+	// @param outputFile The output file which will contain the examples
+	// @param qids The ids of questions to consider
+	//
 	private void writeExamples(String outputFile, List<Integer> qids) {
 		WriteFile out = new WriteFile(outputFile);
 		for (Integer qid : qids) { 
@@ -399,58 +325,22 @@ public class FocusClassifier {
 		}
 		out.close();
 	}
-	
-	/*
-	public static void main(String[] args) throws UIMAException { 
-		new FocusClassifier()
+	*/
+	public static void main(String[] args) throws UIMAException {
+		Analyzer analyzer = Commons.instantiateItalianQuestionFocusAnalyzer();
+		
+		new FocusClassifierIt(analyzer)
 			.generateExamples(DATA)
 			.printStatistics()
 			.writeExamplesToDisk(Commons.QUESTION_FOCUS_DATA + "svm.train");
-	}
-	*/
-	
-	private Set<String> getTagsetByLang(String lang) { 
-		assert lang != null;
+			
 		
-		String[] tagset = null;
-		if (lang.equals("en")) { 
-			tagset = englishTagset;
-		} else if (lang.equals("it")) {
-			tagset = italianTagset;		
-		} else {
-			tagset = emptyTagset;
-		}
-		
-		return new TreeSet<>(Arrays.asList(tagset));
-	}
-	
-	/**
-	 * Return the Focus classifier for the specified language
-	 * 
-	 * @param language A string holding the document language (e.g. en, it)
-	 * @return The FocusClassifier for the specified language
-	 */
-	public static FocusClassifier byLanguage(String language) throws UIMAException {
-		if (language == null)
-			throw new NullPointerException("language is null");
-		
-		FocusClassifier focusClassifier = null;
-		Analyzer analyzer = Commons.instantiateQuestionFocusAnalyzer(language);
-		switch(language) {
-			case "it":
-				focusClassifier = new FocusClassifierIt(analyzer);
-				break;
-			case "en":
-				focusClassifier = new FocusClassifierEn(analyzer);
-				break;
-			default:
-				focusClassifier = new FocusClassifierEn(analyzer);
-				logger.warn("No FocusClassifier found for lang: \"" + language + "\"" + 
-						"Returning FocusClassifier for the english lang.");
-				break;
-		}
-		
-		return focusClassifier;
+		/*
+		new FocusClassifierIt()
+			.generateExamples(DATA)
+			.printStatistics()
+			.writeExamplesToDisk(Commons.QUESTION_FOCUS_DATA + "svm.train");
+		*/
 	}
 
 }

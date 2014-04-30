@@ -303,6 +303,7 @@ public class TextProWrapperFix extends JCasAnnotator_ImplBase {
 				// lemma
 				Lemma lem = new Lemma(jcas);
 				lem.setValue(forXML(txpvals[5]));
+				//lem.setValue(txpvals[5]);
 				lem.setBegin(token.getBegin());
 				lem.setEnd(token.getEnd());
 				lem.addToIndexes();

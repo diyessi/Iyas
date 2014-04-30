@@ -1,4 +1,5 @@
 package it.unitn.limosine.italian.syntax.constituency;
+import it.unitn.limosine.types.syntax.ConstituencyTree;
 import it.unitn.limosine.util.SharedModel;
 import it.unitn.limosine.util.StreamGobbler;
 
@@ -12,10 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import it.unitn.limosine.types.pos.Pos;
-import it.unitn.limosine.types.segmentation.Sentence;
-import it.unitn.limosine.types.segmentation.Token;
-import it.unitn.limosine.types.syntax.ConstituencyTree;
 import it.unitn.limosine.util.*;
 
 import org.apache.uima.UimaContext;
@@ -23,8 +20,8 @@ import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIndex;
 import org.apache.uima.cas.text.AnnotationFS;
-import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
@@ -33,11 +30,15 @@ import org.apache.uima.util.Level;
 import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 
-public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
+public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 
  	private String berkeleyitpath;
+	//private String berkeleycommand="bin/berkeleyparser-runio.sh";
  	private String berkeleycommand="tools/berkeleyparser-runio.sh";
  	
 	@Override
@@ -60,22 +61,12 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 			
 		} catch (ResourceAccessException e) {
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 
 	@Override
 	public void process(JCas cas) throws AnalysisEngineProcessException {
-		Collection<Token> tokens = JCasUtil.select(cas, Token.class);
-		
-		System.out.println("tokens num: " + tokens.size());
-		
 		//needs input from tokenizer
-		 Collection<Sentence> sentences = JCasUtil.select(cas, Sentence.class);
-		 
-		 System.out.println("sentences num: " + sentences.size());
-		
-		 StringBuilder sb = new StringBuilder("(Start "); 
 		
 		 FSIndex<Annotation> sentencesIndex = cas.getAnnotationIndex(Sentence.type);
 		 
@@ -85,22 +76,33 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 
 		 // this will be superslow for a moment
 		 // ToDo: process the whole doc at one go
+
+		 //StringBuilder tree = new StringBuilder("(Start ");
+		 StringBuilder tree = new StringBuilder("(ROOT ");
 		 
 		 String doctxt = cas.getDocumentText();
-
-		 System.out.print("Processing sentences... ");
-		 int sentNum = 0;
+		 //Constituent start = new Constituent(cas, 0, doctxt.length());
+		 //start.setConstituentType("Start");
+		 
+		 int startTokenNum = 0;
+		 int tokenNum = 0;
+			
 		 while (sentenceIterator.hasNext()) {
-			 System.out.print(sentNum++ + " ");
 			 Sentence sentence = (Sentence) sentenceIterator.next();
-			 
-			 int sentStart = sentence.getBegin();
+		 	
+			 /*
+			 int sentBegin = sentence.getBegin();
 			 int sentEnd = sentence.getEnd();
-			 
-			 System.out.println("BerkeleyWrapper: sent: " + doctxt.substring(sentStart, sentEnd));
+			 System.out.println("sentence(begin: " + sentBegin + ", end: " + sentEnd + "): " + doctxt.substring(sentBegin, sentEnd));
+			 */
 			 
 			//get tokens+pos of sentence, prepare txp input
-			 List<AnnotationFS> myPos = JCasUtility.selectCovered(cas, Pos.class, sentence);
+			 List<AnnotationFS> myPos = JCasUtility.selectCovered(cas, POS.class, sentence);
+			 List<AnnotationFS> myToks = JCasUtility.selectCovered(cas, Token.class, sentence);
+		  
+		 	//List<Annotation> myPos = JCasUtility.
+		 	//Collection<Token> myToks = JCasUtil.select(cas, Token.class);
+		 	//Collection<POS> myPos = JCasUtil.select(cas, POS.class);
 	
 			 
 			 
@@ -127,10 +129,25 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 				
 					PrintWriter writer = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(process.getOutputStream())),true);
 
+					/*
 					 for (AnnotationFS p : myPos) {
-						 Pos pos = (Pos)p;
-						 Token tok = pos.getToken();
-						 writer.println(tok.getNormalizedText() + "\t" + pos.getPostag());
+						 POS pos = (POS)p;
+						 Token tok;
+						 
+						 //Token tok = pos.getToken();
+						 Token tok = JCasUtil.selectS
+						 writer.println(tok.getN);
+						 //writer.println(tok.getNormalizedText() + "\t" + pos.getPostag());
+					 }
+					 */
+					
+					 for (AnnotationFS t : myToks) {
+						 Token tok = (Token)t;
+						 
+						 POS pos = tok.getPos();
+						 writer.println(tok.getCoveredText() + "\t" + pos.getPosValue());
+						 
+						 tokenNum++;
 					 }
 					 writer.println();
 					 
@@ -156,45 +173,62 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 				        List<String> output = outGobbler.getOuput();
 				        List<String> outputErr = errGobbler.getOuput();
 				        
-				        for(String out : outputErr) 
-				        	System.err.println(out.trim());
+				        for(String out : outputErr) {
+				        	//System.err.println(out.trim());
+				        }
 				        
 				        for(String out : output) {
 				        	String subtree = out.trim();
-				        	sb.append(subtree);
 				        	
+				        	/*
+				        	constituencyTree = constituencyTree.replaceAll("\\( \\(", "\\(\\(");
+				        	constituencyTree = constituencyTree.replaceAll("\\) \\)", "\\)\\)");
+				        	constituencyTree = constituencyTree.replaceAll("\\) \\(", "\\)\\(");
+				        	constituencyTree = constituencyTree.substring(1, constituencyTree.length() - 1);
+				        	 */
+				        	
+				        	// Strip spaces around brackets
+				        	subtree = subtree.replaceAll("([()])\\s+([()])", "$1$2");
+				        	subtree = subtree.replaceAll("\\(Start", "\\(ROOT");
+				        	subtree = subtree.substring(1, subtree.length() - 1);
+				        	
+				        	//System.out.println("BerkeleyWrapper: subtree: " + subtree.toString());
+
+						 	StanfordTreeConstituentsProvider.buildConstituents(cas, subtree.toString(), startTokenNum);
+						 							 	
+				        	//System.out.println("subtree: " + subtree.toString());
+				          	tree.append(subtree.substring(6, subtree.length() - 1));
+				        					        
 				        	/*
 				        	ConstituencyTree pennTree = new ConstituencyTree(cas);
 				        	pennTree.setBegin(sentence.getBegin());
 				        	pennTree.setEnd(sentence.getEnd());
 				        	pennTree.setRawParse(out.trim());
 				        	pennTree.setAnnotatorId(getClass().getCanonicalName());
+				        	
 				        	pennTree.setSentence(sentence);
 				        	pennTree.addToIndexes();
-				        	*/
-				        	subtree = subtree.replaceAll("([()])\\s+([()])", "$1$2");
-				        	subtree = subtree.replaceAll("\\(Start", "\\(ROOT");
-				        	subtree = subtree.substring(1, subtree.length() - 1);
-				        	
-				        	//StanfordTreeConstituentsProvider.buildConstituents(cas, subtree.toString());
-				        	
-				        	System.out.println("BerkeleyWrapper: subtree: " + subtree.toString());
-				        }
+				        	 */   
+				          	
+				          	startTokenNum = tokenNum;
+				     }				        
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-			 
+				}	 	
 			 }
-		 
-		 	 sb.append(")");
-		 	 System.out.println("BerkeleyWrapper: tree: " + sb.toString());
+
+		 	tree.append(")");
+		 	String treeStr = tree.toString();
+		 	treeStr = treeStr.replaceAll(" ([^()]+)\\)",  " \\($1\\)\\)");
+		 	//treeStr = treeStr.replaceAll(" ([^]]*)\\)", " \\($1\\)\\)");
+		 	System.out.println("BerkeleyWrapper:  "  + treeStr);
+		 	TokenTree constituencyTree = RichTree.getConstituencyTree(cas);
 		 	
-		 	 /*
-		 	 TokenTree tree = RichTree.getConstituencyTree(cas);
-		 	 TreeSerializer ts = new TreeSerializer();
-		 	 System.out.println(ts.serializeTree(tree, TokenTree.OUTPUT_PAR_TOKEN));
-		 	 */
+		 	TreeSerializer ts = new TreeSerializer();
+		 	System.out.println("constituencyTree: " + ts.serializeTree(constituencyTree, TokenTree.OUTPUT_PAR_TOKEN));
+
 		}
+	
 	}
 
 

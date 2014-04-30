@@ -32,7 +32,6 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 public class RichTree {
 
 	public static final String ROOT_LABEL = "ROOT";
-	public static final String BERKELEY_IT_ROOT_LABEL = "TOP";
 	public static final String SENTENCE_LABEL = "S";
 
 	/**
@@ -88,22 +87,24 @@ public class RichTree {
 	 * @see TokenTree
 	 */
 	public static TokenTree getConstituencyTree(JCas cas) {
-
+		
 		TokenTree root = new TokenTree();
 		root.setValue(ROOT_LABEL);
 
 		List<Constituent> roots = new ArrayList<>();
 
 		for (Constituent constituent : JCasUtil.select(cas, Constituent.class)) {
-			if (constituent.getConstituentType().equals(ROOT_LABEL)	||
-					constituent.getConstituentType().equals(BERKELEY_IT_ROOT_LABEL)) {
+			//if (constituent.getConstituentType().equals("TOP") ||  // BerkeleyParserIt uses TOP as root label 
+			  if (constituent.getConstituentType().equals(ROOT_LABEL) ) {
 				roots.add(constituent);
 			}
 		}
 
 		for (Constituent node : roots) {
+			
 			RichNode subTrees = getConstituencySubTree(node, root);
-			for (RichNode subTree : subTrees.getChildren()) {
+			
+			for(RichNode subTree : subTrees.getChildren()) {
 				root.addChild(subTree);
 			}
 		}
@@ -123,7 +124,7 @@ public class RichTree {
 	private static RichNode getConstituencySubTree(Constituent subTreeRoot,
 			TokenTree root) {
 		RichNode subTree = new RichConstituentNode(subTreeRoot);
-
+		
 		Collection<Constituent> constituents = JCasUtil.select(
 				subTreeRoot.getChildren(), Constituent.class);
 
@@ -131,22 +132,21 @@ public class RichTree {
 			subTree.addChild(getConstituencySubTree(constituent, root));
 		}
 
-		List<Token> tokens = Lists.newArrayList(JCasUtil.select(
-				subTreeRoot.getChildren(), Token.class));
+		List<Token> tokens = Lists.newArrayList(JCasUtil.select(subTreeRoot.getChildren(), Token.class));
 		Collections.reverse(tokens);
 		for (Token token : tokens) {
-			RichNode posNode = new BaseRichNode().setValue(token.getPos()
-					.getPosValue());
+			RichNode posNode = new BaseRichNode().setValue(
+					token.getPos().getPosValue());
 
 			RichTokenNode tokenNode = new RichTokenNode(token);
 
 			int insertionIndex = 0;
-			for (Constituent constituent : constituents) {
-				if (token.getBegin() > constituent.getBegin()) {
+			for(Constituent constituent : constituents) {
+				if(token.getBegin() > constituent.getBegin()) {
 					insertionIndex++;
 				}
 			}
-
+			
 			subTree.addChild(insertionIndex, posNode.addChild(tokenNode));
 
 			root.addToken(tokenNode);
@@ -199,15 +199,13 @@ public class RichTree {
 			root.addToken(tokenNode);
 
 			if (!tokenNode.hasParent()) {
-				// Insert a fake dependency node between the root and the first
-				// token node
-				RichDependencyNode depNode = newRichDependencyNode(cas,
-						tokenNode, ROOT_LABEL);
+				// Insert a fake dependency node between the root and the first token node
+				RichDependencyNode depNode = newRichDependencyNode(cas,tokenNode, ROOT_LABEL);
 				root.addChild(depNode);
 				depNode.addChild(tokenNode);
 			}
 		}
-
+		
 		return root;
 	}
 
@@ -234,19 +232,15 @@ public class RichTree {
 			node = new RichTokenNode(token);
 			nodeMap.put(token, node);
 		}
-
+		
 		return node;
 	}
 
 	/**
 	 * Produce a new RichDependencyNode wrapping a given Dependency
-	 * 
-	 * @param cas
-	 *            the Cas from which the Dependency is produced
-	 * @param depNode
-	 *            the node in the dependency
-	 * @param dependencyType
-	 *            the type of dependency
+	 * @param cas the Cas from which the Dependency is produced
+	 * @param depNode the node in the dependency
+	 * @param dependencyType the type of dependency
 	 * @return the RichDependencyNode
 	 */
 	private static RichDependencyNode newRichDependencyNode(JCas cas,
@@ -256,8 +250,7 @@ public class RichTree {
 		assert dependencyType != null;
 
 		Token dep = depNode.getToken();
-		Dependency dependency = new Dependency(cas, dep.getBegin(),
-				dep.getEnd());
+		Dependency dependency = new Dependency(cas, dep.getBegin(), dep.getEnd());
 		dependency.setDependencyType(dependencyType);
 
 		return new RichDependencyNode(dependency);
