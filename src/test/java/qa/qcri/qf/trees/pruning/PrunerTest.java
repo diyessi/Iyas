@@ -3,6 +3,8 @@ package qa.qcri.qf.trees.pruning;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.junit.Assert;
@@ -34,10 +36,19 @@ public class PrunerTest {
 	@BeforeClass
 	public static void setUp() throws UIMAException {
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
+		
+		AnalysisEngine breakIteratorSegmenter = AnalysisEngineFactory.createEngine(
+				createEngineDescription(BreakIteratorSegmenter.class));
+		
+		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordParser.class));
+		
+		AnalysisEngine illinoisChunker = AnalysisEngineFactory.createEngine(
+				createEngineDescription(IllinoisChunker.class));
 
-		ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordParser.class))
-				.addAEDesc(createEngineDescription(IllinoisChunker.class));
+		ae.addAE(breakIteratorSegmenter)
+			.addAE(stanfordParser)
+			.addAE(illinoisChunker);
 
 		Analyzable content = new SimpleContent("pruner-test",
 				"The apple is on the table and Barack Obama is the president of United States of America.");

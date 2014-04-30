@@ -4,6 +4,8 @@ import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDesc
 import junit.framework.Assert;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.fit.util.JCasUtil;
@@ -27,9 +29,15 @@ public class QuestionClassifierTest {
 	@BeforeClass
 	public static void setUp() throws UIMAException {
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
+		
+		AnalysisEngine breakIteratorSegmenter = AnalysisEngineFactory.createEngine(
+				createEngineDescription(BreakIteratorSegmenter.class));
+		
+		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordParser.class));
 
-		ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordParser.class));
+		ae.addAE(breakIteratorSegmenter)
+			.addAE(stanfordParser);
 
 		Analyzable content = new SimpleContent("question-test",
 				"Where is the Tornado Tower?");

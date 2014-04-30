@@ -5,6 +5,8 @@ import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDesc
 import java.util.List;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.junit.Assert;
@@ -32,9 +34,18 @@ public class TreeUtilTest {
 	public static void setUp() throws UIMAException {
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
 
-		ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordParser.class))
-				.addAEDesc(createEngineDescription(IllinoisChunker.class));
+		AnalysisEngine breakIteratorSegmenter = AnalysisEngineFactory.createEngine(
+				createEngineDescription(BreakIteratorSegmenter.class));
+		
+		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordParser.class));
+		
+		AnalysisEngine illinoisChunker = AnalysisEngineFactory.createEngine(
+				createEngineDescription(IllinoisChunker.class));
+
+		ae.addAE(breakIteratorSegmenter)
+			.addAE(stanfordParser)
+			.addAE(illinoisChunker);
 
 		Analyzable content = new SimpleContent("sample-content",
 				"The apple is on the table and Barack Obama is the president of United States of America.");

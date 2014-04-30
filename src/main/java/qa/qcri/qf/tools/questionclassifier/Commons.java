@@ -7,15 +7,18 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
-
-import com.google.common.base.Joiner;
 
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.CategoryContent;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import qa.qcri.qf.trees.nodes.RichNode;
+
+import com.google.common.base.Joiner;
+
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
@@ -33,10 +36,19 @@ public class Commons {
 	public static Analyzer instantiateAnalyzer(UIMAPersistence persistence)
 			throws UIMAException {
 		Analyzer ae = new Analyzer(persistence);
+		
+		AnalysisEngine stanfordSegmenter = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordSegmenter.class));
+		
+		AnalysisEngine stanfordPosTagger = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordPosTagger.class));
+		
+		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordParser.class));
 
-		ae.addAEDesc(createEngineDescription(StanfordSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordPosTagger.class))
-				.addAEDesc(createEngineDescription(StanfordParser.class));
+		ae.addAE(stanfordSegmenter)
+			.addAE(stanfordPosTagger)
+			.addAE(stanfordParser);
 
 		return ae;
 	}

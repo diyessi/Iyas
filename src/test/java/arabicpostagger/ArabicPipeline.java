@@ -6,12 +6,15 @@ import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDesc
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.CasCopier;
 import org.junit.Test;
 import org.uimafit.util.JCasUtil;
 
+import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import qa.qcri.qf.annotators.arabic.ArabicAnalyzer;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
@@ -59,9 +62,18 @@ public class ArabicPipeline {
 	@Test
 	public void testArabicPipeline() throws UIMAException, IOException {
 		this.ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
-		this.ae.addAEDesc(createEngineDescription(ArabicAnalyzer.class));
+		this.ae.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription(ArabicAnalyzer.class)));
 		
 		JCas cas = this.getPreliminarCas("arabic-test", SAMPLE_SENTENCE);
+		
+		for(Token token : JCasUtil.select(cas, Token.class)) {
+			System.out.println(token.getCoveredText() + " " + token.getPos().getPosValue());
+		}
+		
+		for(NamedEntity ne : JCasUtil.select(cas, NamedEntity.class)) {
+			System.out.println(ne.getCoveredText());
+		}
 		
 		cas.reset();
 	}

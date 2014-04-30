@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
@@ -29,7 +30,8 @@ public class AnnotatorTest {
 		
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
 		
-		ae.addAEDesc(createEngineDescription("desc/Limosine/pipelines/FullSeMod"));
+		ae.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription("desc/Limosine/pipelines/FullSeMod")));
 		
 		JCas cas = JCasFactory.createJCas();
 		

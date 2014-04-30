@@ -1,7 +1,9 @@
 package qa.qcri.qf.pipeline;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
@@ -20,14 +22,17 @@ import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 
 public class Analyzer {
 
-	private List<AnalysisEngine> aes;
+	public static final String MAIN_AES_LIST = "MAIN_AES_LIST";
+
+	private Map<String, List<AnalysisEngine>> idToAEs;
 
 	private UIMAPersistence persistence;
 
 	private final Logger logger = LoggerFactory.getLogger(Analyzer.class);
-	
+
 	/**
 	 * Constructor for Analyzer with no serialization
+	 * 
 	 * @throws UIMAException
 	 */
 	public Analyzer() throws UIMAException {
@@ -43,25 +48,39 @@ public class Analyzer {
 	 */
 	public Analyzer(UIMAPersistence persistence) throws UIMAException {
 		this.persistence = persistence;
-		this.aes = new ArrayList<>();
+		this.idToAEs = new HashMap<>();
+		this.idToAEs.put(MAIN_AES_LIST, new ArrayList<AnalysisEngine>());
 	}
 
 	/**
-	 * Instantiates an analysis engine and adds it to the internal list
+	 * Adds an analysis engine to analysis engine list specified by the given id
+	 * If the list with such id does not exist it is instantiated
 	 * 
-	 * @param aed
-	 *            an analysis engine description
+	 * @param ae
+	 *            an analysis engine
+	 * @param aesListid
+	 *            the id of the list of analysis engine
 	 * @return the Analyzer object instance for chaining
 	 */
-	public Analyzer addAEDesc(AnalysisEngineDescription aed) {
-		try {
-			this.aes.add(AnalysisEngineFactory.createEngine(aed));
-		} catch (ResourceInitializationException e) {
-			logger.error("Failed to instantiate annotator {}", aed
-					.getAnalysisEngineMetaData().getName());
-			e.printStackTrace();
+	public Analyzer addAE(AnalysisEngine ae, String aesListId) {	
+		if(!this.idToAEs.containsKey(aesListId)) {
+			this.idToAEs.put(aesListId, new ArrayList<AnalysisEngine>());
 		}
+		
+		this.idToAEs.get(aesListId).add(ae);
+		
 		return this;
+	}
+
+	/**
+	 * Adds an analysis engine to the main analysis engine list
+	 * 
+	 * @param ae
+	 *            an analysis engine
+	 * @return the Analyzer object instance for chaining
+	 */
+	public Analyzer addAE(AnalysisEngine ae) {
+		return addAE(ae, MAIN_AES_LIST);
 	}
 
 	/**
@@ -73,6 +92,19 @@ public class Analyzer {
 	 *            an Analyzable piece of content
 	 */
 	public void analyze(JCas cas, Analyzable analyzable) {
+		analyze(cas, analyzable, MAIN_AES_LIST);
+	}
+
+	/**
+	 * 
+	 * @param cas
+	 *            the CAS used to store the annotations
+	 * @param analyzable
+	 *            an Analyzable piece of content
+	 * @param aesId
+	 *            the id of the analysis engines list to use
+	 */
+	public void analyze(JCas cas, Analyzable analyzable, String aesListId) {
 		/**
 		 * Makes sure it works with a clean CAS
 		 */
@@ -93,7 +125,18 @@ public class Analyzer {
 		if (this.persistence.isAlreadySerialized(id)) {
 			this.persistence.deserialize(cas, id);
 		} else {
-			for (AnalysisEngine ae : this.aes) {
+			List<AnalysisEngine> aesList = this.idToAEs.get(aesListId);
+			
+			/**
+			 * Fallback to main analysis engine list
+			 */
+			if(aesList == null) {
+				aesList = this.idToAEs.get(MAIN_AES_LIST);
+				logger.warn("AE list with id " + aesListId + " not found."
+						+ " Falling back to the main analysis engine list.");
+			}
+			
+			for (AnalysisEngine ae : aesList) {
 				try {
 					SimplePipeline.runPipeline(cas, ae);
 				} catch (AnalysisEngineProcessException e) {
@@ -115,6 +158,19 @@ public class Analyzer {
 	 */
 	public void setPersistence(UIMAPersistence persistence) {
 		this.persistence = persistence;
+	}
+
+	/**
+	 * Creates an analysis engine from its description and adds it to the
+	 * main analysis engine list
+	 * 
+	 * @param engineDescription
+	 * @return the Analyzer object instance for chaining
+	 * @throws ResourceInitializationException 
+	 */
+	public Analyzer addAEDesc(AnalysisEngineDescription engineDescription) throws ResourceInitializationException {
+		return this.addAE(AnalysisEngineFactory.createEngine(
+				engineDescription));
 	}
 
 }

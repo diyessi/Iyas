@@ -3,6 +3,8 @@ package qa.qcri.qf.tools.questionfocus;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 
 import com.google.common.base.Joiner;
 
@@ -23,9 +25,18 @@ public class Commons {
 			throws UIMAException {
 		Analyzer ae = new Analyzer(persistence);
 
-		ae.addAEDesc(createEngineDescription(StanfordSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordPosTagger.class))
-				.addAEDesc(createEngineDescription(StanfordParser.class));
+		AnalysisEngine stanfordSegmenter = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordSegmenter.class));
+		
+		AnalysisEngine stanfordPosTagger = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordPosTagger.class));
+		
+		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordParser.class));
+
+		ae.addAE(stanfordSegmenter)
+			.addAE(stanfordPosTagger)
+			.addAE(stanfordParser);
 
 		return ae;
 	}

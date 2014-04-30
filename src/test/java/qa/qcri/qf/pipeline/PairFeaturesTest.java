@@ -3,6 +3,7 @@ package qa.qcri.qf.pipeline;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.junit.Assert;
@@ -31,8 +32,10 @@ public class PairFeaturesTest {
 		
 		Analyzer ae = new Analyzer(new UIMANoPersistence());
         
-        ae.addAEDesc(createEngineDescription(OpenNlpSegmenter.class))
-        	.addAEDesc(createEngineDescription(OpenNlpPosTagger.class));
+        ae.addAE(AnalysisEngineFactory.createEngine(
+        		createEngineDescription(OpenNlpSegmenter.class)));
+        ae.addAE(AnalysisEngineFactory.createEngine(
+        		createEngineDescription(OpenNlpPosTagger.class)));
         
         ae.analyze(aCas, new SimpleContent("a", a));
         ae.analyze(bCas, new SimpleContent("b", b));

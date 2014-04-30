@@ -3,6 +3,8 @@ package qa.qcri.qf.pipeline;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.junit.Assert;
@@ -43,11 +45,23 @@ public class ConstituencyTreeTest {
 
 	private Analyzer instantiateAnalyzer() throws UIMAException {
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test/"));
+		
+		AnalysisEngine stanfordSegmenter = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordSegmenter.class));
+		
+		AnalysisEngine stanfordPosTagger = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordPosTagger.class));
+		
+		AnalysisEngine stanfordLemmatizer = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordLemmatizer.class));
+		
+		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordParser.class));
 
-		ae.addAEDesc(createEngineDescription(StanfordSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordPosTagger.class))
-				.addAEDesc(createEngineDescription(StanfordLemmatizer.class))
-				.addAEDesc(createEngineDescription(StanfordParser.class));
+		ae.addAE(stanfordSegmenter)
+			.addAE(stanfordPosTagger)
+			.addAE(stanfordLemmatizer)
+			.addAE(stanfordParser);
 
 		return ae;
 	}

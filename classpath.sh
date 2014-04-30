@@ -1,6 +1,7 @@
 MAVEN_DEPS=~/.m2
 
-export CLASSPATH=target/iyas.jar
+export CLASSPATH=target/test-classes
+export CLASSPATH=${CLASSPATH}:target/iyas.jar
 export CLASSPATH=${CLASSPATH}:lib/PTK.jar
 export CLASSPATH=${CLASSPATH}:lib/trove.jar
 export CLASSPATH=${CLASSPATH}:lib/CRFPP.jar

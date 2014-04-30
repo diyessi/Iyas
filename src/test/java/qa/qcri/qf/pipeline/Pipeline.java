@@ -3,6 +3,8 @@ package qa.qcri.qf.pipeline;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.junit.Assert;
@@ -30,11 +32,23 @@ public class Pipeline {
 	@BeforeClass
 	public static void setUp() throws UIMAException {
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
+		
+		AnalysisEngine breakIteratorSegmenter = AnalysisEngineFactory.createEngine(
+				createEngineDescription(BreakIteratorSegmenter.class));
+		
+		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordParser.class));
+		
+		AnalysisEngine illinoisChunker = AnalysisEngineFactory.createEngine(
+				createEngineDescription(IllinoisChunker.class));
+		
+		AnalysisEngine stanfordNamedEntityRecognizer = AnalysisEngineFactory.createEngine(
+				createEngineDescription(StanfordNamedEntityRecognizer.class));
 
-		ae.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class))
-				.addAEDesc(createEngineDescription(StanfordParser.class))
-				.addAEDesc(createEngineDescription(IllinoisChunker.class))
-				.addAEDesc(createEngineDescription(StanfordNamedEntityRecognizer.class));
+		ae.addAE(breakIteratorSegmenter)
+			.addAE(stanfordParser)
+			.addAE(illinoisChunker)
+			.addAE(stanfordNamedEntityRecognizer);
 
 		Analyzable content = new SimpleContent("sample-content",
 				"The apple is on the table and Barack Obama is the president of United States of America.");

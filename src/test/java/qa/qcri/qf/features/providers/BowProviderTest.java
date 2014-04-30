@@ -1,22 +1,24 @@
 package qa.qcri.qf.features.providers;
 
-import static org.junit.Assert.*;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.junit.Before;
 import org.junit.Test;
 
-import cc.mallet.types.Alphabet;
-import cc.mallet.types.FeatureSequence;
-import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.trees.nodes.RichNode;
+import cc.mallet.types.Alphabet;
+import cc.mallet.types.FeatureSequence;
+import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
 
 /**
  * Test for BowProvider class.
@@ -30,9 +32,7 @@ public class BowProviderTest {
 	public void setUp() throws Exception {
 		String str = "This is a testing string.";
 		SimpleContent content = new SimpleContent("0", str);
-		
-		// init cas
-		cas = initCas(content);
+		this.cas = initCas(content);
 	}
 	
 	private JCas initCas(Analyzable content) throws Exception {
@@ -40,7 +40,8 @@ public class BowProviderTest {
 		
 		JCas cas = JCasFactory.createJCas();
 		Analyzer analyzer = new Analyzer();
-		analyzer.addAEDesc(createEngineDescription(BreakIteratorSegmenter.class));
+		analyzer.addAE(AnalysisEngineFactory.createEngine(
+				createEngineDescription(BreakIteratorSegmenter.class)));
 		analyzer.analyze(cas, content);
 		
 		return cas;

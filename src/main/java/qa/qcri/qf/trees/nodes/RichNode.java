@@ -18,6 +18,7 @@ public interface RichNode {
 
 	public static final String TYPE_DEPENDENCY_NODE = "type_dependency";
 	public static final String TYPE_CONSTITUENT_NODE = "type_constituent";
+	public static final String TYPE_DISCOURSE_NODE = "type_discourse";
 
 	/**
 	 * Key used as key and value to associate a relational label to a node. This
