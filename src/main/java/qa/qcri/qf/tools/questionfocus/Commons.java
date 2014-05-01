@@ -5,14 +5,12 @@ import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDesc
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.fit.factory.AnalysisEngineFactory;
+
+import qa.qcri.qf.pipeline.Analyzer;
+import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Joiner;
 
-import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
-import qa.qcri.qf.trees.nodes.RichNode;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
@@ -26,13 +24,14 @@ public class Commons {
 	
 	/**
 	 * Builds a new QuestionFocus analyzer for the specified language.
-	 * @param lang A string holding the analyzer language
-	 * @returnTeh newwly built analyzer
+	 * @param lang the analyzer language
+	 * @return the QuestionFocus analyzer
 	 * @throws UIMAException
 	 */
 	public static Analyzer instantiateQuestionFocusAnalyzer(String lang) throws UIMAException {
-		if (lang == null)
+		if (lang == null) {
 			throw new NullPointerException("lang is null");
+		}
 		
 		Analyzer analyzer = null;
 		if (lang.equals("en")) { 
@@ -40,7 +39,8 @@ public class Commons {
 		} else if (lang.equals("it")) { 
 			analyzer = instantiateItalianQuestionFocusAnalyzer();
 		} else {
-			Logger.warn("No QuestionFocus analyzer found for lang: " + lang + ". Returned default QuestionFocus analyzer for english language.");
+			Logger.warn("No QuestionFocus analyzer found for lang: " + lang
+					+ ". Returned default QuestionFocus analyzer for english language.");
 			analyzer = instantiateEnglishQuestionFocusAnalyzer();
 		}
 		
@@ -48,9 +48,9 @@ public class Commons {
 	}
 	
 	/**
-	 * Builds a new QuestionFocus analyzer for the english language.
+	 * Builds a new QuestionFocus analyzer for the English language.
 	 * 
-	 * @return The english QuestionFocus analyzer
+	 * @return the QuestionFocus analyzer for English
 	 * @throws UIMAException
 	 */
 	public static Analyzer instantiateEnglishQuestionFocusAnalyzer() throws UIMAException {
@@ -63,9 +63,9 @@ public class Commons {
 	}
 	
 	/**
-	 * Builds a new QuestionFocus analyzer for the italian language.
+	 * Builds a new QuestionFocus analyzer for the Italian language.
 	 * 
-	 * @return The italian QuestionFocus analyzer
+	 * @return the QuestionFocus analyzer for Italian
 	 * @throws UIMAException
 	 */
 	public static Analyzer instantiateItalianQuestionFocusAnalyzer() throws UIMAException {
@@ -81,32 +81,9 @@ public class Commons {
 		return analyzer;
 	}
 
-	/*
-	public static Analyzer instantiateAnalyzer(UIMAPersistence persistence)
-			throws UIMAException {
-		Analyzer ae = new Analyzer(persistence);
-
-		AnalysisEngine stanfordSegmenter = AnalysisEngineFactory.createEngine(
-				createEngineDescription(StanfordSegmenter.class));
-		
-		AnalysisEngine stanfordPosTagger = AnalysisEngineFactory.createEngine(
-				createEngineDescription(StanfordPosTagger.class));
-		
-		AnalysisEngine stanfordParser = AnalysisEngineFactory.createEngine(
-				createEngineDescription(StanfordParser.class));
-
-		ae.addAE(stanfordSegmenter)
-			.addAE(stanfordPosTagger)
-			.addAE(stanfordParser);
-
-		return ae;
-	}
-	*/
-	
-
 	/**
 	 * 
-	 * @return the parameters used for producing the classification trees
+	 * @return the parameters used for serializing the classification trees
 	 */
 	public static String getParameterList() {
 		String parameterList = Joiner.on(",").join(
