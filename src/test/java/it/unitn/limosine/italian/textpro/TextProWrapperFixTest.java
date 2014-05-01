@@ -8,21 +8,13 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.junit.Test;
 
-<<<<<<< HEAD
-import com.google.common.base.Joiner;
-
-import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma;
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
-=======
->>>>>>> 2e5ca2f40cd72bae7a3c843555464a9c5198938d
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
@@ -34,6 +26,7 @@ import qa.qcri.qf.trees.nodes.RichNode;
 import com.google.common.base.Joiner;
 
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
@@ -94,16 +87,10 @@ public class TextProWrapperFixTest {
 		
 		Analyzable content = new SimpleContent("0", text3);
 		
-<<<<<<< HEAD
-		AnalysisEngineDescription desc = createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor");
-		Analyzer analyzer = new Analyzer();
-		analyzer.addAEDesc(desc);
-=======
 		Analyzer analyzer = new Analyzer();		
 		analyzer.addAE(AnalysisEngineFactory.createEngine(
 				createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor")));
-		
->>>>>>> 2e5ca2f40cd72bae7a3c843555464a9c5198938d
+
 		JCas cas = JCasFactory.createJCas();
 		
 		analyzer.analyze(cas, content);
@@ -158,8 +145,7 @@ public class TextProWrapperFixTest {
 		TokenTree tree = RichTree.getPosChunkTree(cas);
 		TreeSerializer ts = new TreeSerializer();
 		System.out.println(ts.serializeTree(tree, RichNode.OUTPUT_PAR_LEMMA));
-		System.out.println(ts.serializeTree(tree, RichNode.OUTPUT_PAR_TOKEN));
-		
+		System.out.println(ts.serializeTree(tree, RichNode.OUTPUT_PAR_TOKEN));		
 	}
 
 }
