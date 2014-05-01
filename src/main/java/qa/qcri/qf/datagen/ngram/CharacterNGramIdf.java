@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.uima.UIMAException;
 import org.maltparser.core.helper.HashMap;
 
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.CharacterNGramMeasure;
 import qa.qcri.qf.pipeline.SampleFileReader;
 import qa.qcri.qf.pipeline.readers.AnalyzableReader;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
