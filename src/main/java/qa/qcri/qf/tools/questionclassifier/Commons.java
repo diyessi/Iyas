@@ -1,24 +1,18 @@
 package qa.qcri.qf.tools.questionclassifier;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
-import it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapperFix;
-import it.unitn.limosine.italian.textpro.TextProWrapperFix;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.CategoryContent;
-import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Joiner;

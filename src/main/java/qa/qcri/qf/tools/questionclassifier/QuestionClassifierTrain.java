@@ -1,12 +1,7 @@
 package qa.qcri.qf.tools.questionclassifier;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.cli.Options;
@@ -15,11 +10,9 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
-import qa.qcri.qf.annotators.QuestionClassifier;
 import qa.qcri.qf.cli.CommandLine;
 import qa.qcri.qf.cli.CommandLineParser;
 import qa.qcri.qf.fileutil.FileManager;
-import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.CategoryContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;

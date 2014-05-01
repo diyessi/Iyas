@@ -11,26 +11,23 @@ import java.util.TreeSet;
 import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
-
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-
 import org.apache.uima.jcas.JCas;
 import org.codehaus.plexus.util.StringUtils;
-
-import com.google.common.collect.Lists;
 
 import qa.qcri.qf.fileutil.ReadFile;
 import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
-import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
-import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import util.Pair;
+
+import com.google.common.collect.Lists;
+
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 public class FocusClassifier {
 	

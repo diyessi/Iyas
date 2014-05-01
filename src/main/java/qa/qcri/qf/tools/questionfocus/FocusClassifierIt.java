@@ -1,34 +1,12 @@
 package qa.qcri.qf.tools.questionfocus;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.fit.factory.JCasFactory;
 
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-
-import org.apache.uima.jcas.JCas;
-import org.codehaus.plexus.util.StringUtils;
-
-import com.google.common.collect.Lists;
-
-import qa.qcri.qf.fileutil.ReadFile;
-import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.retrieval.SimpleContent;
-import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
-import qa.qcri.qf.trees.RichTree;
-import qa.qcri.qf.trees.TokenTree;
-import qa.qcri.qf.trees.TreeSerializer;
-import qa.qcri.qf.trees.nodes.RichNode;
-import qa.qcri.qf.trees.nodes.RichTokenNode;
-import util.Pair;
 
 public class FocusClassifierIt extends FocusClassifier {
 	

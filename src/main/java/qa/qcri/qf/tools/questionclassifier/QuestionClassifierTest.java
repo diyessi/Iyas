@@ -10,8 +10,6 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
-import edu.berkeley.nlp.util.Logger;
-import edu.stanford.nlp.util.DataFilePaths;
 import qa.qcri.qf.classifiers.OneVsAllClassifier;
 import qa.qcri.qf.classifiers.SVMLightTKClassifierFactory;
 import qa.qcri.qf.cli.CommandLine;
@@ -25,8 +23,7 @@ import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.providers.ConstituencyTreeProvider;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
-
-
+import edu.berkeley.nlp.util.Logger;
 
 public class QuestionClassifierTest {
 	

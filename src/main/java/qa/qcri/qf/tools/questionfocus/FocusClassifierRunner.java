@@ -13,7 +13,6 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
-//import util.ArrayBuilder;
 
 public class FocusClassifierRunner {
 
@@ -53,15 +52,10 @@ public class FocusClassifierRunner {
 		
 		try {
 			CommandLine cmd = parser.parse(options, args);
-			
-			
+
 			if (cmd.hasOption(HELP_OPT)) {
 				parser.printHelpAndExit(className, options);
 			}
-
-
-
-			//CommandLineParser parser = new Comm
 
 			/*
 		CommandLineParser parser = new BasicParser();
@@ -92,8 +86,7 @@ public class FocusClassifierRunner {
 			
 			System.out.println(className);
 			
-			String lang = cmd.getOptionValue(
-					LANG_OPT, 
+			String lang = cmd.getOptionValue(LANG_OPT, 
 					"Please specify the language.");
 			
 			System.out.println(" -" + LANG_OPT + " " + lang);
@@ -104,16 +97,13 @@ public class FocusClassifierRunner {
 					"Please specify the path of the question focus data file.");
 			
 			System.out.println(" -" + TRAINING_QUESTIONS_FOCUS_PATH_OPT + " " + trainQuestionFocusPath);
-			//String lang getStringOption(cmd,
 			
-			//String trainCasesDir = getOptionaPathOption(cmd,
 			String trainCasesDir = cmd.getPathValue(
 					TRAINING_CASES_DIR_OPT,
 					"Plase specify a valid directory for the traning CASes.");
 			
 			System.out.println(" -" + TRAINING_CASES_DIR_OPT + " " + trainCasesDir);
 
-			//String trainOutputDir = getPathOption(cmd,
 			String trainOutputDir = cmd.getPathValue(
 					TRAINING_OUTPUT_DIR_OPT,
 					"Please specify a valid output directory for training data");
@@ -149,68 +139,5 @@ public class FocusClassifierRunner {
 		}
 
 	}
-	
-	/*
-	private static String getStringOption(CommandLine cmd,
-			String optionName, String errorMessage) throws ParseException {
-		if (cmd.hasOption(optionName)) { 
-			String optValue = cmd.getOptionValue(optionName);
-			return optValue;
-		} else {
-			throw new ParseException(errorMessage);
-		}
-	}
-
-	private static String getPathOption(CommandLine cmd,
-			String optionName, String errorMessage) throws ParseException {
-		if (cmd.hasOption(optionName)) { 
-			String path = cmd.getOptionValue(optionName);
-			try {
-				Files.createParentDirs(Paths.get(path).toFile());
-			} catch (IOException e) {
-				throw new ParseException(errorMessage);
-			}
-			return path;
-		} else {
-			throw new ParseException(errorMessage);
-		}
-	}
-
-	private static String getFileOption(CommandLine cmd,
-			String optionName, String errorMessage) throws ParseException {
-		if (cmd.hasOption(optionName)) {
-			String filePath = cmd.getOptionValue(optionName);
-			if (new File(filePath).exists()) { 
-				return filePath;
-			} else {
-				throw new ParseException(errorMessage);
-			}
-		} else {
-			throw new ParseException(errorMessage);
-		}
-	}
-
-	private static String[] readArgs(String argumentsFilePath) 
-		throws IOException {
-		List<String> lines = Files.readLines(new File(argumentsFilePath),
-				Charset.defaultCharset());
-		return Joiner.on(" ").join(lines).split(" ");
-	}
-
-	private static String getOptionaPathOption(CommandLine cmd,
-			String optionName, String errorMessage) throws ParseException {
-		if (cmd.hasOption(optionName)) {
-			String path = cmd.getOptionValue(optionName);
-			try {
-				Files.createParentDirs(Paths.get(path).toFile());
-			} catch (IOException e) {
-				throw new ParseException(errorMessage);
-			}
-			return path;
-		} else {
-			return null;
-		}
-	}
-	 */
 
 }
