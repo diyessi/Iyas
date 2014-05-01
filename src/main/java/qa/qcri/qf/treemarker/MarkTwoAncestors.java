@@ -15,14 +15,14 @@ public class MarkTwoAncestors implements MarkingStrategy {
 	public List<RichNode> getNodesToMark(RichNode node) {
 		List<RichNode> nodes = new ArrayList<>();
 		RichNode parent = node.getParent();
-		if(parent != null) {
+		if (parent != null) {
 			nodes.add(parent);
 			RichNode secondParent = parent.getParent();
-			if(secondParent != null) {
+			if (secondParent != null) {
 				nodes.add(secondParent);
 			}
 		}
 		return nodes;
 	}
-	
+
 }
