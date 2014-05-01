@@ -80,7 +80,9 @@ public abstract class AnalyzerFactory {
 				.createEngine(createEngineDescription(StanfordParser.class));
 
 		AnalysisEngine stanfordNamedEntityRecognizer = AnalysisEngineFactory
-				.createEngine(createEngineDescription(StanfordNamedEntityRecognizer.class));
+				.createEngine(createEngineDescription(StanfordNamedEntityRecognizer.class,
+						StanfordNamedEntityRecognizer.PARAM_LANGUAGE, "en",
+						StanfordNamedEntityRecognizer.PARAM_VARIANT, "muc.7class.distsim.crf"));
 
 		AnalysisEngine questionClassifier = AnalysisEngineFactory
 				.createEngine(createEngineDescription(QuestionClassifier.class,
