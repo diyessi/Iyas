@@ -87,7 +87,7 @@ public abstract class AnalyzerFactory {
 		AnalysisEngine questionClassifier = AnalysisEngineFactory
 				.createEngine(createEngineDescription(QuestionClassifier.class,
 						QuestionClassifier.PARAM_LANGUAGE, "en",
-						QuestionClassifier.PARAM_MODELS_DIRPATH, "data/question-classifier_en/models-ptk"));
+						QuestionClassifier.PARAM_MODELS_DIRPATH, "data/question-classifier_en/models"));
 
 		AnalysisEngine questionFocusClassifier = AnalysisEngineFactory
 				.createEngine(createEngineDescription(QuestionFocusClassifier.class,
