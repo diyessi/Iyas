@@ -5,7 +5,6 @@ import junit.framework.Assert;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
-import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.junit.BeforeClass;
