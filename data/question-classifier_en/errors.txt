@@ -1,0 +1,64 @@
+What metal has the highest melting point ? Predicted LOC. Was ENTY
+What river in the US is known as the Big Muddy ? Predicted ENTY. Was LOC
+What is the temperature at the center of the earth ? Predicted DESC. Was NUM
+What is the speed hummingbirds fly ? Predicted DESC. Was NUM
+What was W.C. Fields ' real name ? Predicted DESC. Was HUM
+What day and month did John Lennon die ? Predicted ENTY. Was NUM
+What is the oldest university in the US ? Predicted LOC. Was HUM
+What is the longest major league baseball-winning streak ? Predicted DESC. Was ENTY
+What is the Ohio state bird ? Predicted DESC. Was ENTY
+What is the length of the coastline of the state of Alaska ? Predicted LOC. Was NUM
+What is the name of Neil Armstrong 's wife ? Predicted ENTY. Was HUM
+What is the diameter of a golf ball ? Predicted DESC. Was NUM
+What is the earth 's diameter ? Predicted DESC. Was NUM
+During which season do most thunderstorms occur ? Predicted ENTY. Was NUM
+What is the major fault line near Kentucky ? Predicted NUM. Was ENTY
+What were Christopher Columbus ' three ships ? Predicted DESC. Was ENTY
+In the late 1700 's British convicts were used to populate which colony ? Predicted ENTY. Was LOC
+What peninsula is Spain part of ? Predicted ENTY. Was LOC
+What body of water are the Canary Islands in ? Predicted ENTY. Was LOC
+What is the birthstone for June ? Predicted DESC. Was ENTY
+What is the sales tax in Minnesota ? Predicted DESC. Was ENTY
+What is the distance in miles from the earth to the sun ? Predicted DESC. Was NUM
+What does a defibrillator do ? Predicted ENTY. Was DESC
+What New York City structure is also known as the Twin Towers ? Predicted ENTY. Was LOC
+What is the electrical output in Madrid , Spain ? Predicted DESC. Was ENTY
+Which mountain range in North America stretches from Maine to Georgia ? Predicted ENTY. Was LOC
+What does your spleen do ? Predicted ENTY. Was DESC
+What is the location of the Sea of Tranquility ? Predicted DESC. Was LOC
+What do meteorologists do ? Predicted ENTY. Was DESC
+What are the twin cities ? Predicted DESC. Was LOC
+What did Edward Binney and Howard Smith invent in 1903 ? Predicted DESC. Was ENTY
+What is the depth of the Nile river ? Predicted LOC. Was NUM
+Mexican pesos are worth what in U.S. dollars ? Predicted ENTY. Was NUM
+What is the esophagus used for ? Predicted ABBR. Was DESC
+What is foot and mouth disease ? Predicted DESC. Was ENTY
+What is TMJ ? Predicted DESC. Was ABBR
+What does the technical term ISDN mean ? Predicted DESC. Was ABBR
+What is the street address of the White House ? Predicted NUM. Was LOC
+What is the percentage of water content in the human body ? Predicted ENTY. Was NUM
+What is the location of Lake Champlain ? Predicted DESC. Was LOC
+What is the Illinois state flower ? Predicted DESC. Was ENTY
+What is Maryland 's state bird ? Predicted DESC. Was ENTY
+What is the speed of light ? Predicted DESC. Was NUM
+What is the width of a football field ? Predicted DESC. Was NUM
+Why in tennis are zero points called love ? Predicted LOC. Was DESC
+What is the elevation of St. Louis , MO ? Predicted DESC. Was NUM
+What is the atomic weight of silver ? Predicted ENTY. Was NUM
+What is the world 's population ? Predicted LOC. Was NUM
+What is the sales tax rate in New York ? Predicted HUM. Was NUM
+Developing nations comprise what percentage of the world 's population ? Predicted HUM. Was NUM
+What is Shakespeare 's nickname ? Predicted DESC. Was HUM
+What is the heaviest naturally occurring element ? Predicted DESC. Was ENTY
+What is the state flower of Michigan ? Predicted LOC. Was ENTY
+What are Canada 's two territories ? Predicted DESC. Was LOC
+What does the abbreviation SOS mean ? Predicted DESC. Was ABBR
+What is the smallest bird in Britain ? Predicted LOC. Was ENTY
+What was FDR 's dog 's name ? Predicted HUM. Was ENTY
+What did Jesse Jackson organize ? Predicted ENTY. Was HUM
+What is New York 's state bird ? Predicted HUM. Was ENTY
+What is the National Park in Utah ? Predicted ABBR. Was LOC
+What is Susan B. Anthony 's birthday ? Predicted DESC. Was NUM
+What is the source of natural gas ? Predicted DESC. Was ENTY
+What is the money they use in Zambia ? Predicted DESC. Was ENTY
+What is the birthstone of October ? Predicted DESC. Was ENTY
