@@ -1,6 +1,8 @@
 package qa.qcri.qf.treemarker;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.uima.jcas.JCas;
 
@@ -95,7 +97,7 @@ public class Marker {
 						QuestionFocus.class)) {
 
 			for (RichTokenNode tokenNode : qfAndToken.getB()) {
-				for (RichNode node : new MarkTwoAncestors()
+				for (RichNode node : new MarkSecondParent()
 						.getNodesToMark(tokenNode)) {
 					if (questionClass == null) {
 						node.addAdditionalLabel(Marker.FOCUS_LABEL);
@@ -110,4 +112,56 @@ public class Marker {
 		}
 	}
 
+	public static void markNamedEntityRelatedToQuestionClass(JCas cas, TokenTree tree,
+			QuestionClass questionClass) {
+
+		Set<String> relatedNamedEntityTypes = getNamedEntityMappedToQuestionClass(questionClass);
+		
+		for (Pair<NamedEntity, List<RichTokenNode>> neAndToken : TokenSelector
+				.selectTokenNodeCovered(cas, tree, NamedEntity.class)) {
+
+			NamedEntity ne = neAndToken.getA();
+			String namedEntityType = ne.getValue().toUpperCase();
+			
+			if(relatedNamedEntityTypes.contains(namedEntityType)) {
+				for (RichTokenNode tokenNode : neAndToken.getB()) {
+					for (RichNode node : new MarkSecondParent()
+							.getNodesToMark(tokenNode)) {
+						String label = namedEntityType;
+						
+						node.addAdditionalLabel(label);
+					}
+				}
+			}
+		}
+	}
+	
+	public static Set<String> getNamedEntityMappedToQuestionClass(QuestionClass questionClass) {
+		
+		Set<String> mappedNamedEntityTypes = new HashSet<>();
+		
+		String questionClassValue = questionClass.getQuestionClass();
+
+		switch(questionClassValue) {
+		case "HUM":
+			mappedNamedEntityTypes.add("PERSON");
+			break;
+		case "LOC":
+			mappedNamedEntityTypes.add("LOCATION");
+			break;
+		case "NUM":
+			mappedNamedEntityTypes.add("DATE");
+			mappedNamedEntityTypes.add("TIME");
+			mappedNamedEntityTypes.add("MONEY");
+			mappedNamedEntityTypes.add("PERCENT");
+			break;
+		case "ENTY":
+			mappedNamedEntityTypes.add("ORGANIZATION");
+			mappedNamedEntityTypes.add("PERSON");
+			break;
+		}
+		
+		return mappedNamedEntityTypes;
+	}
 }
+ 

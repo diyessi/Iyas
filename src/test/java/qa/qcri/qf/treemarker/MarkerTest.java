@@ -44,14 +44,20 @@ public class MarkerTest {
 		AnalysisEngine illinoisChunker = AnalysisEngineFactory.createEngine(
 				createEngineDescription(IllinoisChunker.class));
 		
-		AnalysisEngine stanfordNamedEntityRecognizer = AnalysisEngineFactory.createEngine(
-				createEngineDescription(StanfordNamedEntityRecognizer.class));
-		
-		AnalysisEngine questionFocusClassifier = AnalysisEngineFactory.createEngine(
-				createEngineDescription(QuestionFocusClassifier.class));
-		
-		AnalysisEngine questionClassifier = AnalysisEngineFactory.createEngine(
-				createEngineDescription(QuestionClassifier.class));
+		AnalysisEngine stanfordNamedEntityRecognizer = AnalysisEngineFactory
+				.createEngine(createEngineDescription(StanfordNamedEntityRecognizer.class,
+						StanfordNamedEntityRecognizer.PARAM_LANGUAGE, "en",
+						StanfordNamedEntityRecognizer.PARAM_VARIANT, "muc.7class.distsim.crf"));
+
+		AnalysisEngine questionClassifier = AnalysisEngineFactory
+				.createEngine(createEngineDescription(QuestionClassifier.class,
+						QuestionClassifier.PARAM_LANGUAGE, "en",
+						QuestionClassifier.PARAM_MODELS_DIRPATH, "data/question-classifier_en/models-ptk"));
+
+		AnalysisEngine questionFocusClassifier = AnalysisEngineFactory
+				.createEngine(createEngineDescription(QuestionFocusClassifier.class,
+						QuestionFocusClassifier.PARAM_LANGUAGE, "en",
+						QuestionFocusClassifier.PARAM_MODEL_PATH, "data/question-focus_en/svm.model"));
 
 		ae.addAE(breakIteratorSegmenter)
 			.addAE(stanfordParser)
@@ -78,7 +84,7 @@ public class MarkerTest {
 		TreeSerializer ts = new TreeSerializer().enableAdditionalLabels();
 		
 		String expectedOutput = "(ROOT (S (NP-FOCUS (WDT (What))(NNP (United))(NNPS (States))"
-				+ "(NN-FOCUS (President)))(VP (VBD (had))(VBN (dreamed)))(SBAR (IN (that)))"
+				+ "(NN (President)))(VP (VBD (had))(VBN (dreamed)))(SBAR (IN (that)))"
 				+ "(NP (PRP (he)))(VP (VBD (was))(VBN (assassinated)))))";
 		
 		Assert.assertEquals(expectedOutput, ts.serializeTree(tree));
@@ -96,7 +102,7 @@ public class MarkerTest {
 		TreeSerializer ts = new TreeSerializer().enableAdditionalLabels();
 		
 		String expectedOutput = "(ROOT (S (NP-FOCUS-HUM (WDT (What))(NNP (United))"
-				+ "(NNPS (States))(NN-FOCUS-HUM (President)))(VP (VBD (had))"
+				+ "(NNPS (States))(NN (President)))(VP (VBD (had))"
 				+ "(VBN (dreamed)))(SBAR (IN (that)))(NP (PRP (he)))(VP (VBD (was))(VBN (assassinated)))))";
 		
 		Assert.assertEquals(expectedOutput, ts.serializeTree(tree));
