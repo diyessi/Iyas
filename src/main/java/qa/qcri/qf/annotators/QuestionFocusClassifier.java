@@ -84,9 +84,10 @@ public class QuestionFocusClassifier extends JCasAnnotator_ImplBase {
 		for(Pair<String, RichTokenNode> example : examples) {
 			Double prediction = this.classifier.classify(example.getA());
 			
-			// JUST FOR DEBUG
+			/**
 			String focus = example.getB().getValue();
-			System.err.println("focus: \"" + focus + "\", score: " + prediction);
+			System.err.println("[focus annotator] FOCUS: \"" + focus + "\", score: " + prediction);
+			**/
 			
 			if(prediction > maxPrediction) {
 				maxPrediction = prediction;
