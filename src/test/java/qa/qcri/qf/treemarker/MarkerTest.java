@@ -46,13 +46,12 @@ public class MarkerTest {
 		
 		AnalysisEngine stanfordNamedEntityRecognizer = AnalysisEngineFactory
 				.createEngine(createEngineDescription(StanfordNamedEntityRecognizer.class,
-						StanfordNamedEntityRecognizer.PARAM_LANGUAGE, "en",
-						StanfordNamedEntityRecognizer.PARAM_VARIANT, "muc.7class.distsim.crf"));
+						StanfordNamedEntityRecognizer.PARAM_LANGUAGE, "en"));
 
 		AnalysisEngine questionClassifier = AnalysisEngineFactory
 				.createEngine(createEngineDescription(QuestionClassifier.class,
 						QuestionClassifier.PARAM_LANGUAGE, "en",
-						QuestionClassifier.PARAM_MODELS_DIRPATH, "data/question-classifier_en/models-ptk"));
+						QuestionClassifier.PARAM_MODELS_DIRPATH, "data/question-classifier_en/models"));
 
 		AnalysisEngine questionFocusClassifier = AnalysisEngineFactory
 				.createEngine(createEngineDescription(QuestionFocusClassifier.class,

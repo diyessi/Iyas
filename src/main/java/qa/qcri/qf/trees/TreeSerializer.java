@@ -35,7 +35,7 @@ public class TreeSerializer {
 	 * specified
 	 */
 	private boolean enableRelationalTags = false;
-
+	
 	/**
 	 * Adopts square brackets in the serialized trees
 	 * 

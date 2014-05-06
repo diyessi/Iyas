@@ -1,5 +1,6 @@
 package qa.qcri.qf.treemarker;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
+import de.tudarmstadt.ukp.dkpro.core.stopwordremover.StopWordSet;
 
 /**
  * 
@@ -17,6 +19,11 @@ public class MarkTreesOnRepresentation {
 
 	private MarkingStrategy markingStrategy;
 
+	/**
+	 * Stopword
+	 */
+	private StopWordSet stopwordSet;
+	
 	/**
 	 * @param markingStrategy
 	 */
@@ -48,6 +55,12 @@ public class MarkTreesOnRepresentation {
 
 		Map<String, List<RichTokenNode>> formToNodes = new HashMap<>();
 		for (RichTokenNode richToken : longestList) {
+			
+			if(this.stopwordSet != null
+					&& this.stopwordSet.contains(richToken.getValue().toLowerCase())) {
+				continue;
+			}
+			
 			String form = richToken.getRepresentation(parameterList);
 			if (!formToNodes.containsKey(form)) {
 				formToNodes.put(form, new ArrayList<RichTokenNode>());
@@ -67,4 +80,16 @@ public class MarkTreesOnRepresentation {
 		}
 	}
 
+	/**
+	 * 
+	 * @param stopwordsPath
+	 * @return
+	 * @throws IOException
+	 */
+	public MarkTreesOnRepresentation useStopwords(String stopwordsPath) throws IOException {
+		this.stopwordSet = new StopWordSet(
+				new String[] { stopwordsPath });
+		
+		return this;
+	}
 }

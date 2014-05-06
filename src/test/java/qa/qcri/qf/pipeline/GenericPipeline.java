@@ -29,6 +29,8 @@ public class GenericPipeline {
 	public static final String QUESTION_ID_KEY = "QUESTION_ID_KEY";
 	
 	public static final String SEARCH_ENGINE_POSITION_KEY = "SEARCH_ENGINE_POSITION_KEY";
+	
+	public static final String SEARCH_ENGINE_RANK_KEY = "SEARCH_ENGINE_RANK_KEY";
 
 	private Analyzer ae;
 
@@ -184,13 +186,16 @@ public class GenericPipeline {
 			String questionId = fields.get(0);
 			String candidateId = fields.get(1);
 			String searchEnginePosition = fields.get(2);
+			String searchEngineRank = fields.get(3);
+			
 			boolean relevant = fields.get(4).equals("true") ? true : false;
 
 			Map<String, Double> features = DataObject.newFeaturesMap();
 
 			Map<String, String> metadata = DataObject.newMetadataMap();
 			metadata.put(QUESTION_ID_KEY, questionId);
-			metadata.put(SEARCH_ENGINE_POSITION_KEY, searchEnginePosition);
+			metadata.put(SEARCH_ENGINE_POSITION_KEY, searchEnginePosition + 1);
+			metadata.put(SEARCH_ENGINE_RANK_KEY, searchEngineRank);
 
 			DataObject candidateObject = new DataObject(
 					relevant == true

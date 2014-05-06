@@ -127,9 +127,8 @@ public class Marker {
 				for (RichTokenNode tokenNode : neAndToken.getB()) {
 					for (RichNode node : new MarkSecondParent()
 							.getNodesToMark(tokenNode)) {
-						String label = namedEntityType;
-						
-						node.addAdditionalLabel(label);
+						String label = questionClass.getQuestionClass();					
+						node.addAdditionalLabel(FOCUS_LABEL + "-" + label);
 					}
 				}
 			}

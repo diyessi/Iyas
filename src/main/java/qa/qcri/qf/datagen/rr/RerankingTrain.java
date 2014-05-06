@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.uimafit.util.JCasUtil;
 
 import qa.qcri.qf.datagen.DataObject;
 import qa.qcri.qf.datagen.DataPair;
@@ -17,10 +18,11 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.GenericPipeline;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
-import qa.qcri.qf.treemarker.MarkTwoAncestors;
+import qa.qcri.qf.treemarker.Marker;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
+import qa.qcri.qf.type.QuestionClass;
 import util.Pair;
 import cc.mallet.types.FeatureVector;
 
@@ -56,6 +58,8 @@ public class RerankingTrain implements Reranking {
 
 	private TokenTreeProvider tokenTreeProvider;
 	
+	private MarkTreesOnRepresentation marker;
+	
 	private JCas questionCas;
 	private JCas leftCandidateCas;
 	private JCas rightCandidateCas;
@@ -63,7 +67,8 @@ public class RerankingTrain implements Reranking {
 	private String parameterList;
 
 	public RerankingTrain(FileManager fm, String outputDir, Analyzer ae,
-			TreeSerializer ts, PairFeatureFactory pairFeatureFactory, TokenTreeProvider tokenTreeProvider)
+			TreeSerializer ts, PairFeatureFactory pairFeatureFactory, TokenTreeProvider tokenTreeProvider,
+			MarkTreesOnRepresentation marker)
 			throws UIMAException {
 		this.fm = fm;
 		this.outputDir = outputDir;
@@ -76,6 +81,8 @@ public class RerankingTrain implements Reranking {
 		this.pairFeatureFactory = pairFeatureFactory;
 		
 		this.tokenTreeProvider = tokenTreeProvider;
+		
+		this.marker = marker;
 
 		this.questionCas = JCasFactory.createJCas();
 		this.leftCandidateCas = JCasFactory.createJCas();
@@ -103,6 +110,11 @@ public class RerankingTrain implements Reranking {
 
 		this.ae.analyze(this.questionCas,
 				new SimpleContent(questionObject.getId(), ""));
+		
+		/**
+		 * Recover the question class
+		 */
+		QuestionClass questionClass = JCasUtil.selectSingle(questionCas, QuestionClass.class);
 
 		List<Pair<DataPair, DataPair>> trainingPairs = Pairer.pair(pairs);
 
@@ -124,14 +136,35 @@ public class RerankingTrain implements Reranking {
 			TokenTree leftCandidateTree = this.tokenTreeProvider.getTree(this.leftCandidateCas);
 			TokenTree rightCandidateTree = this.tokenTreeProvider.getTree(this.rightCandidateCas);
 
-			MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(
-					new MarkTwoAncestors());
-
-			marker.markTrees(leftQuestionTree, leftCandidateTree,
+			/**
+			 * Mark the trees with the relational tag on the nodes sharing the same lemmas.
+			 * Stopwords are not considered for matchings
+			 */
+			this.marker.markTrees(leftQuestionTree, leftCandidateTree,
 					this.parameterList);
-			marker.markTrees(rightQuestionTree, rightCandidateTree,
+			this.marker.markTrees(rightQuestionTree, rightCandidateTree,
 					this.parameterList);
+			
+			/**
+			 * Mark the focus in the question
+			 */
+			Marker.markFocus(questionCas, leftQuestionTree, questionClass);
+			Marker.markFocus(questionCas, rightQuestionTree, questionClass);
+			
+			/**
+			 * Mark the named entities in the candidate passages which are
+			 * related to the question class 
+			 */
+			if(questionClass != null) {
+				Marker.markNamedEntityRelatedToQuestionClass(this.leftCandidateCas,
+						leftCandidateTree, questionClass);
+				Marker.markNamedEntityRelatedToQuestionClass(this.rightCandidateCas,
+						rightCandidateTree, questionClass);
+			}
 
+			/**
+			 * Produce the feature vectors
+			 */
 			FeatureVector leftFv = this.pairFeatureFactory.getPairFeatures(
 					this.questionCas, this.leftCandidateCas, this.parameterList);
 			FeatureVector rightFv = this.pairFeatureFactory.getPairFeatures(

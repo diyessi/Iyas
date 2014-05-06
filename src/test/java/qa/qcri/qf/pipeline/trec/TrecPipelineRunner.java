@@ -24,6 +24,8 @@ import qa.qcri.qf.pipeline.GenericPipeline;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
+import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
+import qa.qcri.qf.treemarker.MarkTwoAncestors;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.providers.PosChunkTreeProvider;
@@ -48,8 +50,10 @@ public class TrecPipelineRunner {
 	private static final String CANDIDATES_TO_KEEP_IN_TRAIN_OPT = "candidatesToKeepInTrain";
 	private static final String CANDIDATES_TO_KEEP_IN_TEST_OPT = "candidatesToKeepInTest";
 	private static final String SKIP_SERIALIZATION_CHECK_OPT = "skipSerializationCheck";
+	
+	private static final String STOPWORDS_EN_PATH = "resources/stoplist-en.txt";
 
-	public static void main(String[] args) throws UIMAException {
+	public static void main(String[] args) throws UIMAException, IOException {
 
 		Options options = new Options();
 		options.addOption(HELP_OPT, true, "Print the help");
@@ -164,6 +168,9 @@ public class TrecPipelineRunner {
 			PairFeatureFactory pf = new PairFeatureFactory(new Alphabet());
 
 			GenericPipeline pipeline = new GenericPipeline(fm);
+			
+			MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(
+					new MarkTwoAncestors()).useStopwords(STOPWORDS_EN_PATH);
 
 			/**
 			 * Sets up the analyzer, initially with the persistence directory
@@ -180,8 +187,8 @@ public class TrecPipelineRunner {
 			}
 
 			Reranking dataGenerator = new RerankingTrain(fm, trainOutputDir,
-					ae, new TreeSerializer().enableRelationalTags(), pf,
-					new PosChunkTreeProvider()).setParameterList(parameterList);
+					ae, new TreeSerializer().enableRelationalTags().enableAdditionalLabels(), pf,
+					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
 
 			pipeline.setCandidatesToKeep(candidatesToKeepInTrain);
 
@@ -206,8 +213,8 @@ public class TrecPipelineRunner {
 			 * Sets up the generation for test
 			 */
 			dataGenerator = new RerankingTest(fm, testOutputDir, ae,
-					new TreeSerializer().enableRelationalTags(), pf,
-					new PosChunkTreeProvider()).setParameterList(parameterList);
+					new TreeSerializer().enableRelationalTags().enableAdditionalLabels(), pf,
+					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
 
 			pipeline.setCandidatesToKeep(candidatesToKeepInTest);
 
