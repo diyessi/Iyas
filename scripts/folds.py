@@ -2,6 +2,7 @@ import os
 import sys
 import random
 from itertools import izip
+from collections import Counter
 
 def main():
 	
@@ -42,16 +43,23 @@ def main():
 
 	indexes = []
 	for index, fold in enumerate(folds):
+		print "Questions in fold", index, ":", len(fold)
 		indexes.extend([index] * len(fold))
 		
 	print "Number of indexes:", len(indexes)
-	
-	qid2fold = { qid : fold for qid, fold in zip(qids, indexes)}
 	
 	'''
 		Shuffle indexes in place
 	'''
 	random.shuffle(indexes)
+	
+	'''
+		Fix associations
+	'''
+	qid2fold = { qid : fold for qid, fold in zip(qids, indexes)}
+	
+	#Uncomment this line for using folds from the EACL paper data
+	#qid2fold = load_eacl_folds_data(n_folds)
 	
 	'''
 		Create fold directories
@@ -118,6 +126,30 @@ def main():
 			
 	for fold_id in folds_f:
 		folds_f[fold_id].close()
+		
+def load_eacl_folds_data(n_folds):
+	directory = "data/trec-en/chvfq-2013-10-14/"
+	
+	qid_2_fold = {}
+	
+	for fold_id in xrange(n_folds):
+		test_f_res = directory + "fold" + str(fold_id) + "/svm.relevancy"
+		
+		qids = set([line.strip().split(" ")[0] for line in open(test_f_res, "r")])
+		qid_2_fold.update({qid : fold_id for qid in qids})
+		
+	# Add missing question #1529, #2167, #1714, #1896 to folds
+	qid_2_fold["1529"] = 0
+	qid_2_fold["2167"] = 1
+	qid_2_fold["1714"] = 2
+	qid_2_fold["1896"] = 3
+	
+	count = Counter(qid_2_fold.values())
+	for elem in count:
+		print "Number of questions in EACL fold", elem, ":", count[elem]
+		
+	return qid_2_fold
+		
 	
 def slice_it(li, cols=2):
 	start = 0
