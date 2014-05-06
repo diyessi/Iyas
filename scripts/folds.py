@@ -64,9 +64,7 @@ def main():
 	
 	#Uncomment this line for using folds from the EACL paper data
 	#qid2fold = load_eacl_folds_data(n_folds)
-	
-	print_eacl_folds_stats(n_folds)
-	
+
 	'''
 		Create fold directories
 	'''
@@ -100,11 +98,11 @@ def main():
 		
 		for fold_id in xrange(n_folds):
 			if fold_id == qid_fold:
-				print "Not writing this example in fold:", fold_id, "[", qid_fold, "]"
+				print "[INFO]: Not writing this example in fold:", fold_id, "[", qid_fold, "]"
 			else:	
 				folds_f[fold_id].write(example + "\n")
 				folds_res_f[fold_id].write(res + "\n")
-				print "Writing training examples related to question", example_qid, "in fold", fold_id, "[", qid_fold, "]"
+				print "[INFO]: Writing training examples related to question", example_qid, "in fold", fold_id, "[", qid_fold, "]"
 			
 	for fold_id in folds_f:
 		folds_f[fold_id].close()
@@ -130,24 +128,27 @@ def main():
 			if fold_id == qid_fold: 
 				folds_f[fold_id].write(example + "\n")
 				folds_res_f[fold_id].write(res + "\n")
-				print "Writing test examples related to question", example_qid, "in fold", fold_id, "[", qid_fold, "]"
+				print "[INFO]: Writing test examples related to question", example_qid, "in fold", fold_id, "[", qid_fold, "]"
 			else:
-				print "Not writing this example in fold:", fold_id, "[", qid_fold, "]"
+				print "[INFO]: Writing this example in fold:", fold_id, "[", qid_fold, "]"
 			
 	for fold_id in folds_f:
 		folds_f[fold_id].close()
 		folds_res_f[fold_id].close()
 		
 	print_output_stats(dir, n_folds)
+	print_eacl_folds_stats(n_folds)
 		
 def print_output_stats(dir, n_folds):
+	print "#### SCRIPT OUTPUT"
+	
 	for fold_id in xrange(n_folds):
 		train_qids = [qid.strip().split(" ")[0] for qid in open(dir + "folds/fold-" + str(fold_id) + "/svm.train.res", "r")]
 		train_qids = set(train_qids)
 		
 		test_qids = [qid.strip().split(" ")[0] for qid in open(dir + "folds/fold-" + str(fold_id) + "/svm.test.res", "r")]
 		test_qids = set(test_qids)
-		
+			
 		print "Fold id:", fold_id
 		print "\tNumber of questions in train fold:", len(train_qids)
 		print "\tNumber of questions in test fold:", len(test_qids)
@@ -156,16 +157,21 @@ def print_output_stats(dir, n_folds):
 	
 		
 def print_eacl_folds_stats(n_folds):
-	directory = "data/trec-en/chvfq-2013-10-14/"
+	print "#### EACL DATA"
 	
-	all_qids = set()
+	directory = "data/trec-en/chvfq-2013-10-14/"
 	
 	for fold_id in xrange(n_folds):
 		train_f_res = directory + "fold" + str(fold_id) + "/svm.train.res"
-		qids = set([line.strip().split(" ")[0] for line in open(train_f_res, "r")])
-		all_qids = all_qids.union(qids)
+		test_f_res = directory + "fold" + str(fold_id) + "/svm.relevancy"
+		train_qids = set([line.strip().split(" ")[0] for line in open(train_f_res, "r")])
+		test_qids = set([line.strip().split(" ")[0] for line in open(test_f_res, "r")])
 		
-	print "Number of questions in training files:", len(all_qids)
+		print "Fold id:", fold_id
+		print "\tNumber of questions in train fold:", len(train_qids)
+		print "\tNumber of questions in test fold:", len(test_qids)
+		print "\tNumber of questions in common:", len(train_qids.intersection(test_qids))
+		print ""
 	
 def load_eacl_folds_data(n_folds):
 	directory = "data/trec-en/chvfq-2013-10-14/"
