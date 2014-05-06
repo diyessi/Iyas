@@ -186,7 +186,6 @@ def main():
 
   (options, args) = parser.parse_args()
 
-  # args = ["/Users/aseveryn/PhD/projects/qapipeline-git/data/examples/dd1/cand5.ray1.cv5fold"]
   if len(args) == 1:
     path = args[0]
     stats_cv(path=path, format=options.format, th=options.th)
