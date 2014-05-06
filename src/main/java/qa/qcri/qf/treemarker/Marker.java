@@ -42,9 +42,13 @@ public class Marker {
 
 	/**
 	 * Marks the named entities in a tree with their type
-	 * @param cas the CAS from which the tree is extracted
-	 * @param tree the tree extracted from the CAS
-	 * @param labelPrefix the string to prepend to the label
+	 * 
+	 * @param cas
+	 *            the CAS from which the tree is extracted
+	 * @param tree
+	 *            the tree extracted from the CAS
+	 * @param labelPrefix
+	 *            the string to prepend to the label
 	 */
 	public static void markNamedEntities(JCas cas, TokenTree tree,
 			String labelPrefix) {
@@ -112,36 +116,58 @@ public class Marker {
 		}
 	}
 
-	public static void markNamedEntityRelatedToQuestionClass(JCas cas, TokenTree tree,
-			QuestionClass questionClass) {
+	/**
+	 * Marks the chunk containing named entities which are related to a specific
+	 * question class, with an additional label composed by the FOCUS label and
+	 * the question class.
+	 * 
+	 * @param cas
+	 *            the CAS from which the tree is extracted
+	 * @param tree
+	 *            the tree extracted from the CAS
+	 * @param questionClass
+	 *            the question class used to retrieved the related named
+	 *            entities
+	 */
+	public static void markNamedEntityRelatedToQuestionClass(JCas cas,
+			TokenTree tree, QuestionClass questionClass) {
 
 		Set<String> relatedNamedEntityTypes = getNamedEntityMappedToQuestionClass(questionClass);
-		
+
 		for (Pair<NamedEntity, List<RichTokenNode>> neAndToken : TokenSelector
 				.selectTokenNodeCovered(cas, tree, NamedEntity.class)) {
 
 			NamedEntity ne = neAndToken.getA();
 			String namedEntityType = ne.getValue().toUpperCase();
-			
-			if(relatedNamedEntityTypes.contains(namedEntityType)) {
+
+			if (relatedNamedEntityTypes.contains(namedEntityType)) {
 				for (RichTokenNode tokenNode : neAndToken.getB()) {
 					for (RichNode node : new MarkSecondParent()
 							.getNodesToMark(tokenNode)) {
-						String label = questionClass.getQuestionClass();					
+						String label = questionClass.getQuestionClass();
 						node.addAdditionalLabel(FOCUS_LABEL + "-" + label);
 					}
 				}
 			}
 		}
 	}
-	
-	public static Set<String> getNamedEntityMappedToQuestionClass(QuestionClass questionClass) {
-		
+
+	/**
+	 * Returns the named entity types which are linked to a specific question
+	 * class
+	 * 
+	 * @param questionClass
+	 *            the question class
+	 * @return the set of named entity types related to a question class
+	 */
+	public static Set<String> getNamedEntityMappedToQuestionClass(
+			QuestionClass questionClass) {
+
 		Set<String> mappedNamedEntityTypes = new HashSet<>();
-		
+
 		String questionClassValue = questionClass.getQuestionClass();
 
-		switch(questionClassValue) {
+		switch (questionClassValue) {
 		case "HUM":
 			mappedNamedEntityTypes.add("PERSON");
 			break;
@@ -159,8 +185,7 @@ public class Marker {
 			mappedNamedEntityTypes.add("PERSON");
 			break;
 		}
-		
+
 		return mappedNamedEntityTypes;
 	}
 }
- 
