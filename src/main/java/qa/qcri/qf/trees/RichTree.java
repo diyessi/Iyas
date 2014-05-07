@@ -70,7 +70,9 @@ public class RichTree {
 				sentenceNode.addChild(chunkNode);
 			}
 
-			root.addChild(sentenceNode);
+			if(!sentenceNode.isLeaf()) {
+				root.addChild(sentenceNode);
+			}
 		}
 
 		return root;
