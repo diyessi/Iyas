@@ -27,7 +27,12 @@ public class PruneNodeWithoutMetadata  implements Function<List<RichNode>, List<
 	public List<Boolean> apply(List<RichNode> nodes) {
 		List<Boolean> nodesToPruneIndexes = new ArrayList<>();
 		for(RichNode node : nodes) {
-			Map<String, String> metadata = node.getParent().getMetadata();
+			RichNode parent = node.getParent();		
+			if(parent == null) {
+				continue;
+			}
+			
+			Map<String, String> metadata = parent.getMetadata();
 			if(metadata.containsKey(this.key)) {
 				if(this.value == null) {
 					nodesToPruneIndexes.add(false);
