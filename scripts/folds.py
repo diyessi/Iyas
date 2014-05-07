@@ -63,7 +63,7 @@ def main():
 	qid2fold = { qid : fold for qid, fold in zip(qids, indexes)}
 	
 	#Uncomment this line for using folds from the EACL paper data
-	#qid2fold = load_eacl_folds_data(n_folds)
+	qid2fold = load_eacl_folds_data(n_folds)
 
 	'''
 		Create fold directories
@@ -130,7 +130,7 @@ def main():
 				folds_res_f[fold_id].write(res + "\n")
 				print "[INFO]: Writing test examples related to question", example_qid, "in fold", fold_id, "[", qid_fold, "]"
 			else:
-				print "[INFO]: Writing this example in fold:", fold_id, "[", qid_fold, "]"
+				print "[INFO]: Not writing this example in fold:", fold_id, "[", qid_fold, "]"
 			
 	for fold_id in folds_f:
 		folds_f[fold_id].close()
