@@ -21,11 +21,15 @@ import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.Marker;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
+import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
+import qa.qcri.qf.trees.pruning.PosChunkPruner;
+import qa.qcri.qf.trees.pruning.strategies.PruneNodeWithoutMetadata;
 import qa.qcri.qf.type.QuestionClass;
 import util.Pair;
 import cc.mallet.types.FeatureVector;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 
 /**
@@ -60,6 +64,10 @@ public class RerankingTrain implements Reranking {
 	
 	private MarkTreesOnRepresentation marker;
 	
+	private PosChunkPruner pruner;
+	
+	private Function<List<RichNode>, List<Boolean>> pruningCriteria;
+	
 	private JCas questionCas;
 	private JCas leftCandidateCas;
 	private JCas rightCandidateCas;
@@ -83,6 +91,9 @@ public class RerankingTrain implements Reranking {
 		this.tokenTreeProvider = tokenTreeProvider;
 		
 		this.marker = marker;
+		
+		this.pruner = new PosChunkPruner(2);
+		this.pruningCriteria = new PruneNodeWithoutMetadata(RichNode.REL_KEY);
 
 		this.questionCas = JCasFactory.createJCas();
 		this.leftCandidateCas = JCasFactory.createJCas();
@@ -161,7 +172,14 @@ public class RerankingTrain implements Reranking {
 				Marker.markNamedEntityRelatedToQuestionClass(this.rightCandidateCas,
 						rightCandidateTree, questionClass);
 			}
-
+			
+			/**
+			 * Perform the pruning
+			 */
+			
+			this.pruner.prune(leftCandidateTree, this.pruningCriteria);		
+			this.pruner.prune(rightCandidateTree, this.pruningCriteria);
+			
 			/**
 			 * Produce the feature vectors
 			 */
