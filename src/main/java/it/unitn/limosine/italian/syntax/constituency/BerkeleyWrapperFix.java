@@ -26,6 +26,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Level;
+import org.uimafit.util.JCasUtil;
 
 import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
@@ -33,6 +34,8 @@ import qa.qcri.qf.trees.TreeSerializer;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
+import edu.stanford.nlp.trees.ConstituentFactory;
 
 
 public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
@@ -104,6 +107,7 @@ public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 		 	//Collection<Token> myToks = JCasUtil.select(cas, Token.class);
 		 	//Collection<POS> myPos = JCasUtil.select(cas, POS.class);
 	
+			 System.out.println("sent: " + sentence.getCoveredText());
 			 
 			 
 			 try {
@@ -189,10 +193,33 @@ public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 				        	
 				        	// Strip spaces around brackets
 				        	subtree = subtree.replaceAll("([()])\\s+([()])", "$1$2");
-				        	subtree = subtree.replaceAll("\\(Start", "\\(ROOT");
-				        	subtree = subtree.substring(1, subtree.length() - 1);
 				        	
-				        	//System.out.println("BerkeleyWrapper: subtree: " + subtree.toString());
+				        	System.out.println("BerkeleyWrapper: subtree: " + subtree.toString());
+				        	//if (subtree.startsWith("(Start (S")) {
+				        		//subtree = subtree.replaceAll("\\(Start", "\\(ROOT");
+				        	if (subtree.startsWith("((Start (S ")) {
+				        		// if parse already as S node, replace (Start .*) node with (ROOT .*) one
+				        		subtree = subtree.replaceAll("Start ", "ROOT ");
+				        	} else if (subtree.startsWith("((Start ")) {
+				        		// if parse does not have S node, add it
+				        		subtree = subtree.replaceAll("\\(\\(Start", "\\(ROOT \\(S") + ")";
+				        	} else if (subtree.equals("(())")){
+				        		// if parse fais, add trailing tokens
+				        		subtree = "(ROOT (S ";
+				        		for (AnnotationFS t : myToks) {
+				        			Token tok = (Token) t;
+				        			subtree += "(" + tok.getPos().getPosValue() + " " + tok.getCoveredText() + ")";
+				        		}
+				        		subtree += "))";
+				        	}
+				        	/*
+				        	} else {
+				        		subtree = subtree.replaceAll("\\(Start", "\\(ROOT (S") + ")";
+				        	}
+				        	*/
+				        	//subtree = subtree.substring(1, subtree.length() - 1);
+				        	
+				        	System.out.println("BerkeleyWrapper: subtree: " + subtree.toString());
 
 						 	StanfordTreeConstituentsProvider.buildConstituents(cas, subtree.toString(), startTokenNum);
 						 							 	

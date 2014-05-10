@@ -1,6 +1,7 @@
 package qa.qcri.qf.annotators;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.UimaContext;
@@ -13,9 +14,13 @@ import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 
+import qa.qcri.qf.tools.questionfocus.Focus;
+
 import qa.qcri.qf.classifiers.Classifier;
 import qa.qcri.qf.classifiers.SVMLightTKClassifierFactory;
-import qa.qcri.qf.tools.questionfocus.FocusClassifier;
+import qa.qcri.qf.pipeline.Analyzer;
+import qa.qcri.qf.tools.questionfocus.Commons;
+import qa.qcri.qf.tools.questionfocus.FocusClassifierTrain;
 import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
@@ -44,7 +49,7 @@ public class QuestionFocusClassifier extends JCasAnnotator_ImplBase {
 
 	private Classifier classifier;
 	
-	private FocusClassifier focusClassifier;
+	private FocusClassifierTrain focusClassifier;
 	
 	@Override
 	public void initialize(UimaContext aContext)
@@ -54,7 +59,11 @@ public class QuestionFocusClassifier extends JCasAnnotator_ImplBase {
 		this.ts = new TreeSerializer().enableAdditionalLabels();
 		
 		try {
-			this.focusClassifier = FocusClassifier.byLanguage(language);
+			//this.focusClassifier = FocusClassifierTrain.byLanguage(language);
+			Analyzer analyzer = Commons.instantiateQuestionFocusAnalyzer(language);
+			Set<String> allowedTags = Focus.getAllowedTagsByLanguage(language);
+			this.focusClassifier = new FocusClassifierTrain(analyzer, allowedTags); 
+					//new FocusClassifierTrain(analyzer, language);
 		} catch (UIMAException e) { 
 			throw new ResourceInitializationException(e);
 		}

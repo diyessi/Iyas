@@ -1,18 +1,25 @@
 package qa.qcri.qf.tools.questionclassifier;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+import it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapperFix;
+import it.unitn.limosine.italian.textpro.TextProWrapperFix;
 
+import java.io.IOError;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.CategoryContent;
+import qa.qcri.qf.pipeline.retrieval.SimpleContent;
+import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Joiner;
@@ -21,6 +28,7 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 import edu.berkeley.nlp.util.Logger;
+import edu.stanford.nlp.trees.SimpleConstituent;
 
 public class Commons {
 
@@ -124,6 +132,41 @@ public class Commons {
 			System.out.format("doctxt(%d): %s\n", questionsNum++, question.getContent());
 			categories.add(question.getCategory());
 			ae.analyze(cas, question);
+		}
+		return categories;
+	}
+	
+	public static Set<String> collectCategoriesFromQuestionsWithId(QuestionReader questionReader) {
+		if (questionReader == null)
+			throw new NullPointerException("questionReader is null");
+		
+		Set<String> categories = new HashSet<>();
+		
+		Iterator<CategoryContent> questions = questionReader.iterator();
+		while (questions.hasNext()) {
+			CategoryContent question = questions.next();
+			categories.add(question.getCategory());			
+		}
+		
+		return categories;
+	}
+	
+	public static Set<String> analyzeQuestionsWithIdAndCollectCategories(QuestionWithIdReader questionIdReader, Analyzer analyzer) 
+		throws UIMAException {
+		if (questionIdReader == null)
+			throw new NullPointerException("questionIdReader is null");
+		if (analyzer == null)
+			throw new NullPointerException("analyzer is null");
+		
+		Set<String> categories = new HashSet<>();
+		JCas cas = JCasFactory.createJCas();
+		
+		Iterator<CategoryContent> questions = questionIdReader.iterator();
+		while (questions.hasNext()) {
+			CategoryContent question = questions.next();
+			categories.add(question.getCategory());
+			System.out.format("doctxt(%s): %s\n", question.getId(), question.getContent());
+			analyzer.analyze(cas, new SimpleContent(question.getId(), question.getContent()));
 		}
 		return categories;
 	}

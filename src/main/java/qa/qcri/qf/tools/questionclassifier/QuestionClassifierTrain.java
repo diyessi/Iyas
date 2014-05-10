@@ -69,11 +69,11 @@ public class QuestionClassifierTrain {
 		
 		while (questions.hasNext()) { 
 			CategoryContent question = questions.next();
-			System.out.println("doctxt: " + question.getContent());
+			System.out.printf("doctxt(%s): %s\n", question.getId(), question.getContent());
 			analyzer.analyze(cas, question);
 			
 			String tree = ts.serializeTree(treeProvider.getTree(cas), parametersList);
-			System.out.println("tree: " + tree);
+			System.out.printf("tree(%s):  %s\n", question.getId(), tree);
 			
 			for (String category : categories) { 
 				String label = category.equals(question.getCategory()) ? "+1" : "-1";
