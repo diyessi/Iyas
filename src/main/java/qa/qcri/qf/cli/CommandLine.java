@@ -47,9 +47,10 @@ public class CommandLine {
 		checkNotNull(optionName, "optionName is null");
 		checkNotNull(optionName, "errorMsg is null");
 		
+		//System.out.printf("cl.hasOption(%s): %s\n", optionName, cl.hasOption(optionName));
 		if (cl.hasOption(optionName)) { 
 			String path = cl.getOptionValue(optionName);
-			
+			//System.out.println("path: " + path);
 			try {
 				Files.createParentDirs(Paths.get(path).toFile());
 			} catch (IOException e) { 
