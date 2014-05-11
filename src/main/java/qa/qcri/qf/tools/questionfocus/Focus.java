@@ -28,7 +28,7 @@ public class Focus {
 	 * @param lang A string holding the text language
 	 * @return The legal set of tags (POS) 
 	 */
-	static Set<String> getAllowedTagsByLanguage(String lang) { 
+	public static Set<String> getAllowedTagsByLanguage(String lang) { 
 		if (lang == null)
 			throw new NullPointerException("lang is null");
 	
