@@ -30,20 +30,26 @@ public class AnnotatorTest {
 		
 		Analyzer ae = new Analyzer(new UIMAFilePersistence("CASes/test"));
 		
-		ae.addAE(AnalysisEngineFactory.createEngine(
-				createEngineDescription("desc/Limosine/pipelines/FullSeMod")));
+		String[] descriptors = new String[] {
+				"desc/Limosine/StanfordPTBTokenizerDescriptor",
+				"desc/Limosine/StanfordParserDescriptor",
+				"desc/Limosine/StanfordNERDescriptor",
+				"desc/Limosine/NERasEMD",
+				"desc/Limosine/LTHParserFastDescriptor",
+				"desc/Limosine/RelationExtractorDescriptor",
+				"desc/Limosine/BARTCorefDescriptor",
+		};
+		
+		for(String descriptor : descriptors) {
+			ae.addAE(AnalysisEngineFactory.createEngine(createEngineDescription(descriptor)));
+		}
 		
 		JCas cas = JCasFactory.createJCas();
 		
 		Analyzable content = new SimpleContent("limosine-test", TEXT);
 		
 		try {
-			ae.analyze(cas, content);
-			
-			for(CoNLL2008DependencyTree tree : JCasUtil.select(cas, CoNLL2008DependencyTree.class)) {
-				System.out.println(tree.getRawParse());
-			}
-			
+			ae.analyze(cas, content);	
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}	
