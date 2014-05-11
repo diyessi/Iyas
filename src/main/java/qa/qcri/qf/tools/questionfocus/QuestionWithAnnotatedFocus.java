@@ -59,6 +59,10 @@ public class QuestionWithAnnotatedFocus implements Analyzable {
 		return this.lang;
 	}
 	
+	public String getLineWithStrippedFocus() {
+		return this.lineWithStrippedFocus;
+	}
+	
 	/**
 	 * Says whether the focus is implicit.
 	 * 

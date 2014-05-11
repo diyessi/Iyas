@@ -14,9 +14,7 @@ import org.apache.uima.jcas.JCas;
 import com.google.common.base.Joiner;
 
 import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.retrieval.CategoryContent;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
-import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import qa.qcri.qf.trees.nodes.RichNode;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
@@ -28,7 +26,7 @@ public class Commons {
 	public static final String QUESTION_FOCUS_DATA = "data/question-focus/";
 	
 	public static final String QUESTION_FOCUS_KEY = "FOCUS";
-	
+		
 	/**
 	 * Builds a new QuestionFocus analyzer for the specified language.
 	 * @param lang A string holding the analyzer language
@@ -78,7 +76,7 @@ public class Commons {
 		try {
 			analyzer = new Analyzer()
 				.addAEDesc(createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor"))
-				.addAEDesc(createEngineDescription("desc/Limosine/BerkeleyITDescriptor"));
+				.addAEDesc(createEngineDescription("desc/Limosine/BerkeleyITDescriptorFix"));
 		} catch (IOException e) { 
 			throw new UIMAException(e);
 		}
