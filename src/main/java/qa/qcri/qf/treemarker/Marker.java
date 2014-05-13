@@ -25,7 +25,12 @@ public class Marker {
 	 * Label for used for marking focus node
 	 */
 	public static final String FOCUS_LABEL = "FOCUS";
-
+	
+	/**
+	 * Cached mark the same node strategy
+	 */
+	public static MarkingStrategy markThisNode = new MarkThisNode();
+	
 	/**
 	 * Add a relational tag to the node selected by the given marking strategy
 	 * 
@@ -111,6 +116,8 @@ public class Marker {
 						node.addAdditionalLabel(Marker.FOCUS_LABEL + "-"
 								+ focusType);
 					}
+					
+					addRelationalTag(node, markThisNode);
 				}
 			}
 		}
@@ -170,6 +177,7 @@ public class Marker {
 		switch (questionClassValue) {
 		case "HUM":
 			mappedNamedEntityTypes.add("PERSON");
+			mappedNamedEntityTypes.add("ORGANIZATION");
 			break;
 		case "LOC":
 			mappedNamedEntityTypes.add("LOCATION");
@@ -181,7 +189,6 @@ public class Marker {
 			mappedNamedEntityTypes.add("PERCENT");
 			break;
 		case "ENTY":
-			mappedNamedEntityTypes.add("ORGANIZATION");
 			mappedNamedEntityTypes.add("PERSON");
 			break;
 		}
