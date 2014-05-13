@@ -7,11 +7,11 @@ import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Function;
 
-public class PrunePosNotStartingWith implements Function<List<RichNode>, List<Boolean>> {
+public class PruneIfParentIsNotStartingWith implements Function<List<RichNode>, List<Boolean>> {
 	
 	private String prefix;
 	
-	public PrunePosNotStartingWith(String prefix) {
+	public PruneIfParentIsNotStartingWith(String prefix) {
 		this.prefix = prefix;
 	}
 

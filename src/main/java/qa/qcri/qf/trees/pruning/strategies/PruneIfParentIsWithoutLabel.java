@@ -7,11 +7,11 @@ import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Function;
 
-public class PruneNodeWithoutLabel implements Function<List<RichNode>, List<Boolean>> {
+public class PruneIfParentIsWithoutLabel implements Function<List<RichNode>, List<Boolean>> {
 	
 	private String label;
 	
-	public PruneNodeWithoutLabel(String label) {
+	public PruneIfParentIsWithoutLabel(String label) {
 		this.label = label;
 	}
 

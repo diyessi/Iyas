@@ -8,17 +8,17 @@ import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Function;
 
-public class PruneNodeWithoutMetadata  implements Function<List<RichNode>, List<Boolean>> {
+public class PruneIfParentIsWithoutMetadata implements Function<List<RichNode>, List<Boolean>> {
 	
 	private String key;
 	
 	private String value;
 
-	public PruneNodeWithoutMetadata(String key) {
+	public PruneIfParentIsWithoutMetadata(String key) {
 		this(key, null);
 	}
 	
-	public PruneNodeWithoutMetadata(String key, String value) {
+	public PruneIfParentIsWithoutMetadata(String key, String value) {
 		this.key = key;
 		this.value = value;
 	}
