@@ -105,4 +105,48 @@ public class TreeUtilTest {
 		Assert.assertTrue(output.trim().equals(expectedOutput));
 	}
 	
+	@Test
+	public void testLeavesParentsChunks() throws UIMAException {
+		
+		String expectedOutput = "DT NN VBZ IN DT NN NNP NNP VBZ DT NN IN NNP NNPS IN NNP";
+
+		String lemma = Joiner.on(",").join(
+				new String[] { RichNode.OUTPUT_PAR_LEMMA });
+
+		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
+
+		List<RichNode> nodes = 	TreeUtil.getLeavesParents(posChunkTree);
+		
+		String output = "";
+		
+		for(RichNode node : nodes) {
+			output += " " + node.getRepresentation(lemma);
+		}
+		
+		Assert.assertTrue(output.trim().equals(expectedOutput));
+	}
+	
+	@Test
+	public void testLeavesGrandParentsChunks() throws UIMAException {
+		
+		String expectedOutput = "NP VP PP NP NP VP NP PP NP PP NP";
+
+		String lemma = Joiner.on(",").join(
+				new String[] { RichNode.OUTPUT_PAR_LEMMA });
+
+		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
+
+		List<RichNode> nodes = 	TreeUtil.getLeavesGrandParents(posChunkTree);
+		
+		String output = "";
+		
+		for(RichNode node : nodes) {
+			output += " " + node.getRepresentation(lemma);
+		}
+		
+		System.out.println(output);
+		
+		Assert.assertTrue(output.trim().equals(expectedOutput));
+	}
+	
 }
