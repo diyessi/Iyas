@@ -12,11 +12,11 @@ import qa.qcri.qf.trees.nodes.RichTokenNode;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
-public class PosChunkPruner implements Pruner {
+public class PosChunkLeavesPruner implements Pruner {
 
 	private int radius;
 
-	public PosChunkPruner(int radius) {
+	public PosChunkLeavesPruner(int radius) {
 		this.radius = radius;
 	}
 
