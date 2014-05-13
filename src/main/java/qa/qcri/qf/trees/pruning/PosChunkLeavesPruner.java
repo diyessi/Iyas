@@ -1,9 +1,7 @@
 package qa.qcri.qf.trees.pruning;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
@@ -24,71 +22,65 @@ public class PosChunkPruner implements Pruner {
 
 	@Override
 	public RichNode prune(RichNode tree, Function<List<RichNode>, List<Boolean>> pruningCriteria) {
-		List<RichNode> chunks = TreeUtil.getLeavesGrandParents(tree);
+		List<RichNode> leaves = TreeUtil.getLeaves(tree);
 		
-		if(chunks.isEmpty()) {
+		if(leaves.isEmpty()) {
 			return tree;
 		}
 		
-		List<Boolean> chunksToPruneIndexes = pruningCriteria.apply(chunks);
+		List<Boolean> leavesToPruneIndexes = pruningCriteria.apply(leaves);
 
 		/**
 		 * In the work published until now, when the pruning criteria satisfies all
-		 * nodes because there is no relational information attached to them,
-		 * the tree is returned as is, without applying any pruning.
+		 * leaves because there is no relational information attached to them,
+		 * the tree is returned as is, without pruning nodes.
 		 */
-		if (!chunksToPruneIndexes.contains(false))
+		if (!leavesToPruneIndexes.contains(false))
 			return tree;
 
-		final int chunksSize = chunks.size();
+		final int leavesSize = leaves.size();
 
-		assert chunksSize == chunksToPruneIndexes.size();
+		assert leavesSize == leavesToPruneIndexes.size();
 
 		String startingTree = (new TreeSerializer()).serializeTree(tree);
 
 		if (this.radius > 0) {
-			Boolean[] pruneIndexes = new Boolean[chunksSize];
-			for (int i = 0; i < chunksSize; i++) {
+			Boolean[] pruneIndexes = new Boolean[leavesSize];
+			for (int i = 0; i < leavesSize; i++) {
 				pruneIndexes[i] = true;
 			}
 
-			for (int i = 0; i < chunksSize; i++) {
-				if (chunksToPruneIndexes.get(i) == false) {
+			for (int i = 0; i < leavesSize; i++) {
+				if (leavesToPruneIndexes.get(i) == false) {
 					/**
 					 * If a node must not be pruned we give the same status to
 					 * its neighbors within the radius
 					 */
 					for (int j = i - this.radius; j <= i + this.radius; j++) {
-						if (0 <= j && j < chunksSize) {
+						if (0 <= j && j < leavesSize) {
 							pruneIndexes[j] = false;
 						}
 					}
 				}
 			}
 
-			chunksToPruneIndexes = Lists.newArrayList(pruneIndexes);
+			leavesToPruneIndexes = Lists.newArrayList(pruneIndexes);
 		}
-		
-		Set<RichTokenNode> prunedTokens = new HashSet<>();
 
-		for (int i = 0; i < chunksSize; i++) {
-			if (chunksToPruneIndexes.get(i)) {
+		for (int i = 0; i < leavesSize; i++) {
+			if (leavesToPruneIndexes.get(i)) {
 				try {
-					RichNode chunk = chunks.get(i);
-					RichNode sentence = chunk.getParent();
-					sentence.getChildren().remove(chunk);
-					
-					for(RichNode tokenNode : TreeUtil.getLeaves(chunk)) {
-						prunedTokens.add((RichTokenNode) tokenNode);
-					}
+					RichNode posTag = leaves.get(i).getParent();
+					RichNode chunk = posTag.getParent();
+					chunk.getChildren().remove(posTag);
 
 					/**
 					 * Recursively remove
 					 */
-					removeEmptySubtree(sentence);
+					removeEmptySubtree(chunk);
 
 				} catch (NullPointerException ex) {
-					System.out.println("Current chunk: " + chunks.get(i).getValue());
+					System.out.println("Current leaf: " + leaves.get(i).getValue());
 					System.out.println(startingTree);
 					System.out.println((new TreeSerializer()).serializeTree(tree));
 					System.exit(1);
@@ -103,12 +95,14 @@ public class PosChunkPruner implements Pruner {
 
 		List<RichTokenNode> tokens = ((TokenTree) tree).getTokens();
 		Iterator<RichTokenNode> tokensIterator = tokens.iterator();
+		int tokenIndex = 0;
 
 		while (tokensIterator.hasNext()) {
-			RichTokenNode token = tokensIterator.next();
-			if (prunedTokens.contains(token)) {
+			tokensIterator.next();
+			if (leavesToPruneIndexes.get(tokenIndex)) {
 				tokensIterator.remove();
 			}
+			tokenIndex++;
 		}
 
 		return tree;
