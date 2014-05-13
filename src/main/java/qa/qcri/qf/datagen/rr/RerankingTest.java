@@ -21,7 +21,7 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
 import qa.qcri.qf.trees.pruning.PosChunkPruner;
-import qa.qcri.qf.trees.pruning.strategies.PruneNodeWithoutMetadata;
+import qa.qcri.qf.trees.pruning.strategies.PruneIfNodeIsWithoutMetadata;
 import qa.qcri.qf.type.QuestionClass;
 import cc.mallet.types.FeatureVector;
 
@@ -88,7 +88,7 @@ public class RerankingTest implements Reranking {
 		this.marker = marker;
 		
 		this.pruner = new PosChunkPruner(2);	
-		this.pruningCriteria = new PruneNodeWithoutMetadata(RichNode.REL_KEY);
+		this.pruningCriteria = new PruneIfNodeIsWithoutMetadata(RichNode.REL_KEY);
 
 		this.questionCas = JCasFactory.createJCas();
 		this.candidateCas = JCasFactory.createJCas();

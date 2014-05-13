@@ -24,7 +24,7 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
 import qa.qcri.qf.trees.pruning.PosChunkPruner;
-import qa.qcri.qf.trees.pruning.strategies.PruneNodeWithoutMetadata;
+import qa.qcri.qf.trees.pruning.strategies.PruneIfNodeIsWithoutMetadata;
 import qa.qcri.qf.type.QuestionClass;
 import util.Pair;
 import cc.mallet.types.FeatureVector;
@@ -76,8 +76,7 @@ public class RerankingTrain implements Reranking {
 
 	public RerankingTrain(FileManager fm, String outputDir, Analyzer ae,
 			TreeSerializer ts, PairFeatureFactory pairFeatureFactory, TokenTreeProvider tokenTreeProvider,
-			MarkTreesOnRepresentation marker)
-			throws UIMAException {
+			MarkTreesOnRepresentation marker) throws UIMAException {
 		this.fm = fm;
 		this.outputDir = outputDir;
 		this.outputFile = outputDir + DEFAULT_OUTPUT_TRAIN_FILE;
@@ -93,7 +92,7 @@ public class RerankingTrain implements Reranking {
 		this.marker = marker;
 		
 		this.pruner = new PosChunkPruner(2);
-		this.pruningCriteria = new PruneNodeWithoutMetadata(RichNode.REL_KEY);
+		this.pruningCriteria = new PruneIfNodeIsWithoutMetadata(RichNode.REL_KEY);
 
 		this.questionCas = JCasFactory.createJCas();
 		this.leftCandidateCas = JCasFactory.createJCas();
