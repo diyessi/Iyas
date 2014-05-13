@@ -1,14 +1,10 @@
 package it.unitn.limosine.italian.syntax.constituency;
-import it.unitn.limosine.types.syntax.ConstituencyTree;
 import it.unitn.limosine.util.SharedModel;
 import it.unitn.limosine.util.StreamGobbler;
 
 import java.io.BufferedOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +17,10 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIndex;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Level;
-import org.uimafit.util.JCasUtil;
 
 import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
@@ -34,8 +28,6 @@ import qa.qcri.qf.trees.TreeSerializer;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
-import edu.stanford.nlp.trees.ConstituentFactory;
 
 
 public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
@@ -83,7 +75,7 @@ public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 		 //StringBuilder tree = new StringBuilder("(Start ");
 		 StringBuilder tree = new StringBuilder("(ROOT ");
 		 
-		 String doctxt = cas.getDocumentText();
+		 //String doctxt = cas.getDocumentText();
 		 //Constituent start = new Constituent(cas, 0, doctxt.length());
 		 //start.setConstituentType("Start");
 		 
@@ -100,7 +92,7 @@ public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 			 */
 			 
 			//get tokens+pos of sentence, prepare txp input
-			 List<AnnotationFS> myPos = JCasUtility.selectCovered(cas, POS.class, sentence);
+			 //List<AnnotationFS> myPos = JCasUtility.selectCovered(cas, POS.class, sentence);
 			 List<AnnotationFS> myToks = JCasUtility.selectCovered(cas, Token.class, sentence);
 		  
 		 	//List<Annotation> myPos = JCasUtility.
@@ -175,21 +167,17 @@ public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 
 
 				        List<String> output = outGobbler.getOuput();
+				        /*
 				        List<String> outputErr = errGobbler.getOuput();
 				        
+				        
 				        for(String out : outputErr) {
-				        	//System.err.println(out.trim());
+				        	System.err.println(out.trim());
 				        }
+				        */
 				        
 				        for(String out : output) {
 				        	String subtree = out.trim();
-				        	
-				        	/*
-				        	constituencyTree = constituencyTree.replaceAll("\\( \\(", "\\(\\(");
-				        	constituencyTree = constituencyTree.replaceAll("\\) \\)", "\\)\\)");
-				        	constituencyTree = constituencyTree.replaceAll("\\) \\(", "\\)\\(");
-				        	constituencyTree = constituencyTree.substring(1, constituencyTree.length() - 1);
-				        	 */
 				        	
 				        	// Strip spaces around brackets
 				        	subtree = subtree.replaceAll("([()])\\s+([()])", "$1$2");
