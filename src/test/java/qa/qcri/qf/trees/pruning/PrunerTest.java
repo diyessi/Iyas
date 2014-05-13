@@ -20,9 +20,9 @@ import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
-import qa.qcri.qf.trees.pruning.strategies.PruneNodeWithoutLabel;
-import qa.qcri.qf.trees.pruning.strategies.PruneNodeWithoutMetadata;
-import qa.qcri.qf.trees.pruning.strategies.PrunePosNotStartingWith;
+import qa.qcri.qf.trees.pruning.strategies.PruneIfParentIsNotStartingWith;
+import qa.qcri.qf.trees.pruning.strategies.PruneIfParentIsWithoutLabel;
+import qa.qcri.qf.trees.pruning.strategies.PruneIfParentIsWithoutMetadata;
 
 import com.google.common.base.Joiner;
 
@@ -71,8 +71,8 @@ public class PrunerTest {
 		
 		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
 		
-		new PosChunkPruner(-1).prune(posChunkTree,
-				new PrunePosNotStartingWith("N"));
+		new PosChunkLeavesPruner(0).prune(posChunkTree,
+				new PruneIfParentIsNotStartingWith("N"));
 		
 		String output = ts.serializeTree(posChunkTree, lemma);
 	
@@ -92,8 +92,8 @@ public class PrunerTest {
 		
 		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
 		
-		new PosChunkPruner(0).prune(posChunkTree,
-				new PrunePosNotStartingWith("N"));
+		new PosChunkLeavesPruner(0).prune(posChunkTree,
+				new PruneIfParentIsNotStartingWith("N"));
 		
 		String output = ts.serializeTree(posChunkTree, lemma);
 	
@@ -114,8 +114,8 @@ public class PrunerTest {
 		
 		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
 		
-		new PosChunkPruner(2).prune(posChunkTree,
-				new PrunePosNotStartingWith("NNP"));
+		new PosChunkLeavesPruner(2).prune(posChunkTree,
+				new PruneIfParentIsNotStartingWith("NNP"));
 		
 		String output = ts.serializeTree(posChunkTree, lemma);
 	
@@ -138,8 +138,8 @@ public class PrunerTest {
 		posChunkTree.getTokens().get(6).getParent().addAdditionalLabel("NAME");
 		posChunkTree.getTokens().get(7).getParent().addAdditionalLabel("NAME");
 		
-		new PosChunkPruner(2).prune(posChunkTree,
-				new PruneNodeWithoutLabel("NAME"));
+		new PosChunkLeavesPruner(2).prune(posChunkTree,
+				new PruneIfParentIsWithoutLabel("NAME"));
 		
 		String output = ts.enableAdditionalLabels()
 				.serializeTree(posChunkTree, lemma);
@@ -167,8 +167,8 @@ public class PrunerTest {
 		posChunkTree.getTokens().get(7).getParent()
 			.getMetadata().put(RichNode.REL_KEY, RichNode.REL_KEY);
 		
-		new PosChunkPruner(2).prune(posChunkTree,
-				new PruneNodeWithoutMetadata(RichNode.REL_KEY));
+		new PosChunkLeavesPruner(2).prune(posChunkTree,
+				new PruneIfParentIsWithoutMetadata(RichNode.REL_KEY));
 		
 		String output = ts.enableRelationalTags()
 				.serializeTree(posChunkTree, lemma);
