@@ -8,6 +8,7 @@ import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.trees.TokenSelector;
 import qa.qcri.qf.trees.TokenTree;
+import qa.qcri.qf.trees.TreeUtil;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import qa.qcri.qf.type.QuestionClass;
@@ -32,7 +33,7 @@ public class Marker {
 	public static MarkingStrategy markThisNode = new MarkThisNode();
 	
 	/**
-	 * Add a relational tag to the node selected by the given marking strategy
+	 * Adds a relational tag to the node selected by the given marking strategy
 	 * 
 	 * @param node
 	 *            the starting node
@@ -42,6 +43,17 @@ public class Marker {
 	public static void addRelationalTag(RichNode node, MarkingStrategy strategy) {
 		for (RichNode nodeToMark : strategy.getNodesToMark(node)) {
 			nodeToMark.getMetadata().put(RichNode.REL_KEY, RichNode.REL_KEY);
+		}
+	}
+	
+	/**
+	 * Removes Relational information from a tree
+	 * 
+	 * @param tree the tree to clear
+	 */
+	public static void removeRelationalTagFromTree(RichNode tree) {
+		for (RichNode node : TreeUtil.getNodes(tree)) {
+			node.getMetadata().remove(RichNode.REL_KEY);
 		}
 	}
 
