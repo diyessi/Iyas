@@ -14,6 +14,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.uima.UIMAException;
 
+import qa.qcri.qf.datagen.ngram.CharacterNGramIdf;
+import qa.qcri.qf.datagen.ngram.IdfModel;
 import qa.qcri.qf.datagen.rr.Reranking;
 import qa.qcri.qf.datagen.rr.RerankingTest;
 import qa.qcri.qf.datagen.rr.RerankingTrain;
@@ -171,6 +173,19 @@ public class TrecPipelineRunner {
 			
 			MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(
 					new MarkTwoAncestors()).useStopwords(STOPWORDS_EN_PATH);
+			
+			/**
+			 * Builds IDF model if it is not already built
+			 */
+			if(!new File(trainCandidatesPath + ".idf").exists()) {
+				IdfModel ifdModel = CharacterNGramIdf.buildModel(2, 4,
+						new TrecCandidatesReader(trainCandidatesPath));
+				
+				CharacterNGramIdf.saveModel(ifdModel, trainCandidatesPath + ".idf");
+			} else {
+				pf.setIdfValues(trainCandidatesPath + ".idf");
+			}
+			
 
 			/**
 			 * Sets up the analyzer, initially with the persistence directory

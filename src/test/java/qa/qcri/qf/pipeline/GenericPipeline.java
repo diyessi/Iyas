@@ -1,5 +1,7 @@
 package qa.qcri.qf.pipeline;
 
+import it.unitn.limosine.converters.LimosineConverter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -42,6 +44,8 @@ public class GenericPipeline {
 
 	private AnalyzableReader candidatesReader;
 	
+	private LimosineConverter limosineConverter;
+	
 	private int candidatesToKeep = -1;
 
 	public GenericPipeline(FileManager fm) throws UIMAException {
@@ -56,6 +60,10 @@ public class GenericPipeline {
 		this.candidatesReader = candidatesReader;
 		
 		this.populateIdToQuestionMap();
+	}
+	
+	public void setLimosineConverter(LimosineConverter limosineConverter) {
+		this.limosineConverter = limosineConverter;
 	}
 
 	public void performAnalysis() throws UIMAException {
@@ -151,18 +159,30 @@ public class GenericPipeline {
 	private void processAnalyzables(Iterator<Analyzable> analyzables,
 			String aesListId) throws UIMAException {
 		
-		if(this.candidatesToKeep == -1) {	
-			JCas cas = JCasFactory.createJCas();
+		JCas cas = JCasFactory.createJCas();
+		
+		if(this.candidatesToKeep == -1) {			
 			while (analyzables.hasNext()) {
 				Analyzable analyzable = analyzables.next();
-				this.ae.analyze(cas, analyzable, aesListId);
+				if(this.limosineConverter == null) {
+					this.ae.analyze(cas, analyzable, aesListId);
+				} else {
+					this.ae.analyze(cas, analyzable, aesListId,
+							this.limosineConverter);
+				}
 			}
 		} else {
 			int counter = 0;
-			JCas cas = JCasFactory.createJCas();
 			while (analyzables.hasNext()) {
 				Analyzable analyzable = analyzables.next();
-				this.ae.analyze(cas, analyzable, aesListId);
+				
+				if(this.limosineConverter == null) {
+					this.ae.analyze(cas, analyzable, aesListId);
+				} else {
+					this.ae.analyze(cas, analyzable, aesListId,
+							this.limosineConverter);
+				}
+				
 				counter++;
 				
 				if(counter >= this.candidatesToKeep) {
