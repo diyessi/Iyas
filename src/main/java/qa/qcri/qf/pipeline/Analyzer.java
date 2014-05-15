@@ -1,5 +1,7 @@
 package qa.qcri.qf.pipeline;
 
+import it.unitn.limosine.converters.LimosineConverter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +17,9 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.uimafit.util.JCasUtil;
 
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.util.CasCopier;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
@@ -116,6 +120,35 @@ public class Analyzer {
 		cas.setDocumentText(analyzable.getContent());
 		cas.setDocumentLanguage(analyzable.getLanguage());
 
+		analyzeWithSerialization(cas, analyzable, aesListId);
+	}
+	
+	public void analyze(JCas cas, Analyzable analyzable, String aesListId,
+			LimosineConverter limosineConverter) {
+		/**
+		 * Makes sure it works with a clean CAS
+		 */
+		cas.reset();
+		
+		/**
+		 * Fills the CAS with the Limosine content
+		 */
+		
+		cas.setDocumentLanguage(analyzable.getLanguage());
+		
+		limosineConverter.readLimosineAnnotations(analyzable.getId());
+		
+		CasCopier.copyCas(limosineConverter.getLimosineCas().getCas(),
+				cas.getCas(), true);
+		
+		limosineConverter.convertSegmentation(cas);
+		limosineConverter.convertNamedEntities(cas);
+		
+		analyzeWithSerialization(cas, analyzable, aesListId);
+	}
+	
+	private void analyzeWithSerialization(JCas cas, Analyzable analyzable,
+			String aesListId) {
 		/**
 		 * Retrieves the content id, vital for the serialization mechanism to
 		 * retrieve the content
