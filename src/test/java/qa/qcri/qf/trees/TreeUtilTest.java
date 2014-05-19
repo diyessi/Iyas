@@ -129,7 +129,7 @@ public class TreeUtilTest {
 	@Test
 	public void testLeavesGrandParentsChunks() throws UIMAException {
 		
-		String expectedOutput = "NP VP PP NP NP VP NP PP NP PP NP";
+		String expectedOutput = "DT NN VBZ IN DT NN NNP NNP VBZ DT NN IN NNP NNPS IN NNP";
 
 		String lemma = Joiner.on(",").join(
 				new String[] { RichNode.OUTPUT_PAR_LEMMA });
@@ -144,8 +144,29 @@ public class TreeUtilTest {
 			output += " " + node.getRepresentation(lemma);
 		}
 		
-		System.out.println(output);
+		Assert.assertTrue(output.trim().equals(expectedOutput));
+	}
+	
+	@Test
+	public void testGetNodesBFS() throws UIMAException {
 		
+		String expectedOutput = "ROOT S NP VP PP NP NP VP NP PP NP PP NP DT NN VBZ IN DT NN "
+				+ "NNP NNP VBZ DT NN IN NNP NNPS IN NNP the apple be on the table Barack Obama "
+				+ "be the president of United States of America";
+
+		String lemma = Joiner.on(",").join(
+				new String[] { RichNode.OUTPUT_PAR_LEMMA });
+
+		RichNode posChunkTree = RichTree.getPosChunkTree(cas);
+
+		List<RichNode> nodes = 	TreeUtil.getNodesBFS(posChunkTree);
+		
+		String output = "";
+		
+		for(RichNode node : nodes) {
+			output += " " + node.getRepresentation(lemma);
+		}
+
 		Assert.assertTrue(output.trim().equals(expectedOutput));
 	}
 	
