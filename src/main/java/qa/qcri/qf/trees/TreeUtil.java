@@ -2,7 +2,9 @@ package qa.qcri.qf.trees;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import qa.qcri.qf.trees.nodes.RichNode;
@@ -34,6 +36,29 @@ public class TreeUtil {
 		}
 
 		return nodes;
+	}
+	
+	/**
+	 * Traverses the tree in a BFS fashion
+	 * 
+	 * @param tree
+	 *            the tree to traverse
+	 * @return a list of nodes
+	 */
+	public static List<RichNode> getNodesBFS(RichNode tree) {
+		List<RichNode> visitList = new ArrayList<>();
+		
+		Queue<RichNode> queue = new LinkedList<RichNode>();
+		queue.add(tree);
+		while(!queue.isEmpty()) {
+			RichNode node = queue.poll();
+			visitList.add(node);
+			for(RichNode child : node.getChildren()) {
+				queue.add(child);
+			}
+		}
+
+		return visitList;
 	}
 
 	/**
