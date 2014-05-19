@@ -8,6 +8,7 @@ import java.util.Set;
 import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 
 public class TreeUtil {
 
@@ -151,4 +152,30 @@ public class TreeUtil {
 		return leavesGrandParents;
 	}
 
+	/**
+	 * Returns the text of the nodes separated by white spaces
+	 * @param nodes the nodes from which the text is recovered
+	 * @param outputParams the output parameters sent to the nodes
+	 * @return the string containing the text of the nodes
+	 */
+	public static String getText(List<RichNode> nodes, String outputParams) {
+		List<String> strings = new ArrayList<>();
+		for(RichNode node : nodes) {
+			strings.add(node.getRepresentation(outputParams));
+		}
+		return Joiner.on(" ").join(strings);
+	}
+	
+	/**
+	 * Returns the values associated with the nodes separated by white spaces
+	 * @param nodes the nodes from which the node values are recovered
+	 * @return the string containing the values of the nodes
+	 */
+	public static String getValues(List<RichNode> nodes) {
+		List<String> strings = new ArrayList<>();
+		for(RichNode node : nodes) {
+			strings.add(node.getValue());
+		}
+		return Joiner.on(" ").join(strings);
+	}
 }
