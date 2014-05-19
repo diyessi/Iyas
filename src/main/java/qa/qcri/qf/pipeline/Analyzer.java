@@ -17,12 +17,11 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.uimafit.util.JCasUtil;
 
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.util.CasCopier;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.util.CasCopier;
 
 public class Analyzer {
 
