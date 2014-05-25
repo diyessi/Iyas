@@ -19,6 +19,7 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
+import qa.qcri.qf.treemarker.Marker;
 import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
@@ -121,6 +122,8 @@ public class MarkerTest {
 				+ "(SBAR (IN (that)))(NP (PRP (he)))(VP (VBD (was))(VBN (assassinated)))))";
 		
 		Assert.assertEquals(expectedOutput, ts.serializeTree(tree));
+		
+		System.out.println(ts.useSquareBrackets().serializeTree(tree));
 	}
 	
 }

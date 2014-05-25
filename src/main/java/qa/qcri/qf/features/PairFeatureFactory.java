@@ -1,5 +1,6 @@
 package qa.qcri.qf.features;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import cc.mallet.types.AugmentableFeatureVector;
 import cc.mallet.types.FeatureVector;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TermSimilarityMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
+import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.CharacterNGramMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramContainmentMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramJaccardMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.CosineSimilarity;
@@ -36,6 +38,11 @@ public class PairFeatureFactory {
 	 * Mallet Alphabet is used to index features
 	 */
 	private Alphabet alphabet;
+	
+	/**
+	 * Path of the file containing the idf values to use in similarity metrics
+	 */
+	private String idfValuesPath;
 
 	/**
 	 * Some DKPro features works only if provided with list of tokens Thus, it
@@ -54,10 +61,19 @@ public class PairFeatureFactory {
 	 */
 	public PairFeatureFactory(Alphabet alphabet) {
 		this.alphabet = alphabet;
+		this.measures = new ArrayList<>();
+	}
+	
+	/**
+	 * Sets the path of the file containing the idf values
+	 * @param idfValuesPath
+	 */
+	public void setIdfValues(String idfValuesPath) {
+		this.idfValuesPath = idfValuesPath;
 	}
 
 	public void setupMeasures(String parameterList) {
-		this.measures = new ArrayList<>();
+		this.measures.clear();
 
 		/**
 		 * Prepares the token and tree representations we want to use for
@@ -87,13 +103,20 @@ public class PairFeatureFactory {
 		this.addTextMeasure(new WordNGramContainmentMeasure(2), tokens);
 
 		/**
-		 * Map<String, Double> idfValues; this.addPair(new
-		 * CharacterNGramMeasure(2, idfValues); this.addPair(new
-		 * CharacterNGramMeasure(3, idfValues); this.addPair(new
-		 * CharacterNGramMeasure(4, idfValues);
-		 * 
+		if(this.idfValuesPath != null) {
+			try {
+				 this.addTextMeasure(new CharacterNGramMeasure(2, this.idfValuesPath), tokens);
+				 this.addTextMeasure(new CharacterNGramMeasure(3, this.idfValuesPath), tokens);
+				 this.addTextMeasure(new CharacterNGramMeasure(4, this.idfValuesPath), tokens);
+			} catch (IOException e) {
+				e.printStackTrace();
+		}
+		*/
+
+		 
+		/**
 		 * ESA_Wiktionary ESA_WordNet
-		 **/
+		 */
 
 		/**
 		 * Additional DKPro features
@@ -129,13 +152,13 @@ public class PairFeatureFactory {
 		return fv;
 	}
 
-	private void addTextMeasure(TextSimilarityMeasure measure,
+	public void addTextMeasure(TextSimilarityMeasure measure,
 			Representation representation) {
 		this.measures.add(new Pair<MeasureAdaptor, Representation>(
 				new TextMeasureAdaptor(measure), representation));
 	}
 
-	private void addTermMeasure(TermSimilarityMeasure measure,
+	public void addTermMeasure(TermSimilarityMeasure measure,
 			Representation representation) {
 		this.measures.add(new Pair<MeasureAdaptor, Representation>(
 				new TermMeasureAdaptor(measure), representation));

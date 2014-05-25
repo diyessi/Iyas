@@ -205,8 +205,7 @@ public class DiscourseDataAnnotator {
 		
 		System.out.println(ts.serializeTree(discourseTree));
 	}
-	
-	
+		
 	public TokenTree constructDiscourseTree(String discourseTree) {
 		return parseDiscourseTree(discourseTree);
 	}

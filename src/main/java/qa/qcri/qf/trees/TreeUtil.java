@@ -37,7 +37,7 @@ public class TreeUtil {
 
 		return nodes;
 	}
-	
+
 	/**
 	 * Traverses the tree in a BFS fashion
 	 * 
@@ -47,13 +47,13 @@ public class TreeUtil {
 	 */
 	public static List<RichNode> getNodesBFS(RichNode tree) {
 		List<RichNode> visitList = new ArrayList<>();
-		
+
 		Queue<RichNode> queue = new LinkedList<RichNode>();
 		queue.add(tree);
-		while(!queue.isEmpty()) {
+		while (!queue.isEmpty()) {
 			RichNode node = queue.poll();
 			visitList.add(node);
-			for(RichNode child : node.getChildren()) {
+			for (RichNode child : node.getChildren()) {
 				queue.add(child);
 			}
 		}
@@ -101,12 +101,13 @@ public class TreeUtil {
 	 */
 	public static List<RichNode> getLeaves(RichNode tree) {
 		return TreeUtil.getNodesWithFilter(tree,
-				new Function<RichNode, Boolean>() {
-					@Override
-					public Boolean apply(RichNode node) {
-						return node.isLeaf();
-					}
-				});
+			new Function<RichNode, Boolean>() {
+				@Override
+				public Boolean apply(RichNode node) {
+					return node.isLeaf();
+				}
+			}
+		);
 	}
 
 	/**
@@ -118,12 +119,13 @@ public class TreeUtil {
 	 */
 	public static List<RichNode> getNonLeaves(RichNode tree) {
 		return TreeUtil.getNodesWithFilter(tree,
-				new Function<RichNode, Boolean>() {
-					@Override
-					public Boolean apply(RichNode node) {
-						return !node.isLeaf();
-					}
-				});
+			new Function<RichNode, Boolean>() {
+				@Override
+				public Boolean apply(RichNode node) {
+					return !node.isLeaf();
+				}
+			}
+		);
 	}
 
 	/**
@@ -149,7 +151,7 @@ public class TreeUtil {
 
 		return leavesParents;
 	}
-	
+
 	/**
 	 * Returns the grandparents of the leaves
 	 * 
@@ -165,7 +167,7 @@ public class TreeUtil {
 
 		for (RichNode leaf : leaves) {
 			RichNode parent = leaf.getParent();
-			if(parent != null) {
+			if (parent != null) {
 				RichNode grandParent = parent.getParent();
 				if (grandParent != null && !grandParents.contains(parent)) {
 					leavesGrandParents.add(parent);
@@ -179,28 +181,52 @@ public class TreeUtil {
 
 	/**
 	 * Returns the text of the nodes separated by white spaces
-	 * @param nodes the nodes from which the text is recovered
-	 * @param outputParams the output parameters sent to the nodes
+	 * 
+	 * @param nodes
+	 *            the nodes from which the text is recovered
+	 * @param outputParams
+	 *            the output parameters sent to the nodes
 	 * @return the string containing the text of the nodes
 	 */
 	public static String getText(List<RichNode> nodes, String outputParams) {
 		List<String> strings = new ArrayList<>();
-		for(RichNode node : nodes) {
+		for (RichNode node : nodes) {
 			strings.add(node.getRepresentation(outputParams));
 		}
 		return Joiner.on(" ").join(strings);
 	}
-	
+
 	/**
 	 * Returns the values associated with the nodes separated by white spaces
-	 * @param nodes the nodes from which the node values are recovered
+	 * 
+	 * @param nodes
+	 *            the nodes from which the node values are recovered
 	 * @return the string containing the values of the nodes
 	 */
 	public static String getValues(List<RichNode> nodes) {
 		List<String> strings = new ArrayList<>();
-		for(RichNode node : nodes) {
+		for (RichNode node : nodes) {
 			strings.add(node.getValue());
 		}
 		return Joiner.on(" ").join(strings);
+	}
+
+	/**
+	 * Shorthand method for getting all the nodes from a tree having the
+	 * specified label
+	 * 
+	 * @param tree
+	 *            the tree to traverse
+	 * @param label
+	 *            the label of the node to retrieve
+	 * @return the nodes in the tree having the specified label
+	 */
+	public static List<RichNode> getNodesWithLabel(RichNode tree,final String label) {
+		return TreeUtil.getNodesWithFilter(tree, new Function<RichNode, Boolean>() {
+			@Override
+			public Boolean apply(RichNode node) {
+				return node.getValue().equals(label);
+			}
+		});
 	}
 }

@@ -32,7 +32,7 @@ public class IllinoisChunker extends JCasAnnotator_ImplBase {
 	 * Chunk annotator using IllinoisChunker.
 	 */	
 	
-private Chunker chunker;
+	private Chunker chunker;
 	
 	@Override
 	public void initialize(UimaContext aContext) throws ResourceInitializationException {

@@ -9,3 +9,4 @@
 -candidatesToKeepInTrain 10
 -candidatesToKeepInTest 50
 -lang en
+-skipSerializationCheck

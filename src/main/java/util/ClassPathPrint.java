@@ -26,4 +26,16 @@ public class ClassPathPrint {
 			}
 		}
 	}
+	
+	public static void printRuntime() {
+		RuntimeMXBean RuntimemxBean = ManagementFactory.getRuntimeMXBean();
+		List<String> paramList = new ArrayList<String>();
+		paramList.add(RuntimemxBean.getClassPath());
+		
+		for (String p : paramList) {
+			for(String entry : p.split(":")) {
+				System.out.println(entry);
+			}
+		}
+	}
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/classes" path="src/main/java">
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
@@ -45,6 +45,14 @@
 	<classpathentry kind="lib" path="lib/limosine/unitn_subjexpr.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/weka-3-4-11.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/wsdl4j-1.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/limosine/add/axis-ant.jar"/>
+	<classpathentry kind="lib" path="lib/limosine/add/axis.jar"/>
+	<classpathentry kind="lib" path="lib/limosine/add/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="lib/limosine/add/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/limosine/add/jdom-2.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/limosine/add/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="lib/limosine/add/xbean.jar"/>
+	<classpathentry kind="lib" path="lib/limosine/add/xpp3-1.1.4c.jar"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>

@@ -172,6 +172,26 @@ def print_eacl_folds_stats(n_folds):
 		print "\tNumber of questions in test fold:", len(test_qids)
 		print "\tNumber of questions in common:", len(train_qids.intersection(test_qids))
 		print ""
+		
+def post_check(n_folds):
+	for fold_id in xrange(n_folds):
+		eacl_dir = "data/trec-en/chvfq-2013-10-14/"
+		eacl_train_f_res = eacl_dir + "fold" + str(fold_id) + "/svm.train.res"
+		eacl_train_qids = set([line.strip().split(" ")[0] for line in open(eacl_train_f_res, "r")])
+		eacl_test_f_res = eacl_dir + "fold" + str(fold_id) + "/svm.relevancy"
+		eacl_test_qids = set([line.strip().split(" ")[0] for line in open(eacl_test_f_res, "r")])
+		
+		fold_dir = "data/trec-en/"
+		train_f_res = fold_dir + "folds/fold-" + str(fold_id) + "/svm.train.res"
+		train_qids = set([line.strip().split(" ")[0] for line in open(train_f_res, "r")])
+		test_f_res = fold_dir + "folds/fold-" + str(fold_id) + "/svm.test.res"
+		test_qids = set([line.strip().split(" ")[0] for line in open(test_f_res, "r")])
+		
+		print "#questions in EACL and trec-en train folds", fold_id, ":", len(eacl_train_qids), len(train_qids) 
+		print "#questions in EACL and trec-en test folds", fold_id, ":", len(eacl_test_qids), len(test_qids) 
+		
+		print "EACL and trec-en train fold", fold_id, "mismatch:", len(eacl_train_qids.difference(train_qids)) 
+		print "EACL and trec-en test fold", fold_id, "mismatch:", len(eacl_test_qids.difference(test_qids)) 
 	
 def load_eacl_folds_data(n_folds):
 	directory = "data/trec-en/chvfq-2013-10-14/"
