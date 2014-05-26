@@ -8,6 +8,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import qa.qcri.qf.trees.nodes.RichNode;
+import qa.qcri.qf.trees.nodes.RichTokenNode;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -228,5 +229,25 @@ public class TreeUtil {
 				return node.getValue().equals(label);
 			}
 		});
+	}
+	
+	/**
+	 * Join the leaves of a tree
+	 * @param tree the tree containing the leaves to join
+	 * @param outputParams the output parameters for the nodes output
+	 * @return a string containing the text from the leaves
+	 */
+	public static String joinLeaves(RichNode tree, String outputParams) {
+		return TreeUtil.getText(TreeUtil.getLeaves(tree), outputParams);
+	}
+	
+	/**
+	 * Removes RELATIONAL information from the tokens of a tree
+	 * @param tree the tree to cleanup
+	 */
+	public static void removeRelTagsFromTokens(TokenTree tree) {
+		for(RichTokenNode tokenNode : tree.getTokens()) {
+			tokenNode.getMetadata().remove(RichNode.REL_KEY);
+		}
 	}
 }
