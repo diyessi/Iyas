@@ -9,6 +9,6 @@ do
     for desc in ${dir}/*.xml
     do
         echo "Processing $desc..."
-        "$UIMA_HOME/bin/runUimaClass.sh" $MAIN -jcasgeninput "$desc" -jcasgenoutput "../src/main/java"
+        "$UIMA_HOME/bin/runUimaClass.sh" $MAIN -jcasgeninput "$desc" -jcasgenoutput "../src/test/java"
     done
 done
