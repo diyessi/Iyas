@@ -98,7 +98,7 @@ public class AnalyzerAndTreeFrameworkTutorial {
 		 */
 		
 		Analyzable question = new SimpleContent("question-1", // Unique identifier
-				"Who was elected President of South Africa in 1994?");
+				"Who was elected President of South Africa in 1994?", "en");
 		
 		Analyzable passage = new SimpleContent("passage-1-1",
 				"Chirac's stops in Namibia, Angola and Mozambique are the first visits ever by a "
@@ -120,7 +120,6 @@ public class AnalyzerAndTreeFrameworkTutorial {
 		JCas questionCas = JCasFactory.createJCas();
 		JCas passageCas = JCasFactory.createJCas();
 		
-		
 		/**
 		 * Run the analysis. For the question we use the "parsing" pipeline
 		 */
@@ -133,9 +132,9 @@ public class AnalyzerAndTreeFrameworkTutorial {
 		}
 		System.out.println("[Lemmatized question]: " + Joiner.on(" ").join(tokens) + "\n\n");
 		
-		/**
-		 * Let's explore some functionalities of the framework for handling tree
-		 */
+		/***************************************************************************
+		 * Let's explore some functionalities of the framework for handling trees
+		 ***************************************************************************/
 		
 		/**
 		 * We build a constituency tree from the annotated question.
@@ -173,7 +172,7 @@ public class AnalyzerAndTreeFrameworkTutorial {
 		List<RichNode> inNodes = TreeUtil.getNodesWithFilter(questionTree, new Function<RichNode, Boolean>() {
 			@Override
 			public Boolean apply(RichNode node) {
-				if(node.getValue().equals("IN")) {
+				if(node.getValue().equals("IN") && !node.isLeaf()) {
 					return true;
 				} else {
 					return false;
