@@ -34,7 +34,9 @@ public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 
  	private String berkeleyitpath;
 	//private String berkeleycommand="bin/berkeleyparser-runio.sh";
- 	private String berkeleycommand="tools/berkeleyparser-runio.sh";
+ 	private String berkeleycommand="berkeleyparser-runio.pl";
+ 	
+ 	private String fullberkitcommand;
  	
 	@Override
 	public void initialize(UimaContext aContext)
@@ -53,7 +55,10 @@ public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 
 			getContext().getLogger().log(Level.INFO, berkeleyitpath);
 			
+			fullberkitcommand = berkeleyitpath + "/" + berkeleycommand;
 			
+			getContext().getLogger().log(Level.INFO, fullberkitcommand);
+					
 		} catch (ResourceAccessException e) {
 			e.printStackTrace();
 		}	
@@ -107,7 +112,6 @@ public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 				 //DUMP 1 sentence in the TXP format
 				 
 					//String fullberkitcommand = berkeleyitpath + "/" + berkeleycommand;
-				 	String fullberkitcommand = berkeleycommand;
 					/*
 					List<String> fulltxpcmdline=new ArrayList<String>();
 					fulltxpcmdline.add(fulltxpcommand);
@@ -117,7 +121,6 @@ public class BerkeleyWrapperFix extends JCasAnnotator_ImplBase {
 					Map<String, String> env = processBuilder.environment();
 					env.put("TEXTPRO", txppath);
 */
-					
 					ProcessBuilder processBuilder = new ProcessBuilder(fullberkitcommand);
 					Map<String, String> env = processBuilder.environment();
 					env.put("CLASSPATH", "$CLASSPATH:"+berkeleyitpath+"/berkeleyParser.jar");
