@@ -2,7 +2,7 @@
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>true</primitive>
-  <annotatorImplementationName>it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapper</annotatorImplementationName>
+  <annotatorImplementationName>it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapperFixMax</annotatorImplementationName>
   <analysisEngineMetaData>
     <name>BerkeleyITDescriptor</name>
     <description/>
@@ -20,14 +20,26 @@
     <fsIndexCollection/>
     <capabilities>
       <capability>
+      	<!-- 
         <inputs>
           <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
           <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
           <type allAnnotatorFeatures="true">it.unitn.limosine.types.pos.Pos</type>
         </inputs>
+       -->
+       	<inputs>
+       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</type>
+       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</type>
+       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</type>
+       	</inputs>
+       	<outputs>
+       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent</type>
+       	</outputs>
+       	<!-- 
         <outputs>
           <type allAnnotatorFeatures="true">it.unitn.limosine.types.syntax.ConstituencyTree</type>
         </outputs>
+        -->
         <languagesSupported/>
       </capability>
     </capabilities>
@@ -51,7 +63,7 @@
         <name>BerkeleyItPath</name>
         <description>Path to the Berkeley parser with its Italian model and conversion scripts</description>
         <fileResourceSpecifier>
-          <fileUrl>file:tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian</fileUrl>
+          <fileUrl>tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian</fileUrl>
         </fileResourceSpecifier>
         <implementationName>it.unitn.limosine.util.SharedModel_Impl</implementationName>
       </externalResource>

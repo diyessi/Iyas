@@ -1,5 +1,7 @@
 package it.unitn.limosine.util;
 
+import it.unitn.limosine.types.syntax.ConstituencyTree;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,13 +10,12 @@ import org.apache.uima.cas.Type;
 import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
+import org.uimafit.util.JCasUtil;
 
 public class JCasUtility {
 	
 	public static final String UIMA_BUILTIN_JCAS_PREFIX = "org.apache.uima.jcas.";
 	
-	
-
 	/***
 	 * Inspired by UimaFit util 
 	 * Get annotation list of Class type that spans a given context
@@ -79,6 +80,16 @@ public class JCasUtility {
 			throw new IllegalArgumentException("Undeclared type [" + aTypename + "]");
 		}
 		return type;
+	}
+	
+	public static String mergeRawParses(JCas cas) {
+		String fullTree = "";
+		
+		for(ConstituencyTree tree : JCasUtil.select(cas, ConstituencyTree.class)) {
+			fullTree += " " + tree.getRawParse();
+		}
+		
+		return "(ROOT " + fullTree.trim() + ")";
 	}
 
 }
