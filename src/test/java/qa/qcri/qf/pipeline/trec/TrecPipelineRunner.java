@@ -17,8 +17,8 @@ import org.apache.uima.UIMAException;
 import qa.qcri.qf.datagen.ngram.CharacterNGramIdf;
 import qa.qcri.qf.datagen.ngram.IdfModel;
 import qa.qcri.qf.datagen.rr.Reranking;
-import qa.qcri.qf.datagen.rr.RerankingTestIt;
-import qa.qcri.qf.datagen.rr.RerankingTrainIt;
+import qa.qcri.qf.datagen.rr.RerankingTest;
+import qa.qcri.qf.datagen.rr.RerankingTrain;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
@@ -203,7 +203,7 @@ public class TrecPipelineRunner {
 				pipeline.performAnalysis();
 			}
 
-			Reranking dataGenerator = new RerankingTrainIt(fm, trainOutputDir,
+			Reranking dataGenerator = new RerankingTrain(fm, trainOutputDir,
 					ae, new TreeSerializer(), pf,
 					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
 
@@ -229,7 +229,7 @@ public class TrecPipelineRunner {
 			/**
 			 * Sets up the generation for test
 			 */
-			dataGenerator = new RerankingTestIt(fm, testOutputDir, ae,
+			dataGenerator = new RerankingTest(fm, testOutputDir, ae,
 					new TreeSerializer(), pf,
 					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
 
