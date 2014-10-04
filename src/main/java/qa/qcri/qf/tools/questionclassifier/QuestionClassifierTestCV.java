@@ -8,8 +8,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import edu.berkeley.nlp.util.Logger;
 import qa.qcri.qf.fileutil.FileManager;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class QuestionClassifierTestCV {
 	public static final String LANG_OPT = "lang";	
 
 	public static final String HELP_OPT = "help";
+	
+	private static final Logger logger = LoggerFactory.getLogger(QuestionClassifierTestCV.class);
 	
 	public static void main(String[] args) throws UIMAException { 
 		Options options = new Options();
@@ -205,7 +208,7 @@ public class QuestionClassifierTestCV {
 				if (predictedCategory.equals(question.getCategory())) {
 					correctPredictionsNumber++;
 				} else {
-					Logger.warn(question.getContent() + " Predicted " + predictedCategory
+					logger.warn(question.getContent() + " Predicted " + predictedCategory
 							+ ". Was " + question.getCategory());
 				}
 				totalPredictionsNumber++;				

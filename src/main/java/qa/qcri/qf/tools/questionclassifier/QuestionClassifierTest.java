@@ -23,7 +23,9 @@ import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.providers.ConstituencyTreeProvider;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
-import edu.berkeley.nlp.util.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class QuestionClassifierTest {
 	
@@ -42,6 +44,9 @@ public class QuestionClassifierTest {
 	public static final String HELP_OPT = "help";
 	
 	private final Analyzer analyzer;
+	
+	private static final Logger logger = LoggerFactory.getLogger(QuestionClassifierTest.class);
+	
 	
 	public QuestionClassifierTest(Analyzer analyzer) { 
 		if (analyzer == null)
@@ -104,7 +109,7 @@ public class QuestionClassifierTest {
 				String message = question.getContent() + " Predicted " + predictedCategory
 						+ ". Was " + question.getCategory();
 				fm.writeLn("data/question-classifier/errors.txt", message);
-				Logger.warn(message);
+				logger.warn(message);
 			}
 			
 			totalPredictionsNumber++;					

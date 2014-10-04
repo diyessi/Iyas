@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.commons.cli.ParseException;
 import qa.qcri.qf.classifiers.Classifier;
 import qa.qcri.qf.classifiers.SVMLightTKClassifierFactory;
 import qa.qcri.qf.cli.CommandLine;
@@ -26,7 +28,8 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import util.Pair;
-import edu.berkeley.nlp.util.Logger;
+
+
 
 public class FocusClassifierTest {
 
@@ -48,6 +51,8 @@ public class FocusClassifierTest {
 	private int nullPredictionsNumber = 0; // predictions with no examples generated.
 	private int totalPredictionsNumber = 0;
 	private int correctPredictionsNumber = 0;
+	
+	private static Logger logger = LoggerFactory.getLogger(FocusClassifierTest.class);
 
 
 	public FocusClassifierTest(Set<String> allowedTags, Analyzer analyzer) {
@@ -109,7 +114,7 @@ public class FocusClassifierTest {
 				if (focus.equals(focusNode.getValue())) { 
 					correctPredictionsNumber++;
 				} else {
-					Logger.warn(question + " Predicted " + focusNode.getValue() 
+					logger.warn(question + " Predicted " + focusNode.getValue() 
 							+ ". Was " + focus);
 				}
 

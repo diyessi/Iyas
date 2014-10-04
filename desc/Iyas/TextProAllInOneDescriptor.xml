@@ -2,31 +2,36 @@
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>true</primitive>
-  <annotatorImplementationName>it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapper</annotatorImplementationName>
+  <annotatorImplementationName>qa.qcri.qf.italian.textpro.TextProWrapper</annotatorImplementationName>
   <analysisEngineMetaData>
-    <name>BerkeleyITDescriptor</name>
+    <name>TextProAllInOneDescriptor</name>
     <description/>
     <version>1.0</version>
     <vendor/>
     <configurationParameters/>
     <configurationParameterSettings/>
+    <!-- 
     <typeSystemDescription>
       <imports>
         <import location="types/SentenceTokenTypeSystem.xml"/>
+        <import location="types/NERTypeSystem.xml"/>
         <import location="types/ParseTreePosTypeSystem.xml"/>
       </imports>
     </typeSystemDescription>
+    -->
+    <typeSystemDescription/>
     <typePriorities/>
     <fsIndexCollection/>
     <capabilities>
       <capability>
-        <inputs>
-          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
-          <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
-          <type allAnnotatorFeatures="true">it.unitn.limosine.types.pos.Pos</type>
-        </inputs>
+        <inputs/>
         <outputs>
-          <type allAnnotatorFeatures="true">it.unitn.limosine.types.syntax.ConstituencyTree</type>
+          	<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk</type>
+      		<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</type>
+          	<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</type>
+          	<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma</type>
+          	<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity</type>
+      		<type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</type>
         </outputs>
         <languagesSupported/>
       </capability>
@@ -39,7 +44,7 @@
   </analysisEngineMetaData>
   <externalResourceDependencies>
     <externalResourceDependency>
-      <key>BerkeleyIt</key>
+      <key>RunTextPro</key>
       <description/>
       <interfaceName>it.unitn.limosine.util.SharedModel</interfaceName>
       <optional>false</optional>
@@ -48,18 +53,18 @@
   <resourceManagerConfiguration>
     <externalResources>
       <externalResource>
-        <name>BerkeleyItPath</name>
-        <description>Path to the Berkeley parser with its Italian model and conversion scripts</description>
+        <name>RunTextProCmd</name>
+        <description/>
         <fileResourceSpecifier>
-          <fileUrl>file:tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian</fileUrl>
+          <fileUrl>tools/TextPro1.5.2_Linux64bit</fileUrl>
         </fileResourceSpecifier>
         <implementationName>it.unitn.limosine.util.SharedModel_Impl</implementationName>
       </externalResource>
     </externalResources>
     <externalResourceBindings>
       <externalResourceBinding>
-        <key>BerkeleyIt</key>
-        <resourceName>BerkeleyItPath</resourceName>
+        <key>RunTextPro</key>
+        <resourceName>RunTextProCmd</resourceName>
       </externalResourceBinding>
     </externalResourceBindings>
   </resourceManagerConfiguration>

@@ -27,8 +27,9 @@ import com.google.common.base.Joiner;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
-import edu.berkeley.nlp.util.Logger;
-import edu.stanford.nlp.trees.SimpleConstituent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Commons {
 
@@ -39,6 +40,8 @@ public class Commons {
 
 	public static final String MODELS_DIRECTORY = Commons.QF_DIRECTORY
 			+ "models/";
+	
+	public static final Logger logger = LoggerFactory.getLogger(Commons.class);
 
 	/*
 	public static Analyzer instantiateAnalyzer(UIMAPersistence persistence)
@@ -76,7 +79,7 @@ public class Commons {
 				throw new UIMAException(e);
 			}
 		} else {
-			Logger.warn("No QuestionClassifier analyzer found for lang: " + lang + ". Returned default QuestionClassifier analyzer for english language.");
+			logger.warn("No QuestionClassifier analyzer found for lang: " + lang + ". Returned default QuestionClassifier analyzer for english language.");
 			analyzer = instantiateEnglishQuestionClassifierAnalyzer();
 		}
 		

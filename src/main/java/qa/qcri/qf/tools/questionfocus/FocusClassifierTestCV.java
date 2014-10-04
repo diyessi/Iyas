@@ -13,8 +13,9 @@ import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
-import edu.berkeley.nlp.util.Logger;
-import edu.stanford.nlp.trees.SimpleConstituent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import qa.qcri.qf.classifiers.Classifier;
 import qa.qcri.qf.classifiers.SVMLightTKClassifierFactory;
 import qa.qcri.qf.cli.CommandLine;
@@ -40,6 +41,8 @@ public class FocusClassifierTestCV {
 	private static final String TEST_QUESTIONS_CV_DIRECTORY_OPT = "testQuestionsCVDirectory";
 	private static final String TEST_MODELS_CV_DIRECTORY_OPT = "testModelsCVDirectory";
 	// private static final String TEST_OUTPUT_CV_DIRECTORY_OPT = "testOutputCVDirpath";
+	
+	private static Logger logger = LoggerFactory.getLogger(FocusClassifierTestCV.class);
 	
 	public static void main(String[] args) throws UIMAException {
 		Options options = new Options();
@@ -211,7 +214,7 @@ public class FocusClassifierTestCV {
 					if (focus.equals(focusNode.getValue())) { 
 						correctPredictionsNumber++;
 					} else {
-						Logger.warn(question + " Predicted " + focusNode.getValue() 
+						logger.warn(question + " Predicted " + focusNode.getValue() 
 								+ ". Was " + focus);
 					}
 					

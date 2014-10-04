@@ -19,9 +19,14 @@ import qa.qcri.qf.trees.nodes.RichNode;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
-import edu.berkeley.nlp.util.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Commons {
+	
+	
+	private static final Logger logger = LoggerFactory.getLogger(Commons.class);
 	
 	public static final String QUESTION_FOCUS_DATA = "data/question-focus/";
 	
@@ -43,7 +48,7 @@ public class Commons {
 		} else if (lang.equals("it")) { 
 			analyzer = instantiateItalianQuestionFocusAnalyzer();
 		} else {
-			Logger.warn("No QuestionFocus analyzer found for lang: " + lang + ". Returned default QuestionFocus analyzer for english language.");
+			logger.warn("No QuestionFocus analyzer found for lang: " + lang + ". Returned default QuestionFocus analyzer for english language.");
 			analyzer = instantiateEnglishQuestionFocusAnalyzer();
 		}
 		
