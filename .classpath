@@ -53,6 +53,7 @@
 	<classpathentry kind="lib" path="lib/limosine/add/log4j-1.2.8.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/add/xbean.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/add/xpp3-1.1.4c.jar"/>
+	<classpathentry kind="lib" path="target/iyas.jar"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
