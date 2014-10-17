@@ -1,10 +1,7 @@
 package qa.qcri.qf.tools.questionclassifier;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
-import it.unitn.limosine.italian.syntax.constituency.BerkeleyWrapperFix;
-import it.unitn.limosine.italian.textpro.TextProWrapperFix;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,15 +9,21 @@ import java.util.Set;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 
+import qa.qcri.qf.italian.syntax.constituency.BerkeleyWrapper;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.CategoryContent;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
+import qa.qcri.qf.trees.RichTree;
+import qa.qcri.qf.trees.TokenTree;
+import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
+import qa.qcri.qf.trees.providers.ConstituencyTreeProvider;
 
 import com.google.common.base.Joiner;
 
@@ -32,6 +35,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Commons {
+	
+	private static final String GRAMMAR_FILE = "tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian/tutall-fulltrain";
 
 	public static final String QF_DIRECTORY = "data/question-classifier/";
 
@@ -99,8 +104,13 @@ public class Commons {
 	private static Analyzer instantiateItalianQuestionClassifierAnalyzer() throws UIMAException, IOException {
 		Analyzer analyzer = new Analyzer();
 		
-		analyzer.addAEDesc(createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor"))
-				.addAEDesc(createEngineDescription("desc/Limosine/BerkeleyITDescriptor"));
+		analyzer.addAEDesc(createEngineDescription("desc/Iyas/TextProAllInOneDescriptor"))
+				//.addAEDesc(createEngineDescription("desc/Iyas/BerkeleyITDescriptor"));
+				.addAEDesc((AnalysisEngineFactory.createEngineDescription("desc/Iyas/BerkeleyITDescriptor",
+						BerkeleyWrapper.PARAM_GRAMMARFILE, GRAMMAR_FILE,
+						BerkeleyWrapper.PARAM_ACCURATE, true,
+						BerkeleyWrapper.PARAM_MAXLENGTH, 250,
+						BerkeleyWrapper.PARAM_USEGOLDPOS, true)));
 		/*
 		analyzer.addAEDesc(createEngineDescription(TextProWrapperFix.class))
 		  		.addAEDesc(createEngineDescription(BerkeleyWrapper.class));
@@ -125,8 +135,39 @@ public class Commons {
 		JCas cas = JCasFactory.createJCas();
 		
 		//System.out.println("questionsPath: " + questionsPath);
-		Iterator<CategoryContent> questions = new QuestionReader(questionsPath)
+		Iterator<CategoryContent> questions = new QuestionWithIdReader(questionsPath, "\t")
 				.iterator();
+		
+		//int questionsNum = 0;
+		while (questions.hasNext()) {
+			//System.out.println("Processing questionNum: " + questionsNum++ + "...");
+			CategoryContent question = questions.next();
+			//System.out.format("doctxt(%d): %s\n", question.getId(), question.getContent());
+			//System.out.println("qid: " +  question.getId()  + ", category: " + question.getCategory());
+			categories.add(question.getCategory());
+			ae.analyze(cas, question);
+		}
+		return categories;
+	}
+	
+	/**
+	 * Analyzes a file of questions and collects the associated category labels
+	 * 
+	 * @param questionsPath
+	 *            the path of the question file
+	 * @param ae
+	 *            the analyzer to run
+	 * @return the encountered categories
+	 * @throws UIMAException
+	 */
+	public static Set<String> analyzeAndCollectCategories(Iterator<CategoryContent> questions,
+			Analyzer ae) throws UIMAException {
+		Set<String> categories = new HashSet<>();
+		JCas cas = JCasFactory.createJCas();
+		
+		//System.out.println("questionsPath: " + questionsPath);
+		//Iterator<CategoryContent> questions = new QuestionReader(questionsPath)
+		//		.iterator();
 		
 		int questionsNum = 0;
 		while (questions.hasNext()) {
@@ -164,12 +205,20 @@ public class Commons {
 		Set<String> categories = new HashSet<>();
 		JCas cas = JCasFactory.createJCas();
 		
+		ConstituencyTreeProvider constituencyTreeProvider = new ConstituencyTreeProvider();
+		TreeSerializer ts = new TreeSerializer();
+		
 		Iterator<CategoryContent> questions = questionIdReader.iterator();
 		while (questions.hasNext()) {
 			CategoryContent question = questions.next();
 			categories.add(question.getCategory());
 			System.out.format("doctxt(%s): %s\n", question.getId(), question.getContent());
 			analyzer.analyze(cas, new SimpleContent(question.getId(), question.getContent()));
+			
+			TokenTree constTree = constituencyTreeProvider.getTree(cas);
+			System.out.println("tree: " + ts.serializeTree(constTree));
+			
+			
 		}
 		return categories;
 	}

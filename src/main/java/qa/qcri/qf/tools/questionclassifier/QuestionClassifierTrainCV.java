@@ -1,28 +1,18 @@
 package qa.qcri.qf.tools.questionclassifier;
 
 import java.io.File;
-import java.util.Iterator;
-import java.util.Set;
 
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.uima.UIMAException;
-import org.apache.uima.fit.factory.JCasFactory;
-import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.cli.CommandLine;
 import qa.qcri.qf.cli.CommandLineParser;
-import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.retrieval.CategoryContent;
-import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
-import qa.qcri.qf.trees.TreeSerializer;
-import qa.qcri.qf.trees.providers.ConstituencyTreeProvider;
-import qa.qcri.qf.trees.providers.TokenTreeProvider;
 
 public class QuestionClassifierTrainCV {
 	
@@ -65,11 +55,11 @@ public class QuestionClassifierTrainCV {
 			
 			System.out.println(" -" + LANG_OPT + " " + lang);
 			
-			String trainQuestionClassifierCVPath = cmd.getPathValue(
+			String trainFilesDir = cmd.getPathValue(
 					TRAINING_QUESTION_CLASSIFIER_CV_OPT,
 					"Please specify a valid directory path for the question-category classifiers (CV) data files.");
 					
-			System.out.println(" -" + TRAINING_QUESTION_CLASSIFIER_CV_OPT + " " + trainQuestionClassifierCVPath);
+			System.out.println(" -" + TRAINING_QUESTION_CLASSIFIER_CV_OPT + " " + trainFilesDir);
 			
 			String casesDirpath = cmd.getPathValue(
 					CASES_DIR_OPT,
@@ -90,76 +80,17 @@ public class QuestionClassifierTrainCV {
 			Analyzer analyzer = Commons.instantiateQuestionClassifierAnalyzer(lang);
 			analyzer.setPersistence(persistence);
 			
-			for (File fold : new File(trainQuestionClassifierCVPath).listFiles()) {
-				String foldFilename = FilenameUtils.getBaseName(fold.getName());
-				String outputFoldDirpath = FilenameUtils.normalize(trainOutputDirCV + "/" + foldFilename);
-				System.out.println("foldFilename: " + fold.getPath() + ", outputFoldDirpath: " + outputFoldDirpath);
-				QuestionClassifierTrainFold qftf = new QuestionClassifierTrainFold(analyzer);
-				qftf.generateExamples(fold.getPath(), outputFoldDirpath);
+			for (File trainFile : new File(trainFilesDir).listFiles()) {
+				String trainFileName = FilenameUtils.getBaseName(trainFile.getName());
+				String outputDirname = FilenameUtils.normalize(trainOutputDirCV + "/" + trainFileName);
+				System.out.println("train file: " + trainFile.getPath() + ", outputDir: " + outputDirname);
+				QuestionClassifierTrain train = new QuestionClassifierTrain(analyzer);
+				train.generateExamples(trainFile.getPath(), outputDirname);
 			}
 			
 		} catch (ParseException e) {
 			System.err.println(e.getMessage());
 		}				
-	}
-	
-	private static class QuestionClassifierTrainFold {
-		
-		private final Analyzer analyzer;
-		
-		private QuestionClassifierTrainFold(Analyzer analyzer) {
-			assert analyzer != null;
-			
-			this.analyzer = analyzer;
-		}
-		
-		private QuestionClassifierTrainFold generateExamples(String dataFilepath, String outputDirpath) throws UIMAException {
-			assert dataFilepath != null;
-			assert outputDirpath != null;
-			
-			FileManager fm = new FileManager();
-		
-			QuestionWithIdReader questionReader = new QuestionWithIdReader(dataFilepath, "\t");
-		
-			Set<String> categories = Commons.analyzeQuestionsWithIdAndCollectCategories(questionReader, analyzer);
-			//Set<String> categories = Commons.collectCategoriesFromQuestionsWithId(questionReader);
-			//System.out.println("categories: " + categories);
-			
-			TokenTreeProvider treeProvideer = new ConstituencyTreeProvider();
-			
-			TreeSerializer ts = new TreeSerializer();
-			
-			JCas cas = JCasFactory.createJCas();
-			
-			questionReader = new QuestionWithIdReader(dataFilepath, "\t");
-			
-			Iterator<CategoryContent> questions = questionReader.iterator();
-			
-			String parametersList = Commons.getParameterList();
-			
-			while (questions.hasNext()) {
-				CategoryContent question = questions.next();
-				
-				// System.out.printf("doctxt(%s): %s\n", question.getId(), question.getContent());
-				analyzer.analyze(cas, new SimpleContent(question.getId(), question.getContent()));
-				
-				String tree = ts.serializeTree(treeProvideer.getTree(cas), parametersList);
-				System.out.printf("tree(%s): %s\n", question.getId(), tree);
-				
-				
-				for (String  category : categories) { 
-					String label = category.equals(question.getCategory()) ? "+1" : "-1";
-					String outputFile = FilenameUtils.normalize(outputDirpath + "/" + category + ".train");
-					String example = label + " |BT| " + tree + " |ET|";
-
-					fm.writeLn(outputFile, example);
-				}
-			}			
-			fm.closeFiles();
-			
-			return this;
-		}
-		
 	}
 
 }

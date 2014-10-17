@@ -1,0 +1,1228 @@
+1	WHO:autore	Chi è l'autore del libro , “The Iron Lady : Una biografia di Margaret Thatcher” ?
+2	CURRENCY:valore	Qual era il valore monetario del Premio Nobel per la pace nel 1989 ?
+3	ENTITY:azienda	Che cosa produce l'azienda Peugeot ?
+4	CURRENCY:Mercury	Quanto ha speso Mercury in pubblicità nel 1993 ?
+5	WHO:nome	Qual è il nome dell'amministratore delegato di Apricot computer?
+6	WHY:David Koresh	Perché David Koresh ha chiesto all'FBI un word processor ?
+7	CURRENCY:debiti	Che debiti ha lasciato il gruppo Qintex ?
+8	ENTITY:nome	Qual è il nome della rara malattia neurologica con sintomi quali : movimenti involontari ( tic ) ,  bestemmie, e vocalizzazioni incoerenti ( grugniti, grida, etc. ) ?
+9	QUANTITY:Yaroslavl	Quanto dista Yaroslavl da Mosca ?
+10	WHO:progettista	"Nominare il progettista della scarpa che ha generato milioni di imitazioni in plastica , nota come "" jellies '' ."
+11	WHO:moglie	Chi era la moglie del presidente Cleveland ?
+12	CURRENCY:Manchester United	Quanto ha speso il Manchester United per i giocatori nel 1993 ?
+13	CURRENCY:Maggiolino	A quanto potevate noleggiare un Maggiolino nel 1966?
+14	LOCATION:paese	Quale paese è il più grande produttore di tungsteno ?
+15	WHEN:Docklands Light Railway	Quando fu costruita la Docklands Light Railway di Londra ?
+16	WHO:biochimici	Quali due biochimici statunitensi hanno vinto il Premio Nobel per la medicina nel 1992 ?
+17	DURATION:processo	Quanto durò il processo per l'omicidio di Charles Manson ?
+18	WHO:presidente	Chi è stato il primo presidente taiwanese ?
+19	WHO:leader	Chi era il leader della setta davidiana affrontata dall' FBI a Waco , in Texas nel 1993 ?
+21	WHO:americano	Chi è stato il primo americano nello spazio ?
+22	WHEN:periodo	Quando finì il periodo Giurassico ?
+23	WHEN:relazioni	Quando iniziarono Spagna e Corea le relazioni ambasciatoriali ?
+24	WHEN:Nixon	Quando visitò Nixon la Cina ?
+25	WHO:attrice	Chi era l'attrice protagonista nel film “Sleepless in Seattle” ?
+26	ENTITY:nome	Qual è il nome della controparte femminile a El Nino , che produce temperature rinfresacanti e clima molto secco ?
+27	LOCATION:incontro	Dove si è svolto il sesto incontro annuale degli esperti forestali indonesiani - malesi ?
+28	WHO:color line	Chi può essere meglio conosciuto per avere infranto la color line nel baseball ?
+29	ENTITY:stella	Qual è la stella più luminosa visibile dalla Terra ?
+30	DESC:Principi Valdez	Cosa sono i Principi Valdez ?
+31	LOCATION:Ulysses S. Grant	Dove è nato Ulysses S. Grant ?
+32	WHO:Will Rogers Award	Chi ha ricevuto il Will Rogers Award nel 1989 ?
+33	LOCATION:città	Qual è la città più grande della Germania ?
+35	LOCATION:nome	Qual è il nome della montagna più alta in Africa?
+37	WHO:nome	Qual era il nome del pilota di elicottero americano abbattuto sulla Corea del Nord ?
+38	LOCATION:George Washington	Dove è nato George Washington ?
+39	WHO:presidente	Chi fu scelto per essere il primo presidente nero delle forze armate Joint Chiefs of Staff ?
+40	WHO:Premio Nobel	Chi ha vinto il Premio Nobel per la Pace nel 1991 ?
+41	QUANTITY:limite	Qual è il limite legale di alcol nel sangue per lo stato della California ?
+42	QUANTITY:target rate	Qual è stato il target rate di crescita M3 nel 1992 ?
+43	WHO:costumista	Quale costumista ha deciso che Michael Jackson deve indossare solo un guanto ?
+44	WHO:direttore	Chi è il direttore del gruppo internazionale chiamato Human Genome Organization ( HUGO ) , che sta cercando di coordinare la ricerca della mappatura del gene in tutto il mondo?
+46	WHO:sindaco	Chi è il sindaco di Marbella ?
+47	ENTITY:compagnia	Quale compagnia è la più grande costruttrice di navi giapponese ?
+48	LOCATION:complesso	Dove si trova l'imponente complesso nucleare nordcoreano ?
+49	WHO:Maria Ybarra	Chi licenziò Maria Ybarra dalla sua posizione nel consiglio di San Diego ?
+50	WHEN:casa	Quando fu costruita la prima casa di cemento di Dubai ?
+51	WHO:presidente	Chi è il presidente della Stanford University ?
+52	WHO:cono	Chi ha inventato il cono stradale ?
+53	WHO:medico	Chi è stato il primo medico a trapiantare con successo un fegato ?
+54	WHEN:Nixon	Quando è morto Nixon ?
+55	LOCATION:sede	Dove si trova la sede centrale di Microsoft ?
+56	QUANTITY:calorie	Quante calorie ci sono in un Big Mac ?
+57	ABBR:acronimo	Qual è l'acronimo per il sistema di rating per l'efficienza dei condizionatori d'aria ?
+58	ENTITY:film	Nominare un film che ha vinto l'Orso d'Oro al Festival di Berlino ?
+59	WHO:presidente	Chi era presidente della Costa Rica nel 1994 ?
+60	CURRENCY:tariffa	Qual è la tariffa per il viaggio di andata e ritorno tra New York e Londra in Concorde ?
+61	ENTITY:marca	Che marca di rum bianco è ancora prodotta a Cuba ?
+62	ENTITY:nome	Qual è il nome della malattia neurologica cronica autoimmune che attacca la guaina proteica che circonda le cellule nervose causando una progressiva perdita di movimento nel corpo ?
+63	ENTITY:sottomarino	Quale sottomarino russo a propulsione nucleare affondò nel Mare di Norvegia il 7 aprile 1989 ?
+64	WHO:voce	Chi è la voce di Miss Piggy ?
+65	LOCATION:paese	Nominare un paese che sta sviluppando un sistema ferroviario a levitazione magnetica ?
+66	WHO:cittadino	Nominare il primo cittadino privato che ha volato nello spazio .
+67	LOCATION:fiume	Qual è il fiume più lungo degli Stati Uniti ?
+68	ENTITY:El Nino	Che cosa significa El Nino in spagnolo ?
+69	WHO:El Nino	Chi emerse con il nome , El Nino ?
+70	QUANTITY:vite	Quante vite sono andate perdute nell'incidente della China Airlines a Nagoya , in Giappone ?
+71	WHEN:anno	In quale anno Joe DiMaggio compì i suoi 56 game hitting streak ?
+72	WHEN:spettacolo	Quando è andato fuori onda lo spettacolo originale di Howdy Doody ?
+73	LOCATION:Taj Mahal	Dove si trova il Taj Mahal ?
+74	WHO:nave	Chi comanda la nave stellare Enterprise in Star Trek ?
+75	ENTITY:cancro	Quale cancro è comunemente associato all'AIDS ?
+76	WHEN:anno	In quale anno la Nuova Zelanda è stata esclusa dall'alleanza ANZUS ?
+78	LOCATION:città	Quale grande città degli Stati Uniti ha avuto il tasso di omicidi più alto per il 1988 ?
+79	ENTITY:Shostakovich	Che cosa ha scritto Shostakovich per Rostropovich ?
+80	ENTITY:nome	Qual è il nome del promettente composto antitumorale derivato dall'albero del tasso del Pacifico ?
+81	QUANTITY:abitanti	Quanti abitanti vivono nella città di Ushuaia ?
+82	QUANTITY:partite	Quante partite di baseball consecutive ha giocato Lou Gehrig ?
+83	ENTITY:edificio	Qual è l'edificio più alto in Giappone?
+84	LOCATION:paese	Quale paese è il più grande mercato di esportazione dell'Australia  ?
+85	WHO:membro	Quale ex membro del Ku Klux Klan ha vinto un carica elettiva negli Stati Uniti?
+86	WHO:medaglie	Chi ha vinto due medaglie d'oro nello sci ai Giochi olimpici di Calgary ?
+87	WHO:Willy Brandt	Chi ha seguito Willy Brandt come cancelliere della Repubblica federale di Germania ?
+88	ENTITY:prodotto	Qual è il principale prodotto di esportazione di Grenada ?
+89	WHEN:età	A che età Rossini smise di scrivere opere ?
+90	WHO:fondatore	Chi è il fondatore di Scientology?
+91	LOCATION:città	Quale città in Cina ha il maggior numero di società finanziarie estere ?
+92	WHO:internet worm	Chi rilasciò l'internet worm alla fine degli anni 80 ?
+93	WHO:globo	Chi per primo circumnavigò il globo ?
+94	WHO:canzone	Chi ha scritto la canzone , “Stardust” ?
+95	LOCATION:paese	Quale paese è il principale fornitore mondiale di cannabis ?
+97	QUANTITY:rifugio	Quanto è grande il rifugio Artico per preservare la fauna unica e di valore selvaggio sulla costa nord dell'Alaska ?
+98	LOCATION:punto	Dove si trova il punto più alto in Giappone?
+99	ENTITY:termine	Qual è il termine per la somma di tutto il materiale genetico in un dato organismo ?
+100	ENTITY:disastro	Qual è considerato il disastro più costoso che il settore assicurativo abbia mai affrontato ?
+102	WHO:project manager	Chi è il project manager di Voyager ?
+103	QUANTITY:persone	Quante persone sono morte quando l'Estonia è affondata nel 1994 ?
+104	ENTITY:lingua	Che lingua è più comunemente usata in Bombay ?
+106	LOCATION:vetta	Qual è la seconda vetta montana più alta del mondo?
+107	WHEN:test	Quando è stato il primo test nucleare della Cina ?
+108	ENTITY:azienda	Quale azienda ha creato il browser Internet Mosaic ?
+110	WHO:Lee Harvey Oswald	Chi ha ucciso Lee Harvey Oswald ?
+112	WHO:presidente	Chi è il presidente del Ghana ?
+115	DESC:Head Start	Che cosa è Head Start ?
+116	ENTITY:squadra	Quale squadra ha vinto il Super Bowl nel 1968 ?
+117	WHO:ricercatori	Quali sono i due ricercatori che scoprirono la struttura a doppia elica del DNA nel 1953 ?
+118	QUANTITY:percentuale	Quale percentuale di specie animali e vegetali del mondo si può trovare nelle foreste amazzoniche ?
+122	WHO:section manager	Chi è il section manager per sistemi di guida e controllo al JPL ?
+123	QUANTITY:Vietnamiti	Quanti Vietnamiti c'erano in Unione Sovietica ?
+124	DESC:Agent Orange	Per cosa era usato l'Agent Orange durante la guerra del Vietnam ?
+127	LOCATION:città	Quale città ha il rapporto più antico come città gemellata con Los Angeles ?
+128	WHO:uomo	Chi fu il secondo uomo a camminare sulla luna ?
+129	QUANTITY:volte	Quante volte è stato lanciatore , Warren Spahn , un vincitore di 20 game nelle sue 21 stagioni in major league ?
+130	WHEN:Yemen	Quando è stato riunificato lo Yemen?
+132	LOCATION:capitale	Qual è la capitale dell'Uruguay ?
+134	LOCATION:nave	Dove si prevede di ancorare la nave mercantile , Lane Victory , che i veterani della Merchant Marine stanno convertendo in un museo galleggiante ?
+137	WHO:presidente	Chi è il presidente del governo spagnolo?
+139	QUANTITY:persone	Quante persone le Nazioni Unite hanno assegnato per contribuire a ristabilire l'ordine e distribuire aiuti umanitari in Somalia nel settembre 1992 ?
+140	QUANTITY:persone	Quante persone sono state uccise a terra dal bombardamento del volo Pan Am 103 su Lockerbie , in Scozia , il 21 dicembre 1988 ?
+142	QUANTITY:popolazione	Qual è la popolazione di Ulan Bator , capitale della Mongolia ?
+143	LOCATION:marijuana	Da dove arriva la maggior parte della marijuana che entra negli Sati Uniti?
+149	LOCATION:squadra	Dove ha sede la squadra di basket Bulls ?
+150	QUANTITY:lunghezza	Qual è la lunghezza del confine tra l'Ucraina e la Russia ?
+152	QUANTITY:persone	Quante persone vivono a Tokyo ?
+153	LOCATION:capitale	Qual è la capitale della California?
+154	QUANTITY:titoli	Quanti titoli del Grande Slam ha vinto Bjorn Borg ?
+155	WHO:candidato	Chi è stato il candidato democratico alle elezioni presidenziali americane ?
+157	LOCATION:Dartmouth College	Dove si trova il Dartmouth College?
+161	CURRENCY:Bill Gates	Quanto è ricco Bill Gates ?
+162	LOCATION:capitale	Qual è la capitale del Kosovo ?
+163	LOCATION:stato	Quale stato rappresenta Charles Robb ?
+164	ENTITY:concorrente	Chi è il principale concorrente della Trans Union Company ?
+165	ENTITY:tipo	Quale tipo di sommergibile è stato acquistato di recente dalla Corea del Sud ?
+167	ENTITY:nazionalità	Di che nazionalità è Papa Giovanni Paolo II?
+168	WHO:capitano	Chi era il capitano della petroliera Exxon Valdez , coinvolta nella fuoriuscita di petrolio nel Prince William Sound , Alaska 1989 ?
+170	WHO:Presidente	Chi era Presidente dell'Afghanistan nel 1994 ?
+171	WHO:direttore	Chi è il direttore degli affari intergovernativi per la contea di San Diego ?
+172	LOCATION:telescopio	Dove si trova il telescopio Keck ?
+173	QUANTITY:lune	Quante lune ha Giove ?
+178	LOCATION:capitale	Qual è la capitale del Congo ?
+179	LOCATION:capitale	Qual è la capitale d'Italia ?
+180	LOCATION:capitale	Qual è la capitale dello Sri Lanka ?
+182	ENTITY:opera	Qual è stata la prima opera di Gilbert e Sullivan ?
+183	ENTITY:nome	Qual era il nome del computer in “2001: Odissea nello spazio” ?
+185	WHEN:battaglia	Quando è stata combattuta la battaglia della Somme ?
+188	WHEN:emendamento	Quando fu approvato l'emendamento per il suffragio delle donne ?
+191	LOCATION:Harry Truman	Dove è nato Harry Truman ?
+192	WHO:segretario	Chi era il segretario di Stato durante l'amministrazione Nixon ?
+194	WHO:I Pini di Roma	Chi ha scritto “I Pini di Roma” ?
+196	WHO:Amleto	Chi ha scritto “Amleto” ?
+197	DESC:Richard Feynman	Che cosa disse Richard Feynman dopo aver saputo che avrebbe ricevuto il Premio Nobel per la Fisica ?
+204	ENTITY:tipo	Che tipo di ponte è il Golden Gate Bridge ?
+206	QUANTITY:Luna	Quanto dista la Luna ?
+207	DESC:Francis Scott Key	Per cosa è meglio conosciuto Francis Scott Key ?
+209	WHO:graffetta	Chi ha inventato la graffetta ?
+210	QUANTITY:cani	Quanti cani tirano una slitta nella Iditarod ?
+212	WHO:chitarra	Chi ha inventato la chitarra elettrica ?
+213	ENTITY:mammifero	Nominare un mammifero volante.
+214	QUANTITY:esagoni	Quanti esagoni ci sono su un pallone da calcio ?
+215	WHO:leader	Chi è il leader dell' India?
+216	ENTITY:lingua	Qual è la lingua principale delle Filippine ?
+219	QUANTITY:popolazione	Qual è la popolazione del Giappone ?
+221	WHO:Martin Luther King	Chi ha ucciso Martin Luther King ?
+225	WHO:dio	Chi è il dio greco del mare ?
+229	WHO:nuotatore	Chi è il nuotatore più veloce del mondo ?
+231	WHO:presidente	Chi era il presidente della Francia di Vichy ?
+232	WHO:televisione	Chi ha inventato la televisione ?
+233	WHO:aereo	Chi costruì il primo aereo ?
+234	WHO:aereo	Chi ha realizzato il primo aereo in grado di volare ?
+235	QUANTITY:astronauti	Quanti astronauti sono stati sulla luna ?
+239	WHO:Barbara Jordan	Chi è Barbara Jordan ?
+242	ENTITY:nome	Qual era il nome della famosa battaglia nel 1836 tra il Texas e il Messico ?
+244	WHO:baseball	Chi ha inventato il baseball ?
+245	LOCATION:venere acchiappamosche	Dove si può trovare la venere acchiappamosche ?
+246	LOCATION:Vasco da Gama	Che cosa ha scoperto Vasco da Gama ?
+247	WHO:battaglia	Chi ha vinto la battaglia di Gettysburg ?
+248	ENTITY:serpente	Qual è il serpente più grande del mondo ?
+249	LOCATION:Valle dei Re	Dove si trova la Valle dei Re ?
+251	QUANTITY:persone	Quante persone vivono in Cile ?
+252	WHEN:sciacquone	Quando è stato inventato il primo sciacquone ?
+253	WHO:William Wordsworth	Chi è William Wordsworth ?
+254	ENTITY:uccello	Qual è l'uccello dello stato della California ?
+256	WHO:piramide	Chi è sepolto nella grande piramide di Giza ?
+258	LOCATION:aragoste	Dove piace vivere alle aragoste ?
+260	ENTITY:NAFTA	Cosa significa NAFTA ?
+263	WHEN:Babe Ruth	Quando nacque Babe Ruth ?
+264	WHO:Farmer's Almanac	Chi ha scritto il Farmer's Almanac ?
+265	ENTITY:pianeta	Qual è il pianeta più lontano dal sole ?
+273	WHO:presidente	Chi è stato in assoluto il primo presidente degli Stati Uniti a dimettersi ?
+274	WHO:Scrabble	Chi ha inventato il gioco Scrabble ?
+275	QUANTITY:soldati	All'incirca quanti soldati morirono nella seconda guerra mondiale ?
+276	CURRENCY:soldi	Quanti soldi ha il sultano del Brunei ?
+278	QUANTITY:bilancio	Qual è stato il bilancio delle vittime alla eruzione del Monte Pinatubo ?
+280	ENTITY:edificio	Qual è l'edificio più alto di New York City?
+281	WHEN:Geraldine Ferraro	Quando concorse Geraldine Ferraro per la vicepresidenza ?
+282	ENTITY:coccinelle	Cosa mangiano le coccinelle ?
+283	LOCATION:Uluru	Dove si trova Uluru ?
+289	ENTITY:John C. Calhoun	Come sono conosciuti John C. Calhoun e Henry Clay ?
+290	WHEN:uragano Hugo	Quando è stato l'uragano Hugo ?
+294	WHO:persona	Chi è la persona più ricca del mondo?
+296	CURRENCY:salario	Qual è il salario minimo federale ?
+298	ENTITY:albero	Qual è l'albero dello stato della California ?
+301	WHO:allenatore	Chi è stato il primo allenatore dei Cleveland Browns ?
+303	WHO:profeta	Chi è il profeta della religione islamica ?
+304	LOCATION:Tornado Alley	Dove si trova Tornado Alley ?
+307	WHO:Peter Weir	Chi è Peter Weir ?
+308	QUANTITY:fuoricampo	Quanti fuoricampo ha colpito Babe Ruth nella sua vita ?
+309	WHO:Buffalo Bill	Chi era Buffalo Bill ?
+310	LOCATION:ponte	Dove si trova il ponte sul fiume Kwai ?
+311	QUANTITY:SUPERBOWLS	Quanti SUPERBOWLS hanno vinto i 49ers ?
+312	WHO:architetto	Chi fu l'architetto di Central Park?
+313	WHO:carta	Chi ha inventato la carta ?
+316	ENTITY:tigre	Nominare una tigre che si è estinta ?
+320	LOCATION:Romania	Dove si trova la Romania?
+321	WHEN:azienda	Quando è stata fondata l'azienda De Beers ?
+323	WHO:donna	Chi è la donna più ricca del mondo ?
+324	LOCATION:capitale	Qual è la capitale della California ?
+325	QUANTITY:dimensione	Qual è la dimensione dell' Argentina ?
+327	WHEN:fuoco	Quando è stato l’incendio di San Francisco ?
+328	WHO:nome	Qual era il nome dell'uomo che è stato ucciso in un duello con Aaron Burr ?
+329	QUANTITY:popolazione	Qual è la popolazione del Messico ?
+331	QUANTITY:nucleo	Quanto è caldo il nucleo della terra ?
+332	DURATION:Terra	Quanto ci vuole per arrivare dalla Terra a Marte ?
+335	QUANTITY:apertura	Qual è l'apertura alare di un condor ?
+336	WHEN:Microsoft	Quando fu istituita Microsoft ?
+337	CURRENCY:stipendio	Qual è lo stipendio medio di un giocatore professionista di baseball ?
+338	WHO:basket	Chi ha inventato il basket ?
+340	WHO:Zebulon Pike	Chi è Zebulon Pike ?
+341	QUANTITY:Oceano Atlantico	Quanto è grande l'Oceano Atlantico ?
+342	DESC:effetto	Che effetto ha un prisma sulla luce?
+343	LOCATION:fiume	Qual è il fiume più lungo del mondo ?
+344	WHO:padre	Chi era considerato il padre della psicologia ?
+346	WHO:Langston Hughes	Chi è Langston Hughes ?
+348	WHO:piramide	Chi ha costruito la prima piramide ?
+349	ENTITY:libro	Qual è il libro più venduto di tutti i tempi ?
+350	QUANTITY:violini	Quanti violini Stradivari sono stati realizzati ?
+351	WHO:Charles Lindbergh	Chi è Charles Lindbergh ?
+352	WHO:gioco	Chi ha inventato il gioco di bowling ?
+355	ENTITY:auto	Qual è l'auto più costosa al mondo ?
+360	QUANTITY:miglia	Quanto è in miglia una corsa di dieci K ?
+361	QUANTITY:interno	Quanto caldo raggiunge l'interno di un vulcano attivo ?
+362	LOCATION:capitale	Qual è la capitale del Burkina Faso ?
+363	LOCATION:capitale	Qual è la capitale di Haiti ?
+365	QUANTITY:popolazione	Qual è la popolazione del Mozambico ?
+366	ENTITY:Superbowl	Chi ha vinto il Superbowl nel 1982 ?
+367	WHEN:compleanno	Qual è il vero compleanno di Martin Luther King Jr. ?
+370	ENTITY:tumore	Qual è il tumore più comune ?
+372	WHEN:incendio	Quando è stato l'incendio dellaTriangle Shirtwaist ?
+373	LOCATION:deserto	Dove si trova il deserto del Kalahari ?
+376	WHO:presidente	Chi è stato il 33 ° presidente degli Stati Uniti ?
+377	QUANTITY:velocità	A che velocità ruota la Terra intorno al sole ?
+379	QUANTITY:galassia	Quanto è grande la nostra galassia in diametro ?
+380	ENTITY:lingua	Che lingua è principalmente parlata in Brasile ?
+381	WHO:presidente	Chi ha assassinato il presidente McKinley ?
+384	WHO:radio	Chi ha inventato la radio ?
+386	DESC:anoressia	Che cosa è l'anoressia nervosa ?
+387	WHEN:anno	In che anno il Montana diventò uno Stato ?
+388	ENTITY:nomi	Quali sono i nomi delle tre navi utilizzate da Colombo ?
+389	WHO:presidente	Chi è stato il 21 ° presidente degli Stati Uniti ?
+390	LOCATION:John Adams	Dove nacque John Adams ?
+393	ENTITY:corpo calloso	Dov'è il tuo corpo calloso ?
+394	ENTITY:parola	Qual è la parola più lunga della lingua inglese ?
+396	WHO:silly putty	Chi ha inventato il silly putty ?
+400	ENTITY:nome	Qual è il nome dell'alfabeto ebraico ?
+401	WHO:Maria Teresa	Chi era Maria Teresa ?
+402	ENTITY:nazionalità	Di che nazionalità era Jackson Pollock ?
+404	LOCATION:soprannome	Qual è il soprannome dello stato del Mississippi ?
+405	ENTITY:automobili	Chi era solito costruire automobili con motori rotativi ?
+406	LOCATION:montagna	Qual è la montagna più alta ?
+407	DESC:Black Hills	Per cosa sono famose le Black Hills in South Dakota  ?
+408	ENTITY:tipo	Che tipo di animale era Winnie the Pooh ?
+409	ENTITY:nome	Qual è un altro nome per l'aspartame ?
+413	LOCATION:sede generale	Dov’è la sede generale statunitense di Procter & Gamble ?
+414	ENTITY:nome	Qual è il nome formale della malattia di Lou Gehrig ?
+417	WHO:CNN	Chi possiede la CNN ?
+418	ENTITY:nome	Qual è il nome di un giornale Salt Lake City?
+419	WHO:Jane Goodall	Chi era Jane Goodall ?
+422	WHEN:principessa Diana	Quando si sposarono la principessa Diana e il principe Carlo ?
+425	QUANTITY:mesi	Quanti mesi dura un normale gravidanza umana ?
+426	ENTITY:formato	Che formato era il principale concorso VHS ?
+428	LOCATION:Logan International	Dove si trova Logan International ?
+429	ENTITY:università	Di quale università era presidente Woodrow Wilson ?
+430	LOCATION:Paesi Baschi	Dove si trovano i Paesi Baschi ?
+439	DESC:Nine Inch Nails	"Che cos'è ""Nine Inch Nails"" ?"
+440	LOCATION:Poe	Dove è nato Poe ?
+441	WHO:re	Quale re fu costretto ad accettare la Magna Carta ?
+442	ENTITY:nome	Qual è il nome della squadra di baseball di Pittsburgh ?
+444	LOCATION:posizione	Dove si trova la posizione dell'Orange Bowl ?
+445	WHEN:eruzione	Quando è stata l' ultima grande eruzione del Mount St. Helens ?
+446	ABBR:abbreviazione	Qual è l'abbreviazione di Original Equipment Manufacturer ?
+448	LOCATION:Rider College	Dove si trova il Rider College?
+449	DESC:Nicholas Cage	Cosa fa Nicholas Cage per vivere?
+450	ENTITY:caliente	Che cosa significa caliente in inglese ?
+451	LOCATION:aeroporto	Dove si trova l'aeroporto di McCarren?
+452	WHO:Muppets	Chi ha creato i Muppets ?
+454	ENTITY:controparte	Qual è la controparte islamica alla Croce Rossa ?
+455	DESC:Colin Powell	Per cosa è meglio conosciuto Colin Powell ?
+456	WHEN:stagione	Qual è la stagione più affollata di viaggi aerei ?
+457	LOCATION:Webster University	Dov'è la Webster University?
+459	WHEN:John D. Rockefeller	Quando nacque John D. Rockefeller ?
+460	ENTITY:lingua	Nominare una lingua gaelica .
+462	ENTITY:curie	Che cosa si misura in curies ?
+464	LOCATION:sede	Dove è la sede della Eli Lilly ?
+465	LOCATION:Hillary Clinton	Dove si è laureata Hillary Clinton ?
+469	WHO:termine	Chi ha coniato il termine cyberspazio nel suo romanzo Neuromancer ?
+470	WHO:presidente	Chi è il presidente della Bolivia ?
+472	WHEN:guerra	Quando finì la guerra civile americana ?
+473	WHO:personaggio	Chi ha creato il personaggio Scrooge ?
+474	WHO:barriera	Chi per primo ha rotto la barriera del suono ?
+475	CURRENCY:stipendio	Qual è lo stipendio di un rappresentante degli Stati Uniti ?
+476	ENTITY:Sette Meraviglie	Nominare una delle Sette Meraviglie del Mondo Antico .
+478	QUANTITY:codice	Qual è il codice dell'aeroporto di Los Angeles International ?
+479	ENTITY:servizio	Chi fornisce il servizio telefonico a Orange County , in California ?
+480	QUANTITY:codice	Qual è il codice di avviamento postale per Fremont , CA ?
+481	WHO:Billy the Kid	Chi ha sparato a Billy the Kid ?
+482	WHO:monarca	Chi è il monarca del Regno Unito ?
+486	QUANTITY:stati	"Quanti stati hanno una ""lemon law"" per le nuove automobili ?"
+488	LOCATION:continente	Su quale continente è la Bolivia ?
+492	ENTITY:nome	Qual è il nome del vaccino per la varicella ?
+493	DESC:Betsy Ross	Per cosa è famosa Betsy Ross ?
+494	WHO:libro	Chi ha scritto il libro , “The Grinch Who Stole Christmas” ?
+495	WHEN:Aldous Huxley	Quando ha scritto Aldous Huxley, Brave New World ?
+496	WHO:libro	Chi ha scritto il libro , “Cantico dei Cantici” ?
+497	WHO:Jake	"Chi ha interpretato Jake nello show televisivo , ""Due come noi"" ?"
+498	WHO:Fatman	"Chi ha interpretato Fatman nello show televisivo ""Due come noi""?"
+502	LOCATION:città	Qual è una delle città in cui si trova l'Università del Minnesota ?
+503	ENTITY:tipo	Che tipo di squadra sportiva è il Buffalo Sabres ?
+505	LOCATION:città	In quale città è situato il Massachusetts General Hospital ?
+506	WHO:meteo	Chi riferisce il meteo sullo show televisivo Good Morning America ?
+508	LOCATION:Los Vegas	Dove si trova Los Vegas?
+509	WHEN:Beethoven	Quando nacque Beethoven ?
+510	ENTITY:nome	Qual è il nome della tigre che pubblicizza i cereali Frosted Flakes?
+511	LOCATION:Tufts University	Dove si trova la Tufts University ?
+514	ENTITY:cereale	"Quale cereale fa “snap , crackle , pop"" ?"
+515	ENTITY:malattia	Per quale malattia è usato come trattamento il farmaco Sinemet ?
+516	WHO:Henry Butler	Chi è Henry Butler ?
+517	LOCATION:provincia	In quale provincia si trova a Edmonton ?
+518	LOCATION:zona	In quale zona del mondo fu combattuta la guerra dei sei giorni ?
+526	LOCATION:diamanti	Dove sono estratti i diamanti ?
+529	WHO:Terrence Malick	Chi è Terrence Malick ?
+530	ENTITY:nome	Con quale altro nome erano conosciuti i Little Rascals ?
+531	ENTITY:nome	"Qual era il nome del cane delle ""Simpatiche canaglie""?"
+533	ENTITY:coppa	Chi ha vinto la coppa del mondo di rugby nel 1987 ?
+534	LOCATION:Castello	Dove si trova il Castello di Windsor ?
+536	QUANTITY:popolazione	Qual è la popolazione degli Stati Uniti ?
+537	ENTITY:animale	Da quale animale provengono le buffalo wings ?
+539	ENTITY:amamelide	Che cos'è l'amamelide ?
+540	ABBR:abbreviazione	Qual è l'abbreviazione di società in accomandita semplice ?
+541	DESC:scopo	Qual era lo scopo del progetto Manhattan ?
+542	ENTITY:tipo	Qual è il tipo più comune di cancro della pelle negli Stati Uniti?
+543	LOCATION:campo di battaglia	Nominare un campo di battaglia della guerra civile .
+547	WHEN:diga	Quando fu costruita la diga di Hoover ?
+552	DESC:inondazioni	Che cosa ha causato le inondazioni di Lynmouth ?
+554	QUANTITY:zip codes	Quanti zip codes ci sono negli Stati Uniti ?
+555	WHO:nome	Qual era il nome del capitano del Titanic ?
+556	QUANTITY:copie	Quante copie di un album devono essere vendute per essere un album d'oro ?
+557	WHEN:Tulip Festival	Quando è il Tulip Festival in Michigan ?
+558	DESC:Giorgio Vasari	Per cosa è famoso Giorgio Vasari ?
+559	WHO:personaggio	Chi ha creato il personaggio di James Bond ?
+562	ENTITY:Cruise Line	Per quale Cruise Line Kathie Lee Gifford fa pubblicità ?
+564	LOCATION:Museo	Dove si trova il Museo di Thomas Edison ?
+570	ENTITY:squadra	Per quale squadra di hockey ha giocato Wayne Gretzky ?
+573	QUANTITY:fuorigioco	Quanti fuorigioco fece Lou Gehrig nel corso della sua carriera ?
+574	QUANTITY:Stati	Quanti Stati hanno una lotteria ?
+575	ENTITY:tipo	Che tipo di squadra sportiva è il Wisconsin Badgers ?
+579	WHO:nome	Qual è il vero nome della cantante , Madonna ?
+581	ENTITY:fiore	Che fiore ha dipinto di Vincent Van Gogh ?
+585	WHO:modello	Quale modello famoso era sposato con Billy Joel ?
+588	WHEN:Prima Guerra Mondiale	Quando cominciò la Prima Guerra Mondiale ?
+593	WHEN:film	Quando è stato fatto il film Caligola ?
+594	ENTITY:aereo	Nominare un aereo da guerra americano ?
+597	ENTITY:romanzo	Nominare un romanzo scritto da John Steinbeck .
+600	ENTITY:febbre tifoide	Che cosa è la febbre tifoide ?
+602	WHO:software	Chi produce il software PhotoShop ?
+605	WHO:donna	Chi fu la prima donna nello spazio ?
+606	DESC:Cushman	Per cosa sono conosciuti Cushman e Wakefield ?
+609	WHEN:Grande Depressione	Quando è stata la Grande Depressione ?
+611	ENTITY:condizione	Qual è la condizione medica dell' ipertensione ?
+612	WHO:fumetto	Chi ha creato il fumetto , Garfield ?
+613	LOCATION:Isola	Dove si trova l'Isola di Man ?
+614	WHO:libro	Chi ha scritto il libro Huckleberry Finn ?
+615	WHEN:giorno	"Che giorno è conosciuto come la ""giornata nazionale di preghiera"" ?"
+616	DESC:scopo	Qual è lo scopo di un car bra?
+618	ENTITY:nome	Qual è il nome dell' arte di coltivare alberi in miniatura ?
+620	WHO:La Lettera Scarlatta	"Chi ha scritto ""La Lettera Scarlatta"" ?"
+621	ENTITY:galleria	Nomina una galleria d'arte a New York .
+623	ENTITY:partito	Di quale partito era membro Winston Churchill ?
+625	WHEN:incidente	Quando si è verificato l'incidente nucleare di Chernobyl ?
+627	WHO:nome	Qual è il nome della stella dello show cooking , “Galloping Gourmet” ?
+629	WHO:presidente	Quale presidente è diventato Chief Justice dopo la sua presidenza ?
+631	WHO:premio Nobel	Chi ha vinto il premio Nobel per la letteratura nel 1988 ?
+632	ENTITY:nome	Qual è il nome del giornale di Tampa ?
+634	WHO:cognome	Qual è il cognome di Dr. Ruth ?
+636	ENTITY:Italia	L'Italia è la maggior produttrice di che cosa?
+637	WHO:stella	Quale stella del wrestling è diventato “The Incredible Hulk” ?
+638	WHO:Il pozzo e il pendolo	Chi ha scritto “Il pozzo e il pendolo” ?
+640	WHEN:Wall Street Journal	Quando è stato pubblicato il primo Wall Street Journal ?
+641	QUANTITY:frequenza	Qual è la normale frequenza cardiaca a riposo di un adulto sano ?
+642	WHO:cantante	Chi è il cantante della band Led Zeppelin ?
+643	WHO:An Ideal Husband	Chi ha scritto “An Ideal Husband” ?
+646	WHO:moglie	Chi era la moglie di Charles Lindbergh ?
+647	QUANTITY:miglia	Quante miglia ci si sono da Londra , in Inghilterra a Plymouth , in Inghilterra ?
+648	WHO:Segretario Generale	Chi è Segretario Generale delle Nazioni Unite ?
+649	WHO:insegnante	Chi ha interpretato l'insegnante in L'Attimo Fuggente ?
+650	QUANTITY:province	Quante province ci sono in Indiana ?
+651	WHO:attrice	"Quale attrice ha recitato in ""Il leone d'inverno"" ?"
+653	ENTITY:nome	Qual è il nome di un hotel a Indianapolis ?
+658	LOCATION:Kings Canyon	Dove si trova Kings Canyon ?
+659	LOCATION:Mayo Clinic	Dove si trova la Mayo Clinic ?
+660	QUANTITY:collegio elettorale	Quanto è grande il collegio elettorale ?
+661	CURRENCY:tonnellata	Quanto costa una tonnellata di cemento ?
+662	LOCATION:Madre Angelica	Dove vive Madre Angelica ?
+664	WHO:nome	Qual è il nome di un dio greco ?
+666	QUANTITY:popolazione	Qual è la popolazione del Mississippi ?
+667	ENTITY:nome	Qual era il nome della nave di Jacques Cousteau ?
+670	DESC:Final Four	A cosa si riferisce Final Four nel mondo dello sport ?
+671	ENTITY:Knight Ridder	Che cosa pubblica Knight Ridder ?
+672	DESC:compito	Quale compito esegue la razza di cane Bouvier ?
+676	ENTITY:compagnia	Nominare una compagnia di balletto per cui ha danzato Mikhail Baryshnikov ?
+678	WHO:membro fondatore	Chi è stato il membro fondatore della band Pink Floyd ?
+680	ENTITY:nome	Qual è il nome della Borsa di Tokyo ?
+681	WHO:attore	Quale attore per primo ha interpretato James Bond ?
+683	ENTITY:lontre di fiume	Che cosa mangiano le lontre di fiume ?
+686	LOCATION:Istituto Smithsonian	Dove si trova l'Istituto Smithsonian ?
+687	WHEN:anno	In che anno è finita la guerra del Vietnam ?
+688	LOCATION:paese	Da quale paese provengono i cioccolatini Godiva ?
+689	QUANTITY:isole	Quante isole hanno le Fiji ?
+692	WHEN:anno	In che anno Desmond Tutu Mpilo è stato insignito del Premio Nobel per la Pace ?
+694	WHO:presidente	Chi era il più vecchio presidente degli Stati Uniti ?
+696	LOCATION:Santa Lucia	Dove si trova Santa Lucia ?
+698	LOCATION:Ocho Rios	Dove si trova Ocho Rios ?
+701	ENTITY:tipo	Che tipo di animale è Winnie the Pooh ?
+702	ENTITY:specie	Di quale specie era Winnie the Pooh ?
+704	ENTITY:specie	Qual era la specie di Winnie the Pooh ?
+705	ENTITY:aspartame	L'aspartame è anche conosciuto come cosa ?
+707	ENTITY:nome	Con quale altro nome è noto l'aspartame ?
+718	ENTITY:film	In quale film era Jude Law ?
+721	ENTITY:film	In quale film c'era Jude Law ?
+726	LOCATION:città	Procter & Gamble ha sede in quale città degli Stati Uniti ?
+727	LOCATION:Procter & Gamble	Dove ha sede Procter & Gamble negli Stati Uniti ?
+738	WHEN:anno	In quale anno ha iniziato a trasmettere la CNN ?
+741	WHEN:CNN	Quando è andata in onda la CNN ?
+742	WHO:proprietario	Chi è il proprietario della CNN ?
+743	WHO:CNN	CNN è di proprietà di chi?
+744	ENTITY:giornale	Quali giornale serve Salt Lake City?
+745	ENTITY:giornale	Nominare un giornale di Salt Lake City.
+746	DESC:Jane Goodall	Per cosa è famosa il Jane Goodall ?
+747	DESC:Jane Goodall	Per cosa è nota Jane Goodall ?
+748	WHY:Jane Goodall	Perché è famosa Jane Goodall?
+749	DESC:Jane Goodall	Cosa ha reso famosa Jane Goodall?
+759	ENTITY:nome collettivo	Qual è il nome collettivo per le oche ?
+762	DURATION:periodo	Qual è il periodo di gestazione per le gravidanze umane ?
+763	DURATION:gestazione	Quanto dura la gestazione umana ?
+764	DURATION:periodo	Qual è il periodo di gestazione per gli esseri umani ?
+765	DURATION:mesi	Quanti mesi dura una normale gravidanza umana ?
+767	ENTITY:formato	Quale formato video era un'alternativa alla VHS ?
+768	ENTITY:formato	Quale formato è stato il maggiore concorrente delle VHS ?
+772	LOCATION:Logan Airport	Dove si trova il Logan Airport?
+773	LOCATION:città	In quale città è il Logan Airport ?
+774	LOCATION:città	Quale città serve il Logan International ?
+775	LOCATION:città	In quale città si trova il Logan International ?
+776	LOCATION:città	L'aeroporto di quale città prende il nome di Logan International ?
+777	LOCATION:città	Quale città è servita da Logan International Airport?
+778	ENTITY:università	Woodrow Wilson è stato presidente di quale università ?
+779	ENTITY:università	Nominare l'università di cui era presidente Woodrow Wilson .
+780	ENTITY:università	Woodrow Wilson è stato presidente di quale università ?
+788	ENTITY:Bob Marley	Che cosa ha ucciso Bob Marley ?
+800	WHO:monarca	Quale monarca firmò la Magna Carta ?
+801	WHO:re	Quale re firmò la Magna Carta ?
+802	WHO:re	Chi era il re che è stato costretto ad accettare la Magna Carta ?
+803	WHO:re	Quale re firmò la Magna Carta ?
+804	WHO:re	Chi fu il re che firmò la Magna Carta ?
+805	ENTITY:corpo calloso	Dove si trova il corpo calloso ?
+808	ENTITY:parola	Quale parola inglese ha il maggior numero di lettere ?
+810	ENTITY:parola	Qual è la parola inglese più lunga ?
+812	WHO:Silly Putty	Da chi è stato inventato il Silly Putty ?
+813	WHO:inventore	Chi è stato l'inventore del silly putty ?
+821	LOCATION:posizione	Qual è la posizione del McCarren Airport?
+822	LOCATION:McCarren Airport	Dove si trova McCarren Airport?
+824	WHO:nome	"Qual era il nome del creatore di ""The Muppets"" ?"
+825	WHO:The Muppets	"""The Muppets"" da chi è stato creato ?"
+826	WHO:creatore	"Nominare il creatore di ""The Muppets""."
+827	WHO:creatore	"Chi è il creatore di ""The Muppets"" ?"
+828	WHEN:data	Qual è la data della festa nazionale francese ?
+829	WHEN:data	In quale data cade la festa nazionale francese  ?
+830	ENTITY:equivalente	Qual è l'equivalente della Croce Rossa in Medio Oriente ?
+831	ENTITY:nome	Qual è il nome della controparte islamica alla Croce Rossa ?
+832	ENTITY:controparte	Nominare la controparte islamica alla Croce Rossa .
+833	ENTITY:equivalente	Qual è l'equivalente islamico della Croce Rossa ?
+834	ENTITY:nome	Qual è il nome dato alla controparte islamica della Croce Rossa ?
+835	DESC:Colin Powell	Colin Powell è più famoso per che cosa ?
+836	DESC:successo	Per quale successo è meglio conosciuto Colin Powell ?
+838	DESC:Colin Powell	Per cosa è famoso Colin Powell ?
+839	WHEN:periodo	In quale periodo dell'anno volano la maggior parte delle persone ?
+840	WHEN:periodo	In quale periodo dell'anno c'è il maggior traffico aereo ?
+842	WHEN:periodo	In quale periodo dell'anno i viaggi aerei sono nel periodo di punta ?
+843	ENTITY:campo	Nominare un campo da golf a Myrtle Beach .
+845	ENTITY:squadra	Come si chiama la squadra di baseball di major league a Pittsburgh ?
+846	ENTITY:squadra	Nominare la squadra di baseball di Pittsburgh.
+847	LOCATION:città	In quale città è l'Orange Bowl ?
+848	LOCATION:città	In quale città è L'Orange Bowl ?
+849	LOCATION:città	In quale città si trova L'Orange Bowl ?
+850	LOCATION:Orange Bowl	Dove si trova l'Orange Bowl ?
+851	WHEN:Mount St. Helens	Quando ha eruttato Mount St. Helens l'ultima volta ?
+852	WHEN:eruzione	Quando è stata un'ultima grande eruzione del Mount St. Helen  ?
+853	WHEN:eruzione	Quando è stata l'ultima significativa eruzione del Mount St. Helen ?
+854	ABBR:Original Equipment Manufacturer	"Come si abbrevia ""Original Equipment Manufacturer"" ?"
+855	ABBR:Original Equipment Manufacturer	"Com'è abbreviato ""Original Equipment Manufacturer"" ?"
+856	LOCATION:Rider College	Dove si può trovare Rider College?
+857	LOCATION:posizione	Qual è la posizione del Rider College?
+859	LOCATION:Rider College	Dove si trova Rider College?
+860	ENTITY:occupazione	Qual è l'occupazione di Nicholas Cage ?
+861	ENTITY:professione	Qual è la professione di Nicholas Cage ?
+862	ENTITY:occupazione	Qual è l'occupazione di Nicholas Cage ?
+865	ENTITY:caliente	Qual è il significato di caliente ( in inglese ) ?
+867	ENTITY:alfabeto	Com'è chiamato l'alfabeto ebraico ?
+868	ENTITY:alfabeto	Come si chiama l'alfabeto ebraico ?
+869	ENTITY:alfabeto	Com'è conosciuto l'alfabeto ebraico ?
+871	ENTITY:nazionalità	Di che nazionalità è Jackson Pollock ?
+874	LOCATION:Kentucky Horse Park	dove si trova il Kentucky Horse Park ?
+875	LOCATION:Kentucky Horse Park	Dove si trova il Kentucky Horse Park ?
+876	LOCATION:città	A quale città è vicino il Kentucky Horse Park ?
+881	LOCATION:soprannome	Qual è il soprannome per lo stato del Mississippi ?
+882	LOCATION:soprannome	Qual è il soprannome dello stato del Mississippi ?
+884	ENTITY:automobile	Chi ha fatto l'automobile con motore rotativo ?
+885	ENTITY:compagnia	Da quale compagnia erano costruite le auto a motore rotativo   ?
+886	ENTITY:motori rotativi	Solitamente da chi erano fatti i motori rotativi ?
+887	ENTITY:compagnia	Quale compagnia ha prodotto veicoli con motore rotativo ?
+888	LOCATION:vetta	Qual è la vetta più alta del mondo ?
+889	LOCATION:montagna	Qual è la montagna più alta del mondo ?
+890	LOCATION:montagna	Nominare la montagna più alta .
+891	LOCATION:nome	Qual è il nome della montagna più alta del mondo ?
+892	DESC:Black Hills	Cosa rende le Black Hills , South Dakota un'attrazione turistica ?
+893	DESC:Black Hills	Per cosa sono note le Black Hills ?
+894	QUANTITY:Denver	Quanto dista Denver da Aspen ?
+895	LOCATION:provincia	In quale provincia è Modesto California ?
+898	WHEN:Hawaii	Quando sono diventate stato le Hawaii ?
+899	QUANTITY:Sears Building	Quanto è alto il Sears Building ?
+900	ENTITY:squadra	George Bush ha acquistato un piccolo interesse di quale squadra di baseball
+902	WHY:luna	Perché la luna diventa arancione ?
+904	LOCATION:città	Quale città aveva una fiera mondiale nel 1900 ?
+908	WHEN:Idaho	Quand'è diventato uno Stato l'Idaho ?
+910	ENTITY:metallo	Quale metallo ha il punto di fusione più alto ?
+911	WHO:vaccinazione	Chi ha sviluppato la vaccinazione contro la polio ?
+914	WHO:americano	Chi è stato il primo americano a camminare nello spazio ?
+916	LOCATION:fiume	Quale fiume negli Stati Uniti è conosciuto come il Big Muddy ?
+917	DESC:disturbo bipolare	Che cos'è il disturbo bipolare ?
+919	WHO:computer Macintosh	Chi ha sviluppato il computer Macintosh ?
+922	LOCATION:aeroporto	Dove si trova l'aeroporto John Wayne ?
+923	LOCATION:emisfero	In quale emisfero sono le Filippine ?
+925	LOCATION:Montagne Rocciose	Dove sono le Montagne Rocciose ?
+927	QUANTITY:temperatura	Qual è la temperatura al centro della terra ?
+928	WHEN:John F. Kennedy	Quando fu eletto John F. Kennedy come presidente ?
+929	QUANTITY:anni	Quanti anni aveva Elvis Presley quando morì ?
+930	LOCATION:fiume Orinoco	Dove si trova il fiume Orinoco ?
+933	QUANTITY:Grandi Laghi	Quanti Grandi Laghi ci sono ?
+940	DURATION:Rip Van Winkle	Per quanto tempo ha dormito Rip Van Winkle ?
+942	QUANTITY:litri	Quanti litri in un gallone ?
+943	ENTITY:nome	Qual è il nome dell'azienda del cioccolato a San Francisco ?
+945	WHO:raggi X	Chi ha scoperto i raggi X ?
+948	DESC:bandiere	Cosa viene fatto con le bandiere usurate o vecchie ?
+950	WHEN:Elvis Presley	Quando è morto Elvis Presley ?
+951	LOCATION:capitale	Qual è la capitale della Jugoslavia ?
+953	QUANTITY:velocità	A quale velocità volano i colibrì ?
+954	LOCATION:città	Qual è la città più antica degli Stati Uniti ?
+956	LOCATION:fiume	Quale fiume scorre tra Fargo Nord Dakota e Minnesota Moorhead ?
+957	ENTITY:mangiano	Cosa mangiano i pipistrelli ?
+959	WHO:Abramo Lincoln	Chi era Abramo Lincoln ?
+961	DESC:teleangectasia	Cos'è la teleangectasia ?
+963	LOCATION:stretto	Quale stretto separa il Nord America dall'Asia ?
+966	LOCATION:città	Qual è la città più grande del mondo ?
+967	WHO:compositore	Quale compositore americano ha scritto la musica per West Side Story ?
+968	LOCATION:Mall of America	Dove è il Mall of America ?
+969	DESC:scala del pH	Cos'è la scala del pH ?
+970	ENTITY:tipo	Che tipo di valuta è usata in Australia
+975	WHEN:trapianto	Quando è stato il primo trapianto di fegato ?
+976	WHO:presidente	Chi fu eletto presidente del Sud Africa nel 1994 ?
+977	QUANTITY:popolazione	Qual è la popolazione della Cina ?
+984	ENTITY:Dipartimento del Tesoro	Il Dipartimento del Tesoro degli Stati Uniti emise prima carta moneta ?
+985	DESC:desktop publishing	Cos'è il desktop publishing ?
+986	QUANTITY:temperatura	Qual è la temperatura della superficie del sole ?
+988	ENTITY:università	Qual è la più antica università degli Stati Uniti ?
+989	LOCATION:Isola del Principe Edoardo	Dove si trova l'Isola del Principe Edoardo ?
+992	DESC:barriere coralline	Cosa sono le barriere coralline ?
+996	DESC:terremoti	Come si misurano i terremoti ?
+997	WHO:Duke Ellington	Chi è Duke Ellington ?
+998	LOCATION:provincia	In quale provincia è Phoenix AZ ?
+1000	QUANTITY:temperatura	Qual è la temperatura del nucleo del sole ?
+1008	ENTITY:fiore	Qual è il fiore dello stato delle Hawaii ?
+1010	WHEN:Hindenberg	Quando precipitò l'Hindenberg ?
+1012	WHEN:anno	Qual è stato l'ultimo anno in cui i Chicago Cubs hanno vinto la World Series ?
+1017	WHO:America	Chi ha scoperto l'America ?
+1018	QUANTITY:diametro	Qual è il diametro della terra ?
+1020	QUANTITY:Via Lattea	Quanto è grande la Via Lattea ?
+1024	QUANTITY:miglio nautico	Quanto dista un miglio nautico ?
+1025	WHO:abolizionista	Chi fu l'abolizionista che guidò il raid su Harper Ferry nel 1859 ?
+1026	DESC:frequenza cardiaca media	Che cosa significa frequenza cardiaca media ?
+1027	ENTITY:satellite	Qual è stato il primo satellite ad andare nello spazio ?
+1029	ENTITY:faglia	Qual è la maggiore faglia vicino al Kentucky ?
+1030	LOCATION:Holland Tunnel	Dove si trova l'Holland Tunnel ?
+1031	WHO:inno Amazing Grace	Chi ha scritto l'inno Amazing Grace ?
+1036	LOCATION:National Archives	Dove sono i National Archives ?
+1040	WHO:filosofo	Chi è un filosofo tedesco ?
+1041	ENTITY:navi	Quali erano le tre navi di Cristoforo Colombo ?
+1042	DESC:Phi Beta Kappa	Che cosa significa Phi Beta Kappa ?
+1044	ENTITY:nome	Qual è un altro nome per la vitamina B1 ?
+1045	WHO:radio	Chi ha scoperto il radio ?
+1049	LOCATION:continente	Su quale continente è l'Egitto ?
+1050	LOCATION:capitale	Qual è la capitale della Mongolia ?
+1056	WHEN:stagione	Quando è la stagione degli uragani nei Caraibi ?
+1057	LOCATION:vulcano	Dove si trova il vulcano Mauna Loa
+1059	LOCATION:penisola	Di quale penisola fa parte la Spagna ?
+1060	WHEN:Lyndon B. Johnson	Quando nacque Lyndon B. Johnson ?
+1063	WHO:Croce Rossa Americana	Chi fondò la Croce Rossa Americana ?
+1064	WHEN:anno	In quale anno i Milwaukee Braves diventarono gli Atlanta Braves ?
+1066	WHEN:solstizio	Quando è il solstizio d'estate ?
+1068	LOCATION:Foresta Nazionale di Shawnee	Dove si trova la Foresta Nazionale di Shawnee ?
+1069	LOCATION:stato	Quale stato americano adotta il motto Live free or die ?
+1071	WHEN:francobollo	Quando fu emesso il primo francobollo ?
+1073	QUANTITY:Plutone	Quanto dista Plutone dal Sole ?
+1074	LOCATION:bacino	In quale bacino sono le isole Canarie ?
+1076	LOCATION:fiume Eufrate	Dove si trova il fiume Eufrate ?
+1078	ENTITY:gas naturale	Da cosa è composto il gas naturale ?
+1080	WHO:sovrano	Quale sovrano francese fu sconfitto nella battaglia di Waterloo ?
+1085	QUANTITY:distanza	Qual è la distanza in miglia dalla terra al sole ?
+1087	WHEN:negozio Wal- Mart	Quando è stato aperto il primo negozio Wal- Mart ?
+1088	DESC:umidità relativa	Che cosa è l'umidità relativa ?
+1090	ENTITY:valuta	Che valuta viene utilizzata in Algeria ?
+1094	ENTITY:nome	Qual è il nome di un satellite delll'Unione Sovietica ?
+1097	ENTITY:animali	Come sono chiamati gli animali che non hanno la spina dorsale ?
+1100	WHO:Presidente	Chi è stato il 23 ° Presidente degli Stati Uniti ?
+1101	QUANTITY:temperatura	Qual è la temperatura media del corpo ?
+1103	DESC:effetto	Qual è l'effetto delle piogge acide ?
+1105	QUANTITY:velocità	Quanto veloce è la velocità della luce ?
+1106	LOCATION:provincia	In quale provincia è Montreal ?
+1107	ENTITY:edificio	Quale edificio di New York City è conosciuto anche come le Torri Gemelle ?
+1109	ENTITY:lingua	Qual è la lingua più parlata nei Paesi Bassi ?
+1110	DESC:cloruro di sodio	Che cosa è il cloruro di sodio
+1112	QUANTITY:chili	Quanti chili ci sono in una tonnellata ?
+1114	DESC:esaurimento	Che cos'è l'esaurimento dell'ozono ?
+1116	DESC:Sitting Shiva	Che cosa significa Sitting Shiva ?
+1119	ENTITY:plastica	Di cosa è fatta la plastica ?
+1120	QUANTITY:popolazione	Qual è la popolazione della Nigeria ?
+1122	LOCATION:Grand Canyon	Dove si trova il Grand Canyon ?
+1123	WHO:telefono	Chi ha inventato il telefono ?
+1125	WHO:nome	Qual è il nome del leader di Irlanda ?
+1127	QUANTITY:galloni	Quanti galloni di acqua ci sono in un piede cubico ?
+1130	LOCATION:persone	In Polonia dove vivono la maggior parte delle persone ?
+1132	LOCATION:posizione	Qual è la posizione del Mare della Tranquillità ?
+1133	QUANTITY:suono	Quanto è veloce il suono ?
+1136	DESC:capelli grigi	Che cosa causa i capelli grigi ?
+1139	ENTITY:ponte	Qual è il ponte sospeso più lungo negli Stati Uniti. ?
+1143	DESC:criterio	Qual è il criterio per essere legalmente cieco ?
+1144	WHO:uomo	Chi è l'uomo più alto del mondo ?
+1145	DESC:twin cities	Cosa sono le twin cities ?
+1149	ENTITY:pianeta	Che pianeta è conosciuto come il pianeta rosso ?
+1151	ENTITY:abito	Com'è chiamato il colorato abito tradizionale coreano ?
+1152	DESC:Mardi Gras	Che cosa è Mardi Gras ?
+1154	WHO:afroamericano	Chi è stato il primo afroamericano a giocare per i Brooklyn Dodgers ?
+1155	WHO:Primo Ministro	Chi è stato il primo Primo Ministro del Canada ?
+1156	QUANTITY:ammiragli	Quanti ammiragli ci sono nella Marina degli Stati Uniti ?
+1161	LOCATION:capitale	Qual è la capitale dell'Etiopia ?
+1162	DURATION:elefantessa	Per quanto resta incinta un'elefantessa ?
+1164	ENTITY:lingua	Qual è la lingua principale in Islanda ?
+1167	WHO:governatrice	Chi fu la prima governatrice negli Stati Uniti ?
+1171	WHEN:anno	In quale anno l'Oklahoma è diventato uno stato?
+1173	DESC:specchio	Di cosa è fatto uno specchio ?
+1180	DESC:fibrosi polmonare	Che cosa è la fibrosi polmonare ?
+1183	DESC:mal di gola	Che cosa è il mal di gola ?
+1184	LOCATION:città	Qual è la più grande città degli U.S. ?
+1185	DESC:afta epizootica	Che cosa è l'afta epizootica ?
+1186	DURATION:aspettativa di vita	Qual è l' aspettativa di vita di una banconota di dollaro ?
+1190	ENTITY:colore	Che colore è l'indaco ?
+1195	WHEN:anno	In quale anno scioperò la NFL ?
+1196	DESC:vento solare	Che cosa è il vento solare ?
+1197	WHEN:data	In quale data Neil Armstrong atterrò sulla Luna ?
+1198	WHEN:Hiroshima	Quando fu bombardata Hiroshima ?
+1202	WHO:governatore	Chi è il governatore dell'Alaska ?
+1203	WHEN:anno	In quale anno Mussolini prese il potere in Italia ?
+1204	LOCATION:capitale	Qual è la capitale della Persia ?
+1205	LOCATION:Torre Eiffel	Dove è la Torre Eiffel ?
+1208	LOCATION:lago	Qual è il lago più profondo degli Stati Uniti ?
+1209	DESC:cella a combustibile	Che cosa è una cella a combustibile ?
+1210	WHO:presidente	Chi è stato il primo presidente americano a comparire in TV ?
+1211	LOCATION:Museo Little League	Dove si trova il Museo Little League ?
+1213	ENTITY:stella	Qual è la stella più luminosa ?
+1215	WHEN:presidente Kennedy	Quando è colpito il presidente Kennedy ?
+1218	WHEN:data	In quale data è nato Dwight D. Eisenhower ?
+1220	WHY:sole	Perché il sole è giallo ?
+1222	WHEN:Abraham Lincoln	Quando nacque Abraham Lincoln ?
+1223	DESC:Via Lattea	Cos'è la Via Lattea ?
+1225	WHEN:anno	In che anno è nato Mozart ?
+1228	QUANTITY:punto di fusione	Qual è il punto di fusione dell'oro ?
+1229	LOCATION:indirizzo	Qual è l' indirizzo della Casa Bianca ?
+1231	ENTITY:frutto	Da quale frutto è ricavata la salsa Melba ?
+1232	DESC:Orsa Maggiore	Che cosa è l'Orsa Maggiore ?
+1233	QUANTITY:percentuale	Qual è la percentuale di acqua nel corpo umano ?
+1235	ENTITY:programma	Come è stato chiamato il programma di riforme del presidente Lyndon Johnson ?
+1238	QUANTITY:popolazione	Qual è la popolazione dell'Australia ?
+1239	WHO:soffitto	Chi ha dipinto il soffitto della Cappella Sistina ?
+1240	ENTITY:stimolante	Nominare uno stimolante .
+1241	DESC:effetto	Qual è l'effetto dei vulcani sul clima ?
+1242	WHEN:anno	In quale anno è iniziato lo spettacolo Andy Griffith ?
+1243	DESC:pioggia acida	Che cosa è la pioggia acida ?
+1244	WHEN:data	Qual è la data dell'indipendenza del Messico ?
+1245	LOCATION:posizione	Qual è la posizione del lago Champlain ?
+1246	ENTITY:fiore	Qual è il fiore dello stato dell'Illinois ?
+1250	QUANTITY:velocità	Qual è la velocità della luce ?
+1252	WHY:zero punti	Perché nel tennis gli zero punti sono chiamati amore ?
+1253	ENTITY:tipo	Che tipo di cane era Toto nel Mago di Oz ?
+1256	ENTITY:arteria	Qual è l'unica arteria che trasporta il sangue blu dal cuore ai polmoni ?
+1258	DESC:acido acetico	Che cosa è l'acido acetico ?
+1261	ENTITY:colori	Quali sono i colori della bandiera tedesca ?
+1262	DESC:Moulin Rouge	Che cos'è il Moulin Rouge ?
+1263	ENTITY:porto	Quale porto sovietico è sul Mar Nero ?
+1264	QUANTITY:peso atomico	Qual è il peso atomico dell'argento ?
+1265	ENTITY:valuta	Che valuta usano in Brasile ?
+1267	DESC:malattia della mucca pazza	Che cosa è la malattia della mucca pazza ?
+1270	LOCATION:ampullarie	Dove vivono le ampullarie ?
+1274	WHO:John F. Kennedy	Chi ha ucciso John F. Kennedy ?
+1275	WHO:vice presidente	Chi è stato il primo vice presidente degli Stati Uniti. ?
+1279	WHEN:Ulysses S. Grant	Quando nacque Ulysses S. Grant ?
+1280	DESC:distrofia muscolare	Cos'è la distrofia muscolare ?
+1281	WHO:Neuschwanstein	Chi visse nel castello di Neuschwanstein ?
+1282	DESC:glicole propilenico	Che cosa'è il glicole propilenico ?
+1283	DESC:disturbo di panico	Che cosa è un disturbo di panico ?
+1284	WHO:macchina fotografica	Chi ha inventato la macchina fotografica istantanea Polaroid ?
+1287	QUANTITY:popolazione	Qual è la popolazione mondiale ?
+1291	QUANTITY:tasso	Qual è il tasso di imposta sulle vendite a New York ?
+1293	LOCATION:montagna	Qual è la quarta montagna più alta del mondo ?
+1295	ENTITY:elemento	Qual è l' elemento naturale più pesante ?
+1300	DESC:anidride carbonica	Che cosa è l'anidride carbonica ?
+1302	WHEN:Boston Tea Party	Quando avvenne il Boston Tea Party ?
+1305	ENTITY:sigarette	Di cosa sono fatte le sigarette ?
+1306	LOCATION:capitale	Qual è la capitale dello Zimbabwe ?
+1308	ENTITY:fiore	Qual è il fiore dello stato del Michigan ?
+1310	DESC:energia nucleare	Che cosa è l'energia nucleare ?
+1312	WHO:deputato	Chi è il deputato dallo stato del Texas nel comitato delle forze armate ?
+1313	WHO:presidente	Chi era presidente nel 1913 ?
+1314	WHEN:trapianto	Quando è stato il primo trapianto di rene ?
+1315	LOCATION:territori	Quali sono i due territori del Canada ?
+1316	ENTITY:nome	Quale era il nome dell'aereo con cui Lindbergh volò da solo attraverso l'Atlantico ?
+1321	LOCATION:montagne russe	Dove si trovano le più alte montagne russe ?
+1323	WHO:ossigeno	Chi ha scoperto l'ossigeno ?
+1324	DESC:bangers and mash	Che cosa è bangers and mash ?
+1325	ENTITY:nome	Qual è il nome dato alla tigre alla Louisiana State University ?
+1326	ENTITY:gioielli	Dove sono custoditi i gioielli della corona britannica ?
+1327	WHO:persona	Chi è stata la prima persona a raggiungere il Polo Nord ?
+1334	WHO:Trivial Pursuit	Chi ha inventato Trivial Pursuit ?
+1341	WHO:afro-americano	Chi è stato il primo afro-americano a vincere il Premio Nobel per la letteratura ?
+1342	WHEN:St. Patrick Day	Quando è St. Patrick Day ?
+1343	ENTITY:nome	Qual era il nome del cane di FDR ?
+1345	ENTITY:sport	Qual è lo sport più popolare in Giappone ?
+1346	ENTITY:principio attivo	Qual è il principio attivo del bicarbonato di sodio ?
+1347	WHEN:Thomas Jefferson	Quando è nato Thomas Jefferson ?
+1349	WHEN:telefono	Quando è stato inventato il telefono ?
+1355	ENTITY:uccello	Qual è l'uccello di stato di New York ?
+1356	ENTITY:National Park	Qual è il National Park nello Utah ?
+1357	WHEN:compleanno	Qual è il compleanno di Susan B. Anthony ?
+1358	LOCATION:stato	In quale stato si trovano le Catskill Mountains ?
+1361	ENTITY:catena	Quale catena di negozi ha sede a Bentonville Arkansas ?
+1362	DESC:celle solari	Che cosa sono le celle solari ?
+1366	ENTITY:valuta	Che valuta usa il Lussemburgo ?
+1367	QUANTITY:popolazione	Qual è la popolazione del Venezuela ?
+1369	ENTITY:valuta	Che valuta usa l'Argentina ?
+1371	LOCATION:città	Quale città canadese ha la maggiore popolazione ?
+1373	LOCATION:paese	Quale paese ha dato a New York la Statua della Libertà ?
+1374	ENTITY:nome	Qual era il nome del primo satellite americano inviato nello spazio ?
+1375	ENTITY:pietra	Che pietra preziosa è una forma di puro carbonio ?
+1377	DESC:artrite reumatoide	Che cosa’è l'artrite reumatoide ?
+1379	DESC:paralisi cerebrale	Che cos'è la paralisi cerebrale ?
+1380	LOCATION:città	Che città è anche conosciuta come la porta verso l'Occidente ?
+1381	QUANTITY:Luna	Quanto dista la Luna ?
+1382	ENTITY:fonte	Qual è la fonte del gas naturale ?
+1389	WHO:Presidente	Chi è stato il 22 ° Presidente degli Stati Uniti ?
+1391	QUANTITY:piedi	Quanti piedi in un miglio ?
+1395	WHO:Tom Cruise	Con chi è sposato Tom Cruise ?
+1397	QUANTITY:pubblico	Qual è stato il pubblico più grande radunato per vedere Michael Jordan ?
+1400	WHEN:telegrafo	Quando fu inventato il telegrafo ?
+1401	ENTITY:simbolo	Qual è il simbolo del partito democratico ?
+1402	WHEN:anno	In quale anno Wilt Chamberlain segnò 100 punti ?
+1404	QUANTITY:cromosomi	Quanti cromosomi ha uno zigote umano sono?
+1405	QUANTITY:once	Quante once ci sono in un gallone ?
+1408	ENTITY:partito politico	Di quale partito politico che è membro Lionel Jospin ?
+1410	ENTITY:uova	Cosa depone le uova blu ?
+1411	WHO:esploratore	Quale esploratore spagnolo scoprì il fiume Mississippi ?
+1412	WHO:governatore	Chi è il governatore del Colorado ?
+1414	QUANTITY:lunghezza	Qual è stata la lunghezza del primo volo dei fratelli Wright ?
+1416	WHEN:Wendy's	Quando è stata fondata Wendy's ?
+1417	WHO:persona	Chi è stata la prima persona a correre il miglio in meno di quattro minuti ?
+1418	WHEN:caso Rosenberg	Quando avvenne il caso Rosenberg ?
+1419	WHEN:anno	In quale anno l'Alaska è diventato uno Stato ?
+1421	WHEN:Mike Tyson	Quando è che Mike Tyson morse l'orecchio di Holyfield ?
+1423	LOCATION:penisola	Qual è una penisola nelle Filippine ?
+1426	WHO:governatore	Chi è il governatore del Tennessee ?
+1428	WHO:Premio Nobel per la Pace	Chi ha vinto il Premio Nobel per la Pace nel 1992 ?
+1429	WHO:nome	Quale era il nome della moglie di Andrew Jackson ?
+1432	LOCATION:Torre del Diavolo	Dove si trova la Torre del Diavolo ?
+1433	QUANTITY:altezza	Qual è l'altezza della sequoia più alta ?
+1439	QUANTITY:Crater Lake	Quanto è profondo Crater Lake?
+1441	LOCATION:posto	Qual è il posto più freddo sulla terra?
+1444	WHO:leader	Quale leader femminile successe Ferdinand Marcos come presidente delle Filippine ?
+1447	LOCATION:capitale	Qual è la capitale della Siria ?
+1449	ENTITY:collegio	Quale collegio ha frequentato Magic Johnson ?
+1453	LOCATION:negozio JC Penney	dove è stato aperto il primo negozio JC Penney ?
+1454	CURRENCY:soldi	Quanti soldi fa la Corte Suprema degli Stati Uniti ?
+1456	LOCATION:Keystone State	Qual è il Keystone State ?
+1457	WHO:Ferdinand Marcos	Chi successe a Ferdinand Marcos ?
+1459	LOCATION:parco nazionale	Qual è un parco nazionale in Indiana ?
+1463	ENTITY:inno nazionale	Qual è l'inno nazionale della Corea del Nord ?
+1464	WHO:detective	"Chi è il detective in ""Diagnosis Murder"" ?"
+1465	ENTITY:compagnia	Quale compagnia produce le automobili Bentley ?
+1466	QUANTITY:Allen Iverson	Quanto è alto Allen Iverson ?
+1467	WHEN:anno	In quale anno il South Dakota è diventato uno Stato ?
+1470	WHEN:presidente Herbert Hoover	Quando morì il presidente Herbert Hoover ?
+1471	QUANTITY:ghepardo	Quanto corre veloce un ghepardo ?
+1472	ENTITY:casa	"Come si dice ""casa"" in spagnolo ?"
+1473	WHEN:Lyndon B. Johnson	quando nacque Lyndon B. Johnson ?
+1474	LOCATION:punto	Qual è il punto più basso della terra ?
+1475	WHO:persona	Chi è stata la prima persona a raggiungere il Polo Sud ?
+1480	LOCATION:porto	Qual è il porto principale in Ecuador ?
+1481	LOCATION:capitale	Qual è la capitale dell'Algeria ?
+1482	LOCATION:provincia	In quale provincia è Wilmington , Delaware ?
+1483	LOCATION:punto	Dove si trova il punto più alto sulla terra?
+1487	CURRENCY:biglietti	Quanto costano i biglietti per Disney World ?
+1489	LOCATION:continente	Su quale continente è l'India ?
+1490	WHO:nome	Qual è il nome dello strangolatore di Boston ?
+1491	WHO:nome	Qual era il nome del fratello di Sherlock Holmes' ?
+1493	WHEN:Davy Crockett	Quando nacque Davy Crockett ?
+1494	WHO:East is east , west is west and never the twain shall meet	"Chi ha scritto ""East is east , west is west and never the twain shall meet"" ?"
+1496	LOCATION:nazione	In quale nazione è Berlino ?
+1498	ENTITY:scuola	Che scuola frequentò Emmitt Smith ?
+1499	LOCATION:paese	Quale paese africano è il maggior esportatore di caffè ?
+1500	LOCATION:Georgetown University	Dov'è Georgetown University ?
+1501	QUANTITY:energia	Quanta energia degli Stati Uniti deriva dall'energia nucleare ?
+1502	WHEN:anno	In quale anno è stato ucciso il presidente Kennedy ?
+1503	LOCATION:isola	Qual è la seconda isola più grande del mondo ?
+1504	LOCATION:Salton Sea	Dov'è il Salton Sea ?
+1505	ENTITY:valuta	Qual è la valuta utilizzata in Cina?
+1506	ENTITY:nome	Qual è il nome della spada di Re Artù ?
+1507	ENTITY:inno nazionale	Qual è l'inno nazionale in Inghilterra ?
+1509	WHO:soprannome	Qual è il soprannome di Frank Sinatra ?
+1510	LOCATION:diario	Dove si trova il diario di Anne Frank ?
+1512	QUANTITY:età	Qual è l'età del nostro sistema solare ?
+1515	WHO:nome	Qual era il vero nome di Dr. Seuss ?
+1517	ENTITY:uccello	Qual è l'uccello dello stato dell'Alaska ?
+1519	LOCATION:Hans Christian Anderson	dove è nato Hans Christian Anderson ?
+1520	LOCATION:capitale	Qual è la capitale del Kentucky ?
+1523	QUANTITY:percentuale	Quale percentuale degli Stati Uniti è afro-americana ?
+1524	ENTITY:nome	Qual è il nome del campo da baseball in cui giocano i Milwaukee Brewers ?
+1526	LOCATION:città	Qual è la città dell'amore fraterno ?
+1529	ENTITY:college bowl game	Qual è il più antico college bowl game ?
+1530	LOCATION:capitale	Qual è la capitale della Nuova Zelanda ?
+1532	QUANTITY:tasso	Qual è il tasso di alfabetizzazione a Cuba ?
+1535	WHO:Girasoli	Chi ha dipinto “Girasoli” ?
+1536	LOCATION:città	A quale città è vicino Lake Washington ?
+1537	QUANTITY:voti	Quanti voti del collegio elettorale in Tennessee ?
+1538	WHO:H.R. Director	"Chi è il malvagio H.R. Director in ""Dilbert"" ?"
+1539	ENTITY:caramella	Qual è la caramella preferita Ronald Reagan ?
+1540	LOCATION:lago	Qual è il lago più profondo in America?
+1542	LOCATION:Hill Air Force Base	Dov'è la Hill Air Force Base ?
+1544	LOCATION:paese	Qual è il paese più popolato del mondo ?
+1547	QUANTITY:numero atomico	Qual è il numero atomico dell'uranio ?
+1550	LOCATION:punta	Qual è la punta più sud-occidentale dell'Inghilterra ?
+1553	ENTITY:frigoriferi	Chi produce i frigoriferi Magic Chef ?
+1555	WHEN:offensiva	Quando è stata l'offensiva del Tet in Vietnam ?
+1557	ENTITY:satellite	Qual è stato il primo satellite nello spazio ?
+1559	LOCATION:Dr. King	Dove fece il suo discorso Dr. King  a Washington?
+1561	WHEN:brevetto	Quando è stato depositato il primo brevetto sul cono gelato ?
+1563	WHO:riforma	Chi ha iniziato la riforma protestante ?
+1565	WHO:soprannome	Qual è il soprannome di Karl Malone ?
+1566	WHO:poeta	Quale famoso poeta spagnolo morì nella guerra civile spagnola ?
+1569	WHEN:guerra	Quando finì la guerra del Vietnam ?
+1573	WHO:capo	Chi è il capo del FBI ?
+1575	QUANTITY:grado	Qual è il grado di inclinazione della Terra ?
+1578	QUANTITY:Sfinge	Quanto è alta la Sfinge ?
+1584	WHEN:George W. Bush	Quando fu eletto George W. Bush come governatore del Texas ?
+1586	WHEN:Golden Gate Bridge	Quando fu terminato il Golden Gate Bridge ?
+1588	WHEN:Apollo 11	Quando è stato lanciato l'Apollo 11 ?
+1589	WHO:golfista	Chi è stato l'unico golfista a vincere gli opens e gli amateurs statunitensi e britannici ?
+1593	QUANTITY:percentuale	Quale percentuale della popolazione egiziana vive al Cairo ?
+1596	WHEN:anno	In quale anno Mussolini prese il potere in Italia ?
+1599	QUANTITY:popolazione	Qual è la popolazione totale del Sud Africa ?
+1601	WHEN:Einstein	Quando è morto Einstein ?
+1603	WHEN:Robert E. Lee	Quando si arrese Robert E. Lee nella guerra civile ?
+1604	ABBR:R&B	Che cosa significa R&B ?
+1605	QUANTITY:maratona	Quanto correresti se partecipassi ad una maratona ?
+1606	QUANTITY:punto	Qual è il punto di ebollizione dell'acqua ?
+1607	QUANTITY:livello	Qual è il normale livello di glicemia per le persone ?
+1612	WHEN:invasione	Quando avvenne l'invasione degli Stati Uniti ad Haiti ?
+1613	WHEN:Benjamin Disraeli	Quando fu primo ministro Benjamin Disraeli?
+1614	LOCATION:capitale	Qual è la capitale del Victoria ?
+1615	LOCATION:paese	Qual è il più grande paese dell'Africa ?
+1617	WHEN:corsa all’oro	Quando si è verificata la corsa all'oro del Klondike ?
+1618	ENTITY:bile	Dove è prodotta la bile ?
+1619	WHO:star	Quale star del baseball ha rubato 130 basi nel 1982 ?
+1620	WHEN:anno	In che anno si è tenuta la prima Macy's Thanksgiving Day Parade ?
+1622	WHO:First Lady	Chi era la First Lady di Woodrow Wilson ?
+1623	ENTITY:principio attivo	Qual è il principio attivo del Tylenol ?
+1624	WHEN:anno	"In quale anno uscì ""New Coke"" ?"
+1625	LOCATION:lago	Qual è il lago più profondo del mondo ?
+1627	DESC:tomba	Che cosa è scritto sulla tomba statunitense del milite ignoto ?
+1628	QUANTITY:superficie	Che superficie ricoprono le Everglades ?
+1629	LOCATION:Mae West	Dove’è sepolto Mae West?
+1633	ENTITY:montagne russe	Quali sono le montagne russe più veloci al mondo ?
+1636	WHEN:battaglia	Quando è stata combattuta la battaglia di Chancellorsville ?
+1640	WHO:taoismo	Chi ha fondato il taoismo ?
+1643	WHO:Rhode Island	Chi ha fondato Rhode Island?
+1645	CURRENCY:stazione spaziale internazionale	Quanto è previsto che venga a costare la stazione spaziale internazionale ?
+1646	WHEN:bomba atomica	Quando fu sganciata la prima bomba atomica ?
+1649	WHEN:anno	In quale anno esplose lo shuttle Challenger ?
+1650	LOCATION:paese	In quale paese è Elmira , NY ?
+1651	ENTITY:nome	Qual è un altro nome per la stella polare ?
+1652	WHEN:Stati Uniti	Quando entrarono nella Seconda Guerra Mondiale gli Stati Uniti  ?
+1653	ENTITY:patatine fritte	"Come si dice ""patatine fritte"" in francese ?"
+1654	LOCATION:Prairie View A & M University	Dov'è la Prairie View A & M University?
+1655	LOCATION:Abramo Lincoln	Dove nacque Abramo Lincoln ?
+1657	DESC:Manica	Che cos'è che i francesi chiamano Manica ?
+1658	WHEN:anno	In che anno è nato Robert Frost ?
+1659	LOCATION:Bob Dylan	Dove è nato Bob Dylan ?
+1661	DESC:E Pluribus Unum	"Che cosa significa ""E Pluribus Unum"" ?"
+1665	WHEN:Marian Anderson	Quando ha cantato Marian Anderson al Lincoln Memorial ?
+1666	ENTITY:nome	Qual è il nome della base militare statunitense a Cuba ?
+1667	ABBR:sigla	Qual è la sigla della Borsa di Londra ?
+1669	QUANTITY:Monte McKinley	Quanto è alto il Monte McKinley ?
+1671	LOCATION:Big Ben	Dove si trova il Big Ben ?
+1672	LOCATION:paese	Quale paese latino-americano è il maggiore esportatore di canna da zucchero ?
+1674	WHEN:giorno	In quale giorno Neil Armstrong atterrò sulla Luna ?
+1676	WHEN:acqua	Quando è stata trovata l'acqua su Marte ?
+1678	WHO:presidente	Chi era il presidente degli Stati Uniti nel 1929 ?
+1682	WHEN:Martin Luther King Jr.	Quando nacque Martin Luther King Jr. ?
+1683	WHO:nome	Con quale nome è meglio conosciuto l'attore horror William Henry Pratt ?
+1685	LOCATION:città	Qual è la città più popolosa degli Stati Uniti ?
+1686	WHO:armata	Chi sconfisse l'armata spagnola ?
+1687	WHO:presidente	Quale presidente proclamò la Festa della Mamma ?
+1688	WHEN:anno	In quale anno è stato costruito il gateway arch ?
+1689	ENTITY:guerra	"Quale guerra è collegata con il libro ""Carica della Brigata Leggera"" ?"
+1691	LOCATION:film	"Dov'è stato girato il film ""Somewhere in Time"" ?"
+1693	WHEN:Jackie Robinson	Quando nacque Jackie Robinson ?
+1695	ENTITY:razza	Di che razza era Trigger il cavallo di Roy Rogers ?
+1697	LOCATION:Statua della Libertà	Dove si trova la Statua della Libertà ?
+1698	WHEN:Giulio Cesare	Quando nacque Giulio Cesare ?
+1699	LOCATION:città	In quale città si trova la Purdue University ?
+1700	LOCATION:Stonehenge	Dove si trova lo Stonehenge americano ?
+1708	WHEN:fuoriuscita	Quando avvenne la fuoriuscita di petrolio della Exxon Valdez ?
+1710	ENTITY:colori	Quali sono i colori della bandiera italiana ?
+1711	WHEN:jet	Quando è stato inventato il primo jet ?
+1712	WHO:mulinello	Chi ha inventato il mulinello da pesca ?
+1715	QUANTITY:vitamina 	Quanta vitamina C si dovrebbe prendere in un giorno ?
+1716	WHO:vincitore	Chi è stato il primo vincitore della Triple Crown ?
+1717	LOCATION:città	Qual è stata la prima città al mondo ad avere una popolazione di oltre un milione ?
+1718	WHEN:Casa Bianca	Quando è stata costruita la Casa Bianca ?
+1719	QUANTITY:distanza	Qual è la distanza da Giove al sole ?
+1721	QUANTITY:tumulo di brocca	Quanto dista il tumulo di brocca dalla casa base nel softball ?
+1722	WHEN:anno	In che anno morì la poetessa Emily Dickinson ?
+1723	WHO:cognome	Qual è il cognome di Madonna ?
+1729	ENTITY:nome	Qual è il nome dell'aeroporto di Amsterdam ?
+1730	WHO:nome	Qual è il vero nome di Mark Twain ?
+1732	DESC:parole	Quali sono le parole di apertura della Dichiarazione di Indipendenza  ?
+1733	WHO:presidente	Chi è il presidente pro tempore del Senato degli Stati Uniti ?
+1734	ENTITY:maiale	"Come si dice ""maiale"" in spagnolo ?"
+1735	LOCATION:città	In quale città è la Southwestern University ?
+1737	DURATION:sonno	Di quanto sonno necessita un bambino durante la notte ?
+1740	ENTITY:Stanley Cup	Di cosa è fatta la Stanley Cup ?
+1745	DESC:singhiozzo	Cosa causa il singhiozzo ?
+1746	WHO:Monica Seles	Chi ha accoltellato Monica Seles ?
+1747	LOCATION:national hurricane center	Dove si trova il national hurricane center ?
+1748	WHEN:rivolte	Quando avvennero le rivolte di Los Angeles ?
+1749	WHEN:Sputnik	Quando fu lanciato Sputnik ?
+1750	QUANTITY:popolazione	Qual è la popolazione del Messico ?
+1751	LOCATION:Mesa Verde National Park	Dov'è il Mesa Verde National Park ?
+1752	WHEN:attentato	Quando avvenne l'attentato di Oklahoma City?
+1753	WHEN:Vietnam Veterans Memorial	Quando è stato costruito il Vietnam Veterans Memorial a Washington, DC ?
+1754	WHEN:guerra del Golfo Persico	Quando si è verificata la guerra del Golfo Persico ?
+1755	ENTITY:professione	Qual era la professione del patriota americano Paul Revere ?
+1758	LOCATION:Sunflower State	"Qual è il ""Sunflower State"" ?"
+1759	WHO:Il violinista sul tetto	"Chi ha scritto ""Il violinista sul tetto"" ?"
+1763	QUANTITY:anni	Quanti anni ha l'universo?
+1766	ENTITY:fiore	Qual è il fiore nazionale dell'Australia ?
+1767	WHEN:Ford Mustang	Quando è stata fatta la prima Ford Mustang ?
+1769	WHO:proprietario	Chi è il proprietario del St. Petersburg Times ?
+1772	WHO:sgranatrice	Chi ha inventato la sgranatrice di cotone ?
+1779	LOCATION:città	Qual è la città più antica dell'Australia ?
+1780	WHO:no hitters	Chi ha più no hitters nella Major League Baseball ?
+1781	WHEN:anno	"In quale anno uscì ""Biancaneve"" ?"
+1782	WHO:donna	Chi fu la prima donna a correre per la presidenza ?
+1788	ENTITY:viagra	Chi produce il viagra ?
+1790	LOCATION:paese	In quale paese si trova la città santa della Mecca ?
+1793	ENTITY:edificio	Qual è l'edificio adibito ad uffici più alto del mondo ?
+1798	LOCATION:continente	In quale continente si trova l'Egitto ?
+1802	QUANTITY:Tom Cruise	Quanto è alto Tom Cruise ?
+1803	WHEN:Willis Haviland Carrier	Quand'è che Willis Haviland Carrier inventò l'aria condizionata ?
+1804	LOCATION:fiume	Quale fiume attraversa Dublino?
+1805	WHO:Presidente	Chi è stato eletto Presidente del Sud Africa nel 1994 ?
+1806	WHEN:trapianto	Quando è stato il primo trapianto di cuore ?
+1807	QUANTITY:numero	Qual è il numero di passeggeri che può trasportare un Boeing 747 ?
+1808	LOCATION:isola	Quale isola hanno acquisito gli Stati Uniti dopo la guerra ispano americana ?
+1809	WHEN:Buckingham Palace	Quando fu costruito Buckingham Palace a Londra , Inghilterra ?
+1810	LOCATION:gioielli	dove sono conservati i gioielli della Corona Britannica ?
+1819	WHEN:Marilyn Monroe	Quando si suicidò Marilyn Monroe ?
+1820	WHEN:indipendenza	Quand'è l'indipendenza del Messico ?
+1821	WHO:architetti	Chi erano gli architetti che hanno progettato l'Empire State Building ?
+1823	QUANTITY:numero	Che numero indossava Michael Jordan ?
+1827	LOCATION:battaglia	Dove'è stata combattuta la battaglia di Alamo ?
+1829	QUANTITY:Torre CNN	Quanto è alta la Torre CNN a Toronto?
+1830	LOCATION:città	In quale città si conclude il Tour de France ?
+1831	ENTITY:nome	Qual è il nome del famoso numero di Gianni e Pinotto ?
+1837	WHEN:anno	In quale anno è stato costruito Ebbets Field, sede dei Brooklyn Dodgers ?
+1838	ENTITY:nome	Qual era il nome del cane di FDR ?
+1839	LOCATION:paese	Che paese è stata fondato nel 1948 ?
+1840	ENTITY:canzone	Qual è la canzone dello stato del Kansas ?
+1843	WHEN:mese	In che mese sono nati la maggior parte dei bambini?
+1845	LOCATION:provincia	In quale provincia si trova Calgary ?
+1846	ENTITY:trofeo	Qual è il più antico trofeo sportivo ?
+1848	ENTITY:nome	Qual era il nome dell'aereo che sganciò la bomba atomica su Hiroshima ?
+1853	LOCATION:prigione	Dov'era la prigione di Andersonville ?
+1856	LOCATION:città	Quale città è conosciuta come la capitale mondiale della gomma ?
+1859	ENTITY:ramo	Che ramo delle forze armate ha la sua accademia di Annapolis ?
+1861	LOCATION:Bill Gates	dove è nato Bill Gates ?
+1862	ENTITY:PIL	Qual è il PIL della Cina?
+1863	WHO:Ma non ho ancora incominciato a combattere	"Chi ha detto ""Ma non ho ancora incominciato a combattere!"" ?"
+1864	WHO:nome	Quale fu il nome del primo figlio di genitori inglesi ?
+1867	LOCATION:città	Quale città italiana ospita la Cattedrale di Santa Maria del Fiore ?
+1870	LOCATION:nazione	In quale nazione si trova Pretoria ?
+1871	QUANTITY:gravità	Quanta gravità c'è su Marte ?
+1873	DESC:motto	Qual è il motto per la California?
+1874	WHEN:battaglia	Quando fu la battaglia di Shiloh ?
+1876	QUANTITY:sole	Quanto lontano dalla terra è il sole ?
+1878	WHEN:anno	In quale anno è stato inventato il fonografo ?
+1880	WHEN:re Luigi XIV	quando nacque il re Luigi XIV ?
+1882	ENTITY:nazionalità	Di quale nazionalità è Sean Connery ?
+1883	QUANTITY:strato	Quanto dello strato di ozono è esaurito ?
+1884	LOCATION:Mare della Tranquillità	Dove si trova il Mare della Tranquillità ?
+1885	ENTITY:lingua	Che lingua si parla in Nuova Caledonia ?
+1886	ENTITY:colori	Quali sono i colori nazionali del Brasile ?
+1888	WHEN:anno	In che anno è stata inventata la lampadina ?
+1890	WHO:autore	"Chi è l'autore del poema ""The Midnight Ride di Paul Revere"" ?"
+1891	WHO:campione	Chi è stato il primo campione nero dei pesi massimi ?
+1894	QUANTITY:Terra	Quanto dista la Terra da Marte ?
+1897	ENTITY:nome	Qual è il nome dell'aeroporto a Dallas Ft . Worth ?
+1898	LOCATION:città	In quale città è Disneyland ?
+1899	ENTITY:libro	Che libro ha scritto Rachel Carson nel 1962 ?
+1900	LOCATION:paese	In quale paese si trova Aswan High Dam ?
+1903	QUANTITY:fusi orari	Quanti fusi orari ci sono nel mondo ?
+1908	QUANTITY:popolazione	Qual è la popolazione dell'Islanda ?
+1910	ENTITY:pennies	Di cosa sono fatti i pennies ?
+1912	LOCATION:città	In quale città è la Senna ?
+1914	LOCATION:città	Che città è la sede del Rock and Roll Hall of Fame ?
+1916	LOCATION:città	In quale città viveva Duke Ellington ?
+1920	WHEN:Cold Mountain	"Quando fu scritto ""Cold Mountain"" ?"
+1929	ENTITY:band	"Quale band ha fatto le musiche per il film del 1970 ""Febbre del Sabato Sera"" ?"
+1930	ENTITY:band	In quale band era Jerry Garcia ?
+1931	WHEN:principe Carlo	Quando nacque il principe Carlo ?
+1934	ENTITY:opera	"Su quale opera è basato ""West Side Story"" ?"
+1935	ENTITY:colore	Di che colore è la striscia in alto sulla bandiera degli Stati Uniti ?
+1936	QUANTITY:piani	Quanti piani ci sono nella Sears Tower ?
+1943	WHO:nome	Qual è il nome della compagna di Ling Ling  ?
+1944	ENTITY:George Washington	Come chiamava George Washington casa sua?
+1945	WHEN:Adolf Hitler	Quando nacque Adolf Hitler ?
+1947	LOCATION:paese	Quale paese ha governato Caterina la Grande ?
+1949	ENTITY:soprannome	Qual è il soprannome della bandiera britannica ?
+1953	QUANTITY:squadre	Quante squadre di NFL ci sono?
+1958	DURATION:cobra reale	Quanto velocemente può ucciderti un cobra reale ?
+1960	QUANTITY:distributori	Quanti distributori di benzina ci sono negli Stati Uniti ?
+1962	LOCATION:paese	"Che paese è conosciuto come ""Terra del Sol Levante"" ?"
+1966	LOCATION:capitale	Quale capitale si vede dalla cima del Bunker Hill ?
+1967	ENTITY:partito	Che partito ha guidato l'Australia dal 1983 al 1996 ?
+1970	ENTITY:compagnia	Qual è la compagnia aerea nazionale della Spagna ?
+1971	LOCATION:città	In quale città è attualmente situata la Liberty Bell ?
+1974	WHO:cognome	"Qual è il cognome di Richie su ""Happy Days"" ?"
+1976	DESC:motto	Qual è il motto dei Boy Scout ?
+1980	QUANTITY:Luna	Quanto dista la Luna dalla Terra in miglia ?
+1981	QUANTITY:Grande Barriera Corallina	Quanto è lunga la Grande Barriera Corallina ?
+1982	ENTITY:film	Quale film ha vinto l' Academy Award per la migliore fotografia nel 1989 ?
+1983	WHEN:Lyndon B. Johnson	Quando fu presidente Lyndon B. Johnson ?
+1984	ENTITY:persone	Come sono chiamate le persone nate nel 1965 durante il 1980 ?
+1985	ENTITY:nome	Qual è il nome dell'arena delle Cav ?
+1992	QUANTITY:sole	Quanto caldo è il sole ?
+1993	QUANTITY:lingue	Quante lingue ufficiali ha la Svizzera ?
+1994	ENTITY:hit	Qual è stata la prima hit numero uno dei Beatles ?
+1996	LOCATION:città	In quale città è la Duke University ?
+1998	QUANTITY:età	Che età aveva Babe Ruth quando è morto ?
+1999	LOCATION:stato	Qual è lo stato con la più scarsa popolazione ?
+2000	DURATION:giorni	Quanti giorni terrestri servono a Marte per orbitare intorno al sole ?
+2004	QUANTITY:lati opposti	A quanto ammontano i lati opposti di un dado ?
+2005	ENTITY:montagne russe	Quali sono le montagne russe più veloci ?
+2007	QUANTITY:anni	Quanti anni ci sono in un mandato del presidente francese ?
+2010	LOCATION:isola	In quale isola fu esiliato Napoleone dopo la sconfitta a Waterloo ?
+2011	WHEN:Leonardo da Vinci	Quando è nato Leonardo da Vinci ?
+2013	QUANTITY:strisce	Quante strisce ci sono sulla bandiera americana?
+2015	ENTITY:edificio	In quale edificio si è tenuta la Academy of Country Music Awards  ?
+2016	LOCATION:area	Qual è l'area della Germania occidentale, che è nota per i suoi ricchi giacimenti di carbone ?
+2017	QUANTITY:percentuale	Quale percentuale del formaggio nazionale produce il Wisconsin ?
+2018	QUANTITY:giorni	Quanti giorni ci sono in un anno marziano ?
+2020	LOCATION:città	In quale città trovereste il Louvre ?
+2021	LOCATION:barriera	Qual è la più grande barriera corallina del mondo ?
+2022	LOCATION:città	In quale città inglese passa il primo meridiano ?
+2025	ENTITY:stadio	"Quale stadio sportivo è stato pubblicizzato come ""l'ottava meraviglia del mondo"" ?"
+2027	WHEN:OJ Simpson	Quando fu arrestato OJ Simpson per omicidio ?
+2029	QUANTITY:voti	Quanti voti elettorali ha il Tennessee ?
+2033	QUANTITY:tipi	Quanti tipi di sangue umano ci sono ?
+2036	QUANTITY:province	Quante province ci sono in California ?
+2044	ENTITY:museo	"Quale museo di Filadelfia è stato utilizzato in ""Rocky"" ?"
+2045	WHEN:città	Quando è stata fondata la città di New Orleans ?
+2047	QUANTITY:Mercurio	Quanto vicino è Mercurio al Sole ?
+2048	WHEN:MTV	Quando è stato avviato MTV ?
+2052	LOCATION:contea	In quale contea è San Antonio , Texas ?
+2057	QUANTITY:bambini	Quanti figli ha Bob Marley ?
+2058	ENTITY:motto	"Qual è il motto del ""New York Times"" ?"
+2061	ENTITY:processo	Quale processo ribaltò la Plessy v Furgeson ?
+2065	ENTITY:alce	Come è chiamato un alce femmina ?
+2066	ENTITY:tequila	Con cosa è fatta la tequila ?
+2067	QUANTITY:Grandi Laghi	Quanti Grandi Laghi ci sono?
+2069	WHEN:film	Quando è stato fatto il primo film di Star Wars ?
+2071	QUANTITY:isole	Quante isole ci sono in Indonesia ?
+2074	QUANTITY:piramide	Quanto è alta la piramide più alta ?
+2077	QUANTITY:maiale	Quanto grande diventa un maiale ?
+2080	ENTITY:trattato	Con quale trattato di pace si è conclusa la prima guerra mondiale ?
+2084	QUANTITY:fuoricampo	Quanti fuoricampo ha colpito Babe Ruth ?
+2085	QUANTITY:Mesa	Quanto vicino è Mesa a Phoenix ?
+2087	LOCATION:città	Che città canadese ha la maggiore popolazione ?
+2088	QUANTITY:camere	Quante camere ci sono alla Casa Bianca ?
+2089	LOCATION:isola	Su quale isola dei Caraibi era governatore Ponce de Leon ?
+2091	WHO:nome	Qual è il vero nome di Eminem ?
+2092	WHEN:telegrafo	Quando fu inventato il telegrafo ?
+2093	LOCATION:città	Quale città è la patria di Superman ?
+2099	ENTITY:gruppo	Di quale gruppo comico faceva parte John Cleese ?
+2101	LOCATION:nazione	Di quale nazione era originaria Caterina la Grande ?
+2102	ENTITY:punto	Che punto di riferimento americano sorge su Liberty Island ?
+2103	WHO:generale confederato	Quale generale confederato fu responsabile della sconfitta di Gettysburg ?
+2105	LOCATION:paese	Che paese produce la maggior parte della seta ?
+2106	WHO:nome	Qual è il nome completo di Barbie ?
+2107	ENTITY:moneta	Qual è la moneta della Danimarca ?
+2111	QUANTITY:volte	Quante volte gli Yankees hanno vinto le World Series ?
+2115	LOCATION:provincia	In quale provincia canadese sono la maggior parte delle persone di origine francese?
+2119	WHEN:compleanno	Quando è il compleanno di Jennifer Lopez ?
+2127	LOCATION:paese	Da quale paese Panama guadagnò la propria indipendenza ?
+2129	QUANTITY:fuori campo	"Quanti fuori campo ha colpito Henry ""Hank Aaron""  nella sua carriera in major league ?"
+2131	WHO:sindaco	Chi è il sindaco di San Francisco ?
+2133	WHEN:Abramo Lincoln	Quando nacque Abramo Lincoln ?
+2136	QUANTITY:lune	Quante lune ha Nettuno ?
+2139	ENTITY:gas	Quale gas forma il 78 per cento dell'atmosfera della terra?
+2141	QUANTITY:giudici	Quanti giudici ha la Corte Suprema degli Stati Uniti ?
+2149	QUANTITY:medaglie	Quante medaglie d'oro olimpiche ha vinto Carl Lewis ?
+2152	WHEN:Grande Muraglia Cinese	Quando è stata costruita la Grande Muraglia Cinese ?
+2154	ENTITY:bianco	Com'è chiamato il bianco d'uovo ?
+2156	QUANTITY:Randy Johnson	Quanto veloce lancia Randy Johnson ?
+2160	QUANTITY:temperatura	Qual è la temperatura del corpo di un cane ?
+2165	WHEN:data	In che data è stata firmata la Dichiarazione di Indipendenza ?
+2168	LOCATION:paese	Quale paese produce il maggior numero di smeraldi ?
+2173	ENTITY:logo	"Qual è il logo di ""Playboy"" ?"
+2175	LOCATION:paese	Quale paese invase l'Iraq nel 1990 ?
+2182	QUANTITY:Titanic	Quanto dista il Titanic sotto l'acqua ?
+2184	ENTITY:club	Quale club di Liverpool ha dato origine ai Beatles ?
+2188	WHO:Tennessee Waltz	"Chi cantava ""Tennessee Waltz"" ?"
+2190	LOCATION:paese	Di che paese è la Hyundai ?
+2193	QUANTITY:metri	Quanti metri sopra il livello del mare è Gerusalemme?
+2195	WHEN:Ronald Reagan	Quando fu colpito Ronald Reagan ?
+2196	LOCATION:oceano	In quale oceano sono le Isole Gilbert ?
+2198	WHO:nome	Qual è il nome del Chief Justice della Corte Suprema ?
+2205	QUANTITY:funzionari	Quanti funzionari di gabinetto ci sono?
+2210	QUANTITY:grammi	Quanti grammi in un'oncia ?
+2214	LOCATION:paese	Che paese oltre la Germania ha il tedesco come lingua ufficiale ?
+2219	QUANTITY:Al Pacino	Quanto è alto Al Pacino ?
+2226	WHEN:aborto	Quando è stato legalizzato l'aborto negli Stati Uniti?
+2227	LOCATION:stato	Qual è lo stato del Bluegrass ?
+2230	ENTITY:diga	Quale diga è detta la più grande centrale idroelettrica del mondo ?
+2232	WHO:figlia	Quale figlia dello zar Nicola II si dice che sia sfuggita alla morte nella rivoluzione russa ?
+2235	LOCATION:montagna	Qual è la montagna più alta del Sud America ?
+2236	ENTITY:bandiera	Quale bandiera nazionale sventola sopra le isole Canarie ?
+2239	ENTITY:prigione	In quale prigione è Charles Manson ?
+2241	QUANTITY:mostro verde	Quanto è alto il mostro verde a Fenway ?
+2248	QUANTITY:pianeti	Quanti pianeti ci sono nel nostro sistema solare ?
+2249	WHEN:Canale	Quando fu reso il Canale di Panama a Panama ?
+2251	QUANTITY:Grand Canyon	Quanto è profondo il Grand Canyon ?
+2257	LOCATION:paese	Qual è il paese più ricco del mondo ?
+2261	ENTITY:università	Quale università frequentò Magic Johnson ?
+2264	QUANTITY:età	Quale età aveva Elvis quando è morto ?
+2270	LOCATION:capitale	Qual è la capitale del Maryland ?
+2272	QUANTITY:agenzie	Quante agenzie di intelligence hanno gli USA ?
+2278	QUANTITY:probabilità	Quali sono le probabilità di non essere colpito da un fulmine ?
+2280	QUANTITY:camere	Quante camere ha il Las Vegas MGM Grand Hotel ?
+2281	WHO:commodoro	Quale commodoro americano chiese che il Giappone commerciasse con gli Stati Uniti ?
+2282	LOCATION:canale	Che canale si trova tra il Mar Mediterraneo e il Mar Rosso ?
+2284	ENTITY:dinastia	Che dinastia cinese c'era durante il 1412-1431 ?
+2285	QUANTITY:cupola	Quanto pesa la cupola del Campidoglio ?
+2289	LOCATION:continente	Su quale continente è il Togo ?
+2293	QUANTITY:volte	Quante volte al giorno pregano i musulmani osservanti ?
+2294	LOCATION:continente	Su quale continente è l'India ?
+2295	ENTITY:decisione	Che decisione del 1857 della Corte Suprema degli Stati Uniti ha negato che i neri fossero cittadini ?
+2296	ENTITY:monumento	Che monumento nazionale è stato designato come primo monumento nazionale nel 1906 ?
+2299	QUANTITY:mph	A quanti mph dovresti andare per rompere la barriera del suono ?
+2300	LOCATION:paese	Da quale paese proveniva Marco Polo ?
+2301	WHO:compositore	Che compositore scrisse “Die Götterdämmerung” ?
+2302	CURRENCY:Barbie	Quanto costava la prima Barbie ?
+2303	LOCATION:fiume	Qual è il fiume più lungo del mondo ?
+2306	QUANTITY:Grande Piramide	Quanto è grande la Grande Piramide ?
+2307	QUANTITY:mandati	Per quanti mandati fu presidente Dwight D. Eisenhower ?
+2310	QUANTITY:morti	Quante morti americane ci furono nella guerra di Corea ?
+2312	QUANTITY:repubbliche	Quante repubbliche costituivano l'Unione Sovietica ?
+2315	QUANTITY:tentacoli	Quanti tentacoli hanno effettivamente i calamari ?
+2317	ENTITY:squadra	Quale squadra ingaggiò Brett Favre ?
+2326	QUANTITY:tumulo	Quanto dista il tumulo di brocca dalla casa base ?
+2328	LOCATION:stato	In quale stato è nata Amelia Earhart ?
+2329	QUANTITY:muscoli	Quanti muscoli ci sono nel corpo umano ?
+2330	LOCATION:fiume	Quale fiume c'è sotto il ponte George Washington di New York ?
+2331	WHO:attrice	Quale attrice ha ricevuto il maggior numero di nomination agli Oscar ?
+2336	QUANTITY:strati	Quanti strati di pelle abbiamo?
+2339	DESC:John Quincy Adams	Come morì John Quincy Adams ?
+2342	WHEN:World Series	Quando fu la prima World Series teletrasmessa ?
+2344	LOCATION:città	Che città ha ospitato le Olimpiadi estive del 1936 ?
+2347	LOCATION:Monte Olimpo	Dove si trova il Monte Olimpo ?
+2350	QUANTITY:orca	Quanto è grande l'orca ?
+2351	DURATION:tempo	Quanto tempo prima il fallimento viene rimosso da un rapporto di credito ?
+2352	WHO:ingegnere	Quale ingegnere ha progettato il Canale di Erie ?
+2353	DESC:padre	Che cosa faceva il padre di Osama bin Laden per vivere?
+2356	ENTITY:strumento	Quale strumento suonava Louis Armstrong ?
+2359	LOCATION:paese	Di quale paese erano i soldati nascosti nel cavallo di Troia ?
+2362	QUANTITY:Pikes Peak	Quanto è alto Pikes Peak?
+2364	QUANTITY:Death Valley	Che caldo fa nella Death Valley ?
+2367	QUANTITY:monumento a Washington	Quanto è alto il monumento a Washington ?
+2371	ENTITY:tipo	Che tipo di ape fora il legno ?
+2376	ENTITY:colore	Di che colore è la cintura del migliore nel karate ?
+2380	ENTITY:nome	Qual è il nome della residenza ufficiale del presidente della Francia ?
+2381	DESC:rapporto	Qual è il rapporto tra Horatio e Amleto ?
+2383	DESC:Jerry Garcia	Come morì Jerry Garcia ?
+2384	QUANTITY:popolazione	Qual è la popolazione di Canberra ?
+2391	WHO:presidente	Quale presidente creò la social security ?
+2392	WHEN:Croce Rossa	Quando fu fondata la Croce Rossa ?

@@ -61,7 +61,7 @@ public class QuestionFocusClassifier extends JCasAnnotator_ImplBase {
 		try {
 			//this.focusClassifier = FocusClassifierTrain.byLanguage(language);
 			Analyzer analyzer = Commons.instantiateQuestionFocusAnalyzer(language);
-			Set<String> allowedTags = Focus.getAllowedTagsByLanguage(language);
+			Set<String> allowedTags = Focus.allowedTags(language);
 			this.focusClassifier = new FocusClassifierTrain(analyzer, allowedTags); 
 					//new FocusClassifierTrain(analyzer, language);
 		} catch (UIMAException e) { 
@@ -84,7 +84,7 @@ public class QuestionFocusClassifier extends JCasAnnotator_ImplBase {
 		TokenTree tree = RichTree.getConstituencyTree(cas);
 		
 		List<Pair<String, RichTokenNode>> examples 
-			= focusClassifier.generateExamples(tree, this.ts);
+			= focusClassifier.generateExamples(tree);
 		
 		RichTokenNode focusNode = null;
 		

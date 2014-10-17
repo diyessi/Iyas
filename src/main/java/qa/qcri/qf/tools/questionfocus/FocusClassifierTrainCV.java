@@ -24,6 +24,8 @@ public class FocusClassifierTrainCV {
 	private static final String TRAIN_QUESTIONS_CV_DIRECTORY_OPT = "trainQuestionsCVDirectory";
 	private static final String TRAIN_OUTPUT_CV_DIRECTORY_OPT =  "trainOutputCVDirpath";
 		
+	private static final String QID_QUESTION_SEPARATOR = "\t";
+	
 	public static void main(String[] args) throws UIMAException {
 		Options options = new Options();
 		options.addOption(HELP_OPT, false, "Print the help");
@@ -83,22 +85,21 @@ public class FocusClassifierTrainCV {
 			Analyzer analyzer = Commons.instantiateQuestionFocusAnalyzer(lang);
 			analyzer.setPersistence(persistence);
 					
-			Set<String> allowedTags = Focus.getAllowedTagsByLanguage(lang);
+			Set<String> allowedTags = Focus.allowedTags(lang);
+			System.out.println("lang: " + lang + ", allowedTags " + allowedTags);
 					
-			for (File fold : new File(trainQuestionsCVDirpath).listFiles()) {
-				String foldFilename = FilenameUtils.getBaseName(fold.getName());
-				String outputFilepath = FilenameUtils.normalize(trainOutputCVDirpath + "/" + foldFilename + "/svm.train");
+			for (File trainFile : new File(trainQuestionsCVDirpath).listFiles()) {
+				String fname = FilenameUtils.getBaseName(trainFile.getName());
+				String outputFilepath = FilenameUtils.normalize(trainOutputCVDirpath + "/" + fname + "/svm.train");
 				
-				System.out.println("Fold name: " + fold.getPath() + ", outputFilepath: " + outputFilepath);
+				System.out.println("train file: " + trainFile.getPath() + ", output file: " + outputFilepath);
 				
-				QuestionWithIdReader questionsWithFocusReader = new QuestionWithIdReader(fold.getPath(), "\t");
-				Commons.analyzeQuestionsWithId(questionsWithFocusReader, analyzer);
+				Commons.analyzeQuestionsWithId(trainFile.getPath(), analyzer);
 				
-				questionsWithFocusReader = new QuestionWithIdReader(fold.getPath(), "\t");
-				FocusClassifierTrain focusClassifierTrain = new FocusClassifierTrain(analyzer, allowedTags);
-				focusClassifierTrain
-					.generateExamples(questionsWithFocusReader)
-					.writeExamplesToDisk(outputFilepath);
+				FocusClassifierTrain train = new FocusClassifierTrain(analyzer, allowedTags);
+				train.generateExamples(trainFile.getPath())
+					 .printStatistics()
+					 .writeExamplesToDisk(outputFilepath);
 			}
 			
 		} catch (ParseException e) {

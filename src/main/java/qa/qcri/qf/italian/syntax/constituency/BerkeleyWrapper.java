@@ -13,6 +13,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent;
 import it.unitn.limosine.util.JCasUtility;
 
 import org.apache.commons.lang.mutable.MutableInt;
+import org.apache.log4j.Logger;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FSIndex;
@@ -86,13 +87,15 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 	public boolean goldPos;
 	
 	private CoarseToFineMaxRuleParser parser;	
-	private PTBLineLexer tokenizer = null;  
-	
+	private PTBLineLexer tokenizer = null;  	
 	
 	@Override
 	public void initialize(UimaContext context)
 			throws ResourceInitializationException {
 		super.initialize(context);
+		
+		//logger.warn("Launching BerkeleyWrapper...");
+		System.err.println("Informazioni: Launching BerkeleyWrapper...");
 		
 		double threshold = 1.0;
 		
@@ -119,9 +122,10 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 		
 		// iterate over all sentences
 		Iterator<Annotation> sentencesIterator = sentencesIndex.iterator();
-		while (sentencesIterator.hasNext()) { 
+		while (sentencesIterator.hasNext()) {
 			Sentence aSentence = (Sentence) sentencesIterator.next();
-			
+						
+			System.out.println("sent - begin: " + aSentence.getBegin() + ", end: " + aSentence.getEnd() + ", text: " + aSentence.getCoveredText());
 			List<Token> tokens = Lists.newArrayList(JCasUtil.selectCovered(cas, Token.class, aSentence));
 			List<String> sentence = null;
 			List<String> posTags = null;
@@ -136,6 +140,15 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 					sentence.add(tok.getCoveredText());
 					posTags.add(pos.getPosValue());
 				}
+				// NO PUNCT HACK: Add a fake punctuation token and Pos
+				String lastPos = posTags.get(posTags.size() - 1);
+				if (!lastPos.equals("XPS")) { 
+					posTags.add("XPS");
+					sentence.add(".");
+				}
+				//System.out.println(sentence);
+				//System.out.println(posTags);
+				
 			} else {
 				try {
 					String line = aSentence.getCoveredText();
@@ -154,18 +167,45 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 			}
 			
 			Tree<String> parsedTree = parser.getBestConstrainedParse(sentence, posTags, null);
+						
 			if (goldPos && parsedTree.getChildren().isEmpty()) { // parse error when using goldPos, try without
 				parsedTree = parser.getBestConstrainedParse(sentence, null, null);
 			}
 			
 			if (!binarize) parsedTree = TreeAnnotations.unAnnotateTree(parsedTree);
-					
+			
+			// EMPTY TREE HACK: Add tokens as child of ROOT
+			if (emptyTreeBug(parsedTree, tokens)) { 
+				parsedTree = fixEmptyTree(tokens);
+			}
+			System.out.println("parsedTree: " + parsedTree.toString());
+				
 			createConstituentAnnotationFromTree(cas, parsedTree, null, tokens, new MutableInt(0));
 		}
 	}
 	
+	private boolean emptyTreeBug(Tree<String> tree, List<Token> aTokens)  {
+		return tree.isLeaf() && !aTokens.isEmpty();	
+	}
+	
+	private Tree<String> fixEmptyTree(List<Token> aTokens) {
+		List<Tree<String>> children = new ArrayList<>();
+		for (Token token : aTokens) {
+			Tree<String> t = new Tree<String>(token.getCoveredText());
+			Tree<String> p = new Tree<String>(token.getPos().getPosValue(), Arrays.asList(t));
+			children.add(p);
+		}
+		Tree<String> s = new Tree<String>("Start", children);
+		Tree<String> tree = new Tree<String>("ROOT", Arrays.asList(s));
+		return tree;
+	}
+	
 	private Annotation createConstituentAnnotationFromTree(JCas aJCas, Tree<String> aNode,
 			Annotation aParentFS, List<Token> aTokens, MutableInt aIndex) {
+				
+		// NO PUNCT HACK: Don't create annotations for fake tokens
+		if (aIndex.intValue() >= aTokens.size()) return null; 
+		 
 		// If the node is a word-level constituent node (== POS):
 		// create parent link on token and (if not turned off) create POS tag
 		if (aNode.isPreTerminal()) { 
@@ -183,6 +223,7 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 			
 			// Check if node is a constituent node on sentence or phrase-level
 			String typeName = aNode.getLabel();
+			//System.out.println("typeName: " + typeName);
 			
 			// create the necessary obejcts and methods
 			String constituentTypeName =  typeName;
@@ -194,7 +235,7 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 			if (aParentFS != null) { 
 				constAnno.setParent(aParentFS);
 			}
-			
+						
 			// Do we have any children?
 			List<Annotation> childAnnotations = new ArrayList<Annotation>();
 			for (Tree<String> child : aNode.getChildren()) { 
@@ -204,6 +245,44 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 					childAnnotations.add(childAnnotation);
 				}
 			}
+			
+			// EMPTY PARSE HACK: if childAnnotations is empty, add the child tokens
+			/*
+			if (childAnnotations.isEmpty()) {				
+				Constituent childAnno = new Constituent(aJCas, 0, 0);
+				childAnno.setBegin(aTokens.get(0).getBegin());
+				childAnno.setEnd(aTokens.get(aTokens.size() - 1).getEnd());
+				childAnno.setConstituentType("Start");
+				List<Annotation> subchildAnnotations = new ArrayList<>();
+				for (int i = 0; i < aTokens.size(); i++) {
+					Token aToken = aTokens.get(i);
+					subchildAnnotations.add(aToken);
+					aIndex.add(1);
+					
+				}
+				FSArray subchildArray = (FSArray) FSCollectionFactory.createFSArray(aJCas,
+						subchildAnnotations);
+				childAnno.setChildren(subchildArray);
+						
+				aJCas.addFsToIndexes(childAnno);
+				
+				childAnnotations = new ArrayList<Annotation>(Arrays.asList(childAnno));
+				constAnno.setBegin(childAnnotations.get(0).getBegin());
+				constAnno.setEnd(childAnnotations.get(childAnnotations.size()-1).getEnd());
+				
+				
+				// Now that we know how many children we havw, link annotation of
+				// current not with its children
+				FSArray childArray = (FSArray) FSCollectionFactory.createFSArray(aJCas,
+						childAnnotations);
+				constAnno.setChildren(childArray);
+				
+				// write annotation for current node to index
+				aJCas.addFsToIndexes(constAnno);
+				
+				return constAnno;
+			}
+			*/
 			
 			constAnno.setBegin(childAnnotations.get(0).getBegin());
 			constAnno.setEnd(childAnnotations.get(childAnnotations.size()-1).getEnd());

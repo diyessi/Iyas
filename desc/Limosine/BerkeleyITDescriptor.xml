@@ -20,26 +20,14 @@
     <fsIndexCollection/>
     <capabilities>
       <capability>
-      	<!-- 
         <inputs>
           <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Token</type>
           <type allAnnotatorFeatures="true">it.unitn.limosine.types.segmentation.Sentence</type>
           <type allAnnotatorFeatures="true">it.unitn.limosine.types.pos.Pos</type>
-        </inputs>
-       -->
-       	<inputs>
-       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token</type>
-       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence</type>
-       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS</type>
-       	</inputs>
-       	<outputs>
-       	  <type allAnnotatorFeatures="true">de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.Constituent</type>
-       	</outputs>
-       	<!-- 
+        </inputs> 
         <outputs>
           <type allAnnotatorFeatures="true">it.unitn.limosine.types.syntax.ConstituencyTree</type>
         </outputs>
-        -->
         <languagesSupported/>
       </capability>
     </capabilities>
