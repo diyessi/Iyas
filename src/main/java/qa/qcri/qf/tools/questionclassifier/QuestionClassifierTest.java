@@ -9,6 +9,8 @@ import org.apache.commons.cli.ParseException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import qa.qcri.qf.classifiers.OneVsAllClassifier;
 import qa.qcri.qf.classifiers.SVMLightTKClassifierFactory;
@@ -23,46 +25,61 @@ import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.providers.ConstituencyTreeProvider;
 import qa.qcri.qf.trees.providers.TokenTreeProvider;
-import edu.berkeley.nlp.util.Logger;
 
 public class QuestionClassifierTest {
 	
 	public static final String TEST_QUESTION_CLASSIFIER_PATH_OPT = "testQuestionClassifierPath";
-	
 	public static final String TEST_CASES_DIRECTORY_OPT = "testCasesDir";
-	
 	public static final String TEST_MODELS_DIRECTORY_OPT = "testModelsDir";
-	
 	//public static final String TEST_OUTPUT_DIRECTORY_OPT = "testOutputDir";
-	
 	public static final String ARGUMENTS_FILE_OPT = "argumentsFilePath";
-	
-	public static final String LANG_OPT = "lang";	
-
+	public static final String LANG_OPT = "lang";
 	public static final String HELP_OPT = "help";
 	
+	private static Logger logger = LoggerFactory.getLogger(QuestionClassifierTest.class);
+	
 	private final Analyzer analyzer;
+	private final Class<? extends Iterable<CategoryContent>> questionReaderClass;
+	
+	private int totalPredictionsNumber = 0;
+	private int correctPredictionsNumber = 0;
 	
 	public QuestionClassifierTest(Analyzer analyzer) { 
-		if (analyzer == null)
-			throw new NullPointerException("analyzer is null");
-		
-		this.analyzer = analyzer;
+		this(analyzer, QuestionReader.class);
 	}
 	
-	public QuestionClassifierTest generatePredictions(String testFilepath, String modelsDirpath) 
-			throws UIMAException { 
-		if (testFilepath == null)
-			throw new NullPointerException("testFilepath is null");
-		if (modelsDirpath == null)
-			throw new NullPointerException("modelsDirpath is null");
-		/*
-		if (outputDirpath == null)
-			throw new NullPointerException("outputDirpath is null");
-		*/
-					
-		Set<String> categories = Commons.analyzeAndCollectCategories(
-				testFilepath, analyzer);
+	public QuestionClassifierTest(Analyzer analyzer, Class<? extends Iterable<CategoryContent>> questionReaderClass) { 
+		if (analyzer == null) { 
+			throw new NullPointerException("analyzer is null");
+		}
+		if (questionReaderClass == null) { 
+			throw new NullPointerException("questionReaderClass");
+		}
+		
+		this.analyzer = analyzer;
+		this.questionReaderClass = questionReaderClass;
+	}
+	
+	public QuestionClassifierTest generatePredictions(String testFile, String modelsDir) 
+			throws UIMAException {
+		if (testFile == null) { 
+			throw new NullPointerException("testFile is null");
+		}
+		if (testFile.trim().equals("")) {
+			throw new IllegalArgumentException("testFile not specified");
+		}
+		if (modelsDir == null)
+			throw new NullPointerException("modelsDir is null");
+		if (modelsDir.trim().equals("")) {
+			throw new IllegalArgumentException("modelsDir not specified");
+		}
+		File models = new File(modelsDir);
+		if (!models.exists() || !models.isDirectory() || !models.canRead()) { 
+			throw new IllegalArgumentException(modelsDir + ": is not a directory or permission negated");
+		}		
+		
+		
+		Set<String> categories = Commons.analyzeAndCollectCategories(testFile, analyzer);
 		
 		String parameterList = Commons.getParameterList();
 		
@@ -74,19 +91,19 @@ public class QuestionClassifierTest {
 		
 		JCas cas = JCasFactory.createJCas();
 		
-		int totalPredictionsNumber = 0;
-		int correctPredictionsNumber = 0;
+		this.totalPredictionsNumber = 0;
+		this.correctPredictionsNumber = 0;
 		
 		OneVsAllClassifier ovaClassifier = 
 				new OneVsAllClassifier(
 						new SVMLightTKClassifierFactory());
 		
 		for (String category : categories) {
-			ovaClassifier.addModel(category, new File(modelsDirpath, category + ".model").toString());
+			ovaClassifier.addModel(category, new File(modelsDir, category + ".model").toString());
 		}
 		
-		Iterator<CategoryContent> questions = new QuestionReader(
-				testFilepath).iterator();
+		Iterator<CategoryContent> questions = new QuestionWithIdReader(testFile, "\t").iterator();
+		
 		while (questions.hasNext()) {
 			CategoryContent question = questions.next();
 			analyzer.analyze(cas, question);
@@ -104,7 +121,7 @@ public class QuestionClassifierTest {
 				String message = question.getContent() + " Predicted " + predictedCategory
 						+ ". Was " + question.getCategory();
 				fm.writeLn("data/question-classifier/errors.txt", message);
-				Logger.warn(message);
+				logger.warn(message);
 			}
 			
 			totalPredictionsNumber++;					
@@ -115,6 +132,18 @@ public class QuestionClassifierTest {
 		System.out.println("Correct prediction: " + correctPredictionsNumber
 				+ " out of " + totalPredictionsNumber);
 		return this;			
+	}
+	
+	public int getCorrectPredictionsNumber() { 
+		return this.correctPredictionsNumber;
+	}
+
+	public int getTotalPredictionsNumber() { 
+		return this.totalPredictionsNumber;
+	}
+	
+	public double getAccuracy() {
+		return ((double) this.correctPredictionsNumber) / this.totalPredictionsNumber;
 	}
 	
 	public static void main(String[] args) throws UIMAException { 
@@ -152,11 +181,11 @@ public class QuestionClassifierTest {
 			
 			System.out.println(" -" + LANG_OPT + " " + lang);
 			
-			String testQuestionClassifierPath = cmd.getFileValue(
+			String testFile = cmd.getFileValue(
 					TEST_QUESTION_CLASSIFIER_PATH_OPT,
 					"Please specify the path of the question classifier data file.");
 			
-			System.out.println(" -" + TEST_QUESTION_CLASSIFIER_PATH_OPT + " " + testQuestionClassifierPath);
+			System.out.println(" -" + TEST_QUESTION_CLASSIFIER_PATH_OPT + " " + testFile);
 			
 			String testModelsDir = cmd.getPathValue(
 					TEST_MODELS_DIRECTORY_OPT,
@@ -185,13 +214,10 @@ public class QuestionClassifierTest {
 			
 			Analyzer analyzer = Commons.instantiateQuestionClassifierAnalyzer(lang);
 			analyzer.setPersistence(persistence);
-			
-			QuestionClassifierTest questionClassifierTest = new QuestionClassifierTest(analyzer);
-			questionClassifierTest.generatePredictions(testQuestionClassifierPath, testModelsDir);
+			QuestionClassifierTest test = new QuestionClassifierTest(analyzer);
+			test.generatePredictions(testFile, testModelsDir);
 		} catch (ParseException e) { 
 			System.err.println(e.getMessage());
 		}
 	}
-	
-
 }

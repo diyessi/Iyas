@@ -96,7 +96,6 @@ public class RichTree {
 		List<Constituent> roots = new ArrayList<>();
 
 		for (Constituent constituent : JCasUtil.select(cas, Constituent.class)) {
-			//if (constituent.getConstituentType().equals("TOP") ||  // BerkeleyParserIt uses TOP as root label 
 			  if (constituent.getConstituentType().equals(ROOT_LABEL) ) {
 				roots.add(constituent);
 			}

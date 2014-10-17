@@ -6,17 +6,18 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.commons.cli.ParseException;
 import qa.qcri.qf.classifiers.Classifier;
 import qa.qcri.qf.classifiers.SVMLightTKClassifierFactory;
 import qa.qcri.qf.cli.CommandLine;
 import qa.qcri.qf.cli.CommandLineParser;
 import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
@@ -26,7 +27,8 @@ import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import util.Pair;
-import edu.berkeley.nlp.util.Logger;
+
+
 
 public class FocusClassifierTest {
 
@@ -37,7 +39,7 @@ public class FocusClassifierTest {
 	private static final String TEST_QUESTIONS_FILEPATH_OPT = "testQuestionsFilepath";
 	private static final String TEST_MODEL_FILEPATH_OPT = "testModelFilepath";
 
-	private static final String ID_QUESTION_SEPARATOR = "\t"; // line separator: <qid, text>  
+	private static final String QID_QUESTION_SEPARATOR = "\t"; // line separator: <qid, text>  
 
 	private static TreeSerializer treeSerializer = 
 			new TreeSerializer().enableAdditionalLabels();
@@ -48,6 +50,9 @@ public class FocusClassifierTest {
 	private int nullPredictionsNumber = 0; // predictions with no examples generated.
 	private int totalPredictionsNumber = 0;
 	private int correctPredictionsNumber = 0;
+	
+	//private static Logger logger = LoggerFactory.getLogger(FocusClassifierTest.class);
+	private static Logger logger = LoggerFactory.getLogger(FocusClassifierTest.class);
 
 
 	public FocusClassifierTest(Set<String> allowedTags, Analyzer analyzer) {
@@ -75,47 +80,57 @@ public class FocusClassifierTest {
 		totalPredictionsNumber = 0;
 		correctPredictionsNumber = 0;
 
-		QuestionWithIdReader questionsReader = new QuestionWithIdReader(testFilepath, "\t");
+		//QuestionWithIdReader questionsReader = new QuestionWithIdReader(testFilepath, QID_QUESTION_SEPARATOR);
 
-		Iterator<QuestionWithAnnotatedFocus> questionsWithAnnotatedFocus = questionsReader.iterator();
+		Iterator<QuestionWithFocus> questionsWithFocus = 
+				new QuestionWithIdReader(testFilepath, QID_QUESTION_SEPARATOR)
+					.iterator();
 
 		JCas cas = JCasFactory.createJCas();
 
-		while (questionsWithAnnotatedFocus.hasNext()) { 
-			QuestionWithAnnotatedFocus questionWithAnnotatedFocus = questionsWithAnnotatedFocus.next();
+		while (questionsWithFocus.hasNext()) { 
+			//QuestionWithFocus questionWithAnnotatedFocus = questionsWithAnnotatedFocus.next();
+			QuestionWithFocus questionWithFocus = questionsWithFocus.next();
+			
+			assert questionWithFocus.hasFocus();
+			
+			if (questionWithFocus.getFocusNumber() > 1) continue;
+			
+			Focus expectFocus = questionWithFocus.getFoci().get(0);
+			
+			analyzer.analyze(cas, questionWithFocus);
 
-			if (questionWithAnnotatedFocus.isImplicit() || 
-					questionWithAnnotatedFocus.getFocusNumber() == 1) {
+			TokenTree tree = RichTree.getConstituencyTree(cas);
 
-				String focus = questionWithAnnotatedFocus.getFocus();
+			List<Pair<String, RichTokenNode>> examples = generateExamples(tree);
+			
+			//logger.debug("examples: " + examples.size());
 
-				String question = questionWithAnnotatedFocus.stripFocus();
-
-				analyzer.analyze(cas, 
-						new SimpleContent(questionWithAnnotatedFocus.getId(), question));
-
-				TokenTree tree = RichTree.getConstituencyTree(cas);
-
-				List<Pair<String, RichTokenNode>> examples = 
-						generateExamples(tree);
-
-				RichTokenNode focusNode = predictFocusNode(classifier, examples);
-
-				if (focusNode == null) { 
-					nullPredictionsNumber++;
-					continue;
-				}
-
-				if (focus.equals(focusNode.getValue())) { 
-					correctPredictionsNumber++;
-				} else {
-					Logger.warn(question + " Predicted " + focusNode.getValue() 
-							+ ". Was " + focus);
-				}
-
-				totalPredictionsNumber++;
+			RichTokenNode focusNode = predictFocusNode(classifier, examples);
+			
+			if (focusNode == null) { 
+				nullPredictionsNumber++;
+				continue;
 			}
+			
+			String focustxt = focusNode.getValue();
+			
+			int begin = focusNode.getToken().getBegin();
+			Focus actualFocus = new Focus(focustxt, begin);
+			
+			logger.debug("actual focus:   " + actualFocus);
+			logger.debug("expected focus: " + expectFocus);
+			
+			if (actualFocus.equals(expectFocus)) { 
+				correctPredictionsNumber++;
+			} else {
+				logger.warn(questionWithFocus + " Predicted " + actualFocus.getWord() 
+							+ ". Was " + expectFocus.getWord());
+			}
+
+			totalPredictionsNumber++;	
 		}
+		
 
 		return this;
 	}
@@ -242,25 +257,25 @@ public class FocusClassifierTest {
 
 			UIMAPersistence persistence = (casesDirpath == null)
 					? new UIMANoPersistence()
-			: new UIMAFilePersistence(casesDirpath);
+					: new UIMAFilePersistence(casesDirpath);
 
-					Analyzer analyzer = Commons.instantiateQuestionFocusAnalyzer(lang);
-					analyzer.setPersistence(persistence);
+			Analyzer analyzer = Commons.instantiateQuestionFocusAnalyzer(lang);
+			analyzer.setPersistence(persistence);
 
-					Set<String> allowedTags = Focus.getAllowedTagsByLanguage(lang);
+			Set<String> allowedTags = //Focus.getAllowedTagsByLanguage(lang); 
+					Focus.allowedTags(lang);
+			
+			Commons.analyzeQuestionsWithId(testQuestionsFilepath, analyzer);
 
-					QuestionWithIdReader questionsWithAnnotatedFocus = new QuestionWithIdReader(testQuestionsFilepath, ID_QUESTION_SEPARATOR);
-					Commons.analyzeQuestionsWithId(questionsWithAnnotatedFocus, analyzer);
+			FocusClassifierTest test = new FocusClassifierTest(allowedTags, analyzer);
+			test.generatePredictions(testQuestionsFilepath, testModelFilepath);
 
-					FocusClassifierTest test = new FocusClassifierTest(allowedTags, analyzer);
-					test.generatePredictions(testQuestionsFilepath, testModelFilepath);
+			System.out.printf("accuracy: %.4f, ", test.getAccuracy());
+			System.out.printf("correct: %d, ",  test.getCorrectPredictionsNumber());
+			System.out.printf("total: %d, ", test.getTotalPredictionsNumber());
+			System.out.printf("null: %d\n", test.getNullPredictionsNumber());
 
-					double accuracy = test.getAccuracy();
-					double nullPredictionsNumber = test.getNullPredictionsNumber();
-					double totalPredictionsNumber = test.getTotalPredictionsNumber();
-					double correctPredictionsNumber = test.getCorrectPredictionsNumber();
-
-					System.out.printf("( - ) accuracy: %4.f (%d / %d - %d ?)\n", accuracy, correctPredictionsNumber, totalPredictionsNumber, nullPredictionsNumber);
+			//System.out.printf("( - ) accuracy: %4.f (%d / %d - %d ?)\n", accuracy, correctPredictionsNumber, totalPredictionsNumber, nullPredictionsNumber);
 		} catch (ParseException e) { 
 			System.err.println(e);
 		}

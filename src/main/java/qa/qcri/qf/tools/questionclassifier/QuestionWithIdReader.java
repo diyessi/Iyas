@@ -21,7 +21,8 @@ public class QuestionWithIdReader implements Iterable<CategoryContent> {
 	
 	private final static String DEFAULT_SEPARATOR = " ";
 	
-	private final ReadFile in;	
+	//private final ReadFile in;	//	
+	private final String path;	//
 	private final String separator;
 	
 	
@@ -30,12 +31,14 @@ public class QuestionWithIdReader implements Iterable<CategoryContent> {
 	}
 	
 	public QuestionWithIdReader(String path, String separator) {
-		this.in = new ReadFile(path);
+		//this.in = new ReadFile(path); //
+		this.path = path; //
 		this.separator = separator;
 	}
 	
 	@Override
 	public Iterator<CategoryContent> iterator() {
+		final ReadFile in = new ReadFile(path); //
 		Iterator<CategoryContent> iterator = new Iterator<CategoryContent>() { 
 			
 			@Override

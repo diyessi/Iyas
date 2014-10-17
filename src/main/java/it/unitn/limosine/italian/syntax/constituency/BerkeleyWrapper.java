@@ -1,4 +1,9 @@
 package it.unitn.limosine.italian.syntax.constituency;
+import it.unitn.limosine.types.pos.Pos;
+import it.unitn.limosine.types.segmentation.Sentence;
+import it.unitn.limosine.types.segmentation.Token;
+import it.unitn.limosine.types.syntax.ConstituencyTree;
+import it.unitn.limosine.util.JCasUtility;
 import it.unitn.limosine.util.SharedModel;
 import it.unitn.limosine.util.StreamGobbler;
 
@@ -8,12 +13,6 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import it.unitn.limosine.types.pos.Pos;
-import it.unitn.limosine.types.segmentation.Sentence;
-import it.unitn.limosine.types.segmentation.Token;
-import it.unitn.limosine.types.syntax.ConstituencyTree;
-import it.unitn.limosine.util.*;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
@@ -81,8 +80,7 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 
 				 //DUMP 1 sentence in the TXP format
 				 
-					String fullberkitcommand = berkeleyitpath + "/" + berkeleycommand;
-					System.out.println(fullberkitcommand);
+					String fullberkitcommand = berkeleyitpath + "/" + berkeleycommand; 	
 					/*
 					List<String> fulltxpcmdline=new ArrayList<String>();
 					fulltxpcmdline.add(fulltxpcommand);
@@ -141,7 +139,6 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 				        	pennTree.setAnnotatorId(getClass().getCanonicalName());
 				        	pennTree.setSentence(sentence);
 				        	pennTree.addToIndexes();
-				        	System.out.println(out.trim());
 				        }
 				} catch (Exception e) {
 					e.printStackTrace();

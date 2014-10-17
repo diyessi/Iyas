@@ -16,7 +16,9 @@ import cc.mallet.types.FeatureVector;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.ngrams.util.NGramStringIterable;
 import de.tudarmstadt.ukp.dkpro.core.stopwordremover.StopWordSet;
-import edu.berkeley.nlp.util.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Generates n-grams FeatureVectors or FeatureSequences.
@@ -34,6 +36,8 @@ public class BowProvider {
 	
 	final static String TOKEN_FORMAT_PARAM_LIST = RichNode.OUTPUT_PAR_TOKEN;
 	
+	private static final Logger logger = LoggerFactory.getLogger(BowProvider.class);
+	
 	private final int minN;
 	
 	private final int maxN;
@@ -45,6 +49,8 @@ public class BowProvider {
 	private final boolean filterStopwords;
 
 	private final StopWordSet stopwordSet;
+	
+	
 	
 	/**
 	 * The de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.StopWord class has a bug:
@@ -91,7 +97,7 @@ public class BowProvider {
 				stoplist = new StopWordSet(
 					new String[]{ stoplistAbsFile });
 			} catch (IOException e) {
-				Logger.warn("Error while reading stopwords file: " + stoplistFile);
+				logger.warn("Error while reading stopwords file: " + stoplistFile);
 				stoplist = new StopWordSet();
 				emptyStoplist = true;
 			}

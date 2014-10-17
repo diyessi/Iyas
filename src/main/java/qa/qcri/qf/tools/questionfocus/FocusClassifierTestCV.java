@@ -2,7 +2,6 @@ package qa.qcri.qf.tools.questionfocus;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -10,26 +9,13 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.uima.UIMAException;
-import org.apache.uima.fit.factory.JCasFactory;
-import org.apache.uima.jcas.JCas;
 
-import edu.berkeley.nlp.util.Logger;
-import edu.stanford.nlp.trees.SimpleConstituent;
-import qa.qcri.qf.classifiers.Classifier;
-import qa.qcri.qf.classifiers.SVMLightTKClassifierFactory;
 import qa.qcri.qf.cli.CommandLine;
 import qa.qcri.qf.cli.CommandLineParser;
 import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
-import qa.qcri.qf.trees.RichTree;
-import qa.qcri.qf.trees.TokenTree;
-import qa.qcri.qf.trees.TreeSerializer;
-import qa.qcri.qf.trees.nodes.RichNode;
-import qa.qcri.qf.trees.nodes.RichTokenNode;
-import util.Pair;
 
 public class FocusClassifierTestCV {
 	
@@ -40,6 +26,8 @@ public class FocusClassifierTestCV {
 	private static final String TEST_QUESTIONS_CV_DIRECTORY_OPT = "testQuestionsCVDirectory";
 	private static final String TEST_MODELS_CV_DIRECTORY_OPT = "testModelsCVDirectory";
 	// private static final String TEST_OUTPUT_CV_DIRECTORY_OPT = "testOutputCVDirpath";
+	
+	//private static Logger logger = LoggerFactory.getLogger(FocusClassifierTestCV.class);
 	
 	public static void main(String[] args) throws UIMAException {
 		Options options = new Options();
@@ -98,21 +86,20 @@ public class FocusClassifierTestCV {
 			Analyzer analyzer = Commons.instantiateQuestionFocusAnalyzer(lang);
 			analyzer.setPersistence(persistence);
 			
-			Set<String> allowedTags = Focus.getAllowedTagsByLanguage(lang);
+			Set<String> allowedTags = Focus.allowedTags(lang);
 			List<String> foldNames = new ArrayList<>();
 			List<FocusClassifierTest> tests = new ArrayList<>();
 			for (File testFile : new File(testQuestionsCVDirpath).listFiles()) { 
-				String testFilename =  FilenameUtils.getBaseName(testFile.getName());
+				String fname =  FilenameUtils.getBaseName(testFile.getName());
 				
-				foldNames.add(testFilename);
-				String modelFilepath = FilenameUtils.normalize(testModelsCVDirpath + "/" + testFilename + "/svm.model");
+				foldNames.add(fname);
+				String modelFilepath = FilenameUtils.normalize(testModelsCVDirpath + "/" + fname + "/svm.model");
 				
 				System.out.println("test file: " + testFile.getPath() + ", model file:" + modelFilepath);
 
-				QuestionWithIdReader questionsWithAnnotatedFocus = new QuestionWithIdReader(testFile.getPath(), "\t");
-				Commons.analyzeQuestionsWithId(questionsWithAnnotatedFocus, analyzer);
+				//QuestionWithIdReader questionsWithAnnotatedFocus = new QuestionWithIdReader(testFile.getPath(), "\t");
+				Commons.analyzeQuestionsWithId(testFile.getPath(), analyzer);
 				
-				//FocusClassifierTestFold fctf = new FocusClassifierTestFold(allowedTags, analyzer);
 				FocusClassifierTest test = new FocusClassifierTest(allowedTags, analyzer);
 				test.generatePredictions(testFile.getPath(), modelFilepath);
 				tests.add(test);
@@ -135,172 +122,5 @@ public class FocusClassifierTestCV {
 			System.err.println(e);
 		}
 	}
-	
-	private static class FocusClassifierTestFold {
 		
-		private static TreeSerializer treeSerializer = new TreeSerializer();
-		
-		private int nullPredictionsNumber;
-		private int totalPredictionsNumber;		
-		private int correctPredictionsNumber;
-		
-		private final Analyzer analyzer;		
-		private final Set<String> allowedTags;		
-		
-		static {
-			treeSerializer.enableAdditionalLabels();
-		}
-		
-		public FocusClassifierTestFold(Set<String> allowedTags, Analyzer analyzer) {
-			if (allowedTags == null)
-				throw new NullPointerException("allowedTags is null");
-			if (analyzer == null)
-				throw new NullPointerException("analyzer is null");
-			
-			this.analyzer = analyzer;
-			this.allowedTags = allowedTags;
-		}
-		
-		public FocusClassifierTestFold generatePredictions(String testFilepath, String modelFilepath) 
-			throws UIMAException {
-			if (testFilepath == null)
-				throw new NullPointerException("testFilepath is null");
-			if (modelFilepath == null)
-				throw new NullPointerException("modelFilepath is null");
-			
-			Classifier classifier = 
-					new SVMLightTKClassifierFactory()
-						.createClassifier(modelFilepath);
-			
-			nullPredictionsNumber = 0;
-			totalPredictionsNumber = 0;
-			correctPredictionsNumber = 0;
-			
-			QuestionWithIdReader questionsReader = new QuestionWithIdReader(testFilepath, "\t");
-			
-			Iterator<QuestionWithAnnotatedFocus> questionsWithAnnotatedFocus = questionsReader.iterator();
-			
-			JCas cas = JCasFactory.createJCas();
-			
-			while (questionsWithAnnotatedFocus.hasNext()) { 
-				QuestionWithAnnotatedFocus questionWithAnnotatedFocus = questionsWithAnnotatedFocus.next();
-				
-				if (questionWithAnnotatedFocus.isImplicit() || 
-					 questionWithAnnotatedFocus.getFocusNumber() == 1) {
-					
-					String focus = questionWithAnnotatedFocus.getFocus();
-					
-					String question = questionWithAnnotatedFocus.stripFocus();
-					
-					analyzer.analyze(cas, 
-							new SimpleContent(questionWithAnnotatedFocus.getId(), question));
-					
-					TokenTree tree = RichTree.getConstituencyTree(cas);
-					
-					List<Pair<String, RichTokenNode>> examples = 
-							generateExamples(tree, treeSerializer);
-					
-					RichTokenNode focusNode = predictFocusNode(classifier, examples);
-					
-					if (focusNode == null) { 
-						nullPredictionsNumber++;
-						continue;
-					}
-					
-					//System.out.println("focus: " + focus);
-					if (focus.equals(focusNode.getValue())) { 
-						correctPredictionsNumber++;
-					} else {
-						Logger.warn(question + " Predicted " + focusNode.getValue() 
-								+ ". Was " + focus);
-					}
-					
-					totalPredictionsNumber++;
-				}
-			}
-			
-			return this;
-		}
-		
-		public RichTokenNode predictFocusNode(Classifier classifier, List<Pair<String, RichTokenNode>> examples) {
-			if (classifier == null)
-				throw new NullPointerException("classifier is null");
-			if (examples == null)
-				throw new NullPointerException("examples is null");
-			
-			RichTokenNode focusNode = null;
-						
-			Double maxPrediction = Double.NEGATIVE_INFINITY;
-			
-			for (Pair<String, RichTokenNode> example : examples) {
-				Double prediction = classifier.classify(example.getA());
-				
-				//String focus = example.getB().getValue();
-				// JUST FOR DEBUG
-				//System.out.println("example: " + example.getA());
-				//System.err.println("focus: \"" + focus + "\", score: " + prediction);
-
-				if (prediction > maxPrediction) {
-					maxPrediction = prediction;
-					focusNode = example.getB();
-				}
-			}
-			
-			return focusNode;
-		}
-		
-		public List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree,
-				TreeSerializer ts) {
-			if (tree == null)
-				throw new NullPointerException("tree is null");
-			if (ts == null)
-				throw new NullPointerException("ts is null");
-			
-			List<Pair<String, RichTokenNode>> examples = new ArrayList<>();
-			
-			for (RichTokenNode node : tree.getTokens()) {
-				RichNode posTag = node.getParent();
-				
-				if (!allowedTags.contains(posTag.getValue())) continue;
-				
-				posTag.addAdditionalLabel(Commons.QUESTION_FOCUS_KEY);
-				
-				boolean isFocus = node.getMetadata().containsKey(Commons.QUESTION_FOCUS_KEY);
-				
-				String label = isFocus ? "+1" : "-1";
-				
-				String taggedTree = ts.serializeTree(tree, Commons.getParameterList());
-				
-				String example = "";
-				example += label;
-				example += "|BT| ";
-				example += taggedTree;
-				example += " |ET|";
-				
-				examples.add(new Pair<>(example, node));
-				
-				posTag.removeAdditionalLabel(Commons.QUESTION_FOCUS_KEY);
-			}
-			
-			return examples;
-		}		
-
-		public int getNullPredictionsNumber() {
-			return nullPredictionsNumber;
-		}		
-		
-		public int getTotalPredictionsNumber() {
-			return totalPredictionsNumber;
-		}
-
-		public int getCorrectPredictionsNumber() {
-			return correctPredictionsNumber;
-		}
-		
-		public double getAccuracy() { 
-			return (double) (correctPredictionsNumber) / totalPredictionsNumber;
-		}
-		
-	}
-	
 }

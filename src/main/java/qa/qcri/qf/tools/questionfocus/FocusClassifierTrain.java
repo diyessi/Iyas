@@ -1,5 +1,6 @@
 package qa.qcri.qf.tools.questionfocus;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,21 +10,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
 import org.apache.uima.fit.factory.JCasFactory;
-
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-
 import org.apache.uima.jcas.JCas;
-import org.codehaus.plexus.util.StringUtils;
 
-import com.google.common.collect.Lists;
-
-import qa.qcri.qf.fileutil.ReadFile;
+import qa.qcri.qf.cli.CommandLine;
+import qa.qcri.qf.cli.CommandLineParser;
 import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.retrieval.SimpleContent;
+import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import qa.qcri.qf.trees.RichTree;
@@ -33,28 +31,27 @@ import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
 import util.Pair;
 
+import com.google.common.collect.Lists;
+
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+
 public class FocusClassifierTrain {
 	
+	private static final String HELP_OPT = "help";
+	private static final String LANG_OPT = "lang";
+	private static	 final String ARGUMENTS_FILE_OPT = "argumentsFilePath";
+	private static final String TRAINING_QUESTIONS_FOCUS_PATH_OPT = "trainQuestionsFocusPath";
+	private static final String TRAINING_CASES_DIR_OPT =  "trainCasesDir";
+	private static final String TRAINING_OUTPUT_DIR_OPT = "trainOutputDir";
+	
+	private static final String QID_QUESTION_SEPARATOR = "\t";
+		
 	public static final String DATA = Commons.QUESTION_FOCUS_DATA + "qf-it_train10.txt";
 	
 	public static final String CASES_DIRECTORY = "CASes/question-focus/train.it";
 	
 	private static Logger logger = Logger.getLogger(FocusClassifierTrain.class);
 		
-	//private final String trainQuestionFocusPath;
-	
-	//private final String trainOutputPath;
-		
-	//private final String trainCasesDir;
-	
-	//private final String lang;
-	
-	/*
-	public static Set<String> allowedTags =
-			// TODO: To fill with high-freq ita postags
-			new HashSet<>(Arrays.asList(new String[0]));
-	*/
-	
 	private final Set<String> allowedTags;
 	
 	private static String[] emptyTagset = { };
@@ -68,10 +65,6 @@ public class FocusClassifierTrain {
 		"SN", "SP", "SPN", "SS" 
 	};
 	
-	//private final UIMAPersistence persistence;
-	
-	private JCas cas;
-
 	private Analyzer analyzer;
 	
 	private TreeSerializer treeSerializer =
@@ -89,114 +82,44 @@ public class FocusClassifierTrain {
 		 
 		this.analyzer = analyzer;
 		this.allowedTags = allowedTags;
-		this.cas = JCasFactory.createJCas();
 		this.examples = new HashMap<>();		
+		
 	}
 	
-	public FocusClassifierTrain generateExamples(QuestionWithIdReader questionReader) {
+	public FocusClassifierTrain generateExamples(String trainFile) throws UIMAException {
 		
-		Iterator<QuestionWithAnnotatedFocus> questions = questionReader.iterator();
+		Iterator<QuestionWithFocus> questions =
+				new QuestionWithIdReader(trainFile, QID_QUESTION_SEPARATOR)
+					.iterator();
+		
+		JCas cas = JCasFactory.createJCas();
 		
 		while (questions.hasNext()) {
-			QuestionWithAnnotatedFocus questionWithAnnotatedFocus = questions.next();
+			QuestionWithFocus questionWithFocus = questions.next();
 			
-			if (questionWithAnnotatedFocus.isImplicit()) continue;
-			if (questionWithAnnotatedFocus.getFocusNumber() > 1) continue;
-			assert questionWithAnnotatedFocus.containsFocus();
+			String qid = questionWithFocus.getId();
+			List<Focus> foci = questionWithFocus.getFoci();
+			if (questionWithFocus.getFoci().size() > 1) { 
+				logger.debug("question(" + qid + ") contains " + foci.size() + " foci");
+				continue;
+			}
+			assert questionWithFocus.hasFocus();
+						
+			Focus focus = foci.get(0);			
+					
+			this.analyzer.analyze(cas, questionWithFocus);
 			
-			Pair<Integer, Integer> focusSpan = questionWithAnnotatedFocus.getFocusSpanFromUnmarkedSentence();
+			TokenTree tree = RichTree.getConstituencyTree(cas);
 			
-			String question = questionWithAnnotatedFocus.stripFocus();
-			
-			//System.out.println("question: " + question);
-			
-			String qid = questionWithAnnotatedFocus.getId();
-			
-			this.analyzer.analyze(this.cas, new SimpleContent(qid, question));
-			
-			TokenTree tree = RichTree.getConstituencyTree(this.cas);
+			logger.debug("tree: " + treeSerializer.serializeTree(tree, Commons.getParameterList()));
 			
 			//System.out.println("focus: " + questionWithAnnotatedFocus.getFocus());
 			
-			this.addFocusMetadata(tree, focusSpan.getA(), focusSpan.getB());
+			addFocusMetadata(tree, focus.getBegin(), focus.getEnd());
+			//this.addFocusMetadata(tree, focusSpan.ge, focusSpan.getB());
 			
-			this.examples.put(Integer.parseInt(qid), produceExamples(Integer.parseInt(qid), tree));
-			/*
-			String content = questionWithAnnotatedFocus.getContent();
-			
-			String line = this.filterText(content);
-			/**
-			 * Input check
-			 *
-			if (line.startsWith("IMPL")) continue;
-			if (StringUtils.countMatches(line, "#") != 1) continue;
-			assert line.contains("#");
-			
-			int beginPos = line.indexOf("#");
-			int endPos = line.indexOf(" ", beginPos) - 1;
-			if (endPos < 0) {
-				endPos = line.length() - 1;
-			}
-			
-			String text = line.replaceAll("#", "");
-			
-			String qid = questionWithAnnotatedFocus.getId();
-			
-			this.analyzer.analyze(this.cas, new SimpleContent(qid, text));
-			
-			TokenTree tree = RichTree.getConstituencyTree(this.cas);
-			
-			this.addFocusMetadata(tree, beginPos, endPos);
-			
-			this.examples.put(Integer.parseInt(qid), produceExamples(Integer.parseInt(qid), tree));
-			*/
+			this.examples.put(Integer.parseInt(questionWithFocus.getId()), produceExamples(Integer.parseInt(questionWithFocus.getId()), tree));
 		}
-		return this;
-	}
-	
-	/**
-	 * Produces the examples from a training data
-	 * @param dataPath the path of the training data
-	 * @return this class instance for chaining
-	 */
-	public FocusClassifierTrain generateExamples(String dataPath) {
-	//public FocusClassifier generateExamples() { 
-		//String dataPath = trainQuestionFocusPath;
-		ReadFile in = new ReadFile(dataPath);
-		
-		int qid = 0;
-		
-		while (in.hasNextLine()) {
-			String line = this.filterText(in.nextLine());
-		
-			/**
-			 * Input check
-			 */
-			if (line.startsWith("IMPL")) continue;
-			if (StringUtils.countMatches(line, "#") != 1) continue;
-			assert line.contains("#");
-			
-			int beginPos = line.indexOf("#");
-			int endPos = line.indexOf(" ", beginPos) - 1;
-			if (endPos < 0) {
-				endPos = line.length() - 1;
-			}
-			
-			String text = line.replaceAll("#", "");
-			
-			this.analyzer.analyze(this.cas, new SimpleContent("q-" + qid, text));
-			
-			TokenTree tree = RichTree.getConstituencyTree(this.cas);
-			
-			this.addFocusMetadata(tree, beginPos, endPos);
-			
-			this.examples.put(qid, produceExamples(qid, tree));
-			
-			qid++;			
-		}
-		
-		in.close();
-		
 		return this;
 	}
 	
@@ -206,8 +129,7 @@ public class FocusClassifierTrain {
 	 * @param ts The serializer used to output the trees
 	 * @return A list of pair of examples, and the rich token tagged in that example
 	 */
-	public List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree,
-			TreeSerializer ts) {
+	public List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree) {
 		List<Pair<String, RichTokenNode>> examples = new ArrayList<>();
 		
 		for (RichTokenNode node : tree.getTokens()) {
@@ -222,7 +144,7 @@ public class FocusClassifierTrain {
 			
 			String label = isFocus ? "+1" : "-1";
 			
-			String taggedTree = ts.serializeTree(tree, Commons.getParameterList());
+			String taggedTree = treeSerializer.serializeTree(tree, Commons.getParameterList());
 			
 			String example = "";
 			example += label;
@@ -230,6 +152,7 @@ public class FocusClassifierTrain {
 			example += taggedTree;
 			example += " |ET|";		
 			
+			System.out.println("adding example: " + example.toString());
 			examples.add(new Pair<>(example, node));
 			
 			posTag.removeAdditionalLabel(Commons.QUESTION_FOCUS_KEY);
@@ -303,17 +226,6 @@ public class FocusClassifierTrain {
 				node.getMetadata().put(Commons.QUESTION_FOCUS_KEY, Commons.QUESTION_FOCUS_KEY);
 			}				
 		}
-	}
-
-	/**
-	 * Performs basic whitespace filtering on a string.
-	 * @param text
-	 * @return the filtered text
-	 */
-	private String filterText(String text) {
-		String filteredText = text.trim();
-		filteredText = filteredText.replaceAll(" +", " ");
-		return filteredText;
 	}
 	
 	/**
@@ -413,16 +325,7 @@ public class FocusClassifierTrain {
 		out.close();
 	}
 	
-	/*
-	public static void main(String[] args) throws UIMAException { 
-		new FocusClassifier()
-			.generateExamples(DATA)
-			.printStatistics()
-			.writeExamplesToDisk(Commons.QUESTION_FOCUS_DATA + "svm.train");
-	}
-	*/
-	
-	private Set<String> getTagsetByLang(String lang) { 
+	public static Set<String> getTagsetByLang(String lang) { 
 		assert lang != null;
 		
 		String[] tagset = null;
@@ -436,6 +339,93 @@ public class FocusClassifierTrain {
 		
 		return new TreeSet<>(Arrays.asList(tagset));
 	}
+	
+	public static void main(String[] args) throws UIMAException {
+		Options options = new Options();
+		options.addOption(HELP_OPT, false, "Print the help");
+		options.addOption(LANG_OPT, true, // handle the question focus lang
+				"The lang of the processing data");
+		options.addOption(ARGUMENTS_FILE_OPT, true,
+				"The path of the file containing the command line arguments");
+		options.addOption(TRAINING_QUESTIONS_FOCUS_PATH_OPT, true,
+				"The path of the file containing the data for training question focus");
+		options.addOption(TRAINING_CASES_DIR_OPT, true,
+				"The path where training CASes are stored (this enables file persistence)");
+		options.addOption(TRAINING_OUTPUT_DIR_OPT, true,
+				"The path where the training files will be stord.");
 
+		// Add the className to the args
+		String className = FocusClassifier.class.getSimpleName();
+	
+		CommandLineParser parser = new CommandLineParser();
+		
+		try {
+			CommandLine cmd = parser.parse(options, args);
+
+			if (cmd.hasOption(HELP_OPT)) {
+				parser.printHelpAndExit(className, options);
+			}
+			
+			System.out.println(className);
+			
+			String lang = cmd.getOptionValue(LANG_OPT, 
+					"Please specify the language.");
+			
+			System.out.println(" -" + LANG_OPT + " " + lang);
+			
+			//String trainQuestionFocusPath = getFileOption(cmd,
+			String trainQuestionFocusPath =  cmd.getFileValue(
+					TRAINING_QUESTIONS_FOCUS_PATH_OPT,
+					"Please specify the path of the question focus data file.");
+			
+			System.out.println(" -" + TRAINING_QUESTIONS_FOCUS_PATH_OPT + " " + trainQuestionFocusPath);
+			
+			String trainCasesDir = cmd.getPathValue(
+					TRAINING_CASES_DIR_OPT,
+					"Plase specify a valid directory for the traning CASes.");
+			
+			System.out.println(" -" + TRAINING_CASES_DIR_OPT + " " + trainCasesDir);
+
+			String trainOutputDir = cmd.getPathValue(
+					TRAINING_OUTPUT_DIR_OPT,
+					"Please specify a valid output directory for training data");
+			
+			System.out.println(" -" + TRAINING_OUTPUT_DIR_OPT + " " + trainOutputDir);
+
+			Analyzer analyzer = Commons.instantiateQuestionFocusAnalyzer(lang);
+			
+			// Set persistence
+			UIMAPersistence persistence = trainCasesDir == null 
+				? new UIMANoPersistence()
+				: new UIMAFilePersistence(trainCasesDir);
+			analyzer.setPersistence(persistence);
+
+			// Check that the train question focus file does exist
+			if (!new File(trainQuestionFocusPath).isFile()) {
+				System.err.println("File '" + trainQuestionFocusPath + "' does not exist. Please check the path.");
+				System.exit(1);
+			}
+			
+			String trainOutputFilePath = new File(trainOutputDir, "svm.train").toString();
+			
+			Set<String> allowedTags = Focus.allowedTags(lang);
+			
+			//QuestionWithIdReader reader = new QuestionWithIdReader(trainQuestionFocusPath, QID_QUESTION_SEPARATOR);
+			
+			new FocusClassifierTrain(analyzer, allowedTags) 
+				.generateExamples(trainQuestionFocusPath)
+				.printStatistics()
+				.writeExamplesToDisk(trainOutputFilePath);
+
+			// Process data and generate train samples for the Focus classifier
+			//new FocusClassifier(analyzer, allowedTags)
+			//	.generateExamples(trainQuestionFocusPath)
+			//	.printStatistics()
+			//	.writeExamplesToDisk(trainOutputFilePath);
+		} catch (ParseException e) { 
+			System.err.println("Error in parsing the  command line. Use -help for usage.");
+			e.printStackTrace();
+		}
+	}
 }
 

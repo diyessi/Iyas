@@ -6,26 +6,33 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import qa.qcri.qf.italian.syntax.constituency.BerkeleyWrapper;
+import qa.qcri.qf.pipeline.Analyzer;
+import qa.qcri.qf.trees.nodes.RichNode;
 
 import com.google.common.base.Joiner;
 
-import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.retrieval.SimpleContent;
-import qa.qcri.qf.trees.nodes.RichNode;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
-import edu.berkeley.nlp.util.Logger;
 
 public class Commons {
+	
+	private static final String GRAMMAR_FILE = "tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian/tutall-fulltrain";
+
+	private static final Logger logger = LoggerFactory.getLogger(Commons.class);
 	
 	public static final String QUESTION_FOCUS_DATA = "data/question-focus/";
 	
 	public static final String QUESTION_FOCUS_KEY = "FOCUS";
+	
+	private static final String QID_QUESTION_SEPARATOR = "\t";
 		
 	/**
 	 * Builds a new QuestionFocus analyzer for the specified language.
@@ -43,7 +50,7 @@ public class Commons {
 		} else if (lang.equals("it")) { 
 			analyzer = instantiateItalianQuestionFocusAnalyzer();
 		} else {
-			Logger.warn("No QuestionFocus analyzer found for lang: " + lang + ". Returned default QuestionFocus analyzer for english language.");
+			logger.warn("No QuestionFocus analyzer found for lang: " + lang + ". Returned default QuestionFocus analyzer for english language.");
 			analyzer = instantiateEnglishQuestionFocusAnalyzer();
 		}
 		
@@ -75,8 +82,12 @@ public class Commons {
 		Analyzer analyzer = null;
 		try {
 			analyzer = new Analyzer()
-				.addAEDesc(createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor"))
-				.addAEDesc(createEngineDescription("desc/Limosine/BerkeleyITDescriptorFix"));
+				.addAEDesc(createEngineDescription("desc/Iyas/TextProAllInOneDescriptor"))
+				.addAEDesc((AnalysisEngineFactory.createEngineDescription("desc/Iyas/BerkeleyITDescriptor",
+						BerkeleyWrapper.PARAM_GRAMMARFILE, GRAMMAR_FILE,
+						BerkeleyWrapper.PARAM_ACCURATE, true,
+						BerkeleyWrapper.PARAM_MAXLENGTH, 250,
+						BerkeleyWrapper.PARAM_USEGOLDPOS, true)));
 		} catch (IOException e) { 
 			throw new UIMAException(e);
 		}
@@ -119,20 +130,25 @@ public class Commons {
 	}
 
 	public static void analyzeQuestionsWithId(
-		QuestionWithIdReader questionsWithIdReader, Analyzer analyzer) 
+		String datafile, Analyzer analyzer) 
 		throws UIMAException {
-		if (questionsWithIdReader == null) 
-			throw new NullPointerException("questionsWithIdReader is null");
+		if (datafile == null) 
+			throw new NullPointerException("datafile is null");
+		if (datafile.trim().equals("")) {
+			throw new IllegalArgumentException("datafile is null");
+		}
 		if (analyzer == null)
 			throw new NullPointerException("analyzer is null");
 		
 		JCas cas = JCasFactory.createJCas();
 		
-		Iterator<QuestionWithAnnotatedFocus> questions = questionsWithIdReader.iterator();
+		Iterator<QuestionWithFocus> questions =
+				new QuestionWithIdReader(datafile, QID_QUESTION_SEPARATOR)
+					.iterator();
 		while (questions.hasNext()) { 
-			QuestionWithAnnotatedFocus questionWithAnnotatedFocus = questions.next();
-			System.out.format("doxtxt(%s): %s\n", questionWithAnnotatedFocus.getId(), questionWithAnnotatedFocus.getContent());
-			analyzer.analyze(cas, new SimpleContent(questionWithAnnotatedFocus.getId(), questionWithAnnotatedFocus.getLineWithStrippedFocus()));
+			QuestionWithFocus questionWithFocus = questions.next();
+			System.out.format("doxtxt(%s): %s\n", questionWithFocus.getId(), questionWithFocus.getContent());
+			analyzer.analyze(cas, questionWithFocus);
 		}		
 	}
 

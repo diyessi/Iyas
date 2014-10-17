@@ -3,6 +3,8 @@ package qa.qcri.qf.tools.questionfocus;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
@@ -17,8 +19,8 @@ import qa.qcri.qf.fileutil.ReadFile;
  *  <qid><sep><text-with-focus>
  *
  */
-public class QuestionWithIdReader implements Iterable<QuestionWithAnnotatedFocus> {
-	
+public class QuestionWithIdReader implements Iterable<QuestionWithFocus> {
+	private static Logger logger = Logger.getLogger(QuestionWithIdReader.class);
 	private final static String DEFAULT_SEPARATOR = " ";
 	
 	private final ReadFile in;	
@@ -39,8 +41,8 @@ public class QuestionWithIdReader implements Iterable<QuestionWithAnnotatedFocus
 	}
 
 	@Override
-	public Iterator<QuestionWithAnnotatedFocus> iterator() {
-		Iterator<QuestionWithAnnotatedFocus> iterator = new Iterator<QuestionWithAnnotatedFocus>() {
+	public Iterator<QuestionWithFocus> iterator() {
+		Iterator<QuestionWithFocus> iterator = new Iterator<QuestionWithFocus>() {
 
 			@Override
 			public boolean hasNext() {
@@ -52,7 +54,7 @@ public class QuestionWithIdReader implements Iterable<QuestionWithAnnotatedFocus
 			}			
 
 			@Override
-			public QuestionWithAnnotatedFocus next() {
+			public QuestionWithFocus next() {
 				String line = in.nextLine().trim();
 				
 				List<String> fields = 
@@ -60,9 +62,9 @@ public class QuestionWithIdReader implements Iterable<QuestionWithAnnotatedFocus
 								Splitter.on(separator).limit(2).split(line));
 		
 				String id = fields.get(0);
-				String content = fields.get(1);
+				String content = fields.get(1);				
 				
-				return new QuestionWithAnnotatedFocus(id, content);
+				return new QuestionWithFocus(id, content);
 			}
 
 			@Override

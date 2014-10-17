@@ -11,17 +11,20 @@ import com.google.common.collect.Lists;
 
 public class QuestionReader implements Iterable<CategoryContent> {
 
-	private ReadFile in;
+	//private ReadFile in;	//
+	private final String path; //
 	
 	private int counter;
 	
 	public QuestionReader(String path) {
-		this.in = new ReadFile(path);
+		//this.in = new ReadFile(path); //
+		this.path = path; //
 		this.counter = 0;
 	}
 	
 	@Override
 	public Iterator<CategoryContent> iterator() {
+		final ReadFile in = new ReadFile(path);//
 		Iterator<CategoryContent> iterator = new Iterator<CategoryContent>() {
 
 			@Override
@@ -42,7 +45,6 @@ public class QuestionReader implements Iterable<CategoryContent> {
 				String id = String.valueOf(counter);
 				String category = fields.get(0).substring(0, fields.get(0).indexOf(":"));
 				String content = fields.get(1);
-				
 
 				counter++;
 				

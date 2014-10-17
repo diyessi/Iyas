@@ -10,15 +10,9 @@ import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
-import org.apache.uima.fit.factory.JCasFactory;
-import org.apache.uima.jcas.JCas;
-import org.codehaus.plexus.util.StringUtils;
 
-import qa.qcri.qf.fileutil.ReadFile;
 import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
-import qa.qcri.qf.pipeline.retrieval.SimpleContent;
-import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
@@ -37,22 +31,9 @@ public class FocusClassifier {
 	
 	private static Logger logger = Logger.getLogger(FocusClassifier.class);
 		
-	//private final String trainQuestionFocusPath;
-	
-	//private final String trainOutputPath;
-		
-	//private final String trainCasesDir;
-	
-	//private final String lang;
-	
-	/*
-	public static Set<String> allowedTags =
-			// TODO: To fill with high-freq ita postags
-			new HashSet<>(Arrays.asList(new String[0]));
-	*/
-	
 	private final Set<String> allowedTags;
 	
+	/*	
 	private static String[] emptyTagset = { };
 	
 	private static String[] englishTagset = { 
@@ -63,12 +44,7 @@ public class FocusClassifier {
 	private static String[] italianTagset = { 
 		"SN", "SP", "SPN", "SS" 
 	};
-	
-	//private final UIMAPersistence persistence;
-	
-	private JCas cas;
-
-	private Analyzer analyzer;
+	*/
 	
 	private TreeSerializer treeSerializer =
 			new TreeSerializer().enableAdditionalLabels();
@@ -77,113 +53,12 @@ public class FocusClassifier {
 	
 	private Map<String, Integer> postoFreq = new HashMap<>();
 	
-	public FocusClassifier(Analyzer analyzer, Set<String> allowedTags) throws UIMAException {
-		if (analyzer == null)
-			throw new NullPointerException("analyzer is null");
+	public FocusClassifier(Set<String> allowedTags) throws UIMAException {
 		if (allowedTags == null)
 			throw new NullPointerException("allowedTags is null");
 		 
-		this.analyzer = analyzer;
-		this.allowedTags = allowedTags;
-		this.cas = JCasFactory.createJCas();
+		this.allowedTags = allowedTags;;
 		this.examples = new HashMap<>();		
-	}
-	/*
-	public FocusClassifier(String lang) throws UIMAException {
-		this(lang, new UIMANoPersistence());
-	}
-	*/
-	
-	/*
-	FocusClassifier(
-			String lang,
-			UIMAPersistence persistence			
-			//String trainQuestionFocusPath,
-			//String trainOutputDir,
-			//String trainCasesDir)
-			) throws UIMAException {
-		if (lang == null)
-			throw new NullPointerException("lang is null");
-		if (persistence == null)
-			throw new NullPointerException("persistence is null");
-		//if (trainQuestionFocusPath == null) 
-		//	throw new NullPointerException("trainQuestionsPath is null");
-		//if (trainOutputDir == null)
-		//	throw new NullPointerException("trainOutputDir is null");
-
-		//this.lang = lang;
-		//this.trainQuestionFocusPath = trainQuestionFocusPath;
-		///this.trainOutputDir = trainOutputDir;
-		this.allowedTags = getTagsetByLang(lang);
-		this.ae = Commons.instantiateQuestionFocusAnalyzer(lang);
-		
-		this.ae.setPersistence(persistence);
-		this.cas = JCasFactory.createJCas();
-		this.ts = new TreeSerializer().enableAdditionalLabels();
-		this.examples = new HashMap<>();
-	}
-	*/
-	
-	
-	
-	
-	
-	/*
-	private FocusClassifier() throws UIMAException {
-		//this.ae = Commons.instantiateQuestionFocusAnalyzer("it");
-		this.ae = Commons.instantiateQuestionFocusAnalyzer("it");		
-		System.out.println("CASES_DIRECTORY: " + CASES_DIRECTORY);
-		this.ae.setPersistence(new UIMAFilePersistence(	CASES_DIRECTORY));
-		this.cas = JCasFactory.createJCas();
-		this.ts = new TreeSerializer().enableAdditionalLabels();
-		this.examples = new HashMap<>();
-	}
-	*/
-	
-	/**
-	 * Produces the examples from a training data
-	 * @param dataPath the path of the training data
-	 * @return this class instance for chaining
-	 */
-	public FocusClassifier generateExamples(String dataPath) {
-	//public FocusClassifier generateExamples() { 
-		//String dataPath = trainQuestionFocusPath;
-		ReadFile in = new ReadFile(dataPath);
-		
-		int qid = 0;
-		
-		while (in.hasNextLine()) {
-			String line = this.filterText(in.nextLine());
-		
-			/**
-			 * Input check
-			 */
-			if (line.startsWith("IMPL")) continue;
-			if (StringUtils.countMatches(line, "#") != 1) continue;
-			assert line.contains("#");
-			
-			int beginPos = line.indexOf("#");
-			int endPos = line.indexOf(" ", beginPos) - 1;
-			if (endPos < 0) {
-				endPos = line.length() - 1;
-			}
-			
-			String text = line.replaceAll("#", "");
-			
-			this.analyzer.analyze(this.cas, new SimpleContent("q-" + qid, text));
-			
-			TokenTree tree = RichTree.getConstituencyTree(this.cas);
-			
-			this.addFocusMetadata(tree, beginPos, endPos);
-			
-			this.examples.put(qid, produceExamples(qid, tree));
-			
-			qid++;			
-		}
-		
-		in.close();
-		
-		return this;
 	}
 	
 	/**
@@ -192,12 +67,13 @@ public class FocusClassifier {
 	 * @param ts The serializer used to output the trees
 	 * @return A list of pair of examples, and the rich token tagged in that example
 	 */
-	public List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree,
-			TreeSerializer ts) {
+	public List<Pair<String, RichTokenNode>> generateExamples(TokenTree tree) {
+		if (tree == null)
+			throw new NullPointerException("tree is null");	
+		
 		List<Pair<String, RichTokenNode>> examples = new ArrayList<>();
 		
-		for (RichTokenNode node : tree.getTokens()) {
-			
+		for (RichTokenNode node : tree.getTokens()) {			
 			RichNode posTag = node.getParent();
 			
 			if (!allowedTags.contains(posTag.getValue())) continue;
@@ -208,7 +84,7 @@ public class FocusClassifier {
 			
 			String label = isFocus ? "+1" : "-1";
 			
-			String taggedTree = ts.serializeTree(tree, Commons.getParameterList());
+			String taggedTree = treeSerializer.serializeTree(tree, Commons.getParameterList());
 			
 			String example = "";
 			example += label;
@@ -287,17 +163,6 @@ public class FocusClassifier {
 				node.getMetadata().put(Commons.QUESTION_FOCUS_KEY, Commons.QUESTION_FOCUS_KEY);
 			}				
 		}
-	}
-
-	/**
-	 * Performs basic whitespace filtering on a string.
-	 * @param text
-	 * @return the filtered text
-	 */
-	private String filterText(String text) {
-		String filteredText = text.trim();
-		filteredText = filteredText.replaceAll(" +", " ");
-		return filteredText;
 	}
 	
 	/**
@@ -396,16 +261,7 @@ public class FocusClassifier {
 		}
 		out.close();
 	}
-	
 	/*
-	public static void main(String[] args) throws UIMAException { 
-		new FocusClassifier()
-			.generateExamples(DATA)
-			.printStatistics()
-			.writeExamplesToDisk(Commons.QUESTION_FOCUS_DATA + "svm.train");
-	}
-	*/
-	
 	private Set<String> getTagsetByLang(String lang) { 
 		assert lang != null;
 		
@@ -421,12 +277,13 @@ public class FocusClassifier {
 		return new TreeSet<>(Arrays.asList(tagset));
 	}
 	
+	
 	/**
 	 * Return the Focus classifier for the specified language
 	 * 
 	 * @param language A string holding the document language (e.g. en, it)
 	 * @return The FocusClassifier for the specified language
-	 */
+	 *
 	public static FocusClassifier byLanguage(String language) throws UIMAException {
 		if (language == null)
 			throw new NullPointerException("language is null");
@@ -449,5 +306,6 @@ public class FocusClassifier {
 		
 		return focusClassifier;
 	}
+	*/
 
 }
