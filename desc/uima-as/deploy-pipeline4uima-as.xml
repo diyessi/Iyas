@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<analysisEngineDeploymentDescription 
+  xmlns="http://uima.apache.org/resourceSpecifier">
+  
+  <name>Iyas Sample UIMA-AS pipeline</name>
+  <description>Analyze content running several NLP annotators</description>
+  
+  <deployment protocol="jms" provider="activemq">
+	<casPool numberOfCASes="5"/>
+    <service>
+      <inputQueue endpoint="iyasSamplePipeline" brokerURL="${defaultBrokerURL}"/>
+      <topDescriptor>
+       <import location="pipeline-aggregate.xml"/> 
+      </topDescriptor>
+      <analysisEngine>
+        <delegates>
+          <analysisEngine key="segmenter">
+            <scaleout numberOfInstances="2"/>              
+          </analysisEngine>
+          <analysisEngine key="postagger">
+            <scaleout numberOfInstances="2"/>              
+          </analysisEngine>
+        </delegates>
+      </analysisEngine>
+    </service>
+  </deployment>
+
+</analysisEngineDeploymentDescription>
