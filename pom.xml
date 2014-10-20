@@ -166,5 +166,32 @@
 		<artifactId>lucene-analyzers-common</artifactId>
 		<version>4.7.2</version>
 	</dependency>
+	<dependency>
+		<groupId>org.apache.uima</groupId>
+		<artifactId>uimaj-as-core</artifactId>
+		<version>2.6.0</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.uima</groupId>
+		<artifactId>uimaj-as-jms</artifactId>
+		<version>2.6.0</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.uima</groupId>
+		<artifactId>uimaj-as-activemq</artifactId>
+		<version>2.6.0</version>
+	</dependency>
   </dependencies>
+  <build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<configuration>
+				<source>1.7</source>
+				<target>1.7</target>
+			</configuration>
+		</plugin>
+	</plugins>
+  </build>
 </project>
