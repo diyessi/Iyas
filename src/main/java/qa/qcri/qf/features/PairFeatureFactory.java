@@ -136,17 +136,22 @@ public class PairFeatureFactory {
 
 		AugmentableFeatureVector fv = new AugmentableFeatureVector(
 				this.alphabet);
+		
+		try {
 
-		for (Pair<MeasureAdaptor, Representation> measureAndRepresentation : this.measures) {
-			MeasureAdaptor measure = measureAndRepresentation.getA();
-			Representation representation = measureAndRepresentation.getB();
-			Pair<String, String> representations = representation
-					.getRepresentation(aCas, bCas);
-
-			String featureName = measure.getName(representation);
-			double featureValue = measure.getSimilarity(representations);
-
-			fv.add(featureName, featureValue);
+			for (Pair<MeasureAdaptor, Representation> measureAndRepresentation : this.measures) {
+				MeasureAdaptor measure = measureAndRepresentation.getA();
+				Representation representation = measureAndRepresentation.getB();
+				Pair<String, String> representations = representation
+						.getRepresentation(aCas, bCas);
+	
+				String featureName = measure.getName(representation);
+				double featureValue = measure.getSimilarity(representations);
+	
+				fv.add(featureName, featureValue);
+			}
+		} catch (StringIndexOutOfBoundsException ex) {
+			
 		}
 
 		return fv;

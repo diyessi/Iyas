@@ -91,7 +91,7 @@ public class RerankingTrain implements Reranking {
 		
 		this.marker = marker;
 		
-		this.pruner = new PosChunkPruner(2);
+		this.pruner = new PosChunkPruner(-1);
 		this.pruningCriteria = new PruneIfNodeIsWithoutMetadata(RichNode.REL_KEY);
 
 		this.questionCas = JCasFactory.createJCas();
@@ -150,10 +150,8 @@ public class RerankingTrain implements Reranking {
 			 * Mark the trees with the relational tag on the nodes sharing the same lemmas.
 			 * Stopwords are not considered for matchings
 			 */
-			this.marker.markTrees(leftQuestionTree, leftCandidateTree,
-					this.parameterList);
-			this.marker.markTrees(rightQuestionTree, rightCandidateTree,
-					this.parameterList);
+			this.marker.markTrees(leftQuestionTree, leftCandidateTree, this.parameterList);
+			this.marker.markTrees(rightQuestionTree, rightCandidateTree, this.parameterList);
 			
 			/**
 			 * Mark the focus in the question
@@ -176,8 +174,8 @@ public class RerankingTrain implements Reranking {
 			 * Perform the pruning
 			 */
 			
-			this.pruner.prune(leftCandidateTree, this.pruningCriteria);		
-			this.pruner.prune(rightCandidateTree, this.pruningCriteria);
+			//this.pruner.prune(leftCandidateTree, this.pruningCriteria);		
+			//this.pruner.prune(rightCandidateTree, this.pruningCriteria);
 			
 			/**
 			 * Produce the feature vectors
