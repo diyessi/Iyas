@@ -87,7 +87,7 @@ public class RerankingTest implements Reranking {
 		
 		this.marker = marker;
 		
-		this.pruner = new PosChunkPruner(2);	
+		this.pruner = new PosChunkPruner(-1);	
 		this.pruningCriteria = new PruneIfNodeIsWithoutMetadata(RichNode.REL_KEY);
 
 		this.questionCas = JCasFactory.createJCas();
@@ -147,7 +147,7 @@ public class RerankingTest implements Reranking {
 			 * Perform the pruning
 			 */
 			
-			this.pruner.prune(candidateTree, this.pruningCriteria);		
+			//this.pruner.prune(candidateTree, this.pruningCriteria);		
 			
 			/**
 			 * Produce the feature vectors

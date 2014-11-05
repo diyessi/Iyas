@@ -174,7 +174,7 @@ public class TrecPipelineRunner {
 			GenericPipeline pipeline = new GenericPipeline(fm);
 			
 			MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(
-					new MarkTwoAncestors()).useStopwords(STOPWORDS_IT_PATH);
+					new MarkTwoAncestors()).useStopwords(STOPWORDS_EN_PATH);
 			
 			/**
 			 * Builds IDF model if it is not already built
@@ -204,7 +204,7 @@ public class TrecPipelineRunner {
 			}
 
 			Reranking dataGenerator = new RerankingTrain(fm, trainOutputDir,
-					ae, new TreeSerializer(), pf,
+					ae, new TreeSerializer().enableRelationalTags().enableAdditionalLabels(), pf,
 					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
 
 			pipeline.setCandidatesToKeep(candidatesToKeepInTrain);
@@ -230,7 +230,7 @@ public class TrecPipelineRunner {
 			 * Sets up the generation for test
 			 */
 			dataGenerator = new RerankingTest(fm, testOutputDir, ae,
-					new TreeSerializer(), pf,
+					new TreeSerializer().enableRelationalTags().enableAdditionalLabels(), pf,
 					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
 
 			pipeline.setCandidatesToKeep(candidatesToKeepInTest);

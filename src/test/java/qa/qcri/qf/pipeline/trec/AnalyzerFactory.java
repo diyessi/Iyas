@@ -119,7 +119,8 @@ public abstract class AnalyzerFactory {
 		Analyzer ae = new Analyzer(persistence);
 
 		try {
-			ae.addAEDesc(createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor"));
+			ae.addAEDesc(createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor"))
+				.addAEDesc(createEngineDescription("desc/Limosine/BerkeleyITDescriptor"));
 		} catch (IOException e) {
 			throw new UIMAException(e);
 		}

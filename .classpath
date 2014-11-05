@@ -53,6 +53,7 @@
 	<classpathentry kind="lib" path="lib/limosine/add/log4j-1.2.8.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/add/xbean.jar"/>
 	<classpathentry kind="lib" path="lib/limosine/add/xpp3-1.1.4c.jar"/>
+	<classpathentry kind="lib" path="target/iyas.jar"/>
 	<classpathentry kind="lib" path="tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian/berkeleyParser.jar"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
