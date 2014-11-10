@@ -180,6 +180,8 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 			StringBuilder tokenizedSentence = new StringBuilder();
 			int tokenSentCount = 0; //sentence-level counter for tokens
 			Sentence sentence = new Sentence(jcas);
+			
+			int lastTokenend = 0;
 		
 			boolean nestart=false;
 			NamedEntity ne = new NamedEntity(jcas);
@@ -191,8 +193,42 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 				// TOKEN
 				if (txpvals.length<7) continue;
 				Token token = new Token(jcas);
-				token.setBegin(Integer.parseInt(txpvals[1]));
-				token.setEnd(Integer.parseInt(txpvals[2]));
+				
+				int tokenstart = Integer.parseInt(txpvals[1]);
+				int tokenend = Integer.parseInt(txpvals[2]);
+				
+				/** 
+				 * TOKENIZATION BUGS: TextPro failed to assign the right token spans
+				 */
+				if (tokenstart == -1) {
+					int j = 0;
+					int i = lastTokenend;
+					
+					for ( ; j < txpvals[0].length(); i++) { 
+						char ch = doctxt_utf.charAt(i);
+						System.out.printf("i: %d, ch(i): '%s', j: %d\n", i, ch, j);
+						if (ch == txpvals[0].charAt(j)) {
+							if (tokenstart == -1) {
+								tokenstart = i;
+							}
+							j++;
+						}
+					}
+					tokenend = i;					
+					//fixTokenSpan(txpval[0], lastTokenend, )
+				}
+				
+				System.out.println(doctxt_utf.substring(tokenstart, tokenend) + ", " + tokenstart + ", " + tokenend);
+				lastTokenend = tokenend;
+				
+				
+				//token.setBegin(Integer.parseInt(txpvals[1]));
+				//token.setEnd(Integer.parseInt(txpvals[2]));
+				
+				token.setBegin(tokenstart);
+				token.setEnd(tokenend);
+				
+				
 				//token.setTokenId(tokenCount);
 				//token.setTokenSentId(tokenSentCount);
 				//token.setAnnotatorId(getClass().getCanonicalName()+":token");   
