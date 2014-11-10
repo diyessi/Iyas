@@ -1,0 +1,102 @@
+#################
+ 
+ SemEval 2015 Baseline for Task 3: Answer Selection in Community Question Answering
+
+ by Massimo Nicosia <m.nicosia@gmail.com>
+
+#################
+
+ INSTALLATION
+ 
+This project is based on UIMA and the DKPro Similarity framework.
+It uses Maven for managing dependencies. So make sure you have Maven
+installed in your system.
+
+For Ubuntu you can type:
+
+> sudo apt-get install maven
+
+For official information check:
+http://maven.apache.org/download.cgi
+
+I will describe two procedures for running the system: from Eclipse or from command line.
+
+1) Running the system with Eclipse
+
+Install Eclipse from: http://www.eclipse.org
+Install the Maven plugin for Eclipse: http://www.eclipse.org/m2e/download/
+Then, import the project selecting Import -> Existing Maven Project
+Let Maven download all the dependencies during the first execution of:
+qa.qcri.qf.semeval.baseline/src/main/java/qa/qcri/qf/semeval/baseline/Baseline.java
+
+2) Running the system from command line
+
+Open the terminal and go to the directory where you have deflated the archive.
+
+In this directory there is a file named pom.xml
+
+Run:
+
+> mvn clean dependency:copy-dependencies package
+
+to download and copy all the dependency JARs to the target/dependencies folder,
+and to build the project JAR in the target folder.
+
+Then, in order to run the baseline system type:
+
+> java -cp target/dependency/*:target/qa.qcri.qf.semeval.baseline-0.0.1-SNAPSHOT.jar qa.qcri.qf.semeval.baseline.Baseline
+
+
+-----------------
+
+	Following these steps will produce the train and development CSV files in the
+	data/SemEval2015-Task3-English-data/dataset folder.
+
+
+#################
+
+MODEL TRAINING AND EVALUATION
+
+The script for training the model and producing the predictions is
+written in Python and it is located in the main directory of the system
+distribution. It is called subtask_ab.py.
+
+The Python libraries required by the script are:
+ - Pandas
+ - Scikit-Learn
+ 
+For installing Pandas follow the instructions here:
+http://pandas.pydata.org/pandas-docs/stable/install.html
+ 
+For installing Scikit-Learn follow the instructions here:
+http://scikit-learn.org/stable/install.html
+
+To train and evaluate the model just run the eval.sh script.
+
+> eval.sh
+
+It will run the Python script and the scorer, in order to produce the
+result reports for subtask A and subtask B.
+
+If you get the following error:
+
+Question IDs differ: gold='2725' predicted='2726' at SemEval2015-task3-scorer-subtaskB.pl line 88, <PREDICTED> line 12.
+ 
+please remove line 12 from file data/SemEval2015-Task3-English-data/datasets/CQA-QL-devel-gold-yn.txt
+
+#################
+
+ BRIEF DESCRIPTION OF THE BASELINE SYSTEM
+
+The class:
+
+qa.qcri.qf.semeval.baseline/src/main/java/qa/qcri/qf/semeval/baseline/Baseline.java
+
+produces two CSV files from the XML training and development data file.
+These CSV files contain the comment identifiers, the gold labels, and the features
+computed by the program. Such features are syntactical and are provided by
+the DKPro Similarity module. They encode several kind of similarities between
+the lemmas from a question and a comment. Stopwords loaded from a stoplist are
+filtered out and they do not contribute to the similarity score.
+
+
