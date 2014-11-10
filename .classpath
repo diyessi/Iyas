@@ -29,33 +29,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/PTK.jar"/>
-	<classpathentry kind="lib" path="lib/trove.jar"/>
 	<classpathentry kind="lib" path="lib/CRFPP.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/activation.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/BART.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/coref-exp.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/jaxrpc.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/jutil-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/jVinci.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/jwordnet-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/limo.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/lthsrl.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/saaj.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/semod.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/unitn_subjexpr.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/weka-3-4-11.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/wsdl4j-1.5.1.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/add/axis-ant.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/add/axis.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/add/commons-discovery-0.2.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/add/commons-logging-1.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/add/jdom-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/add/log4j-1.2.8.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/add/xbean.jar"/>
-	<classpathentry kind="lib" path="lib/limosine/add/xpp3-1.1.4c.jar"/>
-	<classpathentry kind="lib" path="target/iyas.jar"/>
-	<classpathentry kind="lib" path="tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian/berkeleyParser.jar"/>
-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
+	<classpathentry kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>

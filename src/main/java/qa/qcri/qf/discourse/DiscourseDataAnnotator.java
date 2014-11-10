@@ -180,7 +180,7 @@ public class DiscourseDataAnnotator {
 		JCas cas = JCasFactory.createJCas();
 		
 		DiscourseDataAnnotator ddAnnotator = new DiscourseDataAnnotator();
-		ddAnnotator.addDiscourseAnnotationToCas(cas, "NYT20000629.0306-3");
+		ddAnnotator.addDiscourseAnnotationToCas(cas, "NYT19990607.0273-24");
 		
 		for(Discourse discourse : JCasUtil.select(cas, Discourse.class)) {
 			System.out.println(discourse.getValue() + " "

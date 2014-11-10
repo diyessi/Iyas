@@ -2,17 +2,14 @@ package qa.qcri.qf.tools.questionfocus;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qa.qcri.qf.italian.syntax.constituency.BerkeleyWrapper;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.trees.nodes.RichNode;
 
@@ -24,8 +21,6 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
 public class Commons {
 	
-	private static final String GRAMMAR_FILE = "tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian/tutall-fulltrain";
-
 	private static final Logger logger = LoggerFactory.getLogger(Commons.class);
 	
 	public static final String QUESTION_FOCUS_DATA = "data/question-focus/";
@@ -47,8 +42,6 @@ public class Commons {
 		Analyzer analyzer = null;
 		if (lang.equals("en")) { 
 			analyzer = instantiateEnglishQuestionFocusAnalyzer();
-		} else if (lang.equals("it")) { 
-			analyzer = instantiateItalianQuestionFocusAnalyzer();
 		} else {
 			logger.warn("No QuestionFocus analyzer found for lang: " + lang + ". Returned default QuestionFocus analyzer for english language.");
 			analyzer = instantiateEnglishQuestionFocusAnalyzer();
@@ -70,29 +63,6 @@ public class Commons {
 			.addAEDesc(createEngineDescription(StanfordParser.class));
 		
 		return analyzer; 
-	}
-	
-	/**
-	 * Builds a new QuestionFocus analyzer for the italian language.
-	 * 
-	 * @return The italian QuestionFocus analyzer
-	 * @throws UIMAException
-	 */
-	public static Analyzer instantiateItalianQuestionFocusAnalyzer() throws UIMAException {
-		Analyzer analyzer = null;
-		try {
-			analyzer = new Analyzer()
-				.addAEDesc(createEngineDescription("desc/Iyas/TextProAllInOneDescriptor"))
-				.addAEDesc((AnalysisEngineFactory.createEngineDescription("desc/Iyas/BerkeleyITDescriptor",
-						BerkeleyWrapper.PARAM_GRAMMARFILE, GRAMMAR_FILE,
-						BerkeleyWrapper.PARAM_ACCURATE, true,
-						BerkeleyWrapper.PARAM_MAXLENGTH, 250,
-						BerkeleyWrapper.PARAM_USEGOLDPOS, true)));
-		} catch (IOException e) { 
-			throw new UIMAException(e);
-		}
-			
-		return analyzer;
 	}
 
 	/*

@@ -30,6 +30,6 @@ class ResFileReader(object):
     qid = tokens[0]
     aid = tokens[1]
     rank = int(tokens[2])
-    ir_score = 1.0 / float(tokens[3])  # we invert the score
+    ir_score = float(tokens[3])  # we invert the score
     relevant = tokens[4]  # true or false
     return qid, aid, relevant, ir_score
