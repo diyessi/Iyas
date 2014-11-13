@@ -189,6 +189,10 @@
 		</artifactId>
 		<version>1.6.2</version>
 	</dependency>
+	<dependency>
+		<groupId>trove</groupId>
+		<artifactId>trove</artifactId>
+	</dependency>
   </dependencies>
   <build>
 	<plugins>
