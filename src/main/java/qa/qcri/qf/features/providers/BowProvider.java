@@ -3,10 +3,13 @@ package qa.qcri.qf.features.providers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.trees.nodes.RichTokenNode;
@@ -16,9 +19,6 @@ import cc.mallet.types.FeatureVector;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.ngrams.util.NGramStringIterable;
 import de.tudarmstadt.ukp.dkpro.core.stopwordremover.StopWordSet;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Generates n-grams FeatureVectors or FeatureSequences.
@@ -32,7 +32,7 @@ public class BowProvider {
 	
 	final static boolean FILTER_STOPWORDS = false;
 	
-	final static String STOPWORDS_FILEPATH = "tools/stoplist/en.txt";
+	public final static String STOPWORDS_FILEPATH = "resources/stoplist-en.txt";
 	
 	final static String TOKEN_FORMAT_PARAM_LIST = RichNode.OUTPUT_PAR_TOKEN;
 	
@@ -48,28 +48,28 @@ public class BowProvider {
 	
 	private final boolean filterStopwords;
 
-	private final StopWordSet stopwordSet;
-	
-	
-	
+	private static StopWordSet stopwordSet;
+
 	/**
 	 * The de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.StopWord class has a bug:
-	 * it does not proper init its inner structer when the 0-arg constructor is called.
-	 * So we need a var which records if the 0-arg constructor has been called.
+	 * it does not proper init its inner structure when the 0-arg constructor is called.
+	 * So we need a variable to keep track if the 0-arg constructor has been called.
 	 */
 	private boolean emptyStoplist = false;
 	
 	/**
-	 * Constructs a new BowPrivder instance
+	 * Construct a new BowPrivder instance
 	 * 
-	 * @param alphabet The underlying alphabet to use for features repr
+	 * @param alphabet The underlying alphabet to use for features indexes
 	 * @param tokensFrmtParamList A string holding the tokens formatting rules
 	 * @param minN The smallest ngrams size to keep track
 	 * @param maxN The largest ngrams size to keep track
 	 * @param stoplistFile The stopwords list filepath
-	 * @param filterStopwords True if stopwords removal should be removed
+	 * @param filterStopwords True if stopwords removal should not be used
 	 */
-	BowProvider(Alphabet alphabet, String tokensFrmtParamList, int minN, int maxN, String stoplistFile, boolean filterStopwords) {
+	public BowProvider(Alphabet alphabet, String tokensFrmtParamList, int minN, int maxN,
+			String stoplistFile, boolean filterStopwords) {
+		
 		if (alphabet == null) {
 			throw new NullPointerException("alphabet is null");
 		}
@@ -89,26 +89,20 @@ public class BowProvider {
 		this.tokenFrmtParamList = tokensFrmtParamList;
 		this.filterStopwords = filterStopwords;		
 		
-		StopWordSet stoplist = null;
+		StopWordSet stoplist = new StopWordSet();
 		
-		if (filterStopwords) {
+		if (filterStopwords && stopwordSet == null) {
 			try {
 				String stoplistAbsFile = new File(stoplistFile).getAbsolutePath();
-				stoplist = new StopWordSet(
-					new String[]{ stoplistAbsFile });
+				stoplist = new StopWordSet(new String[]{ stoplistAbsFile });
 			} catch (IOException e) {
 				logger.warn("Error while reading stopwords file: " + stoplistFile);
 				stoplist = new StopWordSet();
 				emptyStoplist = true;
 			}
+			
+			stopwordSet = stoplist;
 		}
-		
-		// if filterStopwords is false, create an empty stopwordSet
-		if (stoplist == null) {
-			stoplist = new StopWordSet();
-			emptyStoplist = true;
-		}
-		this.stopwordSet = stoplist;
 	}
 	
 	/**
@@ -122,17 +116,24 @@ public class BowProvider {
 			throw new NullPointerException("cas is null");
 		}
 		
-		return
-				new FeatureVector(
-						getNGramFeatureSeqFromCas(cas));
+		return	new FeatureVector(getNGramFeatureSeqFromCas(cas));
+	}
+	
+	/**
+	 * Returns a vector of n-gram features from a cas.
+	 *  
+	 * @param cas A uima cas object
+	 * @return The n-grams FeatureVector object
+	 */
+	public FeatureVector getFeatureVector(Collection<String> strings) {
+		return	new FeatureVector(getNGramFeatureSeq(strings));
 	}
 	
 	private List<String> getNGrams(List<String> tokens) { 
 		assert tokens != null;
 		
 		List<String> ngrams = new ArrayList<>();
-		for (String ngram : new NGramStringIterable(
-				tokens.toArray(new String[0]), minN, maxN)) {
+		for (String ngram : new NGramStringIterable(tokens.toArray(new String[0]), minN, maxN)) {
 			ngrams.add(ngram);
 		}
 		return ngrams;		
@@ -158,9 +159,9 @@ public class BowProvider {
 		for (Token token : tokens) {
 			String text = new RichTokenNode(token).getRepresentation(tokenFrmtParamList);
 			
-			if (text != null &&
-				(!filterStopwords || emptyStoplist || !stopwordSet.contains(text)))
+			if (text != null && (!filterStopwords || emptyStoplist || !stopwordSet.contains(text))) {
 				filteredFrmtTokens.add(text);
+			}
 		}
 		return filteredFrmtTokens;
 	}
@@ -188,6 +189,28 @@ public class BowProvider {
 		// Create a new sequence of features
 		List<String> ngrams = getNGramsFromCas(cas);
 		return getNGramFeatureSeq(ngrams);
+	}
+	
+	public FeatureSequence getNGramFeatureSeq(Collection<String> strings) {
+		List<String> ngrams = getNGrams(strings);
+		return getNGramFeatureSeq(ngrams);
+	}
+
+	private List<String> getNGrams(Collection<String> strings) {
+		assert strings != null;
+		
+		List<String> ngrams = new ArrayList<>();
+		for (String ngram : new NGramStringIterable(strings.toArray(new String[0]), minN, maxN)) {
+			ngrams.add(ngram);
+		}
+		return ngrams;		
+	}
+	
+	public String getParamsString() {
+		return this.tokenFrmtParamList + "_"
+				+ this.minN + "_"
+				+ this.maxN + "_"
+				+ this.filterStopwords;
 	}
 
 }
