@@ -50,6 +50,8 @@ public class RichTokenNode extends BaseRichNode {
 	 * - RichNode.OUTPUT_PAR_TOKEN_LOWERCASE Return the lowercased current
 	 * representation
 	 * 
+	 * - RichNode.OUTPUT_PAR_POSTAG Return the postag of the current token
+	 * 
 	 * Pay attention to the order of these parameters in the list. TOKEN and
 	 * LEMMA override each other, so the parameter later in the list prevails.
 	 * 
@@ -87,6 +89,9 @@ public class RichTokenNode extends BaseRichNode {
 				break;
 			case RichNode.OUTPUT_PAR_TOKEN_LOWERCASE:
 				lowercase = true;
+				break;			
+			case RichNode.OUTPUT_PAR_POSTAG:
+				output = this.token.getPos().getPosValue();
 				break;
 			}
 		}
