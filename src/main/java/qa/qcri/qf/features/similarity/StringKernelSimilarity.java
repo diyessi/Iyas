@@ -38,4 +38,8 @@ public class StringKernelSimilarity extends TermSimilarityMeasureBase {
 		return sk.K(string1, string2);		
 	}
 
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
 }

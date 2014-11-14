@@ -37,5 +37,10 @@ public class PTKSimilarity extends TermSimilarityMeasureBase {
 			return DEFAULT_SIMILARITY;
 		}
 	}
+	
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
 
 }
