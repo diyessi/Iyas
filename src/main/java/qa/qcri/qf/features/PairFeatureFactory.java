@@ -1,25 +1,27 @@
 package qa.qcri.qf.features;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.uima.jcas.JCas;
 
+import qa.qcri.qf.features.providers.BowProvider;
 import qa.qcri.qf.features.representation.PosChunkTreeRepresentation;
 import qa.qcri.qf.features.representation.Representation;
 import qa.qcri.qf.features.representation.TokenRepresentation;
+import qa.qcri.qf.features.similarity.CosineSimilarityBow;
 import qa.qcri.qf.features.similarity.PTKSimilarity;
 import qa.qcri.qf.features.similarity.adaptor.MeasureAdaptor;
 import qa.qcri.qf.features.similarity.adaptor.TermMeasureAdaptor;
 import qa.qcri.qf.features.similarity.adaptor.TextMeasureAdaptor;
+import qa.qcri.qf.trees.nodes.RichNode;
 import util.Pair;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.AugmentableFeatureVector;
 import cc.mallet.types.FeatureVector;
+import cc.mallet.types.NormalizedDotProductMetric;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TermSimilarityMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.CharacterNGramMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramContainmentMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramJaccardMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.CosineSimilarity;
@@ -45,7 +47,7 @@ public class PairFeatureFactory {
 	private String idfValuesPath;
 
 	/**
-	 * Some DKPro features works only if provided with list of tokens Thus, it
+	 * Some DKPro features works only if provided with list of tokens. Thus, it
 	 * is necessary to distinguish them and provide them with the right input.
 	 * The MeasureAdaptor wraps different measures and hides the underlying
 	 * implementation
@@ -82,6 +84,51 @@ public class PairFeatureFactory {
 		 */
 		Representation tokens = new TokenRepresentation(parameterList);
 		Representation trees = new PosChunkTreeRepresentation(parameterList);
+		
+		/**
+		 * BOW Features
+		 */
+		
+		NormalizedDotProductMetric metric = new NormalizedDotProductMetric();
+		
+		BowProvider bow;
+		
+		int[][] lemmaIntervals = new int[][]{
+				new int[]{1, 1},
+				new int[]{1, 2},
+				new int[]{1, 3},
+				new int[]{2, 3},
+				new int[]{2, 4},
+				new int[]{3, 4},
+				};
+		
+		int[][] posIntervals = new int[][]{
+				new int[]{1, 3},
+				new int[]{1, 4},
+				new int[]{2, 4},
+				};
+		
+		for(int[] interval : lemmaIntervals) {
+			int from = interval[0];
+			int to = interval[1];
+			
+			bow = new BowProvider(this.alphabet, parameterList, from, to,
+					BowProvider.STOPWORDS_FILEPATH, false);
+			this.addTextMeasure(new CosineSimilarityBow(bow, metric), tokens);
+			
+			bow = new BowProvider(this.alphabet, parameterList, from, to,
+					BowProvider.STOPWORDS_FILEPATH, true);
+			this.addTextMeasure(new CosineSimilarityBow(bow, metric), tokens);
+		}
+		
+		for(int[] interval : posIntervals) {
+			int from = interval[0];
+			int to = interval[1];
+			
+			bow = new BowProvider(this.alphabet, RichNode.OUTPUT_PAR_POSTAG, from, to,
+					BowProvider.STOPWORDS_FILEPATH, false);
+			this.addTextMeasure(new CosineSimilarityBow(bow, metric), tokens);
+		}
 
 		/**
 		 * DKPro 2012 STS best system features
@@ -147,6 +194,13 @@ public class PairFeatureFactory {
 	
 				String featureName = measure.getName(representation);
 				double featureValue = measure.getSimilarity(representations);
+				
+				if(Double.isNaN(featureValue)) {
+					System.out.println("Feature: " + featureName + " : " + featureValue);
+					System.out.println(representations.getA());
+					System.out.println(representations.getB());
+					System.out.println("\n");
+				}
 	
 				fv.add(featureName, featureValue);
 			}
