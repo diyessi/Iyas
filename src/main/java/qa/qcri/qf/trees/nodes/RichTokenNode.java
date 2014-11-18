@@ -1,5 +1,6 @@
 package qa.qcri.qf.trees.nodes;
 
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 /**
@@ -91,7 +92,8 @@ public class RichTokenNode extends BaseRichNode {
 				lowercase = true;
 				break;			
 			case RichNode.OUTPUT_PAR_POSTAG:
-				output = this.token.getPos().getPosValue();
+				POS pos = this.token.getPos();
+				output = pos.getPosValue();
 				break;
 			}
 		}
