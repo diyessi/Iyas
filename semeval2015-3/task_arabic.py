@@ -9,6 +9,7 @@ from sklearn import ensemble
 from sklearn import tree
 from sklearn import preprocessing
 from sklearn.utils import assert_all_finite
+from sklearn.grid_search import GridSearchCV
 
 SCALE = False
 
@@ -24,23 +25,29 @@ def main():
 def task(train, test):
 	train_ids, train_gold, train_data = read_data(train)
 	test_ids, test_gold, test_data = read_data(test)
-		
-	lb = preprocessing.LabelBinarizer()
-	lb.fit(train_gold)
 	
 	if SCALE:
 		ss = preprocessing.StandardScaler()
 		train_data = ss.transform_fit(train_data)
 		test_data = ss.transform(test_data)
+		
+	classifiers = [ensemble.AdaBoostClassifier(n_estimators=120)]
 	
-	clf = OneVsRestClassifier(svm.LinearSVC(), n_jobs=-2)
+	Cs = np.logspace(-5, 0, 11)
+	for c in Cs:
+		classifiers.append(svm.LinearSVC(C=c))
+
+	clf = GridSearchCV(estimator=OneVsRestClassifier(estimator=None), param_grid=dict(estimator=classifiers))
 	
-	clf.fit(train_data, lb.transform(train_gold))
+	clf.fit(train_data, train_gold)
 	
 	predictions = clf.predict(test_data)
 	
+	print "Best parameters with score", clf.best_score_, ":"
+	print clf.best_params_
+	
 	with open("task_arabic.pred", "w") as out:
-		for test_id, prediction in zip(test_ids, lb.inverse_transform(predictions)):
+		for test_id, prediction in zip(test_ids, predictions):
 			out.write(str(test_id) + "\t" + str(prediction) + "\n")
 
 def read_data(data_file):
