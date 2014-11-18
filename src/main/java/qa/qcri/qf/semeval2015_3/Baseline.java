@@ -25,6 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import qa.qcri.qf.annotators.WhitespaceTokenizer;
 import qa.qcri.qf.annotators.arabic.ArabicAnalyzer;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
@@ -52,6 +53,7 @@ import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpChunker;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 
@@ -100,7 +102,7 @@ public class Baseline {
 		 */
 		org.apache.log4j.BasicConfigurator.configure();
 		
-		new Baseline().runForEnglish();
+		new Baseline().runForArabic();
 	}
 	
 	public Baseline() {
@@ -114,10 +116,13 @@ public class Baseline {
 		this.alphabet = new Alphabet();
 
 		this.pf = new PairFeatureFactory(this.alphabet);
-		this.pf.setupMeasures(RichNode.OUTPUT_PAR_LEMMA);
 	}
 	
-	public void runForArabic() throws UIMAException {
+	public void runForArabic() throws UIMAException {	
+		this.stopwords = new Stopwords(Stopwords.STOPWORD_AR);
+		
+		this.pf.setupMeasures(RichNode.OUTPUT_PAR_TOKEN_LOWERCASE, this.stopwords);
+		
 		this.language = LANG_ARABIC;
 		
 		this.preliminaryCas = JCasFactory.createJCas();
@@ -135,14 +140,19 @@ public class Baseline {
 				createEngineDescription(ArabicAnalyzer.class)));
 		
 		AnalysisEngine segmenter = createEngine(createEngineDescription(
-				StanfordSegmenter.class, StanfordSegmenter.PARAM_LANGUAGE, "ar"));
+				WhitespaceTokenizer.class));
 		
-		this.analysisEngineList = new AnalysisEngine[1];
+		AnalysisEngine postagger = createEngine(createEngineDescription(
+				StanfordPosTagger.class, StanfordPosTagger.PARAM_LANGUAGE, "ar",
+				StanfordPosTagger.PARAM_VARIANT, "accurate"));
+		
+		this.analysisEngineList = new AnalysisEngine[2];
 		this.analysisEngineList[0] = segmenter;
+		this.analysisEngineList[1] = postagger;
 		
 		try {
 			processArabicFile(analyzer, CQA_QL_TRAIN_AR, "train");
-			//processArabicFile(analyzer, CQA_QL_DEV_AR, "dev");
+			processArabicFile(analyzer, CQA_QL_DEV_AR, "dev");
 		} catch (SimilarityException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -181,9 +191,12 @@ public class Baseline {
 		/**
 		 * QCRI Arabic Analyzer
 		 */
-		AnalysisEngine arabicAnalyzer = createEngine(createEngineDescription(
-				ArabicAnalyzer.class));
-		this.analysisEngineList[0] = arabicAnalyzer;
+		//AnalysisEngine arabicAnalyzer = createEngine(createEngineDescription(
+		//		ArabicAnalyzer.class));
+		//this.analysisEngineList[0] = arabicAnalyzer;
+		
+		String parameterList = Joiner.on(",").join(
+				new String[] { RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
 		
 		/**
 		 * Instantiate CASes
@@ -200,8 +213,13 @@ public class Baseline {
 		/**
 		 * Consume data
 		 */
-		Elements questions = doc.getElementsByTag("Question");		
+		Elements questions = doc.getElementsByTag("Question");
+		
+		int numberOfQuestions = questions.size();
+		int questionNumber = 1;
+		
 		for(Element question : questions) {
+			System.out.println("[INFO]: Processing " + questionNumber++ + " out of " + numberOfQuestions);
 			/**
 			 * Parse question node
 			 */
@@ -216,11 +234,11 @@ public class Baseline {
 			 */
 			questionCas.reset();
 			questionCas.setDocumentLanguage("ar");
-			questionCas.setDocumentText(qbody);
+			questionCas.setDocumentText(qsubject + ". " + qbody);
 			
-			//SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
+			SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
 			
-			questionCas = this.getPreliminarCas(analyzer, questionCas, qid, qbody);
+			//questionCas = this.getPreliminarCas(analyzer, questionCas, qid, qbody);
 			
 			/**
 			 * Collect question tokens
@@ -249,9 +267,9 @@ public class Baseline {
 				commentCas.setDocumentLanguage("ar");
 				commentCas.setDocumentText(cbody);
 				
-				//SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
+				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
 				
-				commentCas = this.getPreliminarCas(analyzer, commentCas, cid, cbody);		
+				//commentCas = this.getPreliminarCas(analyzer, commentCas, cid, cbody);		
 				
 				/**
 				 * Collect comment tokens
@@ -267,16 +285,15 @@ public class Baseline {
 				 * Compute features between question and comment
 				 */
 				
-				//List<Double> features = this.getSyntacticFeatures(questionTokens, commentTokens);
-				List<Double> features = new ArrayList<>();
-
+				FeatureVector fv = pf.getPairFeatures(questionCas, commentCas, parameterList);
+				
 				/**
 				 * Produce output line
 				 */
 				
 				if(firstRow) {
 					out.write("cid,cgold");
-					for(int i = 0; i < features.size(); i++) {
+					for(int i = 0; i < fv.numLocations(); i++) {
 						int featureIndex = i + 1;
 						out.write(",f" + featureIndex);
 					}
@@ -284,8 +301,12 @@ public class Baseline {
 					
 					firstRow = false;
 				}
+				
+				List<Double> features = this.serializeFv(fv);
 	
-				System.out.println(qid + "-" + cid + "," + cgold + "," + Joiner.on(",").join(features));
+				/**
+				 * Produce output line
+				 */
 				
 				out.writeLn(qid + "-" + cid + "," + cgold + "," + Joiner.on(",").join(features));
 			}
@@ -297,9 +318,11 @@ public class Baseline {
 	
 	public void runForEnglish() throws ResourceInitializationException {
 		
-		this.language = LANG_ENGLISH;
-		
 		this.stopwords = new Stopwords(Stopwords.STOPWORD_EN);
+		
+		this.pf.setupMeasures(RichNode.OUTPUT_PAR_LEMMA, this.stopwords);
+		
+		this.language = LANG_ENGLISH;
 		
 		/**
 		 * Add some punctuation to the stopwords list
