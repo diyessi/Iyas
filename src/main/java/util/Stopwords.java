@@ -9,6 +9,10 @@ public class Stopwords {
 	
 	public final static String STOPWORD_EN = "resources/stoplist-en.txt"; 
 	
+	public final static String STOPWORD_IT = "resources/stoplist-it.txt"; 
+	
+	public final static String STOPWORD_AR = "resources/stoplist-ar.txt"; 
+	
 	private Set<String> stopwords;
 	
 	public Stopwords(String path) {
