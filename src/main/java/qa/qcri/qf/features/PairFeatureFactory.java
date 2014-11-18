@@ -16,6 +16,7 @@ import qa.qcri.qf.features.similarity.adaptor.TermMeasureAdaptor;
 import qa.qcri.qf.features.similarity.adaptor.TextMeasureAdaptor;
 import qa.qcri.qf.trees.nodes.RichNode;
 import util.Pair;
+import util.Stopwords;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.AugmentableFeatureVector;
 import cc.mallet.types.FeatureVector;
@@ -76,14 +77,18 @@ public class PairFeatureFactory {
 
 	public void setupMeasures(String parameterList) {
 		this.measures.clear();
+		
+		Stopwords stopwords = new Stopwords(Stopwords.STOPWORD_EN);
 
 		/**
 		 * Prepares the token and tree representations we want to use for
 		 * computing the features (e.g. we would like to compute cosine
 		 * similarity between stems and lemmas
 		 */
-		Representation tokens = new TokenRepresentation(parameterList);
+		Representation tokens = new TokenRepresentation(parameterList, stopwords);
 		Representation trees = new PosChunkTreeRepresentation(parameterList);
+		
+		Representation postags = new TokenRepresentation(RichNode.OUTPUT_PAR_POSTAG, stopwords);
 		
 		/**
 		 * BOW Features
@@ -113,11 +118,10 @@ public class PairFeatureFactory {
 			int to = interval[1];
 			
 			bow = new BowProvider(this.alphabet, parameterList, from, to,
-					BowProvider.STOPWORDS_FILEPATH, false);
+					new Stopwords());
 			this.addTextMeasure(new CosineSimilarityBow(bow, metric), tokens);
 			
-			bow = new BowProvider(this.alphabet, parameterList, from, to,
-					BowProvider.STOPWORDS_FILEPATH, true);
+			bow = new BowProvider(this.alphabet, parameterList, from, to, stopwords);
 			this.addTextMeasure(new CosineSimilarityBow(bow, metric), tokens);
 		}
 		
@@ -125,9 +129,8 @@ public class PairFeatureFactory {
 			int from = interval[0];
 			int to = interval[1];
 			
-			bow = new BowProvider(this.alphabet, RichNode.OUTPUT_PAR_POSTAG, from, to,
-					BowProvider.STOPWORDS_FILEPATH, false);
-			this.addTextMeasure(new CosineSimilarityBow(bow, metric), tokens);
+			bow = new BowProvider(this.alphabet, RichNode.OUTPUT_PAR_POSTAG, from, to, new Stopwords());
+			this.addTextMeasure(new CosineSimilarityBow(bow, metric), postags);
 		}
 
 		/**
@@ -194,13 +197,6 @@ public class PairFeatureFactory {
 	
 				String featureName = measure.getName(representation);
 				double featureValue = measure.getSimilarity(representations);
-				
-				if(Double.isNaN(featureValue)) {
-					System.out.println("Feature: " + featureName + " : " + featureValue);
-					System.out.println(representations.getA());
-					System.out.println(representations.getB());
-					System.out.println("\n");
-				}
 	
 				fv.add(featureName, featureValue);
 			}

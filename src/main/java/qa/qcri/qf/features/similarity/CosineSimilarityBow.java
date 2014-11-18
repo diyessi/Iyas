@@ -26,12 +26,12 @@ public class CosineSimilarityBow extends TextSimilarityMeasureBase {
 		FeatureVector fv1 = this.bowProvider.getFeatureVector(strings1);
 		FeatureVector fv2 = this.bowProvider.getFeatureVector(strings2);
 		
-		double value = this.metric.distance(fv1, fv2);
+		double distance = this.metric.distance(fv1, fv2);
 		
-		if(Double.isNaN(value)) {
+		if(Double.isNaN(distance)) {
 			return 0.0;
 		} else {
-			return 1.0 - this.metric.distance(fv1, fv2);
+			return 1.0 - distance;
 		}
 	}
 

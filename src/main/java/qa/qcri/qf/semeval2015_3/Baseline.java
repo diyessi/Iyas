@@ -26,7 +26,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import qa.qcri.qf.annotators.arabic.ArabicAnalyzer;
-import qa.qcri.qf.features.similarity.PTKSimilarity;
+import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.fileutil.ReadFile;
 import qa.qcri.qf.fileutil.WriteFile;
@@ -41,9 +41,11 @@ import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.type.NormalizedText;
+import util.Stopwords;
+import cc.mallet.types.Alphabet;
+import cc.mallet.types.FeatureVector;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpChunker;
@@ -52,15 +54,6 @@ import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramContainmentMeasure;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramJaccardMeasure;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.CosineSimilarity;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.GreedyStringTiling;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.JaroSecondStringComparator;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubsequenceComparator;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubsequenceNormComparator;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubstringComparator;
-import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.MongeElkanSecondStringComparator;
 
 
 public class Baseline {
@@ -82,8 +75,6 @@ public class Baseline {
 			+ "SemEval2015-Task3-Arabic-data/datasets/QA-Arabic-dev.xml";
 	
 	public static final String STOPWORDS_EN_PATH = "resources/stoplist-en.txt";
-
-	private Set<String> stopwords = loadStopwords(STOPWORDS_EN_PATH);
 	
 	private Set<String> a_labels = new HashSet<>();
 	
@@ -97,13 +88,19 @@ public class Baseline {
 	
 	private JCas preliminaryCas; // Used by the Arabic pipeline
 	
+	private PairFeatureFactory pf;
+	
+	private Alphabet alphabet;
+	
+	private Stopwords stopwords;
+	
 	public static void main(String[] args) throws IOException, UIMAException, SimilarityException {
 		/**
 		 * Setup logger
 		 */
 		org.apache.log4j.BasicConfigurator.configure();
 		
-		new Baseline().runForArabic();
+		new Baseline().runForEnglish();
 	}
 	
 	public Baseline() {
@@ -113,6 +110,11 @@ public class Baseline {
 		this.language = LANG_ENGLISH;
 		
 		this.fm = new FileManager();
+		
+		this.alphabet = new Alphabet();
+
+		this.pf = new PairFeatureFactory(this.alphabet);
+		this.pf.setupMeasures(RichNode.OUTPUT_PAR_LEMMA);
 	}
 	
 	public void runForArabic() throws UIMAException {
@@ -153,7 +155,7 @@ public class Baseline {
 		this.preliminaryCas.reset();
 		
 		/**
-		 * Without this the annotator fails bad
+		 * Without this the annotator fails badly
 		 */
 		sentence = sentence.replaceAll("/", "");
 		sentence = sentence.replaceAll("~", "");
@@ -176,6 +178,13 @@ public class Baseline {
 	}
 	
 	public void processArabicFile(Analyzer analyzer, String dataFile, String suffix) throws SimilarityException, UIMAException, IOException {
+		/**
+		 * QCRI Arabic Analyzer
+		 */
+		AnalysisEngine arabicAnalyzer = createEngine(createEngineDescription(
+				ArabicAnalyzer.class));
+		this.analysisEngineList[0] = arabicAnalyzer;
+		
 		/**
 		 * Instantiate CASes
 		 */
@@ -209,9 +218,9 @@ public class Baseline {
 			questionCas.setDocumentLanguage("ar");
 			questionCas.setDocumentText(qbody);
 			
-			SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
+			//SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
 			
-			//questionCas = this.getPreliminarCas(analyzer, questionCas, qid, qbody);
+			questionCas = this.getPreliminarCas(analyzer, questionCas, qid, qbody);
 			
 			/**
 			 * Collect question tokens
@@ -235,13 +244,14 @@ public class Baseline {
 				
 				/**
 				 * Get analyzed text for comment
-				 */	
-				//commentCas = this.getPreliminarCas(analyzer, commentCas, cid, cbody);
+				 */
 				commentCas.reset();
 				commentCas.setDocumentLanguage("ar");
 				commentCas.setDocumentText(cbody);
 				
-				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
+				//SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
+				
+				commentCas = this.getPreliminarCas(analyzer, commentCas, cid, cbody);		
 				
 				/**
 				 * Collect comment tokens
@@ -257,7 +267,8 @@ public class Baseline {
 				 * Compute features between question and comment
 				 */
 				
-				List<Double> features = this.getSyntacticFeatures(questionTokens, commentTokens);
+				//List<Double> features = this.getSyntacticFeatures(questionTokens, commentTokens);
+				List<Double> features = new ArrayList<>();
 
 				/**
 				 * Produce output line
@@ -274,6 +285,8 @@ public class Baseline {
 					firstRow = false;
 				}
 	
+				System.out.println(qid + "-" + cid + "," + cgold + "," + Joiner.on(",").join(features));
+				
 				out.writeLn(qid + "-" + cid + "," + cgold + "," + Joiner.on(",").join(features));
 			}
 		}
@@ -286,7 +299,7 @@ public class Baseline {
 		
 		this.language = LANG_ENGLISH;
 		
-		this.stopwords = loadStopwords(STOPWORDS_EN_PATH);
+		this.stopwords = new Stopwords(Stopwords.STOPWORD_EN);
 		
 		/**
 		 * Add some punctuation to the stopwords list
@@ -404,7 +417,7 @@ public class Baseline {
 			 */
 			questionCas.reset();
 			questionCas.setDocumentLanguage("en");
-			questionCas.setDocumentText(qbody);
+			questionCas.setDocumentText(qsubject + ". " + qbody);
 			
 			/**
 			 * Run the UIMA pipeline
@@ -439,7 +452,7 @@ public class Baseline {
 				 */
 				commentCas.reset();
 				commentCas.setDocumentLanguage("en");
-				commentCas.setDocumentText(cbody);
+				commentCas.setDocumentText(csubject + ". " + cbody);
 				
 				/**
 				 * Run the UIMA pipeline
@@ -450,11 +463,13 @@ public class Baseline {
 				 * Produce question tree
 				 */
 				TokenTree questionTree = RichTree.getPosChunkTree(questionCas);
+				String questionTreeString = ts.serializeTree(questionTree);
 				
 				/**
 				 * Produce comment tree
 				 */
 				TokenTree commentTree = RichTree.getPosChunkTree(commentCas);
+				String commentTreeString = ts.serializeTree(commentTree);
 				
 				/**
 				 * Collect comment lemmas
@@ -467,18 +482,7 @@ public class Baseline {
 					}
 				}
 				
-				/**
-				 * Compute features between question and comment
-				 */
-				
-				List<Double> features = this.getSyntacticFeatures(questionLemmas, commentLemmas);
-				
-				marker.markTrees(questionTree, commentTree, parameterList);
-				
-				String questionTreeString = ts.serializeTree(questionTree, parameterList);
-				String commentTreeString = ts.serializeTree(commentTree, parameterList);
-				
-				features.add(new PTKSimilarity().getSimilarity(questionTreeString, commentTreeString));
+				FeatureVector fv = pf.getPairFeatures(questionCas, commentCas, parameterList);
 				
 				/**
 				 * Produce output line
@@ -486,7 +490,7 @@ public class Baseline {
 				
 				if(firstRow) {
 					out.write("qid,cgold,cgold_yn");
-					for(int i = 0; i < features.size(); i++) {
+					for(int i = 0; i < fv.numLocations(); i++) {
 						int featureIndex = i + 1;
 						out.write(",f" + featureIndex);
 					}
@@ -494,6 +498,8 @@ public class Baseline {
 					
 					firstRow = false;
 				}
+				
+				List<Double> features = this.serializeFv(fv);
 	
 				out.writeLn(cid + "," + cgold + "," + cgold_yn + "," + Joiner.on(",").join(features));
 				
@@ -580,21 +586,15 @@ public class Baseline {
 		out.close();
 	}
 	
-	private List<Double> getSyntacticFeatures(List<String> formsA, List<String> formsB) throws SimilarityException {
-		List<Double> features = new ArrayList<>();			
-		features.add(new WordNGramJaccardMeasure(1).getSimilarity(formsA, formsB));
-		features.add(new WordNGramJaccardMeasure(2).getSimilarity(formsA, formsB));
-		features.add(new WordNGramJaccardMeasure(3).getSimilarity(formsA, formsB));
-		features.add(new WordNGramContainmentMeasure(1).getSimilarity(formsA, formsB));
-		features.add(new WordNGramContainmentMeasure(2).getSimilarity(formsA, formsB));		
-		features.add(new GreedyStringTiling(3).getSimilarity(formsA, formsB));
-		features.add(new LongestCommonSubsequenceComparator().getSimilarity(formsA, formsB));
-		features.add(new LongestCommonSubsequenceNormComparator().getSimilarity(formsA, formsB));
-		features.add(new LongestCommonSubstringComparator().getSimilarity(formsA, formsB));			
-		features.add(new JaroSecondStringComparator().getSimilarity(formsA, formsB));
-		features.add(new MongeElkanSecondStringComparator().getSimilarity(formsA, formsB));
-		features.add(new CosineSimilarity().getSimilarity(formsA, formsB));
-		features.add(new JaroSecondStringComparator().getSimilarity(formsA, formsB));
+	public List<Double> serializeFv(FeatureVector fv) {
+		List<Double> features = new ArrayList<>();
+		int numLocations = fv.numLocations();
+		int[] indices = fv.getIndices();
+		for (int index = 0; index < numLocations; index++) {
+			int featureIndex = indices[index];
+			double value = fv.value(featureIndex);
+			features.add(value);
+		}
 		return features;
 	}
 	
