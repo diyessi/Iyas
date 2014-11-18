@@ -74,11 +74,13 @@ public class PairFeatureFactory {
 	public void setIdfValues(String idfValuesPath) {
 		this.idfValuesPath = idfValuesPath;
 	}
-
+	
 	public void setupMeasures(String parameterList) {
+		this.setupMeasures(parameterList, new Stopwords());
+	}
+
+	public void setupMeasures(String parameterList, Stopwords stopwords) {
 		this.measures.clear();
-		
-		Stopwords stopwords = new Stopwords(Stopwords.STOPWORD_EN);
 
 		/**
 		 * Prepares the token and tree representations we want to use for
