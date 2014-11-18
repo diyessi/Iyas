@@ -5,4 +5,5 @@ python task_arabic.py data/SemEval2015-Task3-Arabic-data/datasets/QA-Arabic-trai
 echo "Producing report for the Arabic task..."
 perl SemEval2015-task3-scorer-subtaskA.pl \
 	data/SemEval2015-Task3-Arabic-data/datasets/QA-Arabic-dev.gold task_arabic.pred > task_arabic.report
-
+	
+echo "Task A)" `tail task_arabic.report -n 1`
