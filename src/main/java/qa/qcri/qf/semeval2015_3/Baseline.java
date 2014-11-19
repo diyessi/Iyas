@@ -29,7 +29,6 @@ import qa.qcri.qf.annotators.WhitespaceTokenizer;
 import qa.qcri.qf.annotators.arabic.ArabicAnalyzer;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
-import qa.qcri.qf.fileutil.ReadFile;
 import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
@@ -48,13 +47,11 @@ import cc.mallet.types.FeatureVector;
 
 import com.google.common.base.Joiner;
 
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpChunker;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 
 
@@ -63,6 +60,13 @@ public class Baseline {
 	public static final String LANG_ENGLISH = "ENGLISH";
 	
 	public static final String LANG_ARABIC = "ARABIC";
+	
+	/**
+	 * Set this option to true if you want to produce also data for
+	 * SVMLightTK in order to train ad structural model with trees
+	 * and feature vectors.
+	 */
+	public static final boolean PRODUCE_SVMLIGHTTK_DATA = false;
 	
 	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-train.xml";
@@ -76,8 +80,6 @@ public class Baseline {
 	public static final String CQA_QL_DEV_AR = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-Arabic-data/datasets/QA-Arabic-dev.xml";
 	
-	public static final String STOPWORDS_EN_PATH = "resources/stoplist-en.txt";
-	
 	private Set<String> a_labels = new HashSet<>();
 	
 	private Set<String> b_labels = new HashSet<>();
@@ -88,7 +90,7 @@ public class Baseline {
 	
 	private AnalysisEngine[] analysisEngineList;
 	
-	private JCas preliminaryCas; // Used by the Arabic pipeline
+	private JCas preliminaryCas; // Used by the QCRI Arabic pipeline
 	
 	private PairFeatureFactory pf;
 	
@@ -102,7 +104,15 @@ public class Baseline {
 		 */
 		org.apache.log4j.BasicConfigurator.configure();
 		
-		new Baseline().runForArabic();
+		/**
+		 * Run the code for the Arabic task
+		 */
+		//new Baseline().runForArabic();
+		
+		/**
+		 * Run the code for the English tasks
+		 */
+		new Baseline().runForEnglish();
 	}
 	
 	public Baseline() {
@@ -135,17 +145,31 @@ public class Baseline {
 		this.a_labels.add("related");
 		this.a_labels.add("irrelevant");
 		
+		/**
+		 * Instantiate the QCRI Analyzer, but for now we are
+		 * using the analysis engines instantiated later on
+		 */
 		Analyzer analyzer = new Analyzer(new UIMANoPersistence());
 		analyzer.addAE(AnalysisEngineFactory.createEngine(
 				createEngineDescription(ArabicAnalyzer.class)));
 		
+		/**
+		 * Whitespace tokenizer. The Stanford Segmenter for Arabic
+		 * has a very bad bug and the tokenization is completely wrong.
+		 */
 		AnalysisEngine segmenter = createEngine(createEngineDescription(
 				WhitespaceTokenizer.class));
 		
+		/**
+		 * Stanford POS-Tagger
+		 */
 		AnalysisEngine postagger = createEngine(createEngineDescription(
 				StanfordPosTagger.class, StanfordPosTagger.PARAM_LANGUAGE, "ar",
 				StanfordPosTagger.PARAM_VARIANT, "accurate"));
 		
+		/**
+		 * Putting together the UIMA DKPro annotators
+		 */
 		this.analysisEngineList = new AnalysisEngine[2];
 		this.analysisEngineList[0] = segmenter;
 		this.analysisEngineList[1] = postagger;
@@ -160,33 +184,6 @@ public class Baseline {
 		}	
 	}
 	
-	public JCas getPreliminarCas(Analyzer analyzer, JCas emptyCas,
-			String sentenceId, String sentence) {
-		this.preliminaryCas.reset();
-		
-		/**
-		 * Without this the annotator fails badly
-		 */
-		sentence = sentence.replaceAll("/", "");
-		sentence = sentence.replaceAll("~", "");
-
-		// Carry out preliminary analysis
-		Analyzable content = new SimpleContent(sentenceId, sentence, ArabicAnalyzer.ARABIC_LAN);
-		
-		analyzer.analyze(this.preliminaryCas, content);
-		
-		// Copy data to a new CAS and use normalized text as DocumentText
-		emptyCas.reset();	
-		emptyCas.setDocumentLanguage(ArabicAnalyzer.ARABIC_LAN);
-	
-		CasCopier.copyCas(this.preliminaryCas.getCas(), emptyCas.getCas(), false);
-	
-		String normalizedText = JCasUtil.selectSingle(this.preliminaryCas, NormalizedText.class).getText();
-		emptyCas.setDocumentText(normalizedText);
-
-		return emptyCas;
-	}
-	
 	public void processArabicFile(Analyzer analyzer, String dataFile, String suffix) throws SimilarityException, UIMAException, IOException {
 		/**
 		 * QCRI Arabic Analyzer
@@ -195,6 +192,9 @@ public class Baseline {
 		//		ArabicAnalyzer.class));
 		//this.analysisEngineList[0] = arabicAnalyzer;
 		
+		/**
+		 * We do not have a lemmatizer so we work with tokens
+		 */
 		String parameterList = Joiner.on(",").join(
 				new String[] { RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
 		
@@ -241,17 +241,6 @@ public class Baseline {
 			//questionCas = this.getPreliminarCas(analyzer, questionCas, qid, qbody);
 			
 			/**
-			 * Collect question tokens
-			 */
-			
-			List<String> questionTokens = new ArrayList<>();
-			for(Token token : JCasUtil.select(questionCas, Token.class)) {
-				if(!this.stopwords.contains(token.getCoveredText())) {
-					questionTokens.add(token.getCoveredText());
-				}
-			}
-			
-			/**
 			 * Parse answer nodes
 			 */
 			Elements comments = question.getElementsByTag("Answer");
@@ -270,16 +259,6 @@ public class Baseline {
 				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
 				
 				//commentCas = this.getPreliminarCas(analyzer, commentCas, cid, cbody);		
-				
-				/**
-				 * Collect comment tokens
-				 */
-				List<String> commentTokens = new ArrayList<>();
-				for(Token token : JCasUtil.select(commentCas, Token.class)) {
-					if(!this.stopwords.contains(token.getCoveredText())) {
-						commentTokens.add(token.getCoveredText());
-					}
-				}
 				
 				/**
 				 * Compute features between question and comment
@@ -399,7 +378,7 @@ public class Baseline {
 		/**
 		 * Load stopwords for english
 		 */
-		marker.useStopwords(STOPWORDS_EN_PATH);
+		marker.useStopwords(Stopwords.STOPWORD_EN);
 		
 		/**
 		 * Tree serializer for converting tree structures to string
@@ -422,7 +401,11 @@ public class Baseline {
 		 * Consume data
 		 */
 		Elements questions = doc.getElementsByTag("Question");		
+		int numberOfQuestions = questions.size();
+		int questionNumber = 1;
+		
 		for(Element question : questions) {
+			System.out.println("[INFO]: Processing " + questionNumber++ + " out of " + numberOfQuestions);
 			/**
 			 * Parse question node
 			 */
@@ -448,17 +431,6 @@ public class Baseline {
 			SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
 			
 			/**
-			 * Collect question tokens
-			 */
-			List<String> questionLemmas = new ArrayList<>();
-			for(Token token : JCasUtil.select(questionCas, Token.class)) {
-				String lemma = token.getLemma().getValue();
-				if(!this.stopwords.contains(lemma)) {
-					questionLemmas.add(lemma);
-				}
-			}
-			
-			/**
 			 * Parse comment nodes
 			 */
 			Elements comments = question.getElementsByTag("Comment");
@@ -482,29 +454,6 @@ public class Baseline {
 				 */
 				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
 				
-				/**
-				 * Produce question tree
-				 */
-				TokenTree questionTree = RichTree.getPosChunkTree(questionCas);
-				String questionTreeString = ts.serializeTree(questionTree);
-				
-				/**
-				 * Produce comment tree
-				 */
-				TokenTree commentTree = RichTree.getPosChunkTree(commentCas);
-				String commentTreeString = ts.serializeTree(commentTree);
-				
-				/**
-				 * Collect comment lemmas
-				 */
-				List<String> commentLemmas = new ArrayList<>();
-				for(Token token : JCasUtil.select(commentCas, Token.class)) {
-					String lemma = token.getLemma().getValue();
-					if(!this.stopwords.contains(lemma)) {
-						commentLemmas.add(lemma);
-					}
-				}
-				
 				FeatureVector fv = pf.getPairFeatures(questionCas, commentCas, parameterList);
 				
 				/**
@@ -527,86 +476,104 @@ public class Baseline {
 				out.writeLn(cid + "," + cgold + "," + cgold_yn + "," + Joiner.on(",").join(features));
 				
 				/**
-				 * Produce output for SVMLightTK
+				 * Produce also the file needed to train structural models
 				 */
-				
-				for(String label : this.a_labels) {
-					String svmLabel = "-1";
-					if(label.equals(cgold)) {
-						svmLabel = "+1";
-					}
-					
-					String output = svmLabel + " ";
-					output += " |BT| " + questionTreeString + " |BT| " + commentTreeString + " |ET| ";
-	
-					String featureString = "";
-					
-					for(int i = 0; i < features.size(); i++) {
-						int featureIndex = i + 1;
-						Double feature = features.get(i);
-						if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
-							
-							if(Math.abs(feature) > 1e100) {
-								feature = 0.0;
-							}
-							
-							featureString += featureIndex + ":" 
-									+ String.format("%f", feature) + " ";
-						}
-					}
-					
-					output += featureString + "|EV|";
-					
-					output += " #" + qid + "\t" + cid;
-					
-					fm.writeLn("semeval2015-3/svmlighttk/a/" + suffix + "/"
-							+ label.replaceAll(" ", "_") + ".svm",
-							output.trim());
-				}
-				
-				for(String label : this.b_labels) {
-					
-					if(cgold_yn.equals("Not Applicable")) {
-						continue;
-					}
-					
-					String svmLabel = "-1";
-					if(label.equals(cgold_yn)) {
-						svmLabel = "+1";
-					}
-					
-					String output = svmLabel + " |BT| " + questionTreeString
-							+ " |BT| " + commentTreeString + " |ET| ";
-					
-					String featureString = "";
-					
-					for(int i = 0; i < features.size(); i++) {
-						int featureIndex = i + 1;
-						Double feature = features.get(i);
-						if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
-							
-							if(Math.abs(feature) > 1e100) {
-								feature = 0.0;
-							}
-							
-							featureString += featureIndex + ":" 
-									+ String.format("%f", feature) + " ";
-						}
-					}
-					
-					output += featureString + "|EV|";
-					
-					output += " #" + qid + "\t" + cid;
-					
-					fm.writeLn("semeval2015-3/svmlighttk/b/" + suffix + "/"
-							+ label.replaceAll(" ", "_") + ".svm",
-							output);
+				if(PRODUCE_SVMLIGHTTK_DATA) {
+					produceSVMLightTKExample(questionCas, commentCas, suffix, ts,
+						qid, cid, cgold, cgold_yn, features);
 				}
 			}
 		}
 
 		this.fm.closeFiles();
 		out.close();
+	}
+
+	private void produceSVMLightTKExample(JCas questionCas, JCas commentCas,
+			String suffix, TreeSerializer ts, String qid, String cid,
+			String cgold, String cgold_yn, List<Double> features) {
+		/**
+		 * Produce output for SVMLightTK
+		 */
+		
+		TokenTree questionTree = RichTree.getPosChunkTree(questionCas);
+		String questionTreeString = ts.serializeTree(questionTree);
+
+		TokenTree commentTree = RichTree.getPosChunkTree(commentCas);
+		String commentTreeString = ts.serializeTree(commentTree);
+		
+		for(String label : this.a_labels) {
+			String svmLabel = "-1";
+			if(label.equals(cgold)) {
+				svmLabel = "+1";
+			}
+			
+			String output = svmLabel + " ";
+			output += " |BT| " + questionTreeString + " |BT| " + commentTreeString + " |ET| ";
+
+			String featureString = "";
+			
+			for(int i = 0; i < features.size(); i++) {
+				int featureIndex = i + 1;
+				Double feature = features.get(i);
+				if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
+					
+					if(Math.abs(feature) > 1e100) {
+						feature = 0.0;
+					}
+					
+					featureString += featureIndex + ":" 
+							+ String.format("%f", feature) + " ";
+				}
+			}
+			
+			output += featureString + "|EV|";
+			
+			output += " #" + qid + "\t" + cid;
+			
+			fm.writeLn("semeval2015-3/svmlighttk/a/" + suffix + "/"
+					+ label.replaceAll(" ", "_") + ".svm",
+					output.trim());
+		}
+		
+		for(String label : this.b_labels) {
+			
+			if(cgold_yn.equals("Not Applicable")) {
+				continue;
+			}
+			
+			String svmLabel = "-1";
+			if(label.equals(cgold_yn)) {
+				svmLabel = "+1";
+			}
+			
+			String output = svmLabel + " |BT| " + questionTreeString
+					+ " |BT| " + commentTreeString + " |ET| ";
+			
+			String featureString = "";
+			
+			for(int i = 0; i < features.size(); i++) {
+				int featureIndex = i + 1;
+				Double feature = features.get(i);
+				if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
+					
+					if(Math.abs(feature) > 1e100) {
+						feature = 0.0;
+					}
+					
+					featureString += featureIndex + ":" 
+							+ String.format("%f", feature) + " ";
+				}
+			}
+			
+			output += featureString + "|EV|";
+			
+			output += " #" + qid + "\t" + cid;
+			
+			fm.writeLn("semeval2015-3/svmlighttk/b/" + suffix + "/"
+					+ label.replaceAll(" ", "_") + ".svm",
+					output);
+		}
 	}
 	
 	public List<Double> serializeFv(FeatureVector fv) {
@@ -621,21 +588,30 @@ public class Baseline {
 		return features;
 	}
 	
-	/**
-	 * Load stopwords from a file containing one word per line 
-	 * @param stopwordsPath the path of the file
-	 * @return the stopwords set
-	 */
-	public static  Set<String> loadStopwords(String stopwordsPath) {
-		Set<String> stopwords = new HashSet<>();
+	public JCas getPreliminarCas(Analyzer analyzer, JCas emptyCas,
+			String sentenceId, String sentence) {
+		this.preliminaryCas.reset();
 		
-		ReadFile in = new ReadFile(stopwordsPath);
-		while(in.hasNextLine()) {
-			String word = in.nextLine().trim();
-			stopwords.add(word);
-		}
-		in.close();
+		/**
+		 * Without this the annotator fails badly
+		 */
+		sentence = sentence.replaceAll("/", "");
+		sentence = sentence.replaceAll("~", "");
+
+		// Carry out preliminary analysis
+		Analyzable content = new SimpleContent(sentenceId, sentence, ArabicAnalyzer.ARABIC_LAN);
 		
-		return stopwords;
+		analyzer.analyze(this.preliminaryCas, content);
+		
+		// Copy data to a new CAS and use normalized text as DocumentText
+		emptyCas.reset();	
+		emptyCas.setDocumentLanguage(ArabicAnalyzer.ARABIC_LAN);
+	
+		CasCopier.copyCas(this.preliminaryCas.getCas(), emptyCas.getCas(), false);
+	
+		String normalizedText = JCasUtil.selectSingle(this.preliminaryCas, NormalizedText.class).getText();
+		emptyCas.setDocumentText(normalizedText);
+
+		return emptyCas;
 	}
 }
