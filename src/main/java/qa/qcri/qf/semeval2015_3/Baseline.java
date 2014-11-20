@@ -43,6 +43,7 @@ import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.type.NormalizedText;
 import util.Stopwords;
 import cc.mallet.types.Alphabet;
+import cc.mallet.types.AugmentableFeatureVector;
 import cc.mallet.types.FeatureVector;
 
 import com.google.common.base.Joiner;
@@ -66,7 +67,7 @@ public class Baseline {
 	 * SVMLightTK in order to train ad structural model with trees
 	 * and feature vectors.
 	 */
-	public static final boolean PRODUCE_SVMLIGHTTK_DATA = false;
+	public static final boolean PRODUCE_SVMLIGHTTK_DATA = true;
 	
 	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-train.xml";
@@ -266,6 +267,32 @@ public class Baseline {
 				
 				FeatureVector fv = pf.getPairFeatures(questionCas, commentCas, parameterList);
 				
+				/***************************************
+				 * * * * PLUG YOUR FEATURES HERE * * * *
+				 ***************************************/
+				
+				/**
+				 * fv is actually an AugmentableFeatureVector from the Mallet library
+				 * 
+				 * Internally the features are named so you must specify an unique identifier.
+				 * 
+				 * An example:
+				 * 
+				 * ((AugmentableFeatureVector) fv).add("your_super_feature_id", 42);
+				 * 
+				 * or:
+				 * 
+				 * AugmentableFeatureVector afv = (AugmentableFeatureVector) fv;
+				 * afv.add("your_super_feature_id", 42);
+				 * 
+				 */
+				
+
+				
+				/***************************************
+				 * * * * THANKS! * * * *
+				 ***************************************/
+				
 				/**
 				 * Produce output line
 				 */
@@ -455,6 +482,32 @@ public class Baseline {
 				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
 				
 				FeatureVector fv = pf.getPairFeatures(questionCas, commentCas, parameterList);
+				
+				/***************************************
+				 * * * * PLUG YOUR FEATURES HERE * * * *
+				 ***************************************/
+				
+				/**
+				 * fv is actually an AugmentableFeatureVector from the Mallet library
+				 * 
+				 * Internally the features are named so you must specify an unique identifier.
+				 * 
+				 * An example:
+				 * 
+				 * ((AugmentableFeatureVector) fv).add("your_super_feature_id", 42);
+				 * 
+				 * or:
+				 * 
+				 * AugmentableFeatureVector afv = (AugmentableFeatureVector) fv;
+				 * afv.add("your_super_feature_id", 42);
+				 * 
+				 */
+				
+
+				
+				/***************************************
+				 * * * * THANKS! * * * *
+				 ***************************************/
 				
 				/**
 				 * Produce output line
