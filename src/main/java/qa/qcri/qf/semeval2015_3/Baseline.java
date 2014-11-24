@@ -6,8 +6,10 @@ import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDesc
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.uima.UIMAException;
@@ -33,6 +35,7 @@ import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
+import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMANoPersistence;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.MarkTwoAncestors;
@@ -43,11 +46,11 @@ import qa.qcri.qf.trees.nodes.RichNode;
 import qa.qcri.qf.type.NormalizedText;
 import util.Stopwords;
 import cc.mallet.types.Alphabet;
-import cc.mallet.types.AugmentableFeatureVector;
 import cc.mallet.types.FeatureVector;
 
 import com.google.common.base.Joiner;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpChunker;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
@@ -68,6 +71,8 @@ public class Baseline {
 	 * and feature vectors.
 	 */
 	public static final boolean PRODUCE_SVMLIGHTTK_DATA = true;
+	
+	public static final boolean USE_QCRI_ALT_TOOLS = false;
 	
 	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-train.xml";
@@ -93,11 +98,15 @@ public class Baseline {
 	
 	private JCas preliminaryCas; // Used by the QCRI Arabic pipeline
 	
-	private PairFeatureFactory pf;
+	private PairFeatureFactoryArabic pfArabic;
+	
+	private PairFeatureFactoryEnglish pfEnglish;
 	
 	private Alphabet alphabet;
 	
 	private Stopwords stopwords;
+	
+	private Analyzer analyzer;
 	
 	public static void main(String[] args) throws IOException, UIMAException, SimilarityException {
 		/**
@@ -125,14 +134,14 @@ public class Baseline {
 		this.fm = new FileManager();
 		
 		this.alphabet = new Alphabet();
-
-		this.pf = new PairFeatureFactory(this.alphabet);
 	}
 	
 	public void runForArabic() throws UIMAException {	
 		this.stopwords = new Stopwords(Stopwords.STOPWORD_AR);
+		this.stopwords = new Stopwords("semeval2015-3/arabic-corpus-specific-stopwords.txt");
 		
-		this.pf.setupMeasures(RichNode.OUTPUT_PAR_TOKEN_LOWERCASE, this.stopwords);
+		this.pfArabic = new PairFeatureFactoryArabic(this.alphabet);
+		this.pfArabic.setupMeasures(RichNode.OUTPUT_PAR_TOKEN_LOWERCASE, this.stopwords);
 		
 		this.language = LANG_ARABIC;
 		
@@ -150,30 +159,30 @@ public class Baseline {
 		 * Instantiate the QCRI Analyzer, but for now we are
 		 * using the analysis engines instantiated later on
 		 */
-		Analyzer analyzer = new Analyzer(new UIMANoPersistence());
-		analyzer.addAE(AnalysisEngineFactory.createEngine(
+		if(USE_QCRI_ALT_TOOLS) {
+			this.analyzer = new Analyzer(new UIMANoPersistence());
+			analyzer.addAE(AnalysisEngineFactory.createEngine(
 				createEngineDescription(ArabicAnalyzer.class)));
-		
-		/**
-		 * Whitespace tokenizer. The Stanford Segmenter for Arabic
-		 * has a very bad bug and the tokenization is completely wrong.
-		 */
-		AnalysisEngine segmenter = createEngine(createEngineDescription(
-				WhitespaceTokenizer.class));
-		
-		/**
-		 * Stanford POS-Tagger
-		 */
-		AnalysisEngine postagger = createEngine(createEngineDescription(
+		} else {	
+			/**
+			 * Whitespace tokenizer. The Stanford Segmenter for Arabic
+			 * has a very bad bug and the tokenization is completely wrong.
+			 */
+			AnalysisEngine segmenter = createEngine(createEngineDescription(
+				WhitespaceTokenizer.class));	
+			/**
+			 * Stanford POS-Tagger
+			 */
+			AnalysisEngine postagger = createEngine(createEngineDescription(
 				StanfordPosTagger.class, StanfordPosTagger.PARAM_LANGUAGE, "ar",
 				StanfordPosTagger.PARAM_VARIANT, "accurate"));
-		
-		/**
-		 * Putting together the UIMA DKPro annotators
-		 */
-		this.analysisEngineList = new AnalysisEngine[2];
-		this.analysisEngineList[0] = segmenter;
-		this.analysisEngineList[1] = postagger;
+			/**
+			 * Putting together the UIMA DKPro annotators
+			 */
+			this.analysisEngineList = new AnalysisEngine[2];
+			this.analysisEngineList[0] = segmenter;
+			this.analysisEngineList[1] = postagger;
+		}
 		
 		try {
 			processArabicFile(analyzer, CQA_QL_TRAIN_AR, "train");
@@ -185,14 +194,7 @@ public class Baseline {
 		}	
 	}
 	
-	public void processArabicFile(Analyzer analyzer, String dataFile, String suffix) throws SimilarityException, UIMAException, IOException {
-		/**
-		 * QCRI Arabic Analyzer
-		 */
-		//AnalysisEngine arabicAnalyzer = createEngine(createEngineDescription(
-		//		ArabicAnalyzer.class));
-		//this.analysisEngineList[0] = arabicAnalyzer;
-		
+	public void processArabicFile(Analyzer analyzer, String dataFile, String suffix) throws SimilarityException, UIMAException, IOException {	
 		/**
 		 * We do not have a lemmatizer so we work with tokens
 		 */
@@ -227,19 +229,24 @@ public class Baseline {
 			String qid = question.attr("QID");
 			String qcategory = question.attr("QCATEGORY");
 			String qdate = question.attr("QDATE");		
-			String qsubject = question.getElementsByTag("QSubject").get(0).text();
-			String qbody = question.getElementsByTag("QBody").get(0).text();
+			String qsubject = question.getElementsByTag("QSubject").get(0).text()
+					.replaceAll("/", "")
+					.replaceAll("~", "");
+			String qbody = question.getElementsByTag("QBody").get(0).text()
+					.replaceAll("/", "")
+					.replaceAll("~", "");
 			
 			/**
 			 * Get analyzed text for question
 			 */
-			questionCas.reset();
-			questionCas.setDocumentLanguage("ar");
-			questionCas.setDocumentText(qsubject + ". " + qbody);
-			
-			SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
-			
-			//questionCas = this.getPreliminarCas(analyzer, questionCas, qid, qbody);
+			if(USE_QCRI_ALT_TOOLS) {
+				questionCas = this.getPreliminarCas(analyzer, questionCas, qid, qsubject + ". " + qbody);
+			} else {
+				questionCas.reset();
+				questionCas.setDocumentLanguage("ar");
+				questionCas.setDocumentText(qsubject + ". " + qbody);				
+				SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
+			}
 			
 			/**
 			 * Parse answer nodes
@@ -248,24 +255,28 @@ public class Baseline {
 			for(Element comment : comments) {
 				String cid = comment.attr("CID");
 				String cgold = comment.attr("CGOLD");
-				String cbody = comment.text();
+				String cbody = comment.text()
+						.replaceAll("/", "")
+						.replaceAll("~", "");;
 				
 				/**
 				 * Get analyzed text for comment
 				 */
-				commentCas.reset();
-				commentCas.setDocumentLanguage("ar");
-				commentCas.setDocumentText(cbody);
-				
-				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
-				
-				//commentCas = this.getPreliminarCas(analyzer, commentCas, cid, cbody);		
+				if(USE_QCRI_ALT_TOOLS) {
+					commentCas = this.getPreliminarCas(analyzer, commentCas, cid, cbody);
+				} else {
+					commentCas.reset();
+					commentCas.setDocumentLanguage("ar");
+					commentCas.setDocumentText(cbody);
+					
+					SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
+				}
 				
 				/**
 				 * Compute features between question and comment
 				 */
 				
-				FeatureVector fv = pf.getPairFeatures(questionCas, commentCas, parameterList);
+				FeatureVector fv = pfArabic.getPairFeatures(questionCas, commentCas, parameterList);
 				
 				/***************************************
 				 * * * * PLUG YOUR FEATURES HERE * * * *
@@ -322,11 +333,12 @@ public class Baseline {
 		out.close();
 	}
 	
-	public void runForEnglish() throws ResourceInitializationException {
+	public void runForEnglish() throws UIMAException {
 		
 		this.stopwords = new Stopwords(Stopwords.STOPWORD_EN);
 		
-		this.pf.setupMeasures(RichNode.OUTPUT_PAR_LEMMA, this.stopwords);
+		this.pfEnglish = new PairFeatureFactoryEnglish(this.alphabet);
+		this.pfEnglish.setupMeasures(RichNode.OUTPUT_PAR_LEMMA, this.stopwords);
 		
 		this.language = LANG_ENGLISH;
 		
@@ -364,6 +376,11 @@ public class Baseline {
 		this.analysisEngineList[1] = postagger;
 		this.analysisEngineList[2] = chunker;
 		this.analysisEngineList[3] = lemmatizer;
+		
+		this.analyzer = new Analyzer(new UIMAFilePersistence("CASes/semeval"));
+		for(AnalysisEngine ae : this.analysisEngineList) {
+			analyzer.addAE(ae);
+		}
 		
 		try {
 			this.processEnglishFile(CQA_QL_TRAIN_EN, "train");
@@ -422,6 +439,9 @@ public class Baseline {
 		
 		Document doc = Jsoup.parse(new File(dataFile), "UTF-8");
 		
+		doc.select("QURAN").remove();
+		doc.select("HADEETH").remove();
+		
 		boolean firstRow = true;
 		
 		/**
@@ -430,6 +450,8 @@ public class Baseline {
 		Elements questions = doc.getElementsByTag("Question");		
 		int numberOfQuestions = questions.size();
 		int questionNumber = 1;
+		
+		Map<String, Boolean> commentIsDialogue = new HashMap<>();
 		
 		for(Element question : questions) {
 			System.out.println("[INFO]: Processing " + questionNumber++ + " out of " + numberOfQuestions);
@@ -457,6 +479,8 @@ public class Baseline {
 			 */
 			SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
 			
+			//this.analyzer.analyze(questionCas, new SimpleContent("q-" + qid, qsubject + ". " + qbody));
+			
 			/**
 			 * Parse comment nodes
 			 */
@@ -481,7 +505,9 @@ public class Baseline {
 				 */
 				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
 				
-				FeatureVector fv = pf.getPairFeatures(questionCas, commentCas, parameterList);
+				//this.analyzer.analyze(commentCas, new SimpleContent("c-" + cid, csubject + ". " + cbody));
+				
+				FeatureVector fv = pfEnglish.getPairFeatures(questionCas, commentCas, parameterList);
 				
 				/***************************************
 				 * * * * PLUG YOUR FEATURES HERE * * * *
@@ -503,7 +529,12 @@ public class Baseline {
 				 * 
 				 */
 				
-
+				boolean quseridEqCuserid = quserid.equals(cuserid);
+				if(quseridEqCuserid) {
+					commentIsDialogue.put(cid, true);
+				}
+				
+				//((AugmentableFeatureVector) fv).add("quseridEqCuserid", quseridEqCuserid);
 				
 				/***************************************
 				 * * * * THANKS! * * * *
@@ -536,6 +567,10 @@ public class Baseline {
 						qid, cid, cgold, cgold_yn, features);
 				}
 			}
+		}
+		
+		for(String commentId : commentIsDialogue.keySet()) {
+			this.fm.writeLn(dataFile + ".dialogue.txt", commentId);
 		}
 
 		this.fm.closeFiles();
