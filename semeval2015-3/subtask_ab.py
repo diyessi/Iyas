@@ -24,8 +24,8 @@ def main():
 		print "You will find the script output in the current directory."
 		sys.exit()
 	else:
-		#subtask_a(sys.argv[1], sys.argv[2])	
-		subtask_b(sys.argv[1], sys.argv[2])	
+		subtask_a(sys.argv[1], sys.argv[2])	
+		#subtask_b(sys.argv[1], sys.argv[2])	
 
 def subtask_a(train, test):
 	train_ids, train_gold, train_data = read_data_subtask_a(train)
@@ -33,12 +33,17 @@ def subtask_a(train, test):
 	
 	classifiers = []
 	
+	#  best hyperparams:
+	#  C = 10.0
+	#  tol = 0.001
+	#  CV F1: 21.46%
+	
 	Cs = np.logspace(-5, 0, 11).tolist()
 	Cs.extend([1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3])
-	tolerances = [1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3]
+	tolerances = [1e-3]
 	for c in Cs:
 		for tolerance in tolerances:
-			classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, tol=tolerance, random_state=RANDOM_STATE)))
+			classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, tol=tolerance, random_state=RANDOM_STATE), n_jobs=2))
 
 	clf = gridSearchByField_a(classifiers, train_ids, train_gold, train_data, n_folds=5)
 	
@@ -50,8 +55,13 @@ def subtask_a(train, test):
 	
 	print "Script F1:", f1 + "%"
 	
+	dialogue_ids = set([line.strip() for line in open("data/"
+			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-devel.xml.dialogue.txt", "r")])
+	
 	with open("subtask_a.pred", "w") as out:
 		for test_id, prediction in zip(test_ids, predictions):
+			if test_id in dialogue_ids:
+				prediction = "Dialogue"
 			out.write(str(test_id) + "\t" + str(prediction) + "\n")
 			
 def gridSearchByField_a(classifiers, train_ids, train_gold, train_data, n_folds=5):
@@ -63,6 +73,9 @@ def gridSearchByField_a(classifiers, train_ids, train_gold, train_data, n_folds=
 	best_f1 = 0.0
 	
 	for clf in classifiers:
+		
+		print "[TRAINING]:", clf.estimator.__class__.__name__, "with: C =", \
+			clf.estimator.C, "tol =", clf.estimator.tol
 		
 		f1s = []
 		
@@ -87,8 +100,9 @@ def gridSearchByField_a(classifiers, train_ids, train_gold, train_data, n_folds=
 		if mean_f1 > best_f1:
 			best_classifier = clf
 			best_f1 = mean_f1
-			print best_classifier
-			print "CV F1: " + str(float("{0:2.2f}".format(best_f1 * 100))) + "%\n-\n"
+			print "[SELECTED]:", clf.estimator.__class__.__name__, \
+				"with: C =", clf.estimator.C, "tol =", clf.estimator.tol, \
+				"| CV F1: " + str(float("{0:2.2f}".format(best_f1 * 100))) + "%"
 	
 	return best_classifier
 			
@@ -98,13 +112,17 @@ def subtask_b(train, test):
 	
 	classifiers = []
 	
+	#  best hyperparams:
+	#  C = 1.0
+	#  tol = 10.0
+	#  CV F1: 34.26%
+	
 	Cs = np.logspace(-5, 0, 11).tolist()
 	Cs.extend([1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3])
-	tolerances = [1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3]
-	#tolerances = [1]
+	tolerances = [1e1]
 	for c in Cs:
 		for tolerance in tolerances:
-			classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, tol=tolerance, random_state=RANDOM_STATE)))
+			classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, tol=tolerance, random_state=RANDOM_STATE), n_jobs=1))
 
 	clf = gridSearchByField_b(classifiers, train_ids, train_gold, train_data, n_folds=5)
 	
@@ -158,6 +176,9 @@ def gridSearchByField_b(classifiers, train_ids, train_gold, train_data, n_folds=
 	
 	for clf in classifiers:
 		
+		print "[TRAINING]:", clf.estimator.__class__.__name__, "with: C =", \
+			clf.estimator.C, "tol =", clf.estimator.tol
+		
 		f1s = []
 		
 		for fold_ids in slice_it(unique_ids, n_folds):
@@ -181,8 +202,9 @@ def gridSearchByField_b(classifiers, train_ids, train_gold, train_data, n_folds=
 		if mean_f1 > best_f1:
 			best_classifier = clf
 			best_f1 = mean_f1
-			print best_classifier
-			print "CV F1: " + str(float("{0:2.2f}".format(best_f1 * 100))) + "%\n-\n"
+			print "[SELECTED]:", clf.estimator.__class__.__name__, \
+				"with: C =", clf.estimator.C, "tol =", clf.estimator.tol, \
+				"| CV F1: " + str(float("{0:2.2f}".format(best_f1 * 100))) + "%"
 	
 	return best_classifier
 	

@@ -3,6 +3,7 @@ package qa.qcri.qf.features;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.camel.support.TokenPairExpressionIterator;
 import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.features.providers.BowProvider;
@@ -27,9 +28,11 @@ import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramContainm
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.ngrams.WordNGramJaccardMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.CosineSimilarity;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.GreedyStringTiling;
+import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.JaroWinklerSecondStringComparator;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubsequenceComparator;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubsequenceNormComparator;
 import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubstringComparator;
+import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.MongeElkanSecondStringComparator;
 
 /**
  * 
@@ -87,7 +90,8 @@ public class PairFeatureFactory {
 		 * computing the features (e.g. we would like to compute cosine
 		 * similarity between stems and lemmas
 		 */
-		Representation tokens = new TokenRepresentation(parameterList, stopwords);
+		Representation tokens = new TokenRepresentation(parameterList, new Stopwords());
+		Representation tokensNoStopwords = new TokenRepresentation(parameterList, stopwords);
 		Representation trees = new PosChunkTreeRepresentation(parameterList);
 		
 		Representation postags = new TokenRepresentation(RichNode.OUTPUT_PAR_POSTAG, stopwords);
@@ -144,6 +148,12 @@ public class PairFeatureFactory {
 		this.addTermMeasure(new LongestCommonSubsequenceComparator(), tokens);
 		this.addTermMeasure(new LongestCommonSubsequenceNormComparator(), tokens);
 		this.addTermMeasure(new LongestCommonSubstringComparator(), tokens);
+		
+		this.addTermMeasure(new GreedyStringTiling(3), tokensNoStopwords);
+		this.addTermMeasure(new LongestCommonSubsequenceComparator(), tokensNoStopwords);
+		this.addTermMeasure(new LongestCommonSubsequenceNormComparator(), tokensNoStopwords);
+		this.addTermMeasure(new LongestCommonSubstringComparator(), tokensNoStopwords);
+		
 		/**
 		 * n-grams
 		 */
@@ -153,6 +163,13 @@ public class PairFeatureFactory {
 		this.addTextMeasure(new WordNGramJaccardMeasure(4), tokens);
 		this.addTextMeasure(new WordNGramContainmentMeasure(1), tokens);
 		this.addTextMeasure(new WordNGramContainmentMeasure(2), tokens);
+		
+		this.addTextMeasure(new WordNGramJaccardMeasure(1), tokensNoStopwords);
+		this.addTextMeasure(new WordNGramJaccardMeasure(2), tokensNoStopwords);
+		this.addTextMeasure(new WordNGramJaccardMeasure(3), tokensNoStopwords);
+		this.addTextMeasure(new WordNGramJaccardMeasure(4), tokensNoStopwords);
+		this.addTextMeasure(new WordNGramContainmentMeasure(1), tokensNoStopwords);
+		this.addTextMeasure(new WordNGramContainmentMeasure(2), tokensNoStopwords);
 
 		/**
 		if(this.idfValuesPath != null) {
@@ -164,7 +181,12 @@ public class PairFeatureFactory {
 				e.printStackTrace();
 		}
 		*/
-
+		
+		this.addTextMeasure(new MongeElkanSecondStringComparator(), tokens);
+		this.addTextMeasure(new JaroWinklerSecondStringComparator(), tokens);
+		
+		this.addTextMeasure(new MongeElkanSecondStringComparator(), tokensNoStopwords);
+		this.addTextMeasure(new JaroWinklerSecondStringComparator(), tokensNoStopwords);
 		 
 		/**
 		 * ESA_Wiktionary ESA_WordNet
@@ -174,11 +196,12 @@ public class PairFeatureFactory {
 		 * Additional DKPro features
 		 */
 		this.addTermMeasure(new CosineSimilarity(), tokens);
+		this.addTermMeasure(new CosineSimilarity(), tokensNoStopwords);
 
 		/**
 		 * iKernels features
 		 */
-		this.addTermMeasure(new PTKSimilarity(), trees);
+		//this.addTermMeasure(new PTKSimilarity(), trees);
 	}
 
 	public FeatureVector getPairFeatures(JCas aCas, JCas bCas,

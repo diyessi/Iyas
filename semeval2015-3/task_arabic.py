@@ -3,14 +3,14 @@ import pandas as pd
 import sys
 import random
 
-from sklearn.multiclass import OneVsRestClassifier
+from sklearn.multiclass import OneVsRestClassifier, OneVsOneClassifier
 from sklearn import svm
 from sklearn import linear_model as lm
 from sklearn import ensemble
 from sklearn import tree
 from sklearn import preprocessing
 from sklearn.utils import assert_all_finite
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, accuracy_score
 from sklearn.grid_search import GridSearchCV
 
 RANDOM_STATE = 123
@@ -24,7 +24,7 @@ def main():
 		print "You will find the script output in the current directory."
 		sys.exit()
 	else:
-		task(sys.argv[1], sys.argv[2])	
+		task_hc(sys.argv[1], sys.argv[2])	
 
 def task(train, test):
 	train_ids, train_gold, train_data = read_data(train)
@@ -32,11 +32,9 @@ def task(train, test):
 		
 	classifiers = []
 	
-	Cs = np.logspace(-5, 0, 11).tolist()
+	Cs = np.logspace(0, 1, 20).tolist()
 	for c in Cs:
-		classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c)))
-	for n_estimators in [120]:
-		classifiers.append(OneVsRestClassifier(ensemble.AdaBoostClassifier(n_estimators=n_estimators)))
+		classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, random_state=RANDOM_STATE), n_jobs=2))
 
 	clf = gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=5)
 	
@@ -52,6 +50,63 @@ def task(train, test):
 		for test_id, prediction in zip(test_ids, predictions):
 			out.write(str(test_id) + "\t" + str(prediction) + "\n")
 			
+def task_hc(train, test):
+	train_ids, train_gold, train_data = read_data(train)
+	test_ids, test_gold, test_data = read_data(test)
+		
+	classifiers = []
+	
+	Cs = [0.001, 0.01, 0.1, 1, 10, 100, 1000]
+	for c in Cs:
+		classifiers.append(svm.LinearSVC(C=c, random_state=RANDOM_STATE))
+		
+	train_gold_lvl_1 = [1 if label == "direct" or label == "related" else 0 for label in train_gold]
+	
+	clf_1 = gridSearchByField(classifiers, train_ids, train_gold_lvl_1, train_data, n_folds=5)
+	clf_1.fit(train_data, train_gold_lvl_1)
+	
+	###################################################################
+	
+	classifiers = []
+	
+	Cs = [0.001, 0.01, 0.1, 1, 10, 100, 1000]
+	for c in Cs:
+		classifiers.append(svm.LinearSVC(C=c, random_state=RANDOM_STATE))
+	
+	train_data["ids"] = train_ids
+	train_data["gold"] = train_gold
+	train_data = train_data[train_data["gold"] != "irrelevant"]
+	
+	train_ids = train_data["ids"].values.tolist()
+	train_gold = train_data["gold"].values.tolist()
+	train_data = train_data.drop("ids", 1)
+	train_data = train_data.drop("gold", 1)
+	
+	train_gold = [1 if label == "direct" else 0 for label in train_gold]
+	
+	clf_2 = gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=5)
+	clf_2.fit(train_data, train_gold)
+	
+	predictions = []
+	
+	for index in xrange(test_data.shape[0]):
+		row = test_data[index:index+1]
+		prediction = clf_1.predict(row)
+		if prediction == 1:
+			prediction = clf_2.predict(row)
+			if prediction == 1:
+				prediction = "direct"
+			else:
+				prediction = "related"
+		else:
+			prediction = "irrelevant"
+		predictions.append(prediction)
+	
+	with open("task_arabic.pred", "w") as out:
+		for test_id, prediction in zip(test_ids, predictions):
+			out.write(str(test_id) + "\t" + str(prediction) + "\n")
+	
+			
 def gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=5):
 	ids = [id.split("-")[0] for id in train_ids]
 	unique_ids = list(set(ids))
@@ -61,6 +116,8 @@ def gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=5)
 	best_f1 = 0.0
 	
 	for clf in classifiers:
+		
+		print "[TRAINING]:", clf.__class__.__name__, "with: C =", clf.C, "tol =", clf.tol
 		
 		f1s = []
 		
@@ -85,8 +142,8 @@ def gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=5)
 		if mean_f1 > best_f1:
 			best_classifier = clf
 			best_f1 = mean_f1
-			print best_classifier
-			print "CV F1: " + str(float("{0:2.2f}".format(best_f1 * 100))) + "%\n-\n"
+			print "[SELECTED]:", clf.__class__.__name__, "with: C =", clf.C, "tol =", clf.tol, \
+				"| CV F1: " + str(float("{0:2.2f}".format(best_f1 * 100))) + "%"
 	
 	return best_classifier
 	
