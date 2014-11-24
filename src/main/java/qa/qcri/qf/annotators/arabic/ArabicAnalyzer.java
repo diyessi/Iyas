@@ -75,6 +75,7 @@ public class ArabicAnalyzer extends JCasAnnotator_ImplBase {
 				token.addToIndexes(cas);
 				
 				// Named entity extraction
+				/*
 				String bioTag = arabicToken.getBioTag();
 				
 				bioTags.add(bioTag);
@@ -112,6 +113,7 @@ public class ArabicAnalyzer extends JCasAnnotator_ImplBase {
 				} else {
 					ne = null;
 				}
+				*/
 			}
 			
 			for(NamedEntity namedEntity : nes) {
