@@ -25,7 +25,7 @@ def main():
 		sys.exit()
 	else:
 		subtask_a(sys.argv[1], sys.argv[2])	
-		#subtask_b(sys.argv[1], sys.argv[2])	
+		subtask_b(sys.argv[1], sys.argv[2])	
 
 def subtask_a(train, test):
 	train_ids, train_gold, train_data = read_data_subtask_a(train)
@@ -43,7 +43,7 @@ def subtask_a(train, test):
 	tolerances = [1e-3]
 	for c in Cs:
 		for tolerance in tolerances:
-			classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, tol=tolerance, random_state=RANDOM_STATE), n_jobs=2))
+			classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, tol=tolerance, random_state=RANDOM_STATE), n_jobs=-1))
 
 	clf = gridSearchByField_a(classifiers, train_ids, train_gold, train_data, n_folds=5)
 	
@@ -122,7 +122,7 @@ def subtask_b(train, test):
 	tolerances = [1e1]
 	for c in Cs:
 		for tolerance in tolerances:
-			classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, tol=tolerance, random_state=RANDOM_STATE), n_jobs=1))
+			classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, tol=tolerance, random_state=RANDOM_STATE), n_jobs=-1))
 
 	clf = gridSearchByField_b(classifiers, train_ids, train_gold, train_data, n_folds=5)
 	

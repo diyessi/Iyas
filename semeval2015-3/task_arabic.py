@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import sys
 import random
+import math
 
 from sklearn.multiclass import OneVsRestClassifier, OneVsOneClassifier
 from sklearn import svm
@@ -24,7 +25,7 @@ def main():
 		print "You will find the script output in the current directory."
 		sys.exit()
 	else:
-		task_hc(sys.argv[1], sys.argv[2])	
+		task_hamdy(sys.argv[1], sys.argv[2])	
 
 def task(train, test):
 	train_ids, train_gold, train_data = read_data(train)
@@ -34,17 +35,66 @@ def task(train, test):
 	
 	Cs = np.logspace(0, 1, 20).tolist()
 	for c in Cs:
-		classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, random_state=RANDOM_STATE), n_jobs=2))
+		classifiers.append(OneVsRestClassifier(svm.LinearSVC(C=c, random_state=RANDOM_STATE), n_jobs=-1))
 
 	clf = gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=5)
 	
 	clf.fit(train_data, train_gold)
-	predictions = clf.predict(test_data)	
+	predictions = clf.predict(test_data)
+	
+	print predictions
 	
 	f1 = f1_score(test_gold, predictions, average="macro")
 	f1 = str(float("{0:2.2f}".format(f1 * 100)))
 	
 	print "Script F1:", f1 + "%"
+	
+	with open("task_arabic.pred", "w") as out:
+		for test_id, prediction in zip(test_ids, predictions):
+			out.write(str(test_id) + "\t" + str(prediction) + "\n")
+			
+def task_hamdy(train, test):
+	train_ids, train_gold, train_data = read_data(train)
+	test_ids, test_gold, test_data = read_data(test)
+	
+	train_gold = [1 if label == "direct" else 0 for label in train_gold]
+	test_gold = [1 if label == "direct" else 0 for label in test_gold]
+		
+	classifiers = []
+	
+	Cs = [46, 87, 90]
+	for c in Cs:
+		for tol in [0.0001]:
+			classifiers.append(lm.LogisticRegression(C=c, tol=tol, random_state=RANDOM_STATE))
+	
+	clf = gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=100)	
+	clf.fit(train_data, train_gold)
+	scores = clf.decision_function(test_data)
+	
+	id_to_pred = {test_id.split("-")[0] : [] for test_id in test_ids}
+	
+	test_id_to_label = {}
+	predictions = []
+	
+	for test_id, score in zip(test_ids, scores):
+		full_id = test_id
+		test_id = test_id.split("-")[0]
+		id_to_pred[test_id].append((score, len(id_to_pred[test_id]), full_id))
+		
+	for test_id in id_to_pred:
+		id_to_pred[test_id].sort(key=lambda tup: tup[0], reverse=True)
+		direct_full_id = id_to_pred[test_id][0][2]
+		test_id_to_label[direct_full_id] = "direct"
+		if len(id_to_pred[test_id]) > 1:
+			related_full_id = id_to_pred[test_id][1][2]
+			test_id_to_label[related_full_id] = "related"
+			
+	predictions = []
+	for test_id in test_ids:
+		if test_id in test_id_to_label:
+			predictions.append(test_id_to_label[test_id])
+		else:
+			predictions.append("irrelevant")
 	
 	with open("task_arabic.pred", "w") as out:
 		for test_id, prediction in zip(test_ids, predictions):
@@ -106,7 +156,6 @@ def task_hc(train, test):
 		for test_id, prediction in zip(test_ids, predictions):
 			out.write(str(test_id) + "\t" + str(prediction) + "\n")
 	
-			
 def gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=5):
 	ids = [id.split("-")[0] for id in train_ids]
 	unique_ids = list(set(ids))
@@ -117,7 +166,8 @@ def gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=5)
 	
 	for clf in classifiers:
 		
-		print "[TRAINING]:", clf.__class__.__name__, "with: C =", clf.C, "tol =", clf.tol
+		if hasattr(clf, "C"):
+			print "[TRAINING]:", clf.__class__.__name__, "with: C =", clf.C, "tol =", clf.tol
 		
 		f1s = []
 		
@@ -142,8 +192,9 @@ def gridSearchByField(classifiers, train_ids, train_gold, train_data, n_folds=5)
 		if mean_f1 > best_f1:
 			best_classifier = clf
 			best_f1 = mean_f1
-			print "[SELECTED]:", clf.__class__.__name__, "with: C =", clf.C, "tol =", clf.tol, \
-				"| CV F1: " + str(float("{0:2.2f}".format(best_f1 * 100))) + "%"
+			if hasattr(clf, "C"):
+				print "[SELECTED]:", clf.__class__.__name__, "with: C =", clf.C, "tol =", clf.tol, \
+					"| CV F1: " + str(float("{0:2.2f}".format(best_f1 * 100))) + "%"
 	
 	return best_classifier
 	
