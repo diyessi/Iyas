@@ -349,7 +349,7 @@ IYAS integrates several components built by the iKernels group at the University
 
 \subsection[Limosine project]{Limosine project}
 
-Limosine is an European project that integrates the research activities of leading researchers across diverse topics with a view to enabling new kinds of language-based search technology. The University of Trento is responsible of the information extraction through deep linguistic analysis module of the software platform developed in the project context. The main objective of the module is to provide semantic representations based on deep linguistic processing. The semantic model is based on disambiguated entities, relations between them, subjective expressions, opinion holders and relations among these pieces of semantic information. IYAS supports the NLP components developed within Limosine. 
+Limosine is an European project that integrates the research activities of leading researchers across diverse topics with a view to enabling new kinds of language-based search technology. The University of Trento is responsible of the information extraction through deep linguistic analysis module of the software platform developed in the project context. The main objective of the module is to provide semantic representations based on deep linguistic processing. The semantic model is based on disambiguated entities, relations between them, subjective expressions, opinion holders and relations among these pieces of semantic information. IYAS supports the NLP components developed within Limosine. UIMA types definition and several annotation converters are provided.
 
 \chapter[IYAS Installation]
 {IYAS Installation}
@@ -375,11 +375,6 @@ You will need some additional UIMA plugins. The instructions for installing Ecli
 IYAS can be downloaded from the private Github repository of the Qatar Computing Research Institute. You must request permission to access this repository. You can clone the repository with the command:\\\\
 \texttt{\small git clone git@github.com:Qatar-Computing-Research-Institute/Iyas.git}
 
-\subsection[Getting the IYAS distribution]{Getting the IYAS distribution}
-Access to a packaged distribution of IYAS (a compressed snapshot of the Github repository) is given at this link:
-\\\\
-\texttt{https://dl.dropboxusercontent.com/u/12803333/Iyas-master.zip}
-
 \section[Importing IYAS in Eclipse]{Importing IYAS in Eclipse}
 IYAS is a Maven project. You should import it into Eclipse using the Eclipse import wizard. Select \texttt{File -> Import -> Existing Maven Projects}. Make sure Eclipse is using the 1.7 version of the JDK.
 
@@ -394,11 +389,11 @@ After all the types are generated you can run \texttt{setup-types.sh}. This scri
 
 The IYAS distribution contains several scripts for downloading and installing external software.
 
-\subsection[QCRI and Limosine software]{QCRI and Limosine software}
+\subsection[QCRI software]{QCRI software}
 
 Go to the \texttt{resources/} folder.
 \\\\
-\texttt{download-resources.sh} will download the archives containing the QCRI and Limosine software. QCRI software can be found at \textit{alt.qcri.org}. Limosine is hosted on a cloud service.
+\texttt{download-resources.sh} will download the archives containing the QCRI. QCRI software can be found at \textit{alt.qcri.org}.
 \\\\
 \texttt{install-resources.sh} will decompress the archive, move files and carry out some installation procedures and compiling. 
 
@@ -434,11 +429,11 @@ Go to \texttt{~/.m2} directory and run:
 
 \subsection[CRFPP]{CRFPP}
 
-These are common problems when compiling CRFPP.
+These are common problems when compiling the Java wrapper for CRFPP. Notice that we are building the Java Archive providing a JNI wrapper of CRFPP. Thus, only consider the content in the \texttt{CRF++-0.58/java/Makefile} folder.
 \\\\
 \textbf{Unable to locate jni.h}
 \\\\
-Solution: type \texttt{locate jni} and put the jni path in the \texttt{CRF++-0.58/java/Makefile}
+Solution: type \texttt{locate jni} and put the jni path in the \texttt{CRF++-0.58/java/Makefile}. The \texttt{INCLUDE} variable must be set to the path of the jni file.
 \\\\
 \textbf{Compiling CRFPP: cannot find crfpp.h}
 \\\\
