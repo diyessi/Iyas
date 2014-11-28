@@ -1,6 +1,7 @@
 package qa.qcri.qf.trees.nodes;
 
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 /**
@@ -82,7 +83,10 @@ public class RichTokenNode extends BaseRichNode {
 				} else if (output.equals(")")) {
 					output = "-RRB-";
 				} else {
-					output = this.token.getLemma().getValue(); 
+					Lemma lemma = this.token.getLemma();
+					if(lemma != null) {
+						output = lemma.getValue();
+					}
 				}
 				break;
 			case RichNode.OUTPUT_PAR_STEM:
