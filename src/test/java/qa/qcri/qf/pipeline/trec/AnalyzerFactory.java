@@ -1,12 +1,16 @@
 package qa.qcri.qf.pipeline.trec;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngine;
+import qa.qcri.qf.italian.syntax.constituency.BerkeleyWrapper;
 
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
@@ -17,12 +21,16 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 import qa.qcri.qf.annotators.IllinoisChunker;
 import qa.qcri.qf.annotators.QuestionClassifier;
 import qa.qcri.qf.annotators.QuestionFocusClassifier;
+import qa.qcri.qf.chunker.ConstituencyTreeChunker;
 import qa.qcri.qf.pipeline.Analyzer;
+import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 
 public abstract class AnalyzerFactory {
 
 	public static final String QUESTION_ANALYSIS = "QUESTION_ANALYSIS";
+	private static final Logger logger = LoggerFactory
+			.getLogger(AnalyzerFactory.class);
 
 	public static Analyzer newTrecPipeline(String lang,
 			UIMAPersistence persistence) throws UIMAException {
@@ -40,12 +48,15 @@ public abstract class AnalyzerFactory {
 
 		switch (lang) {
 		case "en":
+			logger.info("instantiating en analyzer");
 			analyzer = newTrecPipelineEnAnalyzer(persistence);
 			break;
 		case "it":
+			logger.info("instantiating it analyzer");
 			analyzer = newTrecPipelineItAnalyzer(persistence);
 			break;
 		default:
+			logger.info("instantiating en analyzer (default)");
 			analyzer = newTrecPipelineEnAnalyzer(persistence);
 			break;
 		}
@@ -117,10 +128,16 @@ public abstract class AnalyzerFactory {
 		assert persistence != null;
 
 		Analyzer ae = new Analyzer(persistence);
+		final String GRAMMAR_FILE = "tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian/tutall-fulltrain";
 
 		try {
-			ae.addAEDesc(createEngineDescription("desc/Limosine/TextProFixAllInOneDescriptor"))
-				.addAEDesc(createEngineDescription("desc/Limosine/BerkeleyITDescriptor"));
+			ae.addAEDesc(createEngineDescription("desc/Iyas/TextProAllInOneDescriptor"));
+			ae.addAEDesc(createEngineDescription("desc/Iyas/BerkeleyITDescriptor",
+					BerkeleyWrapper.PARAM_GRAMMARFILE, GRAMMAR_FILE,
+					BerkeleyWrapper.PARAM_ACCURATE, true,
+					BerkeleyWrapper.PARAM_MAXLENGTH, 250,
+					BerkeleyWrapper.PARAM_USEGOLDPOS, true));
+			ae.addAE(createEngine(ConstituencyTreeChunker.class));
 		} catch (IOException e) {
 			throw new UIMAException(e);
 		}

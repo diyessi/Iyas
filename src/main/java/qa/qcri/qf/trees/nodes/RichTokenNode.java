@@ -15,9 +15,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
  */
 public class RichTokenNode extends BaseRichNode {
 
-	private Token token;
-
-	public RichTokenNode(Token token) {
+	private Token token;	public RichTokenNode(Token token) {
 		super();
 		this.token = token;
 		this.metadata.put(RichNode.TYPE_KEY, RichNode.TYPE_TOKEN_NODE);

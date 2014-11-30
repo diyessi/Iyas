@@ -123,5 +123,16 @@ public class BaseRichNode implements RichNode {
 	public String toString() {
 		return getRepresentation(this.value);
 	}
+
+	@Override
+	public boolean isPreterminal() {
+		return 	this.children.size() == 1 &&
+				this.children.get(0).isLeaf();
+	}
+
+	@Override
+	public RichNode getGrandParent() {
+		return this.getParent().getParent();
+	}
 	
 }

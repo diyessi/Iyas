@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.apache.tools.ant.taskdefs.Recorder.VerbosityLevelChoices;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -21,22 +22,33 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceAccessException;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Level;
+import org.uimafit.descriptor.ConfigurationParameter;
 
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 
 import java.nio.charset.*;
 import java.nio.CharBuffer;
 import java.nio.ByteBuffer;
 
 public class TextProWrapper extends JCasAnnotator_ImplBase {
-
+	
  	private String txpcommand="textpro.pl";
-//ToDo: change with a proper textpro command (using resources and environment variables)
- 	private String[] txpparams={"-l", "ita", "-c", "token+tokenstart+tokenend+sentence+pos+lemma+entity"};
+ 	
+ 	
+ 	public static final String PARAM_VERBOSE = "verbose";
+ 	/*
+ 	@ConfigurationParameter(name=PARAM_VERBOSE, defaultValue="false", description="verbose")
+ 	*/
+ 	public boolean verbose;
+ 	
+ 	
+ 	//ToDo: change with a proper textpro command (using resources and environment variables)
+ 	private String[] txpparams={"-l", "ita", "-c", "token+tokenstart+tokenend+sentence+pos+lemma+entity+chunk"};
  	private String txppath;
     String txpencoding = "ISO-8859-1"; // "Cp1252" = Windows Latin 1
 	
@@ -93,7 +105,6 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 
 		try {
 
-			
 			SharedModel sharedModel = (SharedModel) getContext().getResourceObject("RunTextPro");
 
 			getContext().getLogger().log(Level.INFO,
@@ -103,8 +114,7 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 
 			getContext().getLogger().log(Level.INFO, txppath);
 
-			
-			
+			verbose = (boolean) getContext().getConfigParameterValue(PARAM_VERBOSE);
 		} catch (ResourceAccessException e) {
 			e.printStackTrace();
 		}
@@ -161,17 +171,17 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 
         
 			for(String out : outGobbler.getOuput()) 
-				System.err.println(out.trim());
+				if (verbose) System.err.println(out.trim());
         
 			List<String> output = outGobbler.getOuput();
 			List<String> outputErr = errGobbler.getOuput();
         
 			for(String out : outputErr) 
-				System.err.println(out.trim());
+				if (verbose) System.err.println(out.trim());
         
-			System.err.println("RETURNED:");
+			if (verbose) System.err.println("RETURNED:");
 			for(String out : output) 
-				System.err.println(out.trim());
+				if (verbose) System.err.println(out.trim());
         
 			//parse textpro output
         
@@ -185,9 +195,12 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 		
 			boolean nestart=false;
 			NamedEntity ne = new NamedEntity(jcas);
+			
+			boolean chunkstart=false;
+			Chunk chunk = new Chunk(jcas);
      
 			for(String out : output) {
-				System.out.println("TEXTPRO OUTPUT: " +out);
+				if (verbose) System.out.println("TEXTPRO OUTPUT: " +out);
 				String[] txpvals = out.trim().split("\t");
 
 				// TOKEN
@@ -206,7 +219,7 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 					
 					for ( ; j < txpvals[0].length(); i++) { 
 						char ch = doctxt_utf.charAt(i);
-						System.out.printf("i: %d, ch(i): '%s', j: %d\n", i, ch, j);
+						//System.out.printf("i: %d, ch(i): '%s', j: %d\n", i, ch, j);
 						if (ch == txpvals[0].charAt(j)) {
 							if (tokenstart == -1) {
 								tokenstart = i;
@@ -218,7 +231,7 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 					//fixTokenSpan(txpval[0], lastTokenend, )
 				}
 				
-				System.out.println(doctxt_utf.substring(tokenstart, tokenend) + ", " + tokenstart + ", " + tokenend);
+				//System.out.println(doctxt_utf.substring(tokenstart, tokenend) + ", " + tokenstart + ", " + tokenend);
 				lastTokenend = tokenend;
 				
 				
@@ -288,7 +301,30 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 					ne.setValue(txp2ner(txpvals[6].substring(2,txpvals[6].length())));
 					//ne.setAnnotatorId(getClass().getCanonicalName()+":ner");				
 				}
-			
+				
+				// Chunk
+				// store finished/ongoing Chunks
+				if (chunkstart) { 
+					if (txpvals[7].startsWith("I-")) {
+						chunk.setEnd(token.getEnd());
+					} else {
+						//chunk.addToIndexes();
+						chunkstart = false;
+					}
+				}
+				// start new chunk
+			if (txpvals[7].startsWith("B-") || txpvals[7].startsWith("O")) {
+					chunkstart = true;
+					chunk = new Chunk(jcas);
+					chunk.setBegin(token.getBegin());
+					chunk.setEnd(token.getEnd());
+					if (txpvals[7].startsWith("B-"))
+						chunk.setChunkValue(txpvals[7].substring(2, txpvals[7].length()));
+					else 
+						chunk.setChunkValue("O");
+				}
+				
+						
 				// POS
 				POS pos = new POS(jcas);
 				pos.setBegin(token.getBegin());
@@ -313,6 +349,11 @@ public class TextProWrapper extends JCasAnnotator_ImplBase {
 			// store NE finishing at the last input line
 			if (nestart) 
 				ne.addToIndexes();
+			
+			// store chunk finishing at the last input line 
+			if (chunkstart) {
+				//chunk.addToIndexes();
+			}
 			       
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -158,6 +158,12 @@ function cv.test {
     java qa.qcri.qf.tools.questionclassifier.QuestionClassifierTestCV -testQuestionClassifierCVPath "$cvtestTestQuestionClassifierCVPath" -casesDir "$cvtestCasesDir" -testModelsDirCV "$cvtestTestModelsDirCV" -lang "$cvtestLang"
     echo "done"
 }
+   
+# print the value of a var
+function print {
+    var_name="$1"
+    echo "$var_name = \"${!var_name}\""
+}
 
 function cv.split {
     echo "inputFile: $cvsplitInputFile"
@@ -230,6 +236,9 @@ while [ -n "$(echo $1 | grep '-')" ]; do
         -cv.clean ) echo "-process option cv.clean"         
                  cv.clean "$2"
                  shift;;    
+        -print ) echo "-process option print"
+                print "$2"
+                shift;;
         -help ) echo "-process option help"
                 echo "$usage";;
         * ) echo 'usage: bash question_classifier.sh [-load config_file] [-train] [-learn] [-test] [-clean] [-cv.split] [-cv.train] [cv.learn] [-cv.test] [-cv.clean]'   

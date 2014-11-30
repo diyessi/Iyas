@@ -71,6 +71,19 @@ public interface RichNode {
 	 * @return the children node of this node
 	 */
 	public List<RichNode> getChildren();
+	
+	/**
+	 * 
+	 * @return true if the node is pre-terminal
+	 */
+	public boolean isPreterminal();
+	
+	/**
+	 * 
+	 * @return the grandparent node
+	 */
+	public RichNode getGrandParent();
+
 
 	/**
 	 * Adds a child to this node

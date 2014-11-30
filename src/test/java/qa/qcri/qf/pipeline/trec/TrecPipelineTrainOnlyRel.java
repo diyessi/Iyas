@@ -17,8 +17,7 @@ import org.apache.uima.UIMAException;
 import qa.qcri.qf.datagen.ngram.CharacterNGramIdf;
 import qa.qcri.qf.datagen.ngram.IdfModel;
 import qa.qcri.qf.datagen.rr.Reranking;
-import qa.qcri.qf.datagen.rr.RerankingTest;
-import qa.qcri.qf.datagen.rr.RerankingTrain;
+import qa.qcri.qf.datagen.rr.RerankingTrainOnlyRel;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
@@ -36,7 +35,7 @@ import cc.mallet.types.Alphabet;
 import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 
-public class TrecPipelineRunner {
+public class TrecPipelineTrainOnlyRel {
 
 	private static final String HELP_OPT = "help";
 	private static final String LANG = "lang";
@@ -45,15 +44,10 @@ public class TrecPipelineRunner {
 	private static final String TRAINING_CANDIDATES_PATH_OPT = "trainCandidatesPath";
 	private static final String TRAINING_CASES_DIR_OPT = "trainCasesDir";
 	private static final String TRAINING_OUTPUT_DIR_OPT = "trainOutputDir";
-	private static final String TEST_QUESTIONS_PATH_OPT = "testQuestionsPath";
-	private static final String TEST_CANDIDATES_PATH_OPT = "testCandidatesPath";
-	private static final String TEST_CASES_DIR_OPT = "testCasesDir";
-	private static final String TEST_OUTPUT_DIR_OPT = "testOutputDir";
 	private static final String CANDIDATES_TO_KEEP_IN_TRAIN_OPT = "candidatesToKeepInTrain";
-	private static final String CANDIDATES_TO_KEEP_IN_TEST_OPT = "candidatesToKeepInTest";
 	private static final String SKIP_SERIALIZATION_CHECK_OPT = "skipSerializationCheck";
 	
-	/* Stopwords files */
+	/* Stop-words files */
 	private static final String STOPWORDS_EN_PATH = "resources/stoplist-en.txt";
 	private static final String STOPWORDS_IT_PATH = "resources/stoplist-it.txt";
 
@@ -72,20 +66,6 @@ public class TrecPipelineRunner {
 				"The path where training CASes are stored (this enables file persistence)");
 		options.addOption(TRAINING_OUTPUT_DIR_OPT, true,
 				"The path where the training files will be stored");
-
-		options.addOption(TEST_QUESTIONS_PATH_OPT, true,
-				"The path of the file containing the test questions");
-		options.addOption(TEST_CANDIDATES_PATH_OPT, true,
-				"The path of the file containing the test candidates passages");
-		options.addOption(TEST_CASES_DIR_OPT, true,
-				"The path where test CASes are stored (this enables file persistence)");
-		options.addOption(TEST_OUTPUT_DIR_OPT, true,
-				"The path where the test files will be stored");
-
-		options.addOption(CANDIDATES_TO_KEEP_IN_TRAIN_OPT, true,
-				"The number of candidates to keep in training phase");
-		options.addOption(CANDIDATES_TO_KEEP_IN_TEST_OPT, true,
-				"The number of candidates to keep in test phase");
 		options.addOption(SKIP_SERIALIZATION_CHECK_OPT, false,
 				"Skip the serialization"
 						+ " step if the CASes directory already exists."
@@ -133,31 +113,11 @@ public class TrecPipelineRunner {
 					TRAINING_CASES_DIR_OPT,
 					"Please specify a valid directory for the training CASes.");
 
-			String testQuestionsPath = getFileOption(cmd,
-					TEST_QUESTIONS_PATH_OPT,
-					"Please specify the path of the test questions file.");
-
-			String testCandidatesPath = getFileOption(cmd,
-					TEST_CANDIDATES_PATH_OPT,
-					"Please specify the path of the test candidates file.");
-
-			String testOutputDir = getPathOption(cmd, TEST_OUTPUT_DIR_OPT,
-					"Please specify a valid output directory for test data.");
-
-			String testCasesPath = getOptionalPathOption(cmd,
-					TEST_CASES_DIR_OPT,
-					"Please specify a valid directory for the test CASes.");
-
 			int candidatesToKeepInTrain = getIntOptionWithDefault(cmd,
 					CANDIDATES_TO_KEEP_IN_TRAIN_OPT, -1);
-			int candidatesToKeepInTest = getIntOptionWithDefault(cmd,
-					CANDIDATES_TO_KEEP_IN_TEST_OPT, -1);
 
 			UIMAPersistence trainPersistence = trainCasesPath == null ? new UIMANoPersistence()
 					: new UIMAFilePersistence(trainCasesPath);
-
-			UIMAPersistence testPersistence = testCasesPath == null ? new UIMANoPersistence()
-					: new UIMAFilePersistence(testCasesPath);
 
 			/**
 			 * The parameter list used to establish matching between trees and
@@ -182,15 +142,14 @@ public class TrecPipelineRunner {
 			/**
 			 * Builds IDF model if it is not already built
 			 */
+			
 			if(!new File(trainCandidatesPath + ".idf").exists()) {
 				IdfModel ifdModel = CharacterNGramIdf.buildModel(2, 4,
-						new TrecCandidatesReader(trainCandidatesPath));
-				
+						new TrecCandidatesReader(trainCandidatesPath));				
 				CharacterNGramIdf.saveModel(ifdModel, trainCandidatesPath + ".idf");
 			} else {
 				pf.setIdfValues(trainCandidatesPath + ".idf");
-			}
-			
+			}			
 
 			/**
 			 * Sets up the analyzer, initially with the persistence directory
@@ -201,42 +160,18 @@ public class TrecPipelineRunner {
 			pipeline.setupAnalysis(ae,
 					new TrecQuestionsReader(trainQuestionsPath),
 					new TrecCandidatesReader(trainCandidatesPath));
+			
+			System.out.println(SKIP_SERIALIZATION_CHECK_OPT + ": " + cmd.hasOption(SKIP_SERIALIZATION_CHECK_OPT));
 
 			if (!(trainCasesPath != null && cmd.hasOption(SKIP_SERIALIZATION_CHECK_OPT))) {
 				pipeline.performAnalysis();
 			}
 
-			Reranking dataGenerator = new RerankingTrain(fm, trainOutputDir,
-					ae, new TreeSerializer().enableRelationalTags().enableAdditionalLabels(), pf,
+			Reranking dataGenerator = new RerankingTrainOnlyRel(fm, trainOutputDir,
+					ae, new TreeSerializer().enableRelationalTags(), pf,
 					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
 
 			pipeline.setCandidatesToKeep(candidatesToKeepInTrain);
-
-			pipeline.performDataGeneration(dataGenerator);
-
-			pipeline.closeFiles();
-
-			/**
-			 * Changes the persistence directory for test CASes
-			 */
-			ae.setPersistence(testPersistence);
-
-			pipeline.setupAnalysis(ae,
-					new TrecQuestionsReader(testQuestionsPath),
-					new TrecCandidatesReader(testCandidatesPath));
-
-			if (!(testCasesPath != null && cmd.hasOption(SKIP_SERIALIZATION_CHECK_OPT))) {
-				pipeline.performAnalysis();
-			}
-
-			/**
-			 * Sets up the generation for test
-			 */
-			dataGenerator = new RerankingTest(fm, testOutputDir, ae,
-					new TreeSerializer().enableRelationalTags().enableAdditionalLabels(), pf,
-					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
-
-			pipeline.setCandidatesToKeep(candidatesToKeepInTest);
 
 			pipeline.performDataGeneration(dataGenerator);
 
@@ -268,7 +203,6 @@ public class TrecPipelineRunner {
 
 	private static String getFileOption(CommandLine cmd, String optionName,
 			String errorMessage) throws ParseException {
-		System.out.println("optionName: " + optionName);
 		if (cmd.hasOption(optionName)) {
 			String filePath = cmd.getOptionValue(optionName);
 			if (new File(filePath).exists()) {
@@ -318,3 +252,4 @@ public class TrecPipelineRunner {
 		return Joiner.on(" ").join(lines).split(" ");
 	}
 }
+

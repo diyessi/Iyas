@@ -125,7 +125,7 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 		while (sentencesIterator.hasNext()) {
 			Sentence aSentence = (Sentence) sentencesIterator.next();
 						
-			System.out.println("sent - begin: " + aSentence.getBegin() + ", end: " + aSentence.getEnd() + ", text: " + aSentence.getCoveredText());
+			//System.out.println("sent - begin: " + aSentence.getBegin() + ", end: " + aSentence.getEnd() + ", text: " + aSentence.getCoveredText());
 			List<Token> tokens = Lists.newArrayList(JCasUtil.selectCovered(cas, Token.class, aSentence));
 			List<String> sentence = null;
 			List<String> posTags = null;
@@ -162,7 +162,7 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 			}
 			
 			if (sentence.size() >= maxLength) {
-				System.err.println("Skipping sentence with " + sentence.size() + " words since it is too long.");
+				//System.err.println("Skipping sentence with " + sentence.size() + " words since it is too long.");
 				continue;
 			}
 			
@@ -178,7 +178,7 @@ public class BerkeleyWrapper extends JCasAnnotator_ImplBase {
 			if (emptyTreeBug(parsedTree, tokens)) { 
 				parsedTree = fixEmptyTree(tokens);
 			}
-			System.out.println("parsedTree: " + parsedTree.toString());
+			//System.out.println("parsedTree: " + parsedTree.toString());
 				
 			createConstituentAnnotationFromTree(cas, parsedTree, null, tokens, new MutableInt(0));
 		}

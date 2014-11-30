@@ -17,8 +17,8 @@ import org.apache.uima.UIMAException;
 import qa.qcri.qf.datagen.ngram.CharacterNGramIdf;
 import qa.qcri.qf.datagen.ngram.IdfModel;
 import qa.qcri.qf.datagen.rr.Reranking;
-import qa.qcri.qf.datagen.rr.RerankingTest;
-import qa.qcri.qf.datagen.rr.RerankingTrain;
+import qa.qcri.qf.datagen.rr.RerankingTestOnlyRel;
+import qa.qcri.qf.datagen.rr.RerankingTrainOnlyRel;
 import qa.qcri.qf.features.PairFeatureFactory;
 import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.pipeline.Analyzer;
@@ -36,7 +36,7 @@ import cc.mallet.types.Alphabet;
 import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 
-public class TrecPipelineRunner {
+public class TrecPipelineRunnerOnlyRel {
 
 	private static final String HELP_OPT = "help";
 	private static final String LANG = "lang";
@@ -201,13 +201,15 @@ public class TrecPipelineRunner {
 			pipeline.setupAnalysis(ae,
 					new TrecQuestionsReader(trainQuestionsPath),
 					new TrecCandidatesReader(trainCandidatesPath));
+			
+			System.out.println(SKIP_SERIALIZATION_CHECK_OPT + ": " + cmd.hasOption(SKIP_SERIALIZATION_CHECK_OPT));
 
 			if (!(trainCasesPath != null && cmd.hasOption(SKIP_SERIALIZATION_CHECK_OPT))) {
 				pipeline.performAnalysis();
 			}
 
-			Reranking dataGenerator = new RerankingTrain(fm, trainOutputDir,
-					ae, new TreeSerializer().enableRelationalTags().enableAdditionalLabels(), pf,
+			Reranking dataGenerator = new RerankingTrainOnlyRel(fm, trainOutputDir,
+					ae, new TreeSerializer().enableRelationalTags(), pf,
 					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
 
 			pipeline.setCandidatesToKeep(candidatesToKeepInTrain);
@@ -232,8 +234,8 @@ public class TrecPipelineRunner {
 			/**
 			 * Sets up the generation for test
 			 */
-			dataGenerator = new RerankingTest(fm, testOutputDir, ae,
-					new TreeSerializer().enableRelationalTags().enableAdditionalLabels(), pf,
+			dataGenerator = new RerankingTestOnlyRel(fm, testOutputDir, ae,
+					new TreeSerializer().enableRelationalTags(), pf,
 					new PosChunkTreeProvider(), marker).setParameterList(parameterList);
 
 			pipeline.setCandidatesToKeep(candidatesToKeepInTest);
