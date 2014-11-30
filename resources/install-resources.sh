@@ -1,6 +1,3 @@
-unzip TextPro1.5.2_Linux64bit.zip -d ../tools/
-
-tar -xzf limosine.tar.gz
 tar -xzf APOSTLib.tgz
 
 tar -xzf CRF++-0.58.tar.gz

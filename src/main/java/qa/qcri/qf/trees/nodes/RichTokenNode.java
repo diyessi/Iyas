@@ -1,5 +1,7 @@
 package qa.qcri.qf.trees.nodes;
 
+import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 /**
@@ -48,6 +50,8 @@ public class RichTokenNode extends BaseRichNode {
 	 * - RichNode.OUTPUT_PAR_TOKEN_LOWERCASE Return the lowercased current
 	 * representation
 	 * 
+	 * - RichNode.OUTPUT_PAR_POSTAG Return the postag of the current token
+	 * 
 	 * Pay attention to the order of these parameters in the list. TOKEN and
 	 * LEMMA override each other, so the parameter later in the list prevails.
 	 * 
@@ -77,7 +81,10 @@ public class RichTokenNode extends BaseRichNode {
 				} else if (output.equals(")")) {
 					output = "-RRB-";
 				} else {
-					output = this.token.getLemma().getValue(); 
+					Lemma lemma = this.token.getLemma();
+					if(lemma != null) {
+						output = lemma.getValue();
+					}
 				}
 				break;
 			case RichNode.OUTPUT_PAR_STEM:
@@ -85,6 +92,10 @@ public class RichTokenNode extends BaseRichNode {
 				break;
 			case RichNode.OUTPUT_PAR_TOKEN_LOWERCASE:
 				lowercase = true;
+				break;			
+			case RichNode.OUTPUT_PAR_POSTAG:
+				POS pos = this.token.getPos();
+				output = pos.getPosValue();
 				break;
 			}
 		}

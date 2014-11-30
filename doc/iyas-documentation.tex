@@ -1,0 +1,915 @@
+%%%%%%%%%%%%%%
+%% Run LaTeX on this file several times to get Table of Contents,
+%% cross-references, and citations.
+
+%% w-bktmpl.tex. Current Version: Feb 16, 2012
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Template file for
+%  Wiley Book Style, Design No.: SD 001B, 7x10
+%  Wiley Book Style, Design No.: SD 004B, 6x9
+%
+%  Prepared by Amy Hendrickson, TeXnology Inc.
+%  http://www.texnology.com
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Class File
+
+%% For default 7 x 10 trim size:
+\documentclass{wileysev}
+
+%% Or, for 6 x 9 trim size
+%\documentclass{WileySix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Post Script Font File
+
+% For PostScript text
+% If you have font problems, you may edit the w-bookps.sty file
+% to customize the font names to match those on your system.
+
+\usepackage{w-bookps}
+
+%%%%%%%
+%% For times math: However, this package disables bold math (!)
+%% \mathbf{x} will still work, but you will not have bold math
+%% in section heads or chapter titles. If you don't use math
+%% in those environments, mathptmx might be a good choice.
+
+% \usepackage{mathptmx}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Graphicx.sty for Including PostScript .eps files
+
+\usepackage{graphicx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Other packages you might want to use:
+
+% for chapter bibliography made with BibTeX
+% \usepackage{chapterbib}
+
+% for multiple indices
+% \usepackage{multind}
+
+% for answers to problems
+% \usepackage{answers}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Change options here if you want:
+%%
+%% How many levels of section head would you like numbered?
+%% 0= no section numbers, 1= section, 2= subsection, 3= subsubsection
+%%==>>
+\setcounter{secnumdepth}{3}
+
+%% How many levels of section head would you like to appear in the
+%% Table of Contents?
+%% 0= chapter titles, 1= section titles, 2= subsection titles, 
+%% 3= subsubsection titles.
+%%==>>
+\setcounter{tocdepth}{2}
+
+%% Cropmarks? good for final page makeup
+%% \docropmarks %% turn cropmarks on
+
+%% XML Highlighting code
+\usepackage{listings}
+
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape
+}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type}% list your attributes here
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DRAFT
+%
+% Uncomment to get double spacing between lines, current date and time
+% printed at bottom of page.
+% \draft
+% (If you want to keep tables from becoming double spaced also uncomment
+% this):
+% \renewcommand{\arraystretch}{0.6}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Title Pages
+%%
+%% Wiley will provide title and copyright page, but you can make
+%% your own titlepages if you'd like anyway
+
+%% Setting up title pages, type in the appropriate names here:
+\booktitle{IYAS}
+\subtitle{Interactive sYstem for Answer Selection}
+
+\author{Massimo Nicosia}
+%or
+\authors{}
+
+%% \\ will start a new line.
+%% You may add \affil{} for affiliation, ie,
+%\authors{Robert M. Groves\\
+%\affil{Universitat de les Illes Balears}
+%Floyd J. Fowler, Jr.\\
+%\affil{University of New Mexico}
+%}
+
+%% Print Half Title and Title Page:
+%%\halftitlepage
+\titlepage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Off Print Info
+
+%% Add your info here:
+\offprintinfo{IYAS Documentation, 0.2}{Massimo Nicosia}
+
+%% Can use \\ if title, and edition are too wide, ie,
+%% \offprintinfo{Survey Methodology,\\ Second Edition}{Robert M. Groves}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright Page
+
+\begin{copyrightpage}{2014}
+IYAS Documentation
+\end{copyrightpage}
+
+% Note, you must use \ to start indented lines, ie,
+% 
+% \begin{copyrightpage}{2004}
+% Survey Methodology / Robert M. Groves . . . [et al.].
+% \       p. cm.---(Wiley series in survey methodology)
+% \    ``Wiley-Interscience."
+% \    Includes bibliographical references and index.
+% \    ISBN 0-471-48348-6 (pbk.)
+% \    1. Surveys---Methodology.  2. Social 
+% \  sciences---Research---Statistical methods.  I. Groves, Robert M.  II. %
+% Series.\\
+
+% HA31.2.S873 2004
+% 001.4'33---dc22                                             2004044064
+% \end{copyrightpage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Frontmatter >>>>>>>>>>>>>>>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Only Dedication (optional) 
+%% or Contributor Page for edited books
+%% before \tableofcontents
+
+%\dedication{}
+
+% ie,
+%\dedication{To my parents}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Contributors Page for Edited Book
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% If your book has chapters written by different authors,
+% you'll need a Contributors page.
+
+% Use \begin{contributors}...\end{contributors} and
+% then enter each author with the \name{} command, followed
+% by the affiliation information.
+
+% \begin{contributors}
+% \name{Masayki Abe,} Fujitsu Laboratories Ltd., Fujitsu Limited, Atsugi,
+% Japan
+
+% \name{L. A. Akers,} Center for Solid State Electronics Research, Arizona
+% State University, Tempe, Arizona
+
+% \name{G. H. Bernstein,} Department of Electrical and
+% Computer Engineering, University of Notre Dame, Notre Dame, South Bend, 
+% Indiana; formerly of
+% Center for Solid State Electronics Research, Arizona
+% State University, Tempe, Arizona 
+% \end{contributors}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \contentsinbrief %optional
+\tableofcontents
+% \listoffigures %optional
+% \listoftables  %optional
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Optional Foreword:
+
+%\begin{foreword}
+%text
+%\end{foreword}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Optional Preface:
+
+%\begin{preface}
+% text
+%\prefaceauthor{}
+%\where{place\\
+% date}
+%\end{preface}
+
+% ie,
+% \begin{preface}
+% This is an example preface.
+% \prefaceauthor{R. K. Watts}
+% \where{Durham, North Carolina\\
+% September, 2004}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Optional Acknowledgments:
+
+% \acknowledgments
+% acknowledgment text
+% \authorinitials{} % ie, I. R. S.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Glossary Type of Environment:
+
+% \begin{glossary}
+% \term{<term>}{<description>}
+% \end{glossary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{acronyms} 
+% \acro{<term>}{<description>}
+% \end{acronyms}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% In symbols environment <term> is expected to be in math mode; 
+%% if not in math mode, use \term{\hbox{<term>}}
+
+% \begin{symbols}
+% \term{<math term>}{<description>}
+% \term{\hbox{<non math term>}}Box used when not using a math symbol.
+% \end{symbols}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{introduction}
+%\introauthor{<name>}{<affil>}
+% Introduction text...
+% \end{introduction}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End for Front Matter, Beginning of text of book  >>>>>>>>>>>
+
+%% Short version of title without \\ may be written in sq. brackets:
+
+%% Optional Part :
+%\part[IYAS]
+%{IYAS}
+
+\chapter[Introduction to IYAS]
+{Introduction to IYAS}
+
+\section[What is IYAS?]{What is IYAS?}
+
+IYAS, which stands for Interactive sYstem for Answer Selection, is a framework for:
+\\\\
+- deep natural language analysis
+\\\\
+- extraction of features from textual content
+\\\\
+- construction of structural representations of text which are enriched with syntactic and semantic information provided by the analysis components
+\\\\
+- generation of training and test data for classification and reranking tasks
+\\\\
+- instantiation of intelligent applications such as the Question Answering system built on top of the framework
+\\\\
+
+\section[The IYAS Framework]{The IYAS Framework}
+
+Iyas leverages several libraries and frameworks in order to reduce development effort and to reach a standard in the definition of the analysis components and the data they manipulate. The following sections describe the projects Iyas builds upon.
+
+\subsection[Apache UIMA]{Apache UIMA}
+
+UIMA is a framework for building applications which manage unstructured information. It integrates single analysis components and their logic into bigger processing units, with immediate benefits in terms of reuse, scalability and extensibility. At the framework core there is the idea that every computation on some data can be encapsulated in a component. What this component requires in input in addition to the data, and what it outputs as a result of its work, can be defined using a standard XML format. Once developed, components can be integrated declaratively. An XML descriptor orchestrates the components with different degrees of complexity, enabling sequence flows or conditional flows.\\\\
+The main UIMA elements are the Analysis Engines, the Annotators, the Type System and the Common Analysis Structure.\\\\
+An \textbf{Analysis engine} (AE) is a program that analyses artefacts and infers information from them. The building blocks of AEs are annotators. The \textbf{Annotator} is the basic UIMA primitive for building useful applications and can be considered an analysis engine which performs a single analysis task. Indeed the annotator takes a piece of data and metadata associated with it, performs its analysis and produces results in form of annotations. An annotation has a type, which can be generic or specialized, and is associated with indexes specifying the range of characters covered by the annotation. The annotator should have clear inputs and outputs, and its job should be simple: complex tasks can be decomposed into smaller tasks to favour simplicity and reuse. Nevertheless, nothing stops an annotator from performing multiple and heterogeneous analysis tasks.\\\\
+The output of an annotator is typed and in the form of \textbf{Feature Structures}. These are simple data structures with a type and a set of attribute and value pairs. UIMA has a comprehensive set of built-in data types, spacing from simple types to list of objects. Additional types can be defined and thus, even complex structures can be described.\\\\
+At the core of this framework feature there is the \textbf{UIMA Type System} which is a declarative definition of an object model. It serves the purposes of specifying which metadata can be stored in the Common Analysis Structure (CAS), described later, and what is the behaviour of a component in terms of the types expected in the input CAS and the types produced in output.\\\\
+An annotator is composed by:
+\\\\
+- an XML definition file;
+\\\\
+- a class containing the analysis logic;
+\\\\
+- optionally, an XML file describing the types used by the annotator.
+\\\\
+
+This section can indeed be included in the XML definition file, or specified in an external file.
+The definition file contains all the necessary information for integrating the annotator in the framework. An annotator can be primitive or aggregate. A primitive annotator performs operations on the data and cannot use others annotator. A class implementing these analysis operations must be supplied to the annotator, which will instantiate the class at run-time.
+This class implements the interface of UIMA annotators and provides the behaviours for its initialization, for the processing of data and for its destruction. The types used by the annotator are declared in the definition file, or they can be factored out in a specific XML file.\\\\
+The \textbf{UIMA Type System} is hierarchical and usually for defining new types it is sufficient to set the uima.tcas.Annotation type as supertype. The concepts of type and annotation overlap. The name of the new type already carries the semantics of the annotation, and the UIMA Annotation supertype has slots for storing the range of the text covered by the annotation. For example, a type named Person for annotating people mentioned in the text should be declared as a subtype of $uima.tcas.Annotation$. Whenever the annotator finds a person in the text it must only add in the CAS a new Person annotation, after setting the initial and final character of the occurrence of that person in the text. If a user defined type needs more attributes, type descriptions of arbitrary complexity can nevertheless easily produced by writing them in the XML or preferably using the visual tools provided by the framework. \textbf{UIMA Capabilities} describe the types required in input by an annotator and the types produced in output. This information enforces the constraints on the execution order of annotators. If an annotator requires the presence in the CAS of metadata produced by another annotator, the first annotator must be called earlier than the second in the component chain. As a side note, the absence of standards to describe uniformly a given annotation type and the flexibility of the UIMA Type System induce the user to define a personal type system. Thus, every set of components live in a type ecosystem different from the others, with its own namespace, annotation names and semantics. This leads to an unavoidable integration effort for letting dialogue different components in the same analysis engine. For example, different NERs for entities of type Person will likely define different annotation types. Annotators using the output of one NER require a conversion of the output of the other, in order to exploit both NERs’ results. Alternatively, the user can convert the different types into a general one, and use the latter in input for other components. An aggregate annotator cannot performs operations on the data but can call other annotators. Thus, an aggregate annotator is the mean for creating a pipeline for NLP analysis. The annotators to call are specified in the component descriptor. The flow between components, always specified in the descriptor file, can have several connotations. The Fixed Flow executes the components sequentially in the specified order. The Capability Language Flow allows to execute analysis engines only if they can produce in output the capabilities specified for the language of the current document, and only if these capabilities have not been produced by another engine in the flow. The inputs and outputs of annotators are referred to as capabilities in UIMA. The User-defined Flow enables the inclusion of user created flow controller. These controller can inspect the CAS content at run-time and consequently modify the flow in arbitrary complex ways.\\\\
+The \textbf{Common Analysis Structure} is a data structure containing a unit of unstructured data and all the data inferred by the analysis carried on that data. The CAS instantiation is based on an Analysis Engine. A CAS can contain only the types used in the analysis engine. Using other
+types raises errors. In UIMA applications, the CAS is initialized with the unstructured data and it is passed to an Analysis Engine. After the analysis execution, the CAS will contain all the produced metadata.
+
+\subsection[DKPro]{DKPro}
+
+DKPro is the Darmstadt Knowledge Processing Software Repository which contain reusable software for carrying out applications for content analysis. It includes, among other things, DKPRO Core, which provides a set of ready to use software components for natural language processing, based on the Apache UIMA framework; DKPro Similarity, an open source software package for developing text similarity algorithms.
+
+\subsection[uimaFIT]{uimaFIT}
+
+Configuring UIMA components is generally achieved by creating XML descriptor files which tell the framework at runtime how components should be instantiated and deployed. These XML descriptor files are very tightly coupled with the Java implementation of the components they describe. It is very difficult to keep the two consistent with each other especially when code refactoring is very frequent. uimaFIT provides Java annotations for describing UIMA components which can be used to directly describe the UIMA components in the code. This simplifies refactoring a component definition. It also makes it possible to generate XML descriptor files as part of the build cycle rather than being performed manually in parallel with code creation. uimaFIT also makes it easy to instantiate UIMA components without using XML descriptor files at all by providing a number of convenience factory methods which allow programmatic/dynamic instantiation of UIMA components. This makes uimaFIT an ideal library for testing UIMA components because the component can be easily instantiated and invoked without requiring a descriptor file to be created first. uimaFIT is also helpful in research environments in which programmatic/dynamic instantiation of a pipeline can simplify experimentation. 
+
+\subsection[QCRI ALT components]{QCRI ALT components}
+
+The QCRI ALT group has developed several NLP components for Arabic. IYAS has preliminary support for the QCRI Arabic normalizer, and the Arabic Part of Speech Tagger Library, which provides a Tokenizer, a POS Tagger, a Named Entities Tagger and a Gender and Number Tagger.
+
+\subsection[iKernels components]{iKernels components}
+
+IYAS integrates several components built by the iKernels group at the University of Trento. These components are mostly focused on question analysis and tree kernels: there are a Question Category classifier, a Question Focus classifier, a module for computing Partial Tree Kernel similiarity between trees, an LDA (Latent Dirichlet allocation) module for characterizing the topics contained in the text.  
+
+\subsection[Limosine project]{Limosine project}
+
+Limosine is an European project that integrates the research activities of leading researchers across diverse topics with a view to enabling new kinds of language-based search technology. The University of Trento is responsible of the information extraction through deep linguistic analysis module of the software platform developed in the project context. The main objective of the module is to provide semantic representations based on deep linguistic processing. The semantic model is based on disambiguated entities, relations between them, subjective expressions, opinion holders and relations among these pieces of semantic information. IYAS supports the NLP components developed within Limosine. UIMA types definition and several annotation converters are provided.
+
+\chapter[IYAS Installation]
+{IYAS Installation}
+
+\section[UIMA]{UIMA}
+
+Go to \textit{https://uima.apache.org/} and download the Apache UIMA Java framework \& SDK. Decompress the archive and set the \texttt{\&UIMA\_HOME} environmental variable to the path of the UIMA distribution.
+\\\\
+\section[Setting up Eclipse]{Setting up Eclipse}
+It is recommended to use Eclipse for developing with IYAS. Download and install the Eclipse IDE at \textit{https://www.eclipse.org/}.
+\\\\
+Then, you will need to add Maven support to Eclipse. Download and install the m2eclipse Maven plugin at \textit{http://eclipse.org/m2e/download/}. Some versions of Eclipse come with integrated Maven support so this step could be unnecessary.
+\\\\
+You will need some additional UIMA plugins. The instructions for installing Eclipse EMF can be found here: \textit{http://tinyurl.com/UIMA4ECLIPSE}. The useful UIMA visual tools (UIMA tooling) can be found at this software update address:\\ \textit{http://www.apache.org/dist/uima/eclipse-update-site/}.
+
+
+
+
+\section[Obtaining IYAS]{Obtaining IYAS}
+
+\subsection[Getting IYAS from Github]{Getting IYAS from Github}
+
+IYAS can be downloaded from the private Github repository of the Qatar Computing Research Institute. You must request permission to access this repository. You can clone the repository with the command:\\\\
+\texttt{\small git clone git@github.com:Qatar-Computing-Research-Institute/Iyas.git}
+
+\section[Importing IYAS in Eclipse]{Importing IYAS in Eclipse}
+IYAS is a Maven project. You should import it into Eclipse using the Eclipse import wizard. Select \texttt{File -> Import -> Existing Maven Projects}. Make sure Eclipse is using the 1.7 version of the JDK.
+
+\section[Setting up UIMA types]{Setting up UIMA types}
+Type classes are not included in the distribution. They are automatically generated by the UIMA JCasGen tool from the typesystem description. Under the \texttt{resources/} folder of the IYAS distribution there is the \texttt{generate-types.sh} script. Run this script to automatically generate the type classes for most of the types. Make sure your \texttt{\$UIMA\_HOME} environmental variable is set.
+\\\\
+The QuestionFocus type requires manual intervention. Open the Component Descriptor Editor right-clicking the \texttt{desc/Iyas/QuestionFocus.xml} definition file. Go to the \texttt{TypeSystem} tab and click the \texttt{JCasGen} button.
+\\\\
+After all the types are generated you can run \texttt{setup-types.sh}. This script copies the types to the paths used by Eclipse to load classes for launching the executable programs and unit tests. 
+
+\section[Downloading and installing additional components]{Downloading and installing additional components}
+
+The IYAS distribution contains several scripts for downloading and installing external software.
+
+\subsection[QCRI software]{QCRI software}
+
+Go to the \texttt{resources/} folder.
+\\\\
+\texttt{download-resources.sh} will download the archives containing the QCRI. QCRI software can be found at \textit{alt.qcri.org}.
+\\\\
+\texttt{install-resources.sh} will decompress the archive, move files and carry out some installation procedures and compiling. 
+
+\subsection[SVMLightTK]{SVMLightTK}
+
+IYAS makes use of SVMLightTK for learning models and classifying/reranking instances. SVMLightTK is an extension of SVMLight supporting tree kernels. IYAS contains two SVMLightTK distributions: the binary tools and the Java Native Interface library to be used from Java code.
+\\\\
+Go to \texttt{tools/SVM-Light-1.5-rer/} and type:
+\\\\
+\texttt{make clean \&\& make}.
+\\\\
+This will compile the binary tools.
+\\\\
+Go to \texttt{tools/SVM-Light-TK-1.5.Lib/} and type:
+\\\\
+\texttt{make clean \&\& make}.
+\\\\
+This will compile the JNI library. If the make process says the \texttt{jni.h} file cannot be found, fix the path of the JDK distribution in the Makefile according to your system. You can use the command locate \texttt{jni.h} to find the path of the right JDK distribution. Another approach to solve the issue is to make sure your \texttt{\$JAVA\_HOME} directory is defined.
+
+\section[Installation troubleshooting]{Installation troubleshooting}
+\subsection[Maven problems]{Maven problems}
+
+These are some exceptions you can encounter using Maven. 
+\\\\
+\textbf{ArtifactTransferException}
+\\\\
+Solution: remove \texttt{*.lastUpdated} files under \texttt{~/.m2} Maven directory
+\\\\
+Go to \texttt{~/.m2} directory and run:
+\\\\
+\texttt{find . -name "*.lastUpdated" -type f -delete}
+
+
+\subsection[CRFPP]{CRFPP}
+
+These are common problems when compiling the Java wrapper for CRFPP. Notice that we are building the Java Archive providing a JNI wrapper of CRFPP. Thus, only consider the content in the \texttt{CRF++-0.58/java/Makefile} folder.
+\\\\
+\textbf{Unable to locate jni.h}
+\\\\
+Solution: type \texttt{locate jni} and put the jni path in the \texttt{CRF++-0.58/java/Makefile}. The \texttt{INCLUDE} variable must be set to the path of the jni file.
+\\\\
+\textbf{Compiling CRFPP: cannot find crfpp.h}
+\\\\
+Solution: open \texttt{CRF++-0.58/java/CRFPP\_wrap.xx} and fix the include to \texttt{../crfpp.h}
+\\\\
+\textbf{Compiling CRFPP: ld does not find lcrfpp}
+\\\\
+Solution: copy \texttt{CRF++-0.58/.libs/libcrfpp.so} to \texttt{/usr/lib}
+
+\chapter[Using IYAS]{Using IYAS}
+
+\section{Test examples}
+
+The IYAS codebase contains test cases for most of the components. They are useful for testing the behaviour of code and serve as documentation.
+\\\\
+They can be found under the \texttt{scr/test/} directory.
+
+\section{Tutorial code}
+
+The code used in two tutorials given on the IYAS framework is contained in the\\ \texttt{qa.qcri.qf.tutorial} package under \texttt{scr/test/}.
+\\\\
+The \texttt{AnalyzerAndTreeFrameworkTutorial} shows how to run analysis pipelines, serialize results, retrieve and use annotations, produce tree structures from text and annotation and manipulate trees.
+\\\\
+The \texttt{LowerCaseExample} and \texttt{LowerCaseAnnotator} show how to build a simple UIMA annotator using uimaFIT.
+
+\section{TREC Reranking Pipeline}
+
+The TREC Reranking Pipeline is a pipeline for learning and evaluating reranking models exploiting shallow structural representations of text and feature vectors.
+\\\\
+The pipeline analyzes questions and candidate passages, builds training and test data for the reranking model and contains tools for validating the models.
+\\\\
+Descriptions of the structural representation and of the experimental setting can be found in \textbf{Building structures from classifiers for passage reranking}, \textit{Aliaksei Severyn,
+Massimo Nicosia, Alessandro Moschitti,} CIKM 2013.
+\\\\
+Reranking of passages containing answers to a question is a fundamental part of Question Answering system. 
+
+\subsection{Task}
+The reranking tasks consists in, given a question, retrieving from a corpus indexed by a search engine candidate passages which may contain or not the answer to that question, and eventually producing a permutation of the retrieved passages, hopefully promoting at the top of the list, the passages which actually contain the answer.
+
+\subsection{Data}
+
+The data used is collected from the TREC Question Answering tracks. We used questions from 2002 and 2003 years (TREC 11-12), which totals to 824 questions. The AQUAINT newswire corpus is used for searching the supporting answers. The lists of candidate passages related to the questions are obtained using the TERRIER search engine.
+\\\\
+The experimental data can be found under the \texttt{data/trec-en/} folder.
+\\\\
+\texttt{questions.txt} contains the 824 questions.
+\\\\
+\texttt{terrier.BM25b0.75\_0} contains the candidate passages retrieved by the TERRIER search engine for each of the TREC questions.
+
+\subsection{Running the pipeline}
+
+The pipeline can be run from the Eclipse IDE setting the program and Java Virtual Machine arguments from the Run Configuration panels, or using the \texttt{run.sh} script in the main folder of the IYAS distribution. However, for the first time, it is recommended to run it from Eclipse in order to download all the required JARs with Maven.
+\\\\
+Launch the \texttt{TrecPipelineRunner.java} program with these arguments:
+\\\\
+\texttt{argumentsFilePath arguments/trec-en-pipeline-arguments.txt}
+\\\\
+This file defines all the required arguments for the program, such as the options and the files with the data.
+\\\\
+The Java Virtual Machine requires these arguments:
+\\\\
+\texttt{-Djava.util.logging.config.file="resources/logging.properties" -Xss128m}
+\\\\
+The logging option specifies the record file for the Mallet library. The -Xss128m option increases the JVM memory in order to use the JNI SVMLightTK library. Every program making use of the JNI classifier \textbf{must} use additional memory, otherwise it will fail silently.
+\\\\
+The output of the pipeline consists in the training and test data for learning and evaluating the reranking model. You will find the generated data in the output train and test folder.
+
+\subsection{Learning and evaluating the model}
+You can learn the models using the SVMLightTK programs for learning and classification.
+\\\\
+IYAS provides Python scripts for carrying out cross-validation, learning and evaluating the models.
+\\\\
+For generating 5 folds from the output data use the following script on the output folder:
+\\\\
+\texttt{python scripts/folds.py data/trec-en/ 5}
+\\\\
+For launching the learning, classification and evaluation script on the generated folds use:
+\texttt{python scripts/svm\_run\_cv.py --params="-t 5 -F 3 -C + -W R -V R -m 400" --ncpus 2 data/trec-en/folds/}
+\\\\
+The evaluation report will be displayed on screen.
+
+\section{Interactive version of the Iyas reranking pipeline}
+
+The repository contains an interactive version of the Iyas reranking pipeline. An user can type a question and the system will search related passages in a previously indexed document collection. These passages will be analyzed and reranked using the semantic linking reranking model.
+
+\subsection{Indexing a corpus}
+For being able to answer interesting questions the system must have access to an appropriate document collection. In our test we used a fragment of a processed Wikipedia dump. We produced passages from the Wikipedia XML dump, split them in sentences, removed duplicates and sentences shorter than 10 characters. The resulting file contained a sentence for each line, in the following format:
+\\\\
+\texttt{\small{<sentence id><tab separator><sentence><tab separator><metadata>}}
+\\\\
+We provide the class \texttt{qa.qcri.qf.pipeline.qademo.IndexWikiDump} for indexing files in such a format.
+\subsection{Training the reranking model}
+A reranking model is necessary to rerank the passages retrieved from the indexed document collection. You can produce the training data and the model using the TrecPipelineRunner class presented in the previous section. We put here the SVMLightTK learning command as a reference. You can use it to produce the reranking model.
+\\\\
+\texttt{\small{> svm\_learn -t 5 -F 3 -C + -W R -V R -S 0 -N 1 svm.train svm.model}}
+\\\\
+The \texttt{qa.qcri.qf.pipeline.qademo.InteractivePipelineEn} class implements the interactive version of the reranking pipeline. Before starting it, you can set the document collection index path, the number of candidates retrieved from the search engine and the reranking model path to suit your preferences.
+\\\\
+The program will ask the user for a question, reading it from standard input. The question is used as a query by the search engine, which will retrieve related passages from the indexed document collection. Question and passages are analyzed by the UIMA annotators and are transformed into instances that the reranking model is able to classify. Tree structures originated by the question and the passages are semantically linked and enriched by feature vectors. The reranker produces a score for each question/passage pair and a reordered list of passages is shown to the user.
+
+\chapter[UIMA AS]{UIMA AS}
+
+UIMA Asynchronous Scaleout is an extension of UIMA which enables support for scaling analysis pipelines. The idea behind UIMA AS is exposing analysis engines as services which can be accessed through network interfaces. In this way, an analysis engine can be wrapped and executed as a server waiting for input. The service takes a serialized CAS and adds its annotations to it. Such services can be deployed on several machines so the workload can be distributed across a network. Services use a message broker (ApacheMQ) to communicate. Moreover, on a single machine, multiple instances of the same annotator can be created to be executed on multiple cores. Check \texttt{http://uima.apache.org/doc-uimaas-what.html} for additional information about UIMA AS.
+
+\section[Setting up UIMA AS]{Setting up UIMA AS}
+
+Download UIMA AS from \texttt{http://uima.apache.org/downloads.cgi} and decompress the archive on your machine. The UIMA AS folder will become your new \texttt{UIMA\_HOME}. Open a terminal and change your current directory to the UIMA AS folder. Then, set \texttt{UIMA\_HOME} to the current directory:
+\\\\
+\texttt{> export UIMA\_HOME=`pwd`}
+\\\\
+\subsection{Running the Message Broker}
+In order to be able to execute a distributed analysis process you must launch a message broker on a machine in the network. The message broker of choice for UIMA AS is Apache ActiveMQ, which is included in the UIMA AS distribution. To set the broker up type you have to define ACTIVEMQ\_HOME:
+\\\\
+\texttt{> export ACTIVEMQ\_HOME=\$\{UIMA\_HOME\}/apache-activemq/}
+\\\\
+Now you can run the broker with:
+\\\\
+\texttt{>./bin/startBroker.sh}
+
+\subsection{Using annotators in UIMA AS}
+UIMA AS requires XML descriptors of analysis engines. In the \texttt{qa.qcri.qf.uimaas} package there is the \texttt{PipelineDescriptorWriter} class. You can modify this class to output XML descriptors for the annotators which compose your complex pipeline. For maximum flexibility you will need an XML descriptor for each of the primitive annotators in your pipeline. Running the class as-is will generate several XML descriptors in the texttt{desc/uima-as} folder.
+\\\\
+Now we are ready to aggregate the primitive annotators and craft the XML file used by UIMA AS to instantiate and expose them as services.
+
+\subsection{Aggregating the annotators}
+
+The following XML descriptor (\texttt{desc/uima-as/pipeline-aggregate.xml}) composes primitive annotators in a single aggregate pipeline. In such way annotators running together can be specified. It is important to note the \texttt{key} attribute of the delegate analysis engines which identifies the analysis engine in the aggregate pipeline. Moreover, this descriptor references the XML descriptors associated with the primitive components.
+
+\lstset{language=XML}
+\begin{lstlisting}
+<?xml version="1.0" encoding="UTF-8" ?>
+<analysisEngineDescription xmlns="http://...">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>false</primitive>
+
+  <delegateAnalysisEngineSpecifiers>
+    <delegateAnalysisEngine key="segmenter">
+      <import location="segmenter.xml" />
+    </delegateAnalysisEngine>
+
+    <delegateAnalysisEngine key="postagger">
+      <import location="postagger.xml" />
+    </delegateAnalysisEngine>
+  </delegateAnalysisEngineSpecifiers>
+
+  <analysisEngineMetaData>
+    <name>Pipeline Aggregate</name>
+    <description>Pipeline Aggregate</description>
+    
+    <flowConstraints>
+      <fixedFlow>
+        <node>segmenter</node>
+        <node>postagger</node>
+      </fixedFlow>
+    </flowConstraints>	
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+</analysisEngineDescription>
+\end{lstlisting}
+
+\subsection{The Deployment XML descriptor}
+
+The following deployment XML descriptor (\texttt{desc/uima-as/deploy-pipeline4uima-as.xml}) is used by UIMA AS to instantiate the analysis pipeline on the current machine.
+\\\\
+The \texttt{inputQueue} element specifies an endpoint which identifies the communication channel used later by an application to send to and receive data from an analysis pipeline. The \texttt{brokerURL} attribute specifies where is the location of the ApacheMQ broker.
+\\\\
+Then, the aggregated pipeline is imported and some annotator specific properties are specified using the \texttt{key} attributes.
+
+\lstset{language=XML}
+\begin{lstlisting}
+<?xml version="1.0" encoding="UTF-8"?>
+
+<analysisEngineDeploymentDescription 
+  xmlns="http://...">
+  
+  <name>Iyas Sample UIMA-AS pipeline</name>
+  <description>Analyze content running several NLP annotators</description>
+  
+  <deployment protocol="jms" provider="activemq">
+	<casPool numberOfCASes="5"/>
+    <service>
+      <inputQueue endpoint="iyasSamplePipeline" brokerURL="${defaultBrokerURL}"/>
+      <topDescriptor>
+       <import location="pipeline-aggregate.xml"/> 
+      </topDescriptor>
+      <analysisEngine>
+        <delegates>
+          <analysisEngine key="segmenter">
+            <scaleout numberOfInstances="2"/>              
+          </analysisEngine>
+          <analysisEngine key="postagger">
+            <scaleout numberOfInstances="2"/>              
+          </analysisEngine>
+        </delegates>
+      </analysisEngine>
+    </service>
+  </deployment>
+
+</analysisEngineDeploymentDescription>
+\end{lstlisting}
+
+\subsection{Running the services and a sample client}
+
+During deployment, UIMA AS need to know the location of the JARs containing the classes and the models used by the analysis annotators. Iyas dependencies are managed by Maven. To put Iyas dependencies in a folder you can go in the Iyas main directory and type:
+\\\\
+\texttt{> mvn clean dependency:copy-dependencies package}
+\\\\
+This will copy all the dependencies into the \texttt{target/dependency} folder. To tell UIMA AS about this folder set the \texttt{UIMA\_CLASSPATH} variable:
+\\\\
+\texttt{export UIMA\_CLASSPATH=Iyas/target/dependency}
+\\\\
+To run the pipeline service use the script in the UIMA AS distribution:
+\\\\
+\texttt{> ./bin/deployAsyncService.sh Iyas/desc/uima-as/deploy-pipeline4uima-as.xml}
+
+\subsection{Running a client application}
+The \texttt{qa.qcri.qf.uimaas.UimaASPipelineClient} is a Java client application for reading textual content and send it to the UIMA AS pipeline for analysis. The application requires data about the broker URI (ServerURI) and the analysis engine endpoint in order to connect to it and establish a communication channel. The text processing is done asynchronously via a callback class. Data is sent to the endpoint and when the analysis completes the callback class perform operations on the analyzed content. 
+\\\\
+The following dependencies were added to the POM for developing applications using the UIMA AS primitives: \texttt{uimaj-as-core}, \texttt{uimaj-as-jms}, \texttt{uimaj-as-activemq}.
+
+\subsection{Distributed pipeline}
+The prototype pipeline presented in this chapter describes all the building blocks needed for designing and deploying more complex distributed pipelines. For more information and options please refer to the official UIMA AS documentation:\\ \texttt{https://uima.apache.org/documentation.html}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% optional prologue or prologues
+% \chapter{Chapter Title}
+% \prologue{<text>}{<author attribution>}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Edited Book: Author and Affiliation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% After \chapter{Chapter Title}, you can
+% enter the author name and embed the affiliation with
+% \chapterauthors{(author name, or names)
+% \chapteraffil{(affiliation or affiliations)}
+% }    
+
+% For instance:
+% \chapter{Chapter Title}
+% \chapterauthors{G. Alvarez and R. K. Watts
+% \chapteraffil{Carnegie Mellon University, Pittsburgh, Pennsylvania}
+
+% For separate affiliations you can use \affilmark{(number)} after
+% the name of a particular author and before the matching affiliation:
+
+% For instance:
+% \chapter{Chapter Title}
+% \chapterauthors{George Smeal, Ph.D.\affilmark{1}, Sally Smith,
+% M.D.\affilmark{2}, and Stanley Kubrick\affilmark{1}
+% \chapteraffil{\affilmark{1}AT\&T Bell Laboratories
+% Murray Hill, New Jersey\\
+% \affilmark{2}Harvard Medical School,
+% Boston, Massachusetts}
+% }
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% short version of section head, or one without \\ supplied in sq. brackets.
+
+% \section[Introduction and fugue]{Introduction\\ and fugue}
+% \subsection[This is the subsection]{This is the\\ subsection}
+% \subsubsection{This is the subsubsection}
+% \paragraph{This is the paragraph}
+
+% \begin{chapreferences}{widest label}
+% \bibitem{<label>}Reference
+% \end{chapreferences}
+
+% optional chapter bibliography using BibTeX,
+% must also have \usepackage{chapterbib} before \begin{document}
+% Must use root file with \include{chap1}, \include{chap2} form.
+%\bibliographystyle{plain}
+%\bibliography{<your .bib file name>}
+
+% optional appendix at the end of a chapter:
+% \chapappendix{<chap appendix title>}
+% \chapappendix{} % no title
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% End Matter >>>>>>>>>>>>>>>>>>
+
+% \appendix{<optional title for appendix at end of book>}
+% \appendix{} % appendix without title
+
+% \begin{references}{<widest label>}
+% \bibitem{sampref}Here is reference.
+% \end{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional Problem Sets: Can use this at the end of each chapter or at end
+%% of book
+
+% \begin{problems}
+% \prob
+% text
+
+% \prob
+% text
+
+% \subprob
+% text
+
+% \subprob
+% text
+
+% \prob
+% text
+% \end{problems}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional Exercises: Can use this at the end of each chapter or at end
+%% of book
+
+% \begin{exercises}
+% \exer
+% text
+
+% \exer
+% text
+
+% \subexer
+% text
+
+% \subexer
+% text
+
+% \exer
+% text
+% \end{exercises}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% INDEX: Use only one index command set:
+
+%% 1) The default LaTeX Index
+\printindex
+
+%% 2) For Topic index and Author index:
+
+% \usepackage{multind}
+% \makeindex{topic}
+% \makeindex{authors}
+% \begin{document}
+% ...
+% add index terms to your book, ie,
+% \index{topic}{A term to go to the topic index}
+% \index{authors}{Put this author in the author index}
+
+%% (these are Wiley commands)
+%\multiprintindex{topic}{Topic index}
+%\multiprintindex{authors}{Author index}
+
+\end{document}
+
+%%%%%%% Demo of section head containing sample macro:
+%% To get a macro to expand correctly in a section head, with upper and
+%% lower case math, put the definition and set the box 
+%% before \begin{document}, so that when it appears in the 
+%% table of contents it will also work:
+
+\newcommand{\VT}[1]{\ensuremath{{V_{T#1}}}}
+
+%% use a box to expand the macro before we put it into the section head:
+
+\newbox\sectsavebox
+\setbox\sectsavebox=\hbox{\boldmath\VT{xyz}}
+
+%%%%%%%%%%%%%%%%% End Demo
+
+
+Other commands, and notes on usage:
+
+-----
+Possible section head levels:
+\section{Introduction}
+\subsection{This is subsection}
+\subsubsection{This is subsubsection}
+\paragraph{This is the paragraph}
+
+-----
+Tables:
+ Remember to use \centering for a small table and to start the table
+ with \hline, use \hline underneath the column headers and at the end of 
+ the table, i.e.,
+
+\begin{table}[h]
+\caption{Small Table}
+\centering
+\begin{tabular}{ccc}
+\hline
+one&two&three\\
+\hline
+C&D&E\\
+\hline
+\end{tabular}
+\end{table}
+
+For a table that expands to the width of the page, write
+
+\begin{table}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcc}
+\hline
+....
+\end{tabular*}
+%% Sample table notes:
+\begin{tablenotes}
+$^a$Refs.~19 and 20.
+
+$^b\kappa, \lambda>1$.
+\end{tablenotes}
+\end{table}
+
+-----
+Algorithm.
+Maintains same fonts as text (as opposed to verbatim which uses fixed
+width fonts). Space at beginning of line will be maintained if you
+use \ at beginning of line.
+
+\begin{algorithm}
+{\bf state\_transition algorithm} $\{$
+\        for each neuron $j\in\{0,1,\ldots,M-1\}$
+\        $\{$   
+\            calculate the weighted sum $S_j$ using Eq. (6);
+\            if ($S_j>t_j$)
+\                    $\{$turn ON neuron; $Y_1=+1\}$   
+\            else if ($S_j<t_j$)
+\                    $\{$turn OFF neuron; $Y_1=-1\}$   
+\            else
+\                    $\{$no change in neuron state; $y_j$ remains %
+unchanged;$\}$ .
+\        $\}$   
+$\}$   
+\end{algorithm}
+
+-----
+Sample quote:
+\begin{quote}
+quotation...
+\end{quote}
+
+-----
+Listing samples
+
+\begin{enumerate}
+\item
+This is the first item in the numbered list.
+
+\item
+This is the second item in the numbered list.
+\end{enumerate}
+
+\begin{itemize}
+\item
+This is the first item in the itemized list.
+
+\item
+This is the first item in the itemized list.
+This is the first item in the itemized list.
+This is the first item in the itemized list.
+\end{itemize}
+
+\begin{itemize}
+\item[]
+This is the first item in the itemized list.
+
+\item[]
+This is the first item in the itemized list.
+This is the first item in the itemized list.
+This is the first item in the itemized list.
+\end{itemize}
+
+%% Index commands
+Author and Topic Indices, See docs.pdf and w-bksamp.pdf

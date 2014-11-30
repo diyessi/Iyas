@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.descriptor.TypeCapability;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 
 import qa.qcri.qf.type.NormalizedText;
@@ -43,6 +44,8 @@ public class ArabicAnalyzer extends JCasAnnotator_ImplBase {
 			init();
 		}
 		
+		List<String> bioTags = new ArrayList<>();
+		
 		String originalText = cas.getDocumentText();			
 		try {
 			ArabicAnnotations annotations = this.aw.annotateText(originalText);
@@ -72,9 +75,13 @@ public class ArabicAnalyzer extends JCasAnnotator_ImplBase {
 				token.addToIndexes(cas);
 				
 				// Named entity extraction
+				/*
 				String bioTag = arabicToken.getBioTag();
+				
+				bioTags.add(bioTag);
+				
 				if(bioTag.startsWith("B-")) {	
-					if(bioTag.endsWith("PER")) {
+					if(bioTag.endsWith("PERS")) {
 						ne = new Person(cas);
 						ne.setValue("PERSON");
 					} else if(bioTag.endsWith("ORG")) {
@@ -85,16 +92,28 @@ public class ArabicAnalyzer extends JCasAnnotator_ImplBase {
 						ne.setValue("LOCATION");
 					}
 					
+					if(ne == null) {
+						System.out.println("NE null: " + bioTag);
+					}
+					
 					ne.setBegin(token.getBegin());
 					ne.setEnd(token.getEnd());
 					
 					nes.add(ne);
 					
-				} else if (arabicToken.getBioTag().startsWith("I-")) {
+				} else if (bioTag.startsWith("I-")) {
+					if(ne == null) {
+						System.out.println("NE null: " + bioTag);
+						for(String tag : bioTags) {
+							System.out.println(tag);
+							System.out.println(cas.getDocumentText());
+						}
+					}
 					ne.setEnd(token.getEnd());
 				} else {
 					ne = null;
 				}
+				*/
 			}
 			
 			for(NamedEntity namedEntity : nes) {

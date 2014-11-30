@@ -2,24 +2,19 @@ package qa.qcri.qf.tools.questionclassifier;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.analysis_engine.AnalysisEngineDescription;
-import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.jcas.JCas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import qa.qcri.qf.italian.syntax.constituency.BerkeleyWrapper;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.CategoryContent;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
-import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
-import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
@@ -31,13 +26,8 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class Commons {
 	
-	private static final String GRAMMAR_FILE = "tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian/tutall-fulltrain";
-
 	public static final String QF_DIRECTORY = "data/question-classifier/";
 
 	public static final String[] CATEGORIES = { "ABBR", "DESC", "ENTY", "HUM",
@@ -77,12 +67,6 @@ public class Commons {
 		Analyzer analyzer = null;
 		if (lang.equals("en")) {
 			analyzer = instantiateEnglishQuestionClassifierAnalyzer();
-		} else if (lang.equals("it")) {
-			try {
-				analyzer = instantiateItalianQuestionClassifierAnalyzer();
-			} catch (IOException e) { 
-				throw new UIMAException(e);
-			}
 		} else {
 			logger.warn("No QuestionClassifier analyzer found for lang: " + lang + ". Returned default QuestionClassifier analyzer for english language.");
 			analyzer = instantiateEnglishQuestionClassifierAnalyzer();
@@ -98,24 +82,6 @@ public class Commons {
 				.addAEDesc(createEngineDescription(StanfordPosTagger.class))
 				.addAEDesc(createEngineDescription(StanfordParser.class));
 
-		return analyzer;
-	}
-	
-	private static Analyzer instantiateItalianQuestionClassifierAnalyzer() throws UIMAException, IOException {
-		Analyzer analyzer = new Analyzer();
-		
-		analyzer.addAEDesc(createEngineDescription("desc/Iyas/TextProAllInOneDescriptor"))
-				//.addAEDesc(createEngineDescription("desc/Iyas/BerkeleyITDescriptor"));
-				.addAEDesc((AnalysisEngineFactory.createEngineDescription("desc/Iyas/BerkeleyITDescriptor",
-						BerkeleyWrapper.PARAM_GRAMMARFILE, GRAMMAR_FILE,
-						BerkeleyWrapper.PARAM_ACCURATE, true,
-						BerkeleyWrapper.PARAM_MAXLENGTH, 250,
-						BerkeleyWrapper.PARAM_USEGOLDPOS, true)));
-		/*
-		analyzer.addAEDesc(createEngineDescription(TextProWrapperFix.class))
-		  		.addAEDesc(createEngineDescription(BerkeleyWrapper.class));
-		*/
-		  	
 		return analyzer;
 	}
 

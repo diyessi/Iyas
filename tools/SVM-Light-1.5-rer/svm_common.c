@@ -525,7 +525,8 @@ void read_documents(char *docfile, DOC *docs, double *label,
 */ 
     dnum++;  
     if(verbosity>=1) {
-      if((dnum % 100) == 0) {
+      //if((dnum % 100) == 0) {
+      if((dnum % 1) == 0) {
 	           printf("%ld..",dnum); fflush(stdout);
       }
     }

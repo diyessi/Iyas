@@ -16,6 +16,7 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.retrieval.Analyzable;
 import qa.qcri.qf.pipeline.retrieval.SimpleContent;
 import qa.qcri.qf.trees.nodes.RichNode;
+import util.Stopwords;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.FeatureSequence;
 import de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter;
@@ -70,8 +71,7 @@ public class BowProviderTest {
 	@Test
 	public void testGetNgramsFromCasWithStoplist() {
 		BowProvider bowProvider = new BowProviderBuilder()
-			.setStoplistFile("tools/stoplist/en.txt")
-			.setFilterStoplist(true)
+			.setStopwords(new Stopwords(Stopwords.STOPWORD_EN))
 			.build();
 		
 		List<String> ngrams = bowProvider.getNGramsFromCas(cas);
@@ -81,8 +81,7 @@ public class BowProviderTest {
 	public void testNGramsFromCasWithStoplistAndTokenParamFrmtList() {
 		BowProvider bowProvider = new BowProviderBuilder()
 			.setTokenFrmtParamList(RichNode.OUTPUT_PAR_TOKEN_LOWERCASE + "," + RichNode.OUTPUT_PAR_TOKEN)
-			.setStoplistFile("tools/stoplist/en.txt")
-			.setFilterStoplist(true)
+			.setStopwords(new Stopwords(Stopwords.STOPWORD_EN))
 			.build();
 		
 		List<String> ngrams = bowProvider.getNGramsFromCas(cas);
@@ -92,8 +91,7 @@ public class BowProviderTest {
 	@Test
 	public void testGetTokensWithStoplistWithNEquals2() {
 		BowProvider bowProvider = new BowProviderBuilder()
-			.setStoplistFile("tools/stoplist/en.txt")
-			.setFilterStoplist(true)
+			.setStopwords(new Stopwords(Stopwords.STOPWORD_EN))
 			.setMinN(2)
 			.setMaxN(2)
 			.build();
@@ -105,8 +103,7 @@ public class BowProviderTest {
 	@Test
 	public void testGetTokensWithMinNEq1AndMaxNEq2WithStoplist() { 
 		BowProvider bowProvider = new BowProviderBuilder()
-			.setStoplistFile("tools/stoplist/en.txt")
-			.setFilterStoplist(true)
+			.setStopwords(new Stopwords(Stopwords.STOPWORD_EN))
 			.setMinN(1)
 			.setMaxN(2)
 			.build();
@@ -127,8 +124,7 @@ public class BowProviderTest {
 		
 		BowProvider bowProvider = new BowProviderBuilder()
 			.setTokenFrmtParamList(RichNode.OUTPUT_PAR_TOKEN_LOWERCASE + "," + RichNode.OUTPUT_PAR_TOKEN)
-			.setStoplistFile("tools/stoplist/en.txt")
-			.setFilterStoplist(true)
+			.setStopwords(new Stopwords(Stopwords.STOPWORD_EN))
 			.build();
 		
 		FeatureSequence fseq = bowProvider.getNGramFeatureSeqFromCas(cas);
@@ -154,8 +150,7 @@ public class BowProviderTest {
 		
 		BowProvider bowProvider = new BowProviderBuilder()
 			.setTokenFrmtParamList(RichNode.OUTPUT_PAR_TOKEN_LOWERCASE + "," + RichNode.OUTPUT_PAR_TOKEN)		
-			.setStoplistFile("tools/stoplist/en.txt")
-			.setFilterStoplist(true)
+			.setStopwords(new Stopwords(Stopwords.STOPWORD_EN))
 			.setAlphabet(alphabet)
 			.build();		
 		

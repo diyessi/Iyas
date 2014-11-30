@@ -1,5 +1,6 @@
 package qa.qcri.qf.features.providers;
 
+import util.Stopwords;
 import cc.mallet.types.Alphabet;
 
 /**
@@ -13,12 +14,14 @@ public class BowProviderBuilder {
 	private int maxN = BowProvider.MAX_N;
 		
 	private Alphabet alphabet = new Alphabet();
-
-	private String stoplistFile = BowProvider.STOPWORDS_FILEPATH;	
-
-	private boolean filterStopwords = BowProvider.FILTER_STOPWORDS;
+	
+	private Stopwords stopwords;
 	
 	private String tokenFrmtParamList = BowProvider.TOKEN_FORMAT_PARAM_LIST;
+	
+	public BowProviderBuilder() {
+		this.stopwords = new Stopwords();
+	}
 	
 	/**
 	 * Set the alphabet to use.
@@ -70,21 +73,11 @@ public class BowProviderBuilder {
 	 * @param filterStopwords A boolean indicating whether stopwords removal should be performed
 	 * @return This Builder instance
 	 */
-	public BowProviderBuilder setFilterStoplist(boolean filterStopwords) {
-		this.filterStopwords = filterStopwords;
+	public BowProviderBuilder setStopwords(Stopwords stopwords) {
+		this.stopwords = stopwords;
 		return this;
 	}
-	
-	/**
-	 * Set the stoplist file.
-	 * 
-	 * @param stoplistFile A String holding the stoplist file path
-	 * @return This Builder instance
-	 */
-	public BowProviderBuilder setStoplistFile(String stoplistFile) {
-		this.stoplistFile = stoplistFile;
-		return this;
-	}
+
 	
 	/**
 	 * Creates a new BowProvider instance.
@@ -97,7 +90,7 @@ public class BowProviderBuilder {
 						alphabet,
 						tokenFrmtParamList,
 						minN, maxN,
-						stoplistFile, filterStopwords);
+						stopwords);
 	}
 
 }
