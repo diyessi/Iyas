@@ -36,6 +36,7 @@ public interface RichNode {
 	public static final String OUTPUT_PAR_LEMMA = "LEMMA";
 	public static final String OUTPUT_PAR_STEM = "STEM";
 	public static final String OUTPUT_PAR_POSTAG = "POSTAG";
+	public static final String OUTPUT_PAR_SEMANTIC_KERNEL = "SEMANTIC_KERNEL";
 
 	/**
 	 * 
