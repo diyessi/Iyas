@@ -17,7 +17,9 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
  */
 public class RichTokenNode extends BaseRichNode {
 
-	private Token token;	public RichTokenNode(Token token) {
+	private Token token;
+	
+	public RichTokenNode(Token token) {
 		super();
 		this.token = token;
 		this.metadata.put(RichNode.TYPE_KEY, RichNode.TYPE_TOKEN_NODE);
@@ -52,6 +54,9 @@ public class RichTokenNode extends BaseRichNode {
 	 * 
 	 * - RichNode.OUTPUT_PAR_POSTAG Return the postag of the current token
 	 * 
+	 * - RichNode.OUTPUT_PAR_SEMANTIC_KERNEL Return the form used by the semantic
+	 *       kernel (lemma::1st-char-of-postag
+	 * 
 	 * Pay attention to the order of these parameters in the list. TOKEN and
 	 * LEMMA override each other, so the parameter later in the list prevails.
 	 * 
@@ -62,6 +67,8 @@ public class RichTokenNode extends BaseRichNode {
 	@Override
 	public String getRepresentation(String parameterList) {
 		String output = this.getValue();
+		
+		POS pos = null;
 
 		if (parameterList.isEmpty()) {
 			return output;
@@ -94,8 +101,13 @@ public class RichTokenNode extends BaseRichNode {
 				lowercase = true;
 				break;			
 			case RichNode.OUTPUT_PAR_POSTAG:
-				POS pos = this.token.getPos();
+				pos = this.token.getPos();
 				output = pos.getPosValue();
+				break;
+			case RichNode.OUTPUT_PAR_SEMANTIC_KERNEL:
+				pos = this.token.getPos();
+				String lemma = this.token.getLemma().getValue();
+				output = lemma + "::" + pos.getPosValue().charAt(0);
 				break;
 			}
 		}
