@@ -5,14 +5,14 @@
      <id>Illinois</id>
        <url>http://cogcomp.cs.illinois.edu/m2repo/</url>
     </repository>
-    <repository>
-    <id>ukp-oss-releases</id>
-     <url>dav:https://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-ukp-releases-local/</url>
-	</repository>
-<repository>
-     <id>ukp-oss-snapshots</id>
-     <url>dav:https://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-ukp-snapshots-local/</url>
-</repository>
+		<repository>
+			<id>ukp-oss</id>
+			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-snapshots/</url>
+		</repository>
+		<repository>
+			<id>ukp-oss-model-snapshots</id>
+			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases/</url>
+		</repository>
   </repositories>
   <parent>
    <groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -192,6 +192,13 @@
 	<dependency>
 		<groupId>trove</groupId>
 		<artifactId>trove</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>berkeley</groupId>
+		<artifactId>berkeleyParser</artifactId>
+		<version>1.0</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/lib/berkeleyParser.jar</systemPath>
 	</dependency>
   </dependencies>
   <build>
