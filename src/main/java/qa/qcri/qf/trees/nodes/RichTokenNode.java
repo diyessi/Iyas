@@ -107,7 +107,7 @@ public class RichTokenNode extends BaseRichNode {
 			case RichNode.OUTPUT_PAR_SEMANTIC_KERNEL:
 				pos = this.token.getPos();
 				String lemma = this.token.getLemma().getValue();
-				output = lemma + "::" + pos.getPosValue().charAt(0);
+				output = lemma + "::" + pos.getPosValue().toLowerCase().charAt(0);
 				break;
 			}
 		}
