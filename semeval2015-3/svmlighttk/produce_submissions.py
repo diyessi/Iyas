@@ -19,10 +19,20 @@ def main():
 	for label in A_LABELS:
 		preds.append([float(line.strip()) for line in open(dir_prefix + label + ".pred", "r")])
 		
+	predictions = []
+		
+	for prediction_index, preds in enumerate(zip(*preds)):
+		label_index = preds.index(max(preds))
+		predictions.append(A_LABELS[label_index])
+			
+	dialogue_ids = set([line.strip() for line in open("../data/"
+			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-devel.xml.dialogue.txt", "r")])
+	
 	with open("subtask_a.pred", "w") as out:
-		for prediction_index, predictions in enumerate(zip(*preds)):
-			label_index = predictions.index(max(predictions))
-			out.write(dev_cids[prediction_index] + "\t" + A_LABELS[label_index] + "\n")
+		for test_id, prediction in zip(dev_cids, predictions):
+			if test_id in dialogue_ids:
+				prediction = "Dialogue"
+			out.write(str(test_id) + "\t" + str(prediction) + "\n")
 		
 	'''
 		Subtask B
