@@ -1,0 +1,205 @@
+\section{Experiments and Results}
+\label{sec:experiments}
+
+We made three submissions for each of the proposed subtasks: one primary and 
+two contrastive. 
+The submissions for Subtask A-English make use of the following features: 
+\begin{description}
+\item[Primary:] 
+  lexical similarity, semantic similarity (Section~\ref{ssub:sim}), contextual 
+  (Section~\ref{ssub:context}), $n$-Grams (Section~\ref{ssub:ngrams}), and
+  Heuristics (Section~\ref{ssub:heuristics}); \blue{do we use the rule-based 
+predictions as well?}
+\item[Contrastive 1:] 
+  the features from the primary submission plus the syntactic similarity ones 
+  (Section~\ref{ssub:sim}); and
+\item[Contrastive 2:] 
+  only rule-based features. 
+(Section~\ref{ssub:heuristics})
+%  contextual (Section~\ref{ssub:context}); 
+%  \item n-Grams (Section~\ref{ssub:ngrams});
+%  \item Heuristics (Section~\ref{ssub:heuristics});
+\end{description}
+% {\it i)} lexical similarity, semantic similarity (Sections~\ref{ssub:sim}); 
+% {\it ii)} contextual (Section~\ref{ssub:context}); 
+% {\it iii) n-Grams (Section~\ref{ssub:ngrams})};
+% {\it iv) Heuristics (Section~\ref{ssub:heuristics})};
+% 
+Both primary and contrastive 1 submissions use a linear-kernel SVM for model 
+estimation \cite{}. The $C$ hyper-parameter is set to the 
+default value \red{(?)}. The one-versus-all approach has been used to account 
+for the fact that the learning problem is a multiclass one \red{(how was 
+treated class imbalance?)}. 
+The first contrastive submission adds the Partial tree kernel. Its parameters 
+were selected on the development set. The kernel parameters were selected among 
+these values: \red{$\lambda=\{0.4,1.0\}$, $\mu=\{0.4\}$ ??}. 
+Since the contrastive 2 submission is based on rules, no learning procedure was 
+required (Section~\ref{ssub:heuristics}).
+
+The submissions for Subtask A-Arabic make use of the following features:
+\begin{description}
+\item[Primary:] 
+  the same ones of the Subtask A-English. Moreover, the rule-based predictions 
+  (Section~\ref{ssub:heuristics}) are used as yet another feature;
+\item[Contrastive 1:] only rule-based features (Section~\ref{ssub:heuristics}); 
+and 
+\item[Contrastive 2:] as the English primary, but neglecting $n$-Grams 
+  (Section~\ref{ssub:ngrams}) and Heuristics (Section~\ref{ssub:heuristics}). 
+  \red{Please, confirm}
+ \end{description}
+
+Finally, the submissions for English Subtask B make use of the following 
+features:
+\begin{description}
+ \item[Primary:] the same ones of the Subtask A-English plus the features 
+described in Section~\ref{sub:app_enB}, and the model is selected on the 
+training set;\blue{we have to say more about this issue} 
+ \item[Contrastive 1:] as the primary submission, but by considering both 
+training and development data for estimating the model; and
+ \item[Contrastive 2:] a rule-based system as described in 
+Section~\ref{sub:hamdy_enB}.
+ \end{description}
+
+%  \begin{table}[h]
+%  \begin{tabular}{c|c|c|c|c}
+%   \multicolumn{5}{c}{Subtask A} \\
+%   \hline
+%  Subm.		& F1-Good 	& F1-Bad 	& F1-Pot 	& F1	 \\
+%   \hline
+%   E. P.  & $78.45$	& $72.39$	& $10.40$	& $53.74$ \\
+%   E. C1 & $76.08$	& $75.68$	& $17.44$	& $56.40$ \\
+%   E. C2 & $75.46$	& $72.48$ 	& $7.97$	& $51.97$ \\
+%   A. P. & $77.31$	& $91.21$	& $67.13$	& $78.55$ \\
+%   A. C1& $74.89$ 	& $91.23$	& $63.68$	& $76.60$ \\
+%   A. C2& $76.63$	& $90.30$	& $63.98$	& $76.97$ \\
+% \hline 
+%   \multicolumn{5}{c}{Subtask B} \\
+% \hline  
+%  Subm.		& F1-Yes 	& F1-No 	& F1-Unsure 	& F1	 \\
+%   \hline
+%   E. P.	& $78.45$	& $72.39$	& $10.40$	& $53.74$ \\
+%   E. C1  & $76.08$	& $75.68$	& $17.44$	& $56.40$ \\
+%   E. C2 & $75.46$	& $72.48$ 	& $7.97$	& $51.97$ \\
+%  \end{tabular}
+% \caption{Results of our experiments on SemEval Task 3. The first column specify 
+% the submission type, English (E) or Arabic (A) and Primary (P) or Contrastive 1 
+% or 2 (C1 or C2). The columns 2-4 specify the F1 measure of the binary learning 
+% problem, for example Good VS all other classes. Finally the 6-th column shows 
+% the official F1 score for the submission.\label{tab:results}}
+% \end{table}
+
+  \begin{table}[h]
+ \begin{tabular}{|l|cccc|}
+  \multicolumn{5}{c}{Subtask A} \\
+  \hline
+ Subm.		& \bf \good & \bf\bad 	& \bf \texttt{POT} & \bf\texttt{MACRO}	
+ \\
+  \hline
+  Arabic&&&&\\
+  \,\,\,\,prim	& $77.31$ & $91.21$	& $67.13$	& $78.55$ \\
+  \,\,\,\,cont$_1$	& $74.89$ & $91.23$	& $63.68$	& $76.60$ \\
+  \,\,\,\,cont$_2$	& $76.63$ & $90.30$	& $63.98$	& $76.97$ \\
+  
+  English \\
+  \,\,\,\,prim  & $78.45$	& $72.39$	& $10.40$	& $53.74$ \\
+  \,\,\,\,cont$_1$ & $76.08$	& $75.68$	& $17.44$	& $56.40$ \\
+  \,\,\,\,cont$_2$ & $75.46$	& $72.48$ 	& $7.97$	& $51.97$ \\
+\hline 
+\end{tabular}
+\begin{tabular}{|l|cccc|}
+\hline
+  \multicolumn{5}{c}{Subtask B} \\
+\hline  
+ Subm.		& \bf \yes & \bf \no & \bf \unsure & \bf \texttt{MACRO}	 \\
+  \hline
+  
+  \,\,prim	& $78.45$	& $72.39$	& $10.40$	& $53.74$ \\
+  \,\,cont$_1$& $76.08$	& $75.68$	& $17.44$	& $56.40$ \\
+  \,\,cont$_2$ & $75.46$	& $72.48$ 	& $7.97$	& $51.97$ \\
+ \end{tabular}
+\caption{$F$-measure of our experiments on SemEval Task 3. The first 
+column specify the submission type, English (E) or Arabic (A) and Primary (P) 
+or Contrastive 1 or 2 (C1 or C2). The columns 2-4 specify the F1 measure of the 
+binary learning problem, for example Good VS all other classes. Finally the 
+6-th column shows the official F1 score for the submission.\label{tab:results}}
+\end{table}
+
+% - Clearly define tuning, submission and post-submission
+% 
+% Potentially interesting experiments to show/discuss
+% 
+% \textbf{English A}
+% \begin{itemize}
+%  \item Feature sets in isolation. 
+%  \item Altogether
+%  \item Simplified experiment: Potential becomes bad; Good vs Bad
+%  \item Error analysis: Potential versus Good/Bad errors
+% \end{itemize}
+
+\subsection{Discussion and Further Experiments} \label{sec:expdiscussion}
+
+\subsection{Contrastive Hamdy}
+
+We approach the Arabic task as a ranking problem, Given the 5 comments 
+associated to a question, the most similar one is assigned the maximum 100\% 
+similarity and the rest of the scores are mapped proportionally. The ranges 
+for the three classes are [80, 100] for \dir, (20,80) for \rel, and [0,20] 
+for \irel.
+
+For English, the ranges are \blue{equivalent} for \good, \pot, and \bad 
+comments. Additionally, some heuristics override the so generated decisions: a 
+$c$ is labeled as \good if
+\Ni it contains a URL or
+\Nii it starts with an affirmation (and the question is of type YES/NO), and as 
+\bad if $c$ is written by $u_q$ or contains an acknowledgement.
+
+\textbf{English B}
+\begin{itemize}
+ \item Any proposal? Probably no questions enough for an error analysis
+\end{itemize}
+
+
+
+\textbf{Arabic}
+
+\begin{itemize}
+ \item Let's ask the Arabic team!
+\end{itemize}
+
+% these are the submissions for English Subtask A and the Arabic Task
+% 
+% English Subtask A
+% - subtask_a_python_primary.pred (Python system including ngrams and features from everybody)
+% - subtask_a_svmlight_contrastive1.pred (Python system feature vectors, learning and classification carried out with svmlight and tuned parameters)
+% - subtask_a_hamdy_contrastive2.pred (predictions by Hamdy's system)
+% 
+% Arabic Task
+% - arabic_max_hamdy_primary.pred (Python system including Hamdy's predictions as features)
+% - arabic_hamdy_contrastive1.pred (predictions by Hamdy's system)
+% - arabic_max_contrastive2.pred (Python system with no ngrams and Hamdy rule + Hamdy's predictions as features)
+% 
+% Since the primary system for Arabic without Hamdy's predictions was weaker than the second contrastive on the dev set, I used the latter. It's the system using only similarity features (no ngrams), classifier parameters crossvalidated on the train set and Hamdy's rule for selecting Direct, Relevant and Irrelevant comments.
+
+%SUBTASK B
+% we just defined the three submissions, which you can find attached:
+% 
+% a) subtask_a_primary.pred was generated by our standard pipeline for
+% task B, trained on the Iman's features for the training partition *only*
+% b) subtask_a_contrastive1.pred is as the primary one, but using the
+% train+dev features set generated by Iman
+% c) subtask_a_contrastive2.pred includes Hamdy's predictions.
+% 
+% Regarding submission a, remember we were trying three "comment
+% filtering" alternatives to select the adequate evidence when deciding
+% the label Yes, No or Unsure on the entire question. Whereas on the dev
+% set we observed that these three strategies impacted on the final
+% result, such a behaviour disappeared on the test, so the three
+% alternatives became 1.
+% 
+% Beside that, we found a somehow unexpected behaviour when classifying
+% the test set with our system trained on the new train+dev set generated
+% by Iman. In brief, almost 90% of the questions were classified as "Yes";
+% a distribution unexpected with respect to that from the development set.
+% As a result, this output became our contrastive submission 2
+% 
+% Regarding (c), I do not have information about Hamdy's prediction at hand.

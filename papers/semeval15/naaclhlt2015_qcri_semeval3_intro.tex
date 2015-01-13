@@ -1,0 +1,58 @@
+\section{Introduction}
+\label{sec:intro}
+
+
+The SemEval-2015 Task 3 ---Answer Selection in Community Question Answering---, 
+challenged participants in the problem of automatically identifying the 
+appropriateness of user-generated answers in a community question answering 
+setting both in Arabic and English~\cite{Marquez-EtAl:2015:SemEval}. A question 
+$q\in Q$, asked by user $u_q$, together with a set of comments $C$ are given and 
+the system is intended to determine whether a comment $c\in C$ offers a suitable 
+answer to $q$ or not. 
+
+In the case of Arabic, the questions were extracted from \textit{Fatwa}, a 
+community question answering website on the Islamic religion.%
+\footnote{\url{http://fatwa.islamweb.net}} 
+In this dataset each question includes five comments, provided by scholars on 
+the topic, each of which has to be automatically labeled as 
+\Ni \textit{direct}, a direct answer to the question;
+\Nii \textit{related}, not a direct answer to the question but with information 
+related to the topic; and 
+\Niii \textit{irrelevant}, an answer to another question, not related to the 
+topic. 
+
+In the case of English, the dataset was extracted from \textit{Qatar Living}, 
+a forum for people to pose questions on multiple aspects of daily life Qatar.%
+\footnote{\url{http://www.qatarliving.com/forum}}
+Unlike Fatwa, the questions and comments in this dataset come from regular 
+users, making them significantly more varied, informal, and open. In this case, 
+the input to the system consists of a question and a variable number of 
+comments, each of which are to be labeled as 
+\Ni \good, the comment is definitively relevant; 
+\Nii \pot, the comment is potentially useful; and 
+\Niii \bad, the comment is irrelevant (\eg it is part of a dialogue, unrelated 
+to the topic, or it is written in a language other than English). 
+We refer to this task as English task A. Additionally, a subset of the 
+questions in the corpus is considered of type \yes/\no.
+% , which means the expected answer to the question is precisely either \yes or 
+% \no. 
+In this case the task is determining whether the overall answer to the question, 
+according to the evidence provided within the comments is 
+\Ni \yes, 
+\Nii \no, or if no evidence enough exists to make a decision, 
+\Niii \unsure. 
+We refer to this as English task B. 
+
+In this paper we describe the supervised machine learning approach of QCRI. We 
+considered different kinds of features, including lexical, syntactic and 
+semantic similarities, the context in which a comment appears (\eg before a 
+comment where the person asking the question acknowledges), $n$-grams 
+occurrence, and some heuristics on specific keywords. Our approach ranked 1st 
+out of four teams in the Arabic task, 3rd out of twelve in English Task A, and 
+3rd out of eight in English Task B. 
+
+The rest of the contribution is distributed as follows. 
+Section~\ref{sec:approach} describes our approach together with the designed 
+features. Section~\ref{sec:experiments} discusses our experiments and obtained 
+results. Section \blue{\ldots}
+

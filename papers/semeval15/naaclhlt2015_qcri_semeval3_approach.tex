@@ -1,0 +1,380 @@
+\section{Approach}
+\label{sec:approach}
+
+\blue{TODO describe the datasets?}
+Our approach performs multiclass classification on the basis of a one-vs-rest 
+support vector machines strategy (\ie we train one classifier for each class). 
+Our learning process consists of 10-fold cross-validation on the training set 
+tuning $F$-measure. 
+\blue{\ldots} 
+Each comment $c$ attached to question $q$ is represented by a features' vector 
+including similarities (Section~\ref{ssub:sim}), the context in which a comment 
+appears (Section~\ref{ssub:context}), and the occurrence of certain vocabulary 
+and phrase triggers (Sections~\ref{ssub:ngrams} and~\ref{ssub:heuristics}). 
+% Our classifications are made at comment level of comment (except for task B, 
+% \cf Section~\ref{sub:app_enB}). 
+
+
+\subsection{Arabic task}
+\label{sub:app_arabic}
+
+\begin{description}
+ \item[Lexical similarity]  Massimo, Hamdy's overlap (same as in A) 
+\end{description}
+
+\blue{We still have to identify what features are computed for each language 
+(\eg semantic are not considered in Arabic, I guess)}
+
+\subsubsection{Similarities}
+\label{ssub:sim}
+
+Our intuition is that the higher the similarity between $c$ and $q$ is, the 
+more likely is that $c$ represents a \good answer. Following, we describe the 
+different types of similarities $sim(q,c)$ we compute.
+
+\paragraph{Lexical similarities}
+\blue{Massimo}
+We compute $sim(q, c)$ for word $n$-gram representations of the question and 
+comment ($n=[1,\ldots,4]$) and different $sim$ functions including: greedy 
+string tiling~\blue{ref}, longest common subsequences~\blue{ref}, Jaccard 
+coefficient~\cite{Jaccard:1901}, containment~\blue{ref}, and cosine similarity 
+(cosine is also computed on lemmas and POS tags, either including stopwords or 
+not).%
+\footnote{\blue{So the rest are computed on the original tokens? Please, 
+clarify}}
+
+
+% \blue{Wei}
+% We computed three features on the intersection of the tokens in both $q$ and 
+% $c$ by considering three term weighting schemes:
+Three other (pseudo-)similarities are computed, by weighting the terms with idf 
+variations, by means of three formul\ae: 
+%
+\begin{eqnarray}
+ sim(q, c)=\sum_{t\in q\cap c} & idf(t) \enspace,		\\
+ sim(q, c)=\sum_{t\in q\cap c} & log(idf(t)) \enspace, \enspace \mathrm{and} 
+\label{idfvar1}\\
+ sim(q, c)=\sum_{t\in q\cap c} & log\left(1 + \frac{|C|}{tf(t)}\right) 
+\label{idfvar2}
+\end{eqnarray}
+% 
+where $idf(t)$ represents the inverse document frequency~\cite{Jones:1972} 
+of term $t$ in the entire Qatar Living dataset\footnote{keeps your content}, 
+$C$ represents the amount of comments in the entire collection, and $tf(t)$ 
+represents the term frequency of the term in the comment. 
+Equations~\ref{idfvar1} and~\ref{idfvar2} are variations of the IDF 
+concept by Nallapati~\shortcite{Nallapati:2004}.
+
+
+
+
+
+
+
+% where $idf(t)$ represents the inverse document frequency of term $t$ in the 
+% entire Qatar Living dataset%
+% \footnote{All the \textit{idf} values were computed on the Qatar Living dataset, 
+% distributed by the task organizers~\cite{Marquez-EtAl:2015:SemEval}: 
+% \url{http://alt.qcri.org/semeval2015/task3/}.},
+% $|C|$ represents the amount of comments in the entire collection, and $tf(t)$ 
+% represents the term frequency of the term in the comment. These are variations 
+% of the \textit{idf} concept by \blue{Salton (1986)} and 
+% \blue{Nallapati (2004)}.\footnote{\blue{Wei, please add the proper references}}
+
+
+
+
+
+
+
+\paragraph{Syntactic similarity}
+\label{ssub:syntactic}
+
+\blue{Massimo}
+Partial tree kernel (PTK) similarity between question and comment according 
+to~\cite{Moschitti:2006}. \blue{add some details}
+
+\paragraph{Semantic similarities}
+\label{ssub:semantic}
+
+We use word-embedding vector representations, including three approaches:
+\Ni an instance of latent semantic analysis~\cite{croce-previtali:2010:GEMS}, 
+trained on the Qatar Living corpus applying a co-occurrence window of size 
+$\pm3$ and coming out with a vector of dimension 250, after SVD reduction (we 
+included an instance on the entire vocabulary and nouns only);
+\Nii GloVe~\cite{Pennington:2014}, using the pre-trained model \textit{Common 
+Crawl (42B tokens)}, with 300 dimensions;%
+\footnote{Available at \url{http://nlp.stanford.edu/projects/glove/}; last 
+visit: Jan 6th, 2015.}
+and \Niii COMPOSES~\cite{Baroni:2014}, using previously-estimated predict 
+vectors of 400 dimensions.%
+\footnote{Available at 
+\url{http://clic.cimec.unitn.it/composes/semantic-vectors.html}; last visit: Jan 
+6th, 2015.}
+We also experimented with \textit{word2vec}~\cite{Mikolov:2013} 
+vectors pre-trained (both with cbow and skipgram) and both word2vec and GloVe 
+with vectors trained on Qatar Living data, but we discarded them, as they did 
+not contribute positively to our approach.
+Both $q$ and $c$ are then represented by a sum of the vectors 
+corresponding to the words within them (neglecting the subject of $c$), and 
+compute the cosine similarity to estimate $sim(q,c)$. 
+\footnote{\blue{Preslav, we have some extra details for LSA, such as the 
+window size, etc. If you give more details for your embeddings, we can 
+improve both descriptions}}
+
+\blue{These semantic similarities are not applied in the Arabic task.}
+
+\subsubsection{Context \blue{Simone/Alberto}}
+\label{ssub:context}
+
+Intuitively, whether a question includes further comments by $u_q$ (some of 
+them acknowledging), more than one comment from the same user, or whether $q$ 
+belongs to a category in which a given kind of answer is expected, are important 
+factors when classifying a comment. Therefore, we consider set of features that 
+try to describe a comment in its context.   
+
+Let $C={c_1, \ldots,c_C}$ be the stream of comments associated to question $q$, 
+asked by $u_q$. The features for comment $c$ in the first subset are of type 
+boolean. The first four of them are set to \texttt{True} according to the 
+following criteria:
+
+\begin{enumerate}
+\item $c$ is written by $u_q$ (\ie the same user behind $q$); 
+\item \label{enu:context_ack} 
+  $c$ is written by $u_q$ and contains and acknowledgment (e.g.   
+  \textit{thank*}, \textit{appreciat*});
+\item \label{enu:context_quest}
+  $c$ is written by $u_q$ and includes further questions; and
+\item $c$ is written by $u_q$ and includes no acknowledgments nor further 
+questions.
+\end{enumerate}
+% 
+Our second subset of context-based features intends to model a comment according 
+to those comments by $u_q$ appearing in its proximity. Intuitively, whether $c$ 
+appears close to an acknowledgment or further questions by $u_q$ could be a 
+relevant factor when classifying it. Our function to represent the relation 
+between a comment $c_{t-k}$ in time $t-k$ and $c_{q,t}$, given that $t$ 
+is the time of the comment by $u_q$ is as follows:
+% 
+\begin{equation}
+ f(c_{t-k})=\max \left(1.1-(k*0.1) , 0 \right)
+\end{equation}
+%
+where $k$ is the distance between $c_{t-k}$ and $c_{q,t}$ in the past and a 
+stop criterion exists: the occurrence of another comment by $u_q$. This function 
+is applied to generate four features according to four criteria:
+
+\begin{enumerate}\setcounter{enumi}{4}
+\item a $c_q$ for which feature~\ref{enu:context_ack} is \texttt{True},
+\item a $c_q$ for which feature~\ref{enu:context_ack} is \texttt{False}, 
+\item a $c_q$ for which feature~\ref{enu:context_quest} is \texttt{True}, and 
+\item same as the previous one, but looking at the future instead. 
+\end{enumerate}
+
+
+We also tried to model potential dialogues by identifying interlacing comments 
+between two users. Our dialogue features rely on identifying 
+a sequence of comments 
+\begin{align*}
+c_i \rightarrow c_j \rightarrow c_i \rightarrow c_j^*,
+\end{align*}
+% 
+where $u_i$ and $u_j$ are the authors of $c_i$ and $c_j$. 
+Note that comments by other 
+users can appear in between this ``pseudo-conversation''. Three features are 
+considered, whether a comment is at the beginning, middle, or ending position of 
+the pseudo-dialogue. We consider three more features for those cases in which 
+$q=j$. 
+
+We are also interested in realizing whether a user $u_i$ has been particularly 
+active in a question. As a result, we consider one boolean feature, whether 
+$u_i$ wrote more than one comment in the current stream, and three more features 
+identifying the first, middle and last comments by $u_i$. One extra real feature 
+counts the total number of comments written by $u_i$.
+
+Qatar Living includes twenty-six different categories in which a person could 
+request for information and advice. Some of them tend to include more open 
+questions and even invite to discussions on ambiguous topics (e.g., \textit{life 
+in Qatar}, \textit{Qatari culture}). Some others require more precise answers 
+and allow for less discussion (e.g. \textit{Electronics}, \textit{visas and 
+permits}). Therefore, we include one boolean feature per category to consider 
+this information. 
+ 
+We empirically observed that the likelihood for a comment to be \good decreases 
+the farther it appears from the question. Therefore, we consider one more 
+real-valued feature: $\max(20, i)/20$, where $i$ represents the position of 
+the comment in the stream.
+ 
+% \Ni . further developed some “context” features that analyze the whole 
+% stream of 
+% comments within a question to investigate manifold aspects such as the presence 
+% of an acknowledgment or a new question from the question author (evidence of at 
+% least a good comment among the previous ones), the presence of multiple 
+% comments 
+% from the same user or the interlacement of comments between two or more users 
+% (evidence of a dialogue).
+
+
+
+\subsubsection{$n$-Grams \blue{Massimo}}
+\label{ssub:ngrams}
+
+Our intuition is that a properly produced question should allow for the 
+creation of \good comments. That is, objective and clear questions would tend to 
+produce objective and \good comments. On the other side, subjective or badly 
+formulated questions would call for \bad comments or even discussion (\ie 
+dialogues) among the users. When talking about comment, they could also include 
+specific indicators that trigger a \good or \bad class, regardless of the 
+specific question it intends to reply to. The aim is capturing those 
+$[1,2]$-grams which are associated to questions and comments in the different 
+classes.
+
+Our features are composed of $[1,2]$-grams by analyzing independently the 
+question and comments. The weights are based on tf-idf on the whole Qatar 
+Living 
+dataset. 
+
+\subsubsection{Heuristics}
+\label{ssub:heuristics}
+
+\begin{itemize}
+ \item A boolean feature, whether $c$ contains a URL or electronic mail. 
+ \item the length of $c_i$ in characters, as we empirically observed that long 
+  comments tend to be \good.
+\blue{simone}
+\end{itemize}
+
+
+\blue{Hamdy's contrastive}
+Our contrastive submission \blue{x} is a rule-based system. A comment is 
+labeled as \good if starts with one of a set of imperative verbs, including 
+\textit{try}, \textit{view}, \textit{contact}, \textit{check}%
+\footnote{
+% yes list: {"yes", "yep", "yup", "yap", "yeah", "yea", "ya", "yess", 
+% "yeh", "sure"} --> both yes and good
+% 2- no list: {"no", "noo", "nooo", "nop", "nope"}
+ --> both no and good
+% 3- thanks/dialogue list: {"thank", "thx", "thanks", "thanx", "thnk", "tnx", 
+% "thnak", "sorri", "welcom", "wow"} --> dialogues
+% 4. generic answers list: {"check", "try", "go", "call", "contact", "follow", 
+% "go", "take", "talk", "use", "visit", "watch"} --> good
+
+
+%HAMDYS
+%ENGLISH:
+% 11. if score == highest score                                          -> Good
+% 12. if score >= 0.5 of the second highest score             -> Good
+% 13. if score == 0                                                              
+% -> Bad  Otherwise                                                         
+%           -> Potential
+% [12:35:11 PM] Hamdy Mubarak: Porter Stemmer problems:
+% - it gives incorrect stem when word starts with capital letter (at the beginning 
+% of sentence). ex: Lady, Ladies and lady will give different stems
+% - stem is not always correct when a named entity written in small letters, ex: 
+% Los angeles.
+% - it doesn't have a built-in spell checker to handle spelling mistakes
+% 
+% I used a list of ~30,000 words and their stems (lookup table):
+% http://snowball.tartarus.org/algorithms/english/diffs.txt
+% 
+% The training data is stemmed using the word list, and stopwords are marked by 
+% revising the top 3,000 words (freq >= 15)
+
+
+\blue{complete it or cite the source for affirmative words; the same 
+for the rest}}, ..” and includes a URL or phone number. A comment is labeled 
+as \dial if it starts with \textit{thanks}, \textit{thx}, \textit{thanx},..” 
+or it has been written by the same person that asked the question.%
+\footnote{\blue{I am tempted to include a simple table with all the 
+vocabularies in these rules. TODO check these vocabularies}}
+
+
+
+% \bsegin{description}
+%  \item[Lexical similarity] 
+%  \item[Syntactic similarity] Massimo's PTK
+%  \item[Semantic similarity] (Preslav, Simone's LSA)
+%  \item[Context-based] (Simone)
+%  \item[Heuristics] Hamdy's
+% \end{description}
+
+\subsection{English Task B}
+\label{sub:app_enB}
+
+Following the strategy applied during the manual labelling by the task 
+organizers~\blue{ref}, our approach to task B is divided in three steps:
+\Ni identifying the \good comments among those associated to the question;
+\Nii classifying each of the \good comments as \yes, \no, or \unsure; and 
+\Niii voting%
+\footnote{\blue{I'm sure Simone has the ``posh'' word for this}} to determine 
+the overall class of the question. The overall answer to a question is that of 
+the majority of the comments. In case of draw, we opt for labeling it as 
+\unsure.%
+\footnote{Alternatively, \yes could have been the default answer, as this is 
+clearly the majority class in the training and development partitions. Still, 
+we opted for a conservative decision: opting for \unsure if no evidence enough 
+is at hand.}
+
+Step \Ni is indeed task A. As for step \Nii, we consider again all the 
+features used  for task A, toghether with others intending to model \yes, 
+\no, and \unsure answers. Our intention is determining whether a comment is 
+considered positive or negative, the existence of key elements for supporting 
+and answer, such as a URL, and even the profile of the user of every comment, 
+
+We also compute the sentiment score of a comment by analyzing its polarity. We 
+model this function as:
+\begin{equation}
+pol(c) = \sum_{w\in c} pol(w) 
+\end{equation}
+%
+where $pol(w)$ represents the polarity of word $w$ in the lexicon 
+\blue{XYZ (ref)}. In order to neglect nearly neutral words, we discard those 
+wich polarity is in the range $(-1,1)$. 
+
+
+Additionaly to a content-based polarity, we also exploit what we call a user 
+profile. Given comment $c$ by user $u$, we consider the number of 
+\good, \bad, \pot, and \dial comments the user has produced before. We also 
+consider the average word length of \good, \bad, \pot, and \dial comments.
+These features are computed considering only those previous questions from 
+the same category as the current one. 
+
+We also compute a variation of the cosine similarity in which only the 
+vocabulary intersection between $q$ and $c$ is considered \blue{why?}. The 
+weight associated to each word is the tfidf, for which the IDF values were 
+computed considering the entire Qatar Living dataset.
+
+
+Heuristics are also applied on the existence of some keywords in the comment. 
+Features are set to true if $c$ contained
+\Ni \textit{yes}, \textit{can}, \textit{sure}, \textit{wish}, \textit{would};
+\Nii \textit{no}, \textit{not}, \textit{neither}; or 
+\Niii  a \textit{URL}.
+
+
+
+
+
+\blue{these two features were under consideration already:}
+length of the comment, and the inverse rank of the comment in the list of all 
+comments for a question.
+
+
+% \begin{description}
+%  \item[Lexical similarity]  Iman
+%  \item[Heuristics] Iman's ``lexical features''
+%  \item[Sentiment] Iman
+%  \item[Context] Iman's user profiles
+% \end{description}
+
+
+\subsubsection{Hamdy's contrastive}
+
+Our contrastive submission \blue{X} is a rule-based system. A comment is 
+labeled as \yes if it starts with affirmative words: \textit{yes}, 
+\textit{yep}, \textit{yeah}, etc.%
+\footnote{\blue{complete it or cite the source for affirmative words; the same 
+for the rest}}
+It is labeled as \no if it starts with \textit{no}, \textit{nop}, 
+\textit{nope}, etc”, 
+
