@@ -138,6 +138,48 @@ binary learning problem, for example Good VS all other classes. Finally the
 
 \subsection{Discussion and Further Experiments} \label{sec:expdiscussion}
 
+
+\begin{table*}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+Exp&Lexical & Syntactic & Semantic & Context & $n$-grams & Heuristics\\ 
+\hline
+1	& x	& 	& 	& 	& 	& 		\\
+2	& 	& x	& 	& 	& 	& 		\\
+3	& 	& 	& x	& 	& 	& 		\\
+4	& 	& 	& 	& x	& 	& 		\\
+5	& 	& 	& 	& 	& x	& 		\\
+6	& 	& 	& 	& 	& 	& x		\\
+7	& x	& x	& x	& 	& 	& 	 	\\
+\hline
+\end{tabular}
+
+
+
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+Exp	&Lexical & Syntactic & Semantic & Context & $n$-grams & Heuristics\\ 
+\hline
+Massimo	& x	& x	& 	& 	& x	& 		\\
+% Iman	& 	& 	& 	& 	& 	& 		\\
+Hamdy	& 	& 	& 	& 	& 	& x		\\
+Simone	& 	& 	& x	& x	& 	& x		\\
+Wei	& x	& 	& 	& 	& 	& 		\\
+Preslav	& 	& 	& x	& 	& 	& 		\\
+
+\hline
+\end{tabular}
+
+
+
+\caption{Experiments with features subsets.} 
+ 
+ 
+ 
+\end{table*}
+
+
+
 \subsection{Contrastive Hamdy}
 
 We approach the Arabic task as a ranking problem, Given the 5 comments 
