@@ -1,5 +1,11 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citename{Allison and Dix}1986]{Allison:1986}
+L~Allison and T~I Dix.
+\newblock 1986.
+\newblock A bit-string longest-common-subsequence algorithm.
+\newblock {\em Inf. Process. Lett.}, 23(6):305--310, December.
+
 \bibitem[\protect\citename{Baroni \bgroup et al.\egroup }2014]{Baroni:2014}
 Marco Baroni, Georgiana Dinu, and Germ\'{a}n Kruszewski.
 \newblock 2014.
@@ -25,6 +31,12 @@ Paul Jaccard.
   des Alpes et des Jura}.
 \newblock {\em Bulletin del la Soci\'{e}t\'{e} Vaudoise des Sciences
   Naturelles}, 37:547--579.
+
+\bibitem[\protect\citename{Lyon \bgroup et al.\egroup }2001]{Lyon:2001}
+Caroline Lyon, James Malcolm, and Bob Dickerson, 2001.
+\newblock {\em Proceedings of the 2001 Conference on Empirical Methods in
+  Natural Language Processing}, chapter Detecting Short Passages of Similar
+  Text in Large Document Collections.
 
 \bibitem[\protect\citename{M{\`{a}}rquez \bgroup et al.\egroup
   }2015]{Marquez-EtAl:2015:SemEval}
@@ -78,5 +90,14 @@ Karen {Sparck Jones}.
 \newblock {A statistical interpretation of term specificity and its application
   in retrieval}.
 \newblock {\em {Journal of Documentation}}, 28:11--21.
+
+\bibitem[\protect\citename{Wise}1996]{Wise:1996}
+Michael~J. Wise.
+\newblock 1996.
+\newblock Yap3: Improved detection of similarities in computer program and
+  other texts.
+\newblock In {\em Proceedings of the Twenty-seventh SIGCSE Technical Symposium
+  on Computer Science Education}, SIGCSE '96, pages 130--134, New York, NY,
+  USA. ACM.
 
 \end{thebibliography}

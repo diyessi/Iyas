@@ -35,13 +35,12 @@ different types of similarities $sim(q,c)$ we compute.
 \paragraph{Lexical similarities}
 \blue{Massimo}
 We compute $sim(q, c)$ for word $n$-gram representations of the question and 
-comment ($n=[1,\ldots,4]$) and different $sim$ functions including: greedy 
-string tiling~\blue{ref}, longest common subsequences~\blue{ref}, Jaccard 
-coefficient~\cite{Jaccard:1901}, containment~\blue{ref}, and cosine similarity 
+comment ($n=[1,\ldots,4]$) without stopwords and different $sim$ functions including: greedy 
+string tiling \cite{Wise:1996}, longest common subsequences \cite{Allison:1986}, Jaccard 
+coefficient~\cite{Jaccard:1901}, word containment \cite{Lyon:2001}, and cosine similarity 
 (cosine is also computed on lemmas and POS tags, either including stopwords or 
 not).%
-\footnote{\blue{So the rest are computed on the original tokens? Please, 
-clarify}}
+\footnote{\green{I added "without stopwords". All the fancy measures ignore stopwords. Only cosines are computed also including them.}}
 
 
 % \blue{Wei}
@@ -92,7 +91,7 @@ concept by Nallapati~\shortcite{Nallapati:2004}.
 
 \blue{Massimo}
 Partial tree kernel (PTK) similarity between question and comment according 
-to~\cite{Moschitti:2006}. \blue{add some details}
+to~\cite{Moschitti:2006}. The similarity is computed between shallow tree representations of the question and the comment. Such trees have lemmas as leaves, each leaf has a parent node representing a part-of-speech tag, and part-of-speech nodes are grouped by chunks at the top level.
 
 \paragraph{Semantic similarities}
 \label{ssub:semantic}
@@ -122,7 +121,7 @@ compute the cosine similarity to estimate $sim(q,c)$.
 window size, etc. If you give more details for your embeddings, we can 
 improve both descriptions}}
 
-\blue{These semantic similarities are not applied in the Arabic task.}
+These semantic similarities are not applied in the Arabic task.
 
 \subsubsection{Context \blue{Simone/Alberto}}
 \label{ssub:context}
