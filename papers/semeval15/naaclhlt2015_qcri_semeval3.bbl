@@ -57,6 +57,15 @@ Tomas Mikolov, Wen-tau Yih, and Geoffrey Zweig.
   Technologies}}, pages 746--751, {Atlanta, GA}, June. {Association for
   Computational Linguistics}.
 
+\bibitem[\protect\citename{Mohammad \bgroup et al.\egroup
+  }2013]{MohammadKZ2013}
+Saif Mohammad, Svetlana Kiritchenko, and Xiaodan Zhu.
+\newblock 2013.
+\newblock {NRC-Canada: Building the State-of-the-Art in Sentiment Analysis of
+  Tweets}.
+\newblock In {\em {Proceedings of the seventh international workshop on
+  Semantic Evaluation Exercises (SemEval-2013)}}, Atlanta, GA, June.
+
 \bibitem[\protect\citename{Moschitti}2006]{Moschitti:2006}
 Alessandro Moschitti.
 \newblock 2006.

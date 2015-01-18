@@ -3,19 +3,57 @@
 
 We made three submissions for each of the proposed subtasks: one primary and 
 two contrastive. 
+
+The submissions for the Arabic task use the following features:
+
+\begin{description}
+\item[Primary:] 
+  lexical similarities (Section~\ref{ssub:sim}) and  $n$-Grams 
+  (Section~\ref{ssub:ngrams}). The predictions from the contrastive 
+  submission~1 are included as yet another feature. 
+\item[Contrastive 1:] 
+%   the features from the primary submission plus the syntactic similarity ones 
+%   (Section~\ref{ssub:sim}); and
+  Predictions based on heuristics and the similarity as computed in 
+  Eq.~\eqref{eq:overlap}. \blue{further descriptions in Hamdy contrastive 
+  subsection}    
+\item[Contrastive 2:] 
+  The features include the lexical similarities together with the predictions 
+  from contrastive 1. A classifier is estimated considering two classes only: 
+  \dir or no-\dir. The comments are sorted according to the classifier's 
+  prediction confidence and the final labels are assigned accordingly: \dir for 
+  the 1st rakned, \rel for the 2nd, and \irel for the rest.
+  
+  
+  only rule-based features 
+(Section~\ref{ssub:heuristics}) \blue{confirm}
+%  contextual (Section~\ref{ssub:context}); 
+%  \item n-Grams (Section~\ref{ssub:ngrams});
+%  \item Heuristics (Section~\ref{ssub:heuristics});
+\end{description}
+
+Primary and contrastive~2 submissions are based on a logistic regression. 
+\blue{more details required}
+
+
+
 The submissions for Subtask A-English make use of the following features: 
 \begin{description}
 \item[Primary:] 
   lexical similarity, semantic similarity (Section~\ref{ssub:sim}), contextual 
   (Section~\ref{ssub:context}), $n$-Grams (Section~\ref{ssub:ngrams}), and
-  Heuristics (Section~\ref{ssub:heuristics}); \blue{do we use the rule-based 
-predictions as well?}
+  Heuristics (Section~\ref{ssub:heuristics}). Once again, the predictions from 
+  contrastive 2 are included as one more feature. 
 \item[Contrastive 1:] 
-  the features from the primary submission plus the syntactic similarity ones 
-  (Section~\ref{ssub:sim}); and
+%   the features from the primary submission plus the syntactic similarity ones 
+%   (Section~\ref{ssub:sim}); and
+  Same as submission 1, but it uses SVMLight to carry out the learning. Thus 
+  this version exploit the j parameter for tuning the cost of mistakes for 
+  positive classes.
+    
 \item[Contrastive 2:] 
-  only rule-based features. 
-(Section~\ref{ssub:heuristics})
+  only rule-based features 
+(Section~\ref{ssub:heuristics}) \blue{confirm}
 %  contextual (Section~\ref{ssub:context}); 
 %  \item n-Grams (Section~\ref{ssub:ngrams});
 %  \item Heuristics (Section~\ref{ssub:heuristics});
@@ -26,27 +64,19 @@ predictions as well?}
 % {\it iv) Heuristics (Section~\ref{ssub:heuristics})};
 % 
 Both primary and contrastive 1 submissions use a linear-kernel SVM for model 
-estimation \cite{}. The $C$ hyper-parameter is set to the 
-default value \red{(?)}. The one-versus-all approach has been used to account 
-for the fact that the learning problem is a multiclass one \red{(how was 
-treated class imbalance?)}. 
-The first contrastive submission adds the Partial tree kernel. Its parameters 
+estimation~\cite{}. The $C$ hyper-parameter is set to the default value 
+\red{(?)}. The one-versus-all approach has been used to account for the fact 
+that the learning problem is a multiclass one. The $C$ hyperparameter of the SVM 
+was used to deal with the class imbalance: more complex classifiers were 
+built for those classes with less instances.
+
+The first contrastive submission adds the Partial tree kernel \blue{According 
+to the last Massimo email, PTK is not used. Please, confirm}. Its parameters 
 were selected on the development set. The kernel parameters were selected among 
 these values: \red{$\lambda=\{0.4,1.0\}$, $\mu=\{0.4\}$ ??}. 
 Since the contrastive 2 submission is based on rules, no learning procedure was 
 required (Section~\ref{ssub:heuristics}).
 
-The submissions for Subtask A-Arabic make use of the following features:
-\begin{description}
-\item[Primary:] 
-  the same ones of the Subtask A-English. Moreover, the rule-based predictions 
-  (Section~\ref{ssub:heuristics}) are used as yet another feature;
-\item[Contrastive 1:] only rule-based features (Section~\ref{ssub:heuristics}); 
-and 
-\item[Contrastive 2:] as the English primary, but neglecting $n$-Grams 
-  (Section~\ref{ssub:ngrams}) and Heuristics (Section~\ref{ssub:heuristics}). 
-  \red{Please, confirm}
- \end{description}
 
 Finally, the submissions for English Subtask B make use of the following 
 features:
@@ -57,7 +87,7 @@ training set;\blue{we have to say more about this issue}
  \item[Contrastive 1:] as the primary submission, but by considering both 
 training and development data for estimating the model; and
  \item[Contrastive 2:] a rule-based system as described in 
-Section~\ref{sub:hamdy_enB}.
+Section~\ref{tmp}.
  \end{description}
 
 %  \begin{table}[h]
@@ -88,7 +118,7 @@ Section~\ref{sub:hamdy_enB}.
 % the official F1 score for the submission.\label{tab:results}}
 % \end{table}
 
-  \begin{table}[h]
+  \begin{table*}%[h]
  \begin{tabular}{|l|cccc|}
   \multicolumn{5}{c}{Subtask A} \\
 %   \hline
@@ -108,7 +138,7 @@ Section~\ref{sub:hamdy_enB}.
 \hline 
 \end{tabular}
 \begin{tabular}{|l|crrr|}
-\hline
+% \hline
   \multicolumn{5}{c}{Subtask B} \\
 \hline  
  Subm.		& \bf \yes & \bf \no & \bf \unsure & \bf \texttt{MACRO}	 \\
@@ -117,13 +147,14 @@ Section~\ref{sub:hamdy_enB}.
   \,\,prim	& $80.00$	& $44.44$	& $36.36$	& $53.60$ \\
   \,\,cont$_1$& $75.68$	& $0.00$	& $0.00$ & $25.23$ \\
   \,\,cont$_2$ & $66.67$	& $33.33$ 	& $47.06$	& $49.02$ \\
+  \hline
  \end{tabular}
 \caption{$F$-measure of our experiments on SemEval Task 3. The first 
 column specify the submission type, English (E) or Arabic (A) and Primary (P) 
 or Contrastive 1 or 2 (C1 or C2). The columns 2-4 specify the F1 measure of the 
 binary learning problem, for example Good VS all other classes. Finally the 
 6-th column shows the official F1 score for the submission.\label{tab:results}}
-\end{table}
+\end{table*}
 
 % - Clearly define tuning, submission and post-submission
 % 
@@ -182,6 +213,7 @@ Preslav	& 	& 	& x	& 	& 	& 		\\
 
 
 \subsection{Contrastive Hamdy}
+\label{tmp}
 
 We approach the Arabic task as a ranking problem, Given the 5 comments 
 associated to a question, the most similar one is assigned the maximum 100\% 

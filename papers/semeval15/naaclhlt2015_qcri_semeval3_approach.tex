@@ -15,17 +15,14 @@ and phrase triggers (Sections~\ref{ssub:ngrams} and~\ref{ssub:heuristics}).
 % \cf Section~\ref{sub:app_enB}). 
 
 
-\subsection{Arabic task}
-\label{sub:app_arabic}
+% \subsection{Arabic task}
+% \label{sub:app_arabic}
+% 
+% \begin{description}
+%  \item[Lexical similarity]  Massimo, Hamdy's overlap (same as in A) 
+% \end{description}
 
-\begin{description}
- \item[Lexical similarity]  Massimo, Hamdy's overlap (same as in A) 
-\end{description}
-
-\blue{We still have to identify what features are computed for each language 
-(\eg semantic are not considered in Arabic, I guess)}
-
-\subsubsection{Similarities}
+\subsection{Similarities}
 \label{ssub:sim}
 
 Our intuition is that the higher the similarity between $c$ and $q$ is, the 
@@ -39,9 +36,7 @@ comment ($n=[1,\ldots,4]$) without stopwords and different $sim$ functions inclu
 string tiling \cite{Wise:1996}, longest common subsequences \cite{Allison:1986}, Jaccard 
 coefficient~\cite{Jaccard:1901}, word containment \cite{Lyon:2001}, and cosine similarity 
 (cosine is also computed on lemmas and POS tags, either including stopwords or 
-not).%
-\footnote{\green{I added "without stopwords". All the fancy measures ignore stopwords. Only cosines are computed also including them.}}
-
+not).
 
 % \blue{Wei}
 % We computed three features on the intersection of the tokens in both $q$ and 
@@ -53,16 +48,16 @@ variations, by means of three formul\ae:
  sim(q, c)=\sum_{t\in q\cap c} & idf(t) \enspace,		\\
  sim(q, c)=\sum_{t\in q\cap c} & log(idf(t)) \enspace, \enspace \mathrm{and} 
 \label{idfvar1}\\
- sim(q, c)=\sum_{t\in q\cap c} & log\left(1 + \frac{|C|}{tf(t)}\right) 
+ sim(q, c)=\sum_{t\in q\cap c} & log\left(1 + \frac{|C|}{tf(t)}\right) \enspace 
+,
 \label{idfvar2}
 \end{eqnarray}
 % 
-where $idf(t)$ represents the inverse document frequency~\cite{Jones:1972} 
-of term $t$ in the entire Qatar Living dataset\footnote{keeps your content}, 
-$C$ represents the amount of comments in the entire collection, and $tf(t)$ 
-represents the term frequency of the term in the comment. 
-Equations~\ref{idfvar1} and~\ref{idfvar2} are variations of the IDF 
-concept by Nallapati~\shortcite{Nallapati:2004}.
+where $idf(t)$ represents the inverse document frequency~\cite{Jones:1972} of 
+term $t$ in the entire Qatar Living dataset, $C$ represents the amount of 
+comments in the entire collection, and $tf(t)$ represents the term frequency of 
+the term in the comment. Equations~\ref{idfvar1} and~\ref{idfvar2} are 
+variations of the IDF concept by Nallapati~\shortcite{Nallapati:2004}.
 
 
 
@@ -81,7 +76,18 @@ concept by Nallapati~\shortcite{Nallapati:2004}.
 % \blue{Nallapati (2004)}.\footnote{\blue{Wei, please add the proper references}}
 
 
+Yet another lexical similarity was computed on the basiis of the 
+overlapping of $[1, 2]$-grams between $q$ and $c$, after stopwording and 
+stemming. This particular overlapping is computed as
+%
+\begin{equation}
+ sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cup c} \omega(t) \enspace ,
+ \label{eq:overlap}
+\end{equation}
+% 
 
+where $\omega(t)$ is the empirically-set weight of an $n$-gram: $\omega = 1$ for 
+$1$-grams and $\omega = 4$ for $2$-grams.
 
 
 
@@ -117,13 +123,13 @@ not contribute positively to our approach.
 Both $q$ and $c$ are then represented by a sum of the vectors 
 corresponding to the words within them (neglecting the subject of $c$), and 
 compute the cosine similarity to estimate $sim(q,c)$. 
-\footnote{\blue{Preslav, we have some extra details for LSA, such as the 
-window size, etc. If you give more details for your embeddings, we can 
-improve both descriptions}}
+% \footnote{\blue{Preslav, we have some extra details for LSA, such as the 
+% window size, etc. If you give more details for your embeddings, we can 
+% improve both descriptions}}
 
 These semantic similarities are not applied in the Arabic task.
 
-\subsubsection{Context \blue{Simone/Alberto}}
+\subsection{Context \blue{Simone/Alberto}}
 \label{ssub:context}
 
 Intuitively, whether a question includes further comments by $u_q$ (some of 
@@ -156,7 +162,7 @@ between a comment $c_{t-k}$ in time $t-k$ and $c_{q,t}$, given that $t$
 is the time of the comment by $u_q$ is as follows:
 % 
 \begin{equation}
- f(c_{t-k})=\max \left(1.1-(k*0.1) , 0 \right)
+ f(c_{t-k})=\max \left(0\enspace,\enspace 1.1-(k*0.1) \right)
 \end{equation}
 %
 where $k$ is the distance between $c_{t-k}$ and $c_{q,t}$ in the past and a 
@@ -215,7 +221,7 @@ the comment in the stream.
 
 
 
-\subsubsection{$n$-Grams \blue{Massimo}}
+\subsection{$n$-Grams \blue{Massimo}}
 \label{ssub:ngrams}
 
 Our intuition is that a properly produced question should allow for the 
@@ -233,7 +239,7 @@ question and comments. The weights are based on tf-idf on the whole Qatar
 Living 
 dataset. 
 
-\subsubsection{Heuristics}
+\subsection{Heuristics}
 \label{ssub:heuristics}
 
 \begin{itemize}
@@ -326,8 +332,13 @@ model this function as:
 pol(c) = \sum_{w\in c} pol(w) 
 \end{equation}
 %
-where $pol(w)$ represents the polarity of word $w$ in the lexicon 
-\blue{XYZ (ref)}. In order to neglect nearly neutral words, we discard those 
+where $pol(w)$ represents the polarity of word $w$ in the NRC Hashtag Sentiment 
+Lexicon (version 0.1)~\cite{MohammadKZ2013}.%
+\footnote{\url{
+http://www.umiacs.umd.edu/~saif/WebPages/Abstracts/NRC-SentimentAnalysis.htm}; 
+last visit: Jan 18, 2015.}
+In order to neglect nearly 
+neutral words, we discard those 
 wich polarity is in the range $(-1,1)$. 
 
 
