@@ -64,19 +64,10 @@ The submissions for Subtask A-English make use of the following features:
 % {\it iv) Heuristics (Section~\ref{ssub:heuristics})};
 % 
 Both primary and contrastive 1 submissions use a linear-kernel SVM for model 
-estimation~\cite{}. The $C$ hyper-parameter is set to the default value 
-\red{(?)}. The one-versus-all approach has been used to account for the fact 
+estimation~\cite{}. The one-versus-all approach has been used to account for the fact 
 that the learning problem is a multiclass one. The $C$ hyperparameter of the SVM 
-was used to deal with the class imbalance: more complex classifiers were 
-built for those classes with less instances.
-
-The first contrastive submission adds the Partial tree kernel \blue{According 
-to the last Massimo email, PTK is not used. Please, confirm}. Its parameters 
-were selected on the development set. The kernel parameters were selected among 
-these values: \red{$\lambda=\{0.4,1.0\}$, $\mu=\{0.4\}$ ??}. 
-Since the contrastive 2 submission is based on rules, no learning procedure was 
-required (Section~\ref{ssub:heuristics}).
-
+was used to deal with the class imbalance for the primary submission: more complex classifiers were built for those classes with less instances, increasing the value of C. The $C$ hyper-parameter is set to the default value for the contrastive 1 submission, while the class imbalance was dealt with tuning the j parameter (cost of making mistakes on positive examples) of a different tool used for carrying out learning, namely SVMLight. Its parameters 
+were selected on the development set. Since the contrastive 2 submission is based on rules, no learning procedure was required (Section~\ref{ssub:heuristics}).
 
 Finally, the submissions for English Subtask B make use of the following 
 features:
