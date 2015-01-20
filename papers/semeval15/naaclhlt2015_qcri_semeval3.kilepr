@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=naaclhlt2015_qcri_semeval3_exp.tex
+lastDocument=naaclhlt2015_qcri_semeval3_approach.tex
 masterDocument=
 name=naaclhlt2015_qcri_semeval3
 pkg_extIsRegExp=false
@@ -37,6 +37,13 @@ Highlighting=LaTeX
 Indentation Mode=normal
 Mode=LaTeX
 
+[document-settings,item:naaclhlt2015_qcri_semeval3_intro.tex]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=LaTeX
+Indentation Mode=normal
+Mode=LaTeX
+
 [document-settings,item:semeval15.bib]
 Bookmarks=
 Encoding=UTF-8
@@ -46,41 +53,41 @@ Mode=BibTeX
 
 [item:naaclhlt2015_qcri_semeval3.tex]
 archive=true
-column=14
+column=7
 encoding=UTF-8
 highlight=LaTeX
-line=136
+line=125
 mode=LaTeX
 open=true
 order=0
 
 [item:naaclhlt2015_qcri_semeval3_approach.tex]
 archive=true
-column=44
+column=25
 encoding=UTF-8
 highlight=LaTeX
-line=299
+line=238
 mode=LaTeX
 open=true
 order=1
 
 [item:naaclhlt2015_qcri_semeval3_exp.tex]
 archive=true
-column=14
+column=57
 encoding=UTF-8
 highlight=LaTeX
-line=59
+line=42
 mode=LaTeX
 open=true
 order=2
 
 [item:naaclhlt2015_qcri_semeval3_intro.tex]
 archive=true
-column=1
-encoding=
-highlight=
-line=0
-mode=
+column=45
+encoding=UTF-8
+highlight=LaTeX
+line=41
+mode=LaTeX
 open=false
 order=-1
 
@@ -91,26 +98,32 @@ encoding=UTF-8
 highlight=BibTeX
 line=104
 mode=BibTeX
-open=true
+open=false
 order=3
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3.tex]
-CursorColumn=14
-CursorLine=136
+CursorColumn=7
+CursorLine=125
 JumpList=
-ViMarks=.,34,32,[,34,32,],34,32
+ViMarks=.,124,0,[,124,0,],124,1
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3_approach.tex]
-CursorColumn=44
-CursorLine=299
+CursorColumn=25
+CursorLine=238
 JumpList=
-ViMarks=.,127,0,[,127,0,],127,1
+ViMarks=.,238,24,[,238,6,],238,24
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3_exp.tex]
-CursorColumn=14
-CursorLine=59
+CursorColumn=57
+CursorLine=42
 JumpList=
-ViMarks=.,73,66,[,73,66,],73,66
+ViMarks=.,42,57,[,42,57,],42,57
+
+[view-settings,view=0,item:naaclhlt2015_qcri_semeval3_intro.tex]
+CursorColumn=45
+CursorLine=41
+JumpList=
+ViMarks=.,37,49,[,37,43,],37,49
 
 [view-settings,view=0,item:semeval15.bib]
 CursorColumn=18

@@ -1,17 +1,16 @@
 \section{Approach}
 \label{sec:approach}
 
-\blue{TODO describe the datasets?}
+% \blue{TODO describe the datasets?}
 Our approach performs multiclass classification on the basis of a one-vs-rest 
 support vector machines strategy (\ie we train one classifier for each class). 
-\blue{\ldots} 
 Each comment $c$ attached to question $q$ is represented by a features' vector 
-including similarities (Section~\ref{ssub:sim}), the context in which a comment 
+including similarities (Section~\ref{sub:sim}), the context in which a comment 
 appears (Section~\ref{ssub:context}), and the occurrence of certain vocabulary 
 and phrase triggers (Sections~\ref{ssub:ngrams} and~\ref{ssub:heuristics}). 
 % Our classifications are made at comment level of comment (except for task B, 
 % \cf Section~\ref{sub:app_enB}). 
-
+\blue{Massimo/Simone: please, give more details about this, if necessary}
 
 % \subsection{Arabic task}
 % \label{sub:app_arabic}
@@ -21,26 +20,26 @@ and phrase triggers (Sections~\ref{ssub:ngrams} and~\ref{ssub:heuristics}).
 % \end{description}
 
 \subsection{Similarities}
-\label{ssub:sim}
+\label{sub:sim}
 
-Our intuition is that the higher the similarity between $c$ and $q$ is, the 
-more likely is that $c$ represents a \good answer. Following, we describe the 
-different types of similarities $sim(q,c)$ we compute.
+Our intuition is that the higher the similarity between $c$ and $q$, the 
+higher the likelihood that $c$ is a \good answer. We apply the following 
+different similarities $sim(q,c)$.
 
-\paragraph{Lexical similarities}
-\blue{Massimo}
+\subsubsection{Lexical similarities \blue{massimo+wei}}
+
 We compute $sim(q, c)$ for word $n$-gram representations of the question and 
-comment ($n=[1,\ldots,4]$) without stopwords and different $sim$ functions including: greedy 
-string tiling \cite{Wise:1996}, longest common subsequences \cite{Allison:1986}, Jaccard 
-coefficient~\cite{Jaccard:1901}, word containment \cite{Lyon:2001}, and cosine similarity 
-(cosine is also computed on lemmas and POS tags, either including stopwords or 
-not).
+comment ($n=[1,\ldots,4]$), after stopwording, and different $sim$ functions 
+including: greedy string tiling~\cite{Wise:1996}, longest common 
+subsequences~\cite{Allison:1986}, Jaccard coefficient~\cite{Jaccard:1901}, word 
+containment~\cite{Lyon:2001}, and cosine similarity (cosine is also computed on 
+lemmas and POS tags, either including stopwords or not).
 
 % \blue{Wei}
 % We computed three features on the intersection of the tokens in both $q$ and 
 % $c$ by considering three term weighting schemes:
-Three other (pseudo-)similarities are computed, by weighting the terms with idf 
-variations, by means of three formul\ae: 
+Three other similarities are computed, by weighting the terms by means of three 
+formul\ae: 
 %
 \begin{eqnarray}
  sim(q, c)=\sum_{t\in q\cap c} & idf(t) \enspace,		\\
@@ -58,11 +57,6 @@ the term in the comment. Equations~\ref{idfvar1} and~\ref{idfvar2} are
 variations of the IDF concept by Nallapati~\shortcite{Nallapati:2004}.
 
 
-
-
-
-
-
 % where $idf(t)$ represents the inverse document frequency of term $t$ in the 
 % entire Qatar Living dataset%
 % \footnote{All the \textit{idf} values were computed on the Qatar Living dataset, 
@@ -74,9 +68,10 @@ variations of the IDF concept by Nallapati~\shortcite{Nallapati:2004}.
 % \blue{Nallapati (2004)}.\footnote{\blue{Wei, please add the proper references}}
 
 
-Yet another lexical similarity was computed on the basiis of the 
-overlapping of $[1, 2]$-grams between $q$ and $c$, after stopwording and 
-stemming. This particular overlapping is computed as
+\blue{THIS BELONGS TO A CONTRASTIVE; POTENTIALLY MOVE }
+Yet another lexical similarity was computed on the basis of the overlapping of 
+$[1, 2]$-grams between $q$ and $c$, after stopwording and stemming. This 
+particular overlapping is computed as
 %
 \begin{equation}
  sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cup c} \omega(t) \enspace ,
@@ -90,17 +85,20 @@ $1$-grams and $\omega = 4$ for $2$-grams.
 
 
 
-\paragraph{Syntactic similarity}
-\label{ssub:syntactic}
+\subsubsection{Syntactic similarity \blue{Massimo; contrast?}}
+\label{sub:syntactic}
 
-\blue{Massimo}
+
 Partial tree kernel (PTK) similarity between question and comment according 
-to~\cite{Moschitti:2006}. The similarity is computed between shallow tree representations of the question and the comment. Such trees have lemmas as leaves, each leaf has a parent node representing a part-of-speech tag, and part-of-speech nodes are grouped by chunks at the top level.
+to~\cite{Moschitti:2006}. The similarity is computed between shallow tree  
+representations of $q$ and $c$. Such trees have lemmas as leaves, each leaf has 
+a parent node representing a part-of-speech tag, and part-of-speech nodes are 
+grouped by chunks at the top level.
 
-\paragraph{Semantic similarities}
-\label{ssub:semantic}
+\subsubsection{Semantic similarities}
+\label{sub:semantic}
 
-We use word-embedding vector representations, including three approaches:
+We apply three approaches to build  word-embedding vector representations:
 \Ni an instance of latent semantic analysis~\cite{croce-previtali:2010:GEMS}, 
 trained on the Qatar Living corpus applying a co-occurrence window of size 
 $\pm3$ and coming out with a vector of dimension 250, after SVD reduction (we 
@@ -133,7 +131,7 @@ These semantic similarities are not applied in the Arabic task.
 Intuitively, whether a question includes further comments by $u_q$ (some of 
 them acknowledging), more than one comment from the same user, or whether $q$ 
 belongs to a category in which a given kind of answer is expected, are important 
-factors when classifying a comment. Therefore, we consider set of features that 
+factors. Therefore, we consider set of features that 
 try to describe a comment in its context.   
 
 Let $C={c_1, \ldots,c_C}$ be the stream of comments associated to question $q$, 
@@ -152,19 +150,19 @@ following criteria:
 questions.
 \end{enumerate}
 % 
-Our second subset of context-based features intends to model a comment according 
-to those comments by $u_q$ appearing in its proximity. Intuitively, whether $c$ 
+The second subset of context-based features intends to model $c$ according to 
+those comments by $u_q$ appearing in its proximity. Intuitively, whether $c$ 
 appears close to an acknowledgment or further questions by $u_q$ could be a 
-relevant factor when classifying it. Our function to represent the relation 
-between a comment $c_{t-k}$ in time $t-k$ and $c_{q,t}$, given that $t$ 
-is the time of the comment by $u_q$ is as follows:
+relevant factor when classifying it. Our function to represent the relationship 
+between a comment $c_{t-k}$ in time $t-k$ and $c_{q,t}$, given that $t$ is the 
+time of the comment by $u_q$ is as follows:
 % 
 \begin{equation}
  f(c_{t-k})=\max \left(0\enspace,\enspace 1.1-(k*0.1) \right)
 \end{equation}
 %
-where $k$ is the distance between $c_{t-k}$ and $c_{q,t}$ in the past and a 
-stop criterion exists: the occurrence of another comment by $u_q$. This function 
+where $k$ is the distance between $c_{t-k}$ and $c_{q,t}$ in the past. The stop 
+criterion is the occurrence of another comment by $u_q$. This function 
 is applied to generate four features according to four criteria:
 
 \begin{enumerate}\setcounter{enumi}{4}
@@ -222,23 +220,23 @@ the comment in the stream.
 \subsection{$n$-Grams \blue{Massimo}}
 \label{ssub:ngrams}
 
-Our intuition is that a properly produced question should allow for the 
-creation of \good comments. That is, objective and clear questions would tend to 
-produce objective and \good comments. On the other side, subjective or badly 
-formulated questions would call for \bad comments or even discussion (\ie 
-dialogues) among the users. When talking about comment, they could also include 
+Our intuition is that a properly produced question should allow for the creation 
+of \good comments. That is, objective and clear questions would tend to produce 
+objective and \good comments. On the other side, subjective or badly formulated 
+questions would call for \bad comments or even discussion (\ie dialogues) among 
+the users. When talking about comments, they could also include 
 specific indicators that trigger a \good or \bad class, regardless of the 
-specific question it intends to reply to. The aim is capturing those 
-$[1,2]$-grams which are associated to questions and comments in the different 
-classes.
+specific question it intends to reply to. 
 
-Our features are composed of $[1,2]$-grams by analyzing independently the 
-question and comments. The weights are based on tf-idf on the whole Qatar 
-Living 
-dataset. 
+Our aim is capturing those words or pairs of words which are associated to 
+questions and comments in the different classes. Our features are composed of 
+$[1,2]$-grams by analyzing independently the question and comments. The weights 
+are based on tf-idf on the whole Qatar Living dataset. 
 
 \subsection{Heuristics}
 \label{ssub:heuristics}
+
+\blue{TODO complete these}
 
 \begin{itemize}
  \item A boolean feature, whether $c$ contains a URL or electronic mail. 
