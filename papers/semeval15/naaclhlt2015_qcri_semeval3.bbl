@@ -32,6 +32,14 @@ Paul Jaccard.
 \newblock {\em Bulletin del la Soci\'{e}t\'{e} Vaudoise des Sciences
   Naturelles}, 37:547--579.
 
+\bibitem[\protect\citename{Joachims}1999]{Joachims:99}
+Thorsten Joachims.
+\newblock 1999.
+\newblock {Making Large-scale Support Vector Machine Learning Practical}.
+\newblock In Bernhard Sch{\"{o}}lkopf, Christopher J.~C. Burges, and
+  Alexander~J. Smola, editors, {\em {Advances in Kernel Methods}}, pages
+  169--184. {MIT Press}, {Cambridge, MA}.
+
 \bibitem[\protect\citename{Lyon \bgroup et al.\egroup }2001]{Lyon:2001}
 Caroline Lyon, James Malcolm, and Bob Dickerson, 2001.
 \newblock {\em Proceedings of the 2001 Conference on Empirical Methods in

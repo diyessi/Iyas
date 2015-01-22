@@ -1,85 +1,177 @@
-\section{Experiments and Results}
+\section{Submissions and Results}
 \label{sec:experiments}
 
-We made three submissions for each of the proposed subtasks: one primary and 
-two contrastive. 
+Following we describe our three primary submissions to the three subtasks. The 
+contrastive submissions (two per task) are discussed later on. 
+Table~\ref{tab:results} includes the results obtained with these submissions.
 
-The submissions for the Arabic task use the following features:
+% \blue{Massimo/Simone: please, give more details about this, if necessary}
 
-\begin{description}
-\item[Primary:] 
-  lexical similarities (Section~\ref{sub:sim}) and  $n$-Grams 
-  (Section~\ref{ssub:ngrams}). The predictions from the contrastive 
-  submission~1 are included as yet another feature. 
-\item[Contrastive 1:] 
-%   the features from the primary submission plus the syntactic similarity ones 
-%   (Section~\ref{ssub:sim}); and
-  Predictions based on heuristics and the similarity as computed in 
-  Eq.~\eqref{eq:overlap}. \blue{further descriptions in Hamdy contrastive 
-  subsection}    
-\item[Contrastive 2:] 
-  The features include the lexical similarities together with the predictions 
-  from contrastive 1. A classifier is estimated considering two classes only: 
-  \dir or no-\dir. The comments are sorted according to the classifier's 
-  prediction confidence and the final labels are assigned accordingly: \dir for 
-  the 1st rakned, \rel for the 2nd, and \irel for the rest.
+
+\begin{table}%[h]
+ \begin{tabular}{|l|c@{\hskip 0.2cm}c@{\hskip 0.2cm}c@{\hskip 0.2cm}c|}
+%   \multicolumn{5}{c}{Subtask A} \\
+%   \hline
+%  Subm.		& \bf \good & \bf\bad 	& \bf \texttt{POT} & 	
+%  \\
+  \hline
+  \bf ar& \bf\dir & \bf\rel &\bf \texttt{IRREL} & \bf\texttt{MACRO}\\  \hline  
+  prim	& $77.31$ & $91.21$	& $67.13$	& $78.55$ \\
+  cont$_1$	& $74.89$ & $91.23$	& $63.68$	& $76.60$ \\
+  cont$_2$	& $76.63$ & $90.30$	& $63.98$	& $76.97$ \\
+    \hline \hline
+ 
+
+  \bf en A & \bf \good & \bf\bad & \bf \texttt{POT} & \bf\texttt{MACRO} \\\hline
+  prim  & $78.45$	& $72.39$	& $10.40$	& $53.74$ \\
+  cont$_1$ & $76.08$	& $75.68$	& $17.44$	& $56.40$ \\
+  cont$_2$ & $75.46$	& $72.48$ 	& $7.97$	& $51.97$ \\
+% \end{tabular}
+% \begin{tabular}{|l|crrr|}
+% \hline
+%   \multicolumn{5}{c}{Subtask B} \\
+\hline  \hline
+ \bf en B	& \bf \yes & \bf \no & \bf \unsure & \bf \texttt{MACRO}	 \\
+  \hline
   
-  
-  only rule-based features 
-(Section~\ref{ssub:heuristics}) \blue{confirm}
-%  contextual (Section~\ref{ssub:context}); 
-%  \item n-Grams (Section~\ref{ssub:ngrams});
-%  \item Heuristics (Section~\ref{ssub:heuristics});
-\end{description}
+  prim	& $80.00$	& $44.44$	& $36.36$	& $53.60$ \\
+  cont$_1$& $75.68$	& $0.00$	& $0.00$ & $25.23$ \\
+  cont$_2$ & $66.67$	& $33.33$ 	& $47.06$	& $49.02$ \\
+  \hline
+ \end{tabular}
+\caption{Per-class and overall $F_1$-measure of our \textit{prim}ary and 
+\textit{cont}rastive submissions to SemEval Task 3 for Arabic (A) and English 
+(en).
+% The columns 2-4 specify the F1 measure of 
+% the binary learning problem, for example Good VS all other classes. Finally 
+the 
+% 6-th column shows the official F1 score for the submission.
+\label{tab:results}}
+\end{table}
 
-Primary and contrastive~2 submissions are based on a logistic regression. 
-\blue{more details required}
+\subsection{Primary Submissions}
+
+In general, our approaches perform multiclass classification on the basis of a 
+one-vs-rest support vector machines strategy (\ie we train one classifier for 
+each class). Our classifications for both Arabic and English A are made at 
+comment level.
 
 
+\paragraph{Arabic} Our submission is based on a logistic regression approach. 
+The utilized features are lexical similarities (Section~\ref{sub:sim}) and  
+$n$-Grams (Section~\ref{ssub:ngrams}), together with the predictions obtained 
+with our contrastive submission~1 (\cf Section~\ref{sub:contrastive}). 
 
-The submissions for Subtask A-English make use of the following features: 
-\begin{description}
-\item[Primary:] 
-  lexical similarity, semantic similarity (Section~\ref{sub:sim}), contextual 
-  (Section~\ref{ssub:context}), $n$-Grams (Section~\ref{ssub:ngrams}), and
-  Heuristics (Section~\ref{ssub:heuristics}). Once again, the predictions from 
-  contrastive 2 are included as one more feature. 
-\item[Contrastive 1:] 
-%   the features from the primary submission plus the syntactic similarity ones 
-%   (Section~\ref{ssub:sim}); and
-  Same as submission 1, but it uses SVMLight to carry out the learning. Thus 
-  this version exploit the j parameter for tuning the cost of mistakes for 
-  positive classes.
-    
-\item[Contrastive 2:] 
-  only rule-based features 
-(Section~\ref{ssub:heuristics}) \blue{confirm}
-%  contextual (Section~\ref{ssub:context}); 
-%  \item n-Grams (Section~\ref{ssub:ngrams});
-%  \item Heuristics (Section~\ref{ssub:heuristics});
-\end{description}
-% {\it i)} lexical similarity, semantic similarity (Sections~\ref{ssub:sim}); 
-% {\it ii)} contextual (Section~\ref{ssub:context}); 
-% {\it iii) n-Grams (Section~\ref{ssub:ngrams})};
-% {\it iv) Heuristics (Section~\ref{ssub:heuristics})};
+\paragraph{English A}
+The submission applies the linear-kernel SVM for model estimation from 
+scikit-learn.%
+\footnote{http://scikit-learn.org/stable/}
+We used a one-versus-all approach to account for the fact that the learning 
+problem is a multiclass one. We tuned the $C$ hyper-parameter of the SVM in 
+order to deal with the class imbalance ---by increasing the value of $C$, we 
+built more complex classifiers for those classes with less instances. 
+
+The features for this submission consist of lexical and semantic similarities 
+(Section~\ref{sub:sim}), context information (Section~\ref{ssub:context}), 
+$n$-Grams (Section~\ref{ssub:ngrams}), and heuristics 
+(Section~\ref{ssub:heuristics}). In a sort of stacking, the output of our 
+rule-based system from the contrastive submission~2 is included as another 
+feature. 
+
+\paragraph{English B}
+
+Following the strategy applied during the manual labelling of the \yes/\no 
+questions by the task organizers~\cite{Marquez-EtAl:2015:SemEval}, our approach 
+to task B is divided in three steps:
+\Ni identifying the \good comments among those associated to the question;
+\Nii classifying each of the \good comments as \yes, \no, or \unsure; and 
+\Niii aggregation. 
+The overall answer to a question is that of the majority of the comments. In 
+case of draw, we opt for labeling it as \unsure.%
+\footnote{\yes, the majority class in the training and development partitions, 
+could have been the default answer. Still, we opted for a conservative decision: 
+deciding \unsure if no evidence enough was at hand.}
+Step \Ni is indeed task A. As for step \Nii, our approach to this task is 
+identical as that for English A, but adding the features described in 
+Sections~\ref{sub:polarity} and~\ref{sub:profile}.
+
+Differently to the rest of 
+submissions, our submitted results were obtained with a classifier trained on 
+the training data only (the development set was neglected). The reason behind 
+this decision was obtaining an unexpected distribution of (mostly) \yes answers 
+on the test set (completely different to that observed in both training 
+and development partitions. Further experiments carried out after the 
+submission demonstrated that the causes for such an unexpected behavior were a 
+few features for which no statistics enough existed to be valuable as well as a
+buggy implementation of some of the other features. Further discussion is 
+included in Section~\ref{sec:discussionb}.
+
+
+\subsection{Contrastive Submissions}
+\label{sub:contrastive}
+
+\paragraph{Arabic} 
+
+Our contrastive submission~1 consists of a ranking problem. The similarity 
+$sim(q,c)$ for every $c$ in the question is computed, after stopwording and 
+stemming, as 
+\begin{equation}
+ sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cup c} \omega(t) \enspace ,
+ \label{eq:overlap}
+\end{equation}
 % 
-Both primary and contrastive 1 submissions use a linear-kernel SVM for model 
-estimation~\cite{}. The one-versus-all approach has been used to account for the fact 
-that the learning problem is a multiclass one. The $C$ hyperparameter of the SVM 
-was used to deal with the class imbalance for the primary submission: more complex classifiers were built for those classes with less instances, increasing the value of C. The $C$ hyper-parameter is set to the default value for the contrastive 1 submission, while the class imbalance was dealt with tuning the j parameter (cost of making mistakes on positive examples) of a different tool used for carrying out learning, namely SVMLight. Its parameters 
-were selected on the development set. Since the contrastive 2 submission is based on rules, no learning procedure was required (Section~\ref{ssub:heuristics}).
+where $\omega(t)$ is the empirically-set weight of an $n$-gram: $\omega = 1$ 
+for $1$-grams and $\omega = 4$ for $2$-grams. Given the 5 comments 
+$c_1,\ldots,c5\in C$ associated to $q$, the maximum similarity $\max_C sim(q,c)$ 
+is mapped to a maximum 100\% similarity and the rest of the scores are mapped 
+proportionally. Each comment is assigned a class according to the following 
+ranges: [80, 100]\% for \dir, (20,80)\% for \rel, and [0,20]\% for \irel.
 
-Finally, the submissions for English Subtask B make use of the following 
-features:
-\begin{description}
- \item[Primary:] the same ones of the Subtask A-English plus the features 
-described in Section~\ref{sub:app_enB}, and the model is selected on the 
-training set;\blue{we have to say more about this issue} 
- \item[Contrastive 1:] as the primary submission, but by considering both 
-training and development data for estimating the model; and
- \item[Contrastive 2:] a rule-based system as described in 
-Section~\ref{tmp}.
- \end{description}
+
+As for the contrastive submission~2, we built a binary classifier based on 
+logistic regression: \dir or no. The comments are then sorted according to the 
+classifier's prediction confidence and the final labels are assigned 
+accordingly: \dir for the 1st ranked, \rel for the 2nd ranked, and \irel for the 
+rest. Only lexical similarities are included as features (discarding those 
+weighted with idf variants).
+
+\paragraph{English A}
+
+For our contrastive submission~1, the same machine learning schema as 
+for the primary submission is used. In contrast to the primary submission, 
+this time the $C$ hyper-parameter is set to the default value and the class 
+imbalance was dealt by tuning the $j$ parameter (cost of making mistakes on 
+positive examples). In this case we use SVM$^\mathrm{light}$~\cite{Joachims:99}.
+
+Our English contrastive submission~2 operates in the same way as the Arabic 
+contrastive submission~1. The applied ranges are the same, this time used to 
+assign the classes \good, \pot, and \bad. Some heuristics override the so 
+generated decisions: $c$ is classified as \good if it includes a URL, starts 
+with an imperative verb (\eg \textit{try}, \textit{view}, \textit{contact}, 
+\textit{check}), or contains \textit{yes words} (\eg \textit{yes}, \textit{yep}, 
+\textit{yup}) or \textit{no words} (\eg \textit{no}, \textit{nooo}, 
+\textit{nope}). Comments written by the author of the question or including 
+acknowledgments are considered \dial; which become \bad comments. 
+%   only rule-based features 
+% (Section~\ref{ssub:heuristics}) \blue{confirm}
+
+
+\paragraph{English B}
+
+Our contrastive submission~1 is identical as the primary one, but considering 
+both training and development data for estimating the model.
+ 
+ 
+The contrastive submission~2 consists of a rule-based system. A comment is 
+labeled as \yes if it starts with affirmative words: \textit{yes}, \textit{yep}, 
+\textit{yeah}, etc.
+% \footnote{\blue{complete it or cite the source for affirmative words; the same 
+% for the rest}}
+It is labeled as \no if it starts with \textit{no}, \textit{nop}, 
+\textit{nope}, etc”, 
+
+
+
 
 %  \begin{table}[h]
 %  \begin{tabular}{c|c|c|c|c}
@@ -109,43 +201,7 @@ Section~\ref{tmp}.
 % the official F1 score for the submission.\label{tab:results}}
 % \end{table}
 
-  \begin{table*}%[h]
- \begin{tabular}{|l|cccc|}
-  \multicolumn{5}{c}{Subtask A} \\
-%   \hline
-%  Subm.		& \bf \good & \bf\bad 	& \bf \texttt{POT} & 	
-%  \\
-  \hline
-  Arabic& \bf\dir & \bf\rel &\bf \irel & \bf\texttt{MACRO}\\  
-  \,\,\,\,prim	& $77.31$ & $91.21$	& $67.13$	& $78.55$ \\
-  \,\,\,\,cont$_1$	& $74.89$ & $91.23$	& $63.68$	& $76.60$ \\
-  \,\,\,\,cont$_2$	& $76.63$ & $90.30$	& $63.98$	& $76.97$ \\
-  \hline
-  English 	& \bf \good & \bf\bad 	& \bf \texttt{POT} & \bf\texttt{MACRO}
-\\
-  \,\,\,\,prim  & $78.45$	& $72.39$	& $10.40$	& $53.74$ \\
-  \,\,\,\,cont$_1$ & $76.08$	& $75.68$	& $17.44$	& $56.40$ \\
-  \,\,\,\,cont$_2$ & $75.46$	& $72.48$ 	& $7.97$	& $51.97$ \\
-\hline 
-\end{tabular}
-\begin{tabular}{|l|crrr|}
-% \hline
-  \multicolumn{5}{c}{Subtask B} \\
-\hline  
- Subm.		& \bf \yes & \bf \no & \bf \unsure & \bf \texttt{MACRO}	 \\
-  \hline
-  
-  \,\,prim	& $80.00$	& $44.44$	& $36.36$	& $53.60$ \\
-  \,\,cont$_1$& $75.68$	& $0.00$	& $0.00$ & $25.23$ \\
-  \,\,cont$_2$ & $66.67$	& $33.33$ 	& $47.06$	& $49.02$ \\
-  \hline
- \end{tabular}
-\caption{$F$-measure of our experiments on SemEval Task 3. The first 
-column specify the submission type, English (E) or Arabic (A) and Primary (P) 
-or Contrastive 1 or 2 (C1 or C2). The columns 2-4 specify the F1 measure of the 
-binary learning problem, for example Good VS all other classes. Finally the 
-6-th column shows the official F1 score for the submission.\label{tab:results}}
-\end{table*}
+
 
 % - Clearly define tuning, submission and post-submission
 % 
@@ -203,21 +259,6 @@ binary learning problem, for example Good VS all other classes. Finally the
 
 
 
-\subsection{Contrastive Hamdy}
-\label{tmp}
-
-We approach the Arabic task as a ranking problem, Given the 5 comments 
-associated to a question, the most similar one is assigned the maximum 100\% 
-similarity and the rest of the scores are mapped proportionally. The ranges 
-for the three classes are [80, 100] for \dir, (20,80) for \rel, and [0,20] 
-for \irel.
-
-For English, the ranges are \blue{equivalent} for \good, \pot, and \bad 
-comments. Additionally, some heuristics override the so generated decisions: a 
-$c$ is labeled as \good if
-\Ni it contains a URL or
-\Nii it starts with an affirmation (and the question is of type YES/NO), and as 
-\bad if $c$ is written by $u_q$ or contains an acknowledgement.
 
 \textbf{English B}
 \begin{itemize}

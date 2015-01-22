@@ -1,16 +1,14 @@
-\section{Approach}
+\section{Features Description}
 \label{sec:approach}
 
 % \blue{TODO describe the datasets?}
-Our approach performs multiclass classification on the basis of a one-vs-rest 
-support vector machines strategy (\ie we train one classifier for each class). 
-Each comment $c$ attached to question $q$ is represented by a features' vector 
-including similarities (Section~\ref{sub:sim}), the context in which a comment 
-appears (Section~\ref{ssub:context}), and the occurrence of certain vocabulary 
-and phrase triggers (Sections~\ref{ssub:ngrams} and~\ref{ssub:heuristics}). 
-% Our classifications are made at comment level of comment (except for task B, 
-% \cf Section~\ref{sub:app_enB}). 
-\blue{Massimo/Simone: please, give more details about this, if necessary}
+Most of our approaches are built on top of supervised machine learning, 
+whereas a few contrastive sbmissions were based on rule-based approaches. In 
+this section we describe all the different features we considered including 
+similarities (Section~\ref{sub:sim}), the context in which a comment appears 
+(Section~\ref{ssub:context}), and the occurrence of certain vocabulary and 
+phrase triggers (Sections~\ref{ssub:ngrams} and~\ref{ssub:heuristics}). How 
+and where they are applied is discussed in Section~\ref{sec:experiments}.
 
 % \subsection{Arabic task}
 % \label{sub:app_arabic}
@@ -57,6 +55,10 @@ the term in the comment. Equations~\ref{idfvar1} and~\ref{idfvar2} are
 variations of the IDF concept by Nallapati~\shortcite{Nallapati:2004}.
 
 
+Yet another similarity variation is considered (only for task B): the cosine 
+similarity between the vocabulary intersection between $q$ and $c$ is 
+considered. In this case, the weight associated to each word is its tf-idf.
+
 % where $idf(t)$ represents the inverse document frequency of term $t$ in the 
 % entire Qatar Living dataset%
 % \footnote{All the \textit{idf} values were computed on the Qatar Living dataset, 
@@ -67,27 +69,8 @@ variations of the IDF concept by Nallapati~\shortcite{Nallapati:2004}.
 % of the \textit{idf} concept by \blue{Salton (1986)} and 
 % \blue{Nallapati (2004)}.\footnote{\blue{Wei, please add the proper references}}
 
-
-\blue{THIS BELONGS TO A CONTRASTIVE; POTENTIALLY MOVE }
-Yet another lexical similarity was computed on the basis of the overlapping of 
-$[1, 2]$-grams between $q$ and $c$, after stopwording and stemming. This 
-particular overlapping is computed as
-%
-\begin{equation}
- sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cup c} \omega(t) \enspace ,
- \label{eq:overlap}
-\end{equation}
-% 
-
-where $\omega(t)$ is the empirically-set weight of an $n$-gram: $\omega = 1$ for 
-$1$-grams and $\omega = 4$ for $2$-grams.
-
-
-
-
 \subsubsection{Syntactic similarity \blue{Massimo; contrast?}}
 \label{sub:syntactic}
-
 
 Partial tree kernel (PTK) similarity between question and comment according 
 to~\cite{Moschitti:2006}. The similarity is computed between shallow tree  
@@ -123,7 +106,7 @@ compute the cosine similarity to estimate $sim(q,c)$.
 % window size, etc. If you give more details for your embeddings, we can 
 % improve both descriptions}}
 
-These semantic similarities are not applied in the Arabic task.
+% These semantic similarities are not applied in the Arabic task.
 
 \subsection{Context \blue{Simone/Alberto}}
 \label{ssub:context}
@@ -236,22 +219,11 @@ are based on tf-idf on the whole Qatar Living dataset.
 \subsection{Heuristics}
 \label{ssub:heuristics}
 
-Exploring the data, we noticed that many good comments suggested visiting a Web 
-site or writing to an email address. Therefore, we included two boolean features 
-to verify the presence of URLs or emails in $c$. Another feature captures the 
-length of $c$, as longer (\good) comments usually contain detailed information 
-to answer a question. Finally, in a sort of stacking approach, the output of a 
-rule-based system (English contrastive \blue{1}) has been included as another
-feature. This system always classifies $c$ as \good if it starts with an 
-imperative verb (\eg 
-\textit{try}, \textit{view}, \textit{contact}, \textit{check}), or contains 
-\textit{yes words} (\eg \textit{yes}, \textit{yep}, \textit{yup}) or 
-\textit{no words} (\eg \textit{no}, \textit{nooo}, \textit{nope}). Comments 
-written by the author of the question or including acknowledgments are 
-considered \dial. The other comments are classified accordingly to their lexical 
-similarity (Eq. \blue{XX}) to the question: the most similar comments are 
-\good, the ones with a medium similarity are \pot, and the rest are \bad. 
-% \blue{Simone: this needs more details}
+Exploring the data, we noticed that many \good comments suggested visiting a 
+Web site or writing to an email address. Therefore, we included two boolean 
+features to verify the presence of URLs or emails in $c$. Another feature 
+captures the length of $c$, as longer (\good) comments usually contain detailed 
+information to answer a question. 
 
 
 
@@ -318,73 +290,51 @@ similarity (Eq. \blue{XX}) to the question: the most similar comments are
 %  \item[Heuristics] Hamdy's
 % \end{description}
 
-\subsection{English Task B}
-\label{sub:app_enB}
+\subsection{Polarity}
+\label{sub:polarity}
 
-Following the strategy applied during the manual labelling by the task 
-organizers~\blue{ref}, our approach to task B is divided in three steps:
-\Ni identifying the \good comments among those associated to the question;
-\Nii classifying each of the \good comments as \yes, \no, or \unsure; and 
-\Niii voting%
-\footnote{\blue{I'm sure Simone has the ``posh'' word for this}} to determine 
-the overall class of the question. The overall answer to a question is that of 
-the majority of the comments. In case of draw, we opt for labeling it as 
-\unsure.%
-\footnote{Alternatively, \yes could have been the default answer, as this is 
-clearly the majority class in the training and development partitions. Still, 
-we opted for a conservative decision: opting for \unsure if no evidence enough 
-is at hand.}
-
-Step \Ni is indeed task A. As for step \Nii, we consider again all the 
-features used  for task A, toghether with others intending to model \yes, 
-\no, and \unsure answers. Our intention is determining whether a comment is 
-considered positive or negative, the existence of key elements for supporting 
-and answer, such as a URL, and even the profile of the user of every comment, 
-
-We also compute the sentiment score of a comment by analyzing its polarity. We 
-model this function as:
+These features, used in task B only, intend to determine whether a comment is 
+positive or negative, which could be associated to \yes or \no answers. A 
+quantitative polarity of $c$ is modeled as:
 \begin{equation}
 pol(c) = \sum_{w\in c} pol(w) 
 \end{equation}
 %
 where $pol(w)$ represents the polarity of word $w$ in the NRC Hashtag Sentiment 
-Lexicon (version 0.1)~\cite{MohammadKZ2013}.%
+Lexicon v.0.1~\cite{MohammadKZ2013}.%
 \footnote{\url{
 http://www.umiacs.umd.edu/~saif/WebPages/Abstracts/NRC-SentimentAnalysis.htm}; 
 last visit: Jan 18, 2015.}
-In order to neglect nearly 
-neutral words, we discard those 
-wich polarity is in the range $(-1,1)$. 
+Words with polarity in the range $(-1,1)$. are discarded to neglect nearly 
+neutral words.
 
-
-Additionaly to a content-based polarity, we also exploit what we call a user 
-profile. Given comment $c$ by user $u$, we consider the number of 
-\good, \bad, \pot, and \dial comments the user has produced before. We also 
-consider the average word length of \good, \bad, \pot, and \dial comments.
-These features are computed both considering all the questions and only those 
-from the same category as the current one.%
-\footnote{In Section~\ref{sec:discussionb} we will observe that computing these 
-category-level statistics is not a good idea.}
-
-We also compute a variation of the cosine similarity in which only the 
-vocabulary intersection between $q$ and $c$ is considered \blue{why?}. The 
-weight associated to each word is the tfidf, for which the IDF values were 
-computed considering the entire Qatar Living dataset.
-
-
-Heuristics are also applied on the existence of some keywords in the comment. 
-Features are set to true if $c$ contained
+We consider other boolean features on the existence of some keywords in the 
+comment. Features are set to true if $c$ contains
 \Ni \textit{yes}, \textit{can}, \textit{sure}, \textit{wish}, \textit{would};
 \Nii \textit{no}, \textit{not}, \textit{neither}; or 
 \Niii  a \textit{URL}.
 
+% \blue{together with others intending to model \yes, \no, and \unsure answers.}
+
+\subsection{User's Profile}
+\label{sub:profile}
+
+With this set of features we aim at modeling the behavior of the different 
+participants in previous queries. Given comment $c$ by user $u$, we consider 
+the number of \good, \bad, \pot, and \dial comments the user has produced 
+before. We also consider the average word length of \good, \bad, \pot, and \dial 
+comments. These features are computed both considering all the questions and 
+only those from the same category as the current one.%
+\footnote{In Section~\ref{sec:discussionb} we will observe that computing these 
+category-level statistics was not a good idea.}
+Even if these features seem to fit with task A, more than B, at development 
+time they showed to be effective only for the latter one. Therefore, we only 
+applied the user profiles to task B. 
 
 
-
-
-\blue{these two features were under consideration already:}
-length of the comment, and the inverse rank of the comment in the list of all 
-comments for a question.
+% \blue{these two features were under consideration already:}
+% length of the comment, and the inverse rank of the comment in the list of all 
+% comments for a question.
 
 
 % \begin{description}
@@ -393,15 +343,4 @@ comments for a question.
 %  \item[Sentiment] Iman
 %  \item[Context] Iman's user profiles
 % \end{description}
-
-
-\subsubsection{Hamdy's contrastive}
-
-Our contrastive submission \blue{X} is a rule-based system. A comment is 
-labeled as \yes if it starts with affirmative words: \textit{yes}, 
-\textit{yep}, \textit{yeah}, etc.%
-\footnote{\blue{complete it or cite the source for affirmative words; the same 
-for the rest}}
-It is labeled as \no if it starts with \textit{no}, \textit{nop}, 
-\textit{nope}, etc”, 
 
