@@ -1,2 +1,107 @@
-\section{Discussion}
+\section{Pots-Submission Experiments}
 \label{sec:discussion}
+
+
+\subsection{Arabic} \label{sec:discussionArabic}
+
+Table~\ref{tab:aftertaskarabic} shows the results obained after discarding each 
+of the different features families.
+
+\begin{table}%[h]	
+\begin{tabular}{|l|crrr|}
+% \hline
+%   \multicolumn{5}{c}{Arabic} \\
+\hline  
+ Subm. without& \bf \texttt{DIR} & \bf \texttt{REL} & \bf \texttt{IREL} & 
+\bf \texttt{MACRO} \\\hline
+ $n$-grams	&	&	&	& 76.75	\\
+ cont$_1$	&	&	&	& 67.74	\\
+ no max iyas	&	&	&	& 79.13	\\
+ no max sim	&	&	&	& 78.37	\\
+ no max iyas sim&	&	&	& 78.69	\\ 
+  \hline
+ \end{tabular}
+ \caption{Post-competition experiments Arabic\label{tab:aftertaskarabic}}
+ \end{table}
+
+\subsection{English Task A} \label{sec:discussiona}
+
+Table~\ref{tab:aftertaska} shows the results obtained on the test set by 
+considering both the different subsets of features in isolation (\textit{only 
+with}) or all the features except for a subset (\textit{without}). According to 
+these figures, the heuristic features seem to be the most useful, followed by 
+the context-based information. The best performing subsets are close to that 
+combining all the features (\cf Table~{tab:results}).
+
+
+\begin{table}%[h]	
+\begin{tabular}{|l|crrr|}
+% \hline
+%   \multicolumn{5}{c}{Subtask A} \\
+\hline  
+ Only with 	& \bf \good & \bf \bad & \bf \texttt{POT} & \bf \texttt{MACRO} 
+\\\hline
+context	&	&	&	& 47.90	\\
+ $n$-grams	&	&	&	& 44.86\\
+ heuristics	&	&	&	& 52.57\\
+ Similarities	& 	&	&	& 46.16	\\
+ \,\,\,\,\, lexical	&	&	&	& 44.82	\\
+ \,\,\,\,\, syntactic&	&	&	& 36.47	 \\
+ \,\,\,\,\, semantic&	&	&	& 42.16	 \\\hline
+ Without 	& \bf \good & \bf \bad & \bf \texttt{POT} & \bf 
+\texttt{MACRO} 
+\\\hline
+ context	&	&	&	& 51.49	\\
+ $n$-grams	&	&	&	& 55.17\\
+ heuristics	&	&	&	& 48.60\\
+ Similarities	& 	&	&	& \blue{??.??}	\\
+ \,\,\,\,\, lexical&	&	&	& 53.34	\\
+ \,\,\,\,\, syntactic&	&	&	& 53.73	 \\
+ \,\,\,\,\, semantic&	&	&	& 53.50	 \\ 
+  
+  \hline
+ \end{tabular}
+ \caption{Post-competition experiments English A \label{tab:aftertaska}}
+ \end{table}
+
+
+
+\subsection{English Task B} \label{sec:discussionb}
+
+After the submission we investigated on the reasons why learning on the training 
+only was considerably better than learning on the union of the training and 
+development sets. 
+The sequences of predicted target labels on the test set in the two learning 
+scenarios showed considerable differences: when learning on the union of the 
+training and development sets the predicted labels were YES on all but three 
+cases. 
+After correcting a bug, the results obtained by learning on the union of the 
+training and development sets were the ones in the ``after$_1$'' submission in 
+the first row of Table~\ref{tab:aftertaskb}, i.e.  
+a Macro F1 value of $51.98$. Learning on the training set only still gives a 
+higher macro F1 of $69.35$, but the sequences of predicted labels are now more 
+consistent and the difference might not be significant (REFERENCE TO TASK 
+DESCRIPTION PAPER). 
+We observed that the values of those features counting the number of Good, Bad, 
+and Potential comments within categories from the same user (\cf 
+Section~\ref{sub:app_enB}) vary greatly when computed on the training or 
+training+dev datasets. 
+This is due to the fact that the number of comments of a user for a category is, 
+in most cases, too limited to generate reliable statistics. 
+After discarding these three features, the obtained Macro F1 value is $55.95$ 
+(see ``after$_2$'' submission in Table~\ref{tab:aftertaskb}), which represents a 
+higher performance than the ones obtained during at submission time.
+
+\begin{table}%[h]	
+\begin{tabular}{|l|crrr|}
+% \hline
+%   \multicolumn{5}{c}{Subtask B} \\
+\hline  
+ Subm.		& \bf \yes & \bf \no & \bf \unsure & \bf \texttt{MACRO}	 \\
+  \hline
+  \,\,after$_1$	& $78.79$	& $57.14$	& $20$	& $51.98$ \\
+  \,\,after$_2$ & $85.71$	& $57.14$	& $25$ 	& $55.95$ \\
+  \hline
+ \end{tabular}
+ \caption{\label{tab:aftertaskb}}
+ \end{table}

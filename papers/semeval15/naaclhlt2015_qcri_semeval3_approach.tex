@@ -236,26 +236,45 @@ are based on tf-idf on the whole Qatar Living dataset.
 \subsection{Heuristics}
 \label{ssub:heuristics}
 
-\blue{TODO complete these}
+Exploring the data, we noticed that many good comments suggested visiting a Web 
+site or writing to an email address. Therefore, we included two boolean features 
+to verify the presence of URLs or emails in $c$. Another feature captures the 
+length of $c$, as longer (\good) comments usually contain detailed information 
+to answer a question. Finally, in a sort of stacking approach, the output of a 
+rule-based system (English contrastive \blue{1}) has been included as another
+feature. This system always classifies $c$ as \good if it starts with an 
+imperative verb (\eg 
+\textit{try}, \textit{view}, \textit{contact}, \textit{check}), or contains 
+\textit{yes words} (\eg \textit{yes}, \textit{yep}, \textit{yup}) or 
+\textit{no words} (\eg \textit{no}, \textit{nooo}, \textit{nope}). Comments 
+written by the author of the question or including acknowledgments are 
+considered \dial. The other comments are classified accordingly to their lexical 
+similarity (Eq. \blue{XX}) to the question: the most similar comments are 
+\good, the ones with a medium similarity are \pot, and the rest are \bad. 
+% \blue{Simone: this needs more details}
 
-\begin{itemize}
- \item A boolean feature, whether $c$ contains a URL or electronic mail. 
- \item the length of $c_i$ in characters, as we empirically observed that long 
-  comments tend to be \good.
-\blue{simone}
-\end{itemize}
 
 
-\blue{Hamdy's contrastive}
-Our contrastive submission \blue{x} is a rule-based system. A comment is 
-labeled as \good if starts with one of a set of imperative verbs, including 
-\textit{try}, \textit{view}, \textit{contact}, \textit{check}%
-\footnote{
-% yes list: {"yes", "yep", "yup", "yap", "yeah", "yea", "ya", "yess", 
+% \blue{TODO complete these}
+% 
+% \begin{itemize}
+%  \item A boolean feature, whether $c$ contains a URL or electronic mail. 
+%  \item the length of $c_i$ in characters, as we empirically observed that long 
+%   comments tend to be \good.
+% \blue{simone}
+% \end{itemize}
+% 
+% 
+% \blue{Hamdy's contrastive}
+% Our contrastive submission \blue{x} is a rule-based system. A comment is 
+% labeled as \good if starts with one of a set of imperative verbs, including 
+% \textit{try}, \textit{view}, \textit{contact}, \textit{check}%
+% \footnote{
+% % yes list: {"yes", "yep", "yup", "yap", "yeah", "yea", "ya", "yess", 
 % "yeh", "sure"} --> both yes and good
 % 2- no list: {"no", "noo", "nooo", "nop", "nope"}
- --> both no and good
-% 3- thanks/dialogue list: {"thank", "thx", "thanks", "thanx", "thnk", "tnx", 
+%  --> both no and good
+% % 3- thanks/dialogue list: {"thank", "thx", "thanks", "thanx", "thnk", "tnx", 
 % "thnak", "sorri", "welcom", "wow"} --> dialogues
 % 4. generic answers list: {"check", "try", "go", "call", "contact", "follow", 
 % "go", "take", "talk", "use", "visit", "watch"} --> good
@@ -280,15 +299,15 @@ labeled as \good if starts with one of a set of imperative verbs, including
 % 
 % The training data is stemmed using the word list, and stopwords are marked by 
 % revising the top 3,000 words (freq >= 15)
-
-
-\blue{complete it or cite the source for affirmative words; the same 
-for the rest}}, ..” and includes a URL or phone number. A comment is labeled 
-as \dial if it starts with \textit{thanks}, \textit{thx}, \textit{thanx},..” 
-or it has been written by the same person that asked the question.%
-\footnote{\blue{I am tempted to include a simple table with all the 
-vocabularies in these rules. TODO check these vocabularies}}
-
+% 
+% 
+% \blue{complete it or cite the source for affirmative words; the same 
+% for the rest}}, ..” and includes a URL or phone number. A comment is labeled 
+% as \dial if it starts with \textit{thanks}, \textit{thx}, \textit{thanx},..” 
+% or it has been written by the same person that asked the question.%
+% \footnote{\blue{I am tempted to include a simple table with all the 
+% vocabularies in these rules. TODO check these vocabularies}}
+% 
 
 
 % \bsegin{description}
@@ -342,8 +361,10 @@ Additionaly to a content-based polarity, we also exploit what we call a user
 profile. Given comment $c$ by user $u$, we consider the number of 
 \good, \bad, \pot, and \dial comments the user has produced before. We also 
 consider the average word length of \good, \bad, \pot, and \dial comments.
-These features are computed considering only those previous questions from 
-the same category as the current one. 
+These features are computed both considering all the questions and only those 
+from the same category as the current one.%
+\footnote{In Section~\ref{sec:discussionb} we will observe that computing these 
+category-level statistics is not a good idea.}
 
 We also compute a variation of the cosine similarity in which only the 
 vocabulary intersection between $q$ and $c$ is considered \blue{why?}. The 
