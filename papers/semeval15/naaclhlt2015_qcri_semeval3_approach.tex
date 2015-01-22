@@ -20,23 +20,22 @@ and where they are applied is discussed in Section~\ref{sec:experiments}.
 \subsection{Similarities}
 \label{sub:sim}
 
-Our intuition is that the higher the similarity between $c$ and $q$, the 
-higher the likelihood that $c$ is a \good answer. We apply the following 
-different similarities $sim(q,c)$.
+Our intuition is that the higher the similarity  $sim(q,c)$, the higher the 
+likelihood that $c$ is a \good answer. We consider different types.
 
-\subsubsection{Lexical similarities \blue{massimo+wei}}
+\subsubsection{Lexical similarities}
 
-We compute $sim(q, c)$ for word $n$-gram representations of the question and 
-comment ($n=[1,\ldots,4]$), after stopwording, and different $sim$ functions 
-including: greedy string tiling~\cite{Wise:1996}, longest common 
-subsequences~\cite{Allison:1986}, Jaccard coefficient~\cite{Jaccard:1901}, word 
-containment~\cite{Lyon:2001}, and cosine similarity (cosine is also computed on 
-lemmas and POS tags, either including stopwords or not).
+After stopwording, we compute $sim(q, c)$ for word $n$-gram representations of 
+$q$ and $c$ ($n=[1,\ldots,4]$), and different $sim$ functions: greedy string 
+tiling~\cite{Wise:1996}, longest common subsequences~\cite{Allison:1986}, 
+Jaccard coefficient~\cite{Jaccard:1901}, word containment~\cite{Lyon:2001}, and 
+cosine similarity (cosine is also computed on lemmas and POS tags, either 
+including stopwords or not).
 
 % \blue{Wei}
 % We computed three features on the intersection of the tokens in both $q$ and 
 % $c$ by considering three term weighting schemes:
-Three other similarities are computed, by weighting the terms by means of three 
+Three other similarities are computed, weighting the terms by means of three 
 formul\ae: 
 %
 \begin{eqnarray}
@@ -56,8 +55,9 @@ variations of the IDF concept by Nallapati~\shortcite{Nallapati:2004}.
 
 
 Yet another similarity variation is considered (only for task B): the cosine 
-similarity between the vocabulary intersection between $q$ and $c$ is 
-considered. In this case, the weight associated to each word is its tf-idf.
+similarity between the $tf$-$idf$-weighted vocabulary intersection of $q$ and 
+$c$.
+% . In this case, the weight associated to each word is its tf-idf.
 
 % where $idf(t)$ represents the inverse document frequency of term $t$ in the 
 % entire Qatar Living dataset%
@@ -118,8 +118,8 @@ factors. Therefore, we consider set of features that
 try to describe a comment in its context.   
 
 Let $C={c_1, \ldots,c_C}$ be the stream of comments associated to question $q$, 
-asked by $u_q$. The features for comment $c$ in the first subset are of type 
-boolean. The first four of them are set to \texttt{True} according to the 
+asked by $u_q$. The first subset of features for comment $c$ are of type 
+boolean. Four of them are set to \texttt{True} according to the 
 following criteria:
 
 \begin{enumerate}
@@ -133,19 +133,19 @@ following criteria:
 questions.
 \end{enumerate}
 % 
-The second subset of context-based features intends to model $c$ according to 
-those comments by $u_q$ appearing in its proximity. Intuitively, whether $c$ 
-appears close to an acknowledgment or further questions by $u_q$ could be a 
-relevant factor when classifying it. Our function to represent the relationship 
-between a comment $c_{t-k}$ in time $t-k$ and $c_{q,t}$, given that $t$ is the 
+The second subset intends to model $c$ according to those comments by $u_q$ 
+appearing in its proximity. Intuitively, whether $c$ appears close to an 
+acknowledgment or further questions by $u_q$ could be a relevant factor when 
+classifying it. Our function to represent the relationship between a comment 
+$c_{t-k}$ in time $t-k$ and $c_{q,t}$, given that $t$ is the 
 time of the comment by $u_q$ is as follows:
 % 
 \begin{equation}
  f(c_{t-k})=\max \left(0\enspace,\enspace 1.1-(k*0.1) \right)
 \end{equation}
 %
-where $k$ is the distance between $c_{t-k}$ and $c_{q,t}$ in the past. The stop 
-criterion is the occurrence of another comment by $u_q$. This function 
+where $k$ is the distance between $c_{t-k}$ and $c_{q,t}$ in the past. This 
+function, which stop criterion is the occurrence of another comment by $u_q$, 
 is applied to generate four features according to four criteria:
 
 \begin{enumerate}\setcounter{enumi}{4}
@@ -188,19 +188,9 @@ We empirically observed that the likelihood for a comment to be \good decreases
 the farther it appears from the question. Therefore, we consider one more 
 real-valued feature: $\max(20, i)/20$, where $i$ represents the position of 
 the comment in the stream.
- 
-% \Ni . further developed some “context” features that analyze the whole 
-% stream of 
-% comments within a question to investigate manifold aspects such as the presence 
-% of an acknowledgment or a new question from the question author (evidence of at 
-% least a good comment among the previous ones), the presence of multiple 
-% comments 
-% from the same user or the interlacement of comments between two or more users 
-% (evidence of a dialogue).
 
 
-
-\subsection{$n$-Grams \blue{Massimo}}
+\subsection{Word $n$-Grams}
 \label{ssub:ngrams}
 
 Our intuition is that a properly produced question should allow for the creation 
@@ -301,18 +291,19 @@ pol(c) = \sum_{w\in c} pol(w)
 \end{equation}
 %
 where $pol(w)$ represents the polarity of word $w$ in the NRC Hashtag Sentiment 
-Lexicon v.0.1~\cite{MohammadKZ2013}.%
+Lexicon v0.1~\cite{MohammadKZ2013}.%
 \footnote{\url{
 http://www.umiacs.umd.edu/~saif/WebPages/Abstracts/NRC-SentimentAnalysis.htm}; 
 last visit: Jan 18, 2015.}
-Words with polarity in the range $(-1,1)$. are discarded to neglect nearly 
+Words with polarity in the range $(-1,1)$ are discarded to neglect nearly 
 neutral words.
 
 We consider other boolean features on the existence of some keywords in the 
 comment. Features are set to true if $c$ contains
-\Ni \textit{yes}, \textit{can}, \textit{sure}, \textit{wish}, \textit{would};
-\Nii \textit{no}, \textit{not}, \textit{neither}; or 
-\Niii  a \textit{URL}.
+\Ni \textit{yes}, \textit{can}, \textit{sure}, \textit{wish}, \textit{would} or
+\Nii \textit{no}, \textit{not}, \textit{neither}.
+% ; or 
+% \Niii  a \textit{URL}.
 
 % \blue{together with others intending to model \yes, \no, and \unsure answers.}
 
@@ -327,7 +318,7 @@ comments. These features are computed both considering all the questions and
 only those from the same category as the current one.%
 \footnote{In Section~\ref{sec:discussionb} we will observe that computing these 
 category-level statistics was not a good idea.}
-Even if these features seem to fit with task A, more than B, at development 
+Even if these features seem to fit with task A, rather than B, at development 
 time they showed to be effective only for the latter one. Therefore, we only 
 applied the user profiles to task B. 
 
