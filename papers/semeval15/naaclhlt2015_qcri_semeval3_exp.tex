@@ -1,9 +1,9 @@
 \section{Submissions and Results}
 \label{sec:experiments}
 
-Following we describe our three primary submissions to the three subtasks. The 
-contrastive submissions (two per task) are discussed later on. 
-Table~\ref{tab:results} includes the results obtained with these submissions.
+Now we describe our primary submissions to the three tasks, followed by the 
+contrastive submissions. Table~\ref{tab:results} includes our official 
+competition results.
 
 % \blue{Massimo/Simone: please, give more details about this, if necessary}
 
@@ -51,26 +51,29 @@ the
 
 \subsection{Primary Submissions}
 
-In general, our approaches perform multiclass classification on the basis of a 
+In general, our approaches perform multi-class classification on the basis of a 
 one-vs-rest support vector machines strategy (\ie we train one classifier for 
 each class). Our classifications for both Arabic and English A are made at 
 comment level.
 
 
-\paragraph{Arabic} Our submission is based on a logistic regression approach. 
+\paragraph{Arabic} Our submission applies the logistic regressor from 
+scikit-learn.%
+\footnote{http://scikit-learn.org/stable/}
 The utilized features are lexical similarities (Section~\ref{sub:sim}) and  
 $n$-Grams (Section~\ref{ssub:ngrams}), together with the predictions obtained 
 with our contrastive submission~1 (\cf Section~\ref{sub:contrastive}). 
 
+This submission granted us the first position in the competition, showing a 
+particularly high performance when labeling \rel comments.
+
 \paragraph{English A}
 The submission applies the linear-kernel SVM for model estimation from 
-scikit-learn.%
-\footnote{http://scikit-learn.org/stable/}
-We used a one-versus-all approach to account for the fact that the learning 
-problem is a multiclass one. We tuned the $C$ hyper-parameter of the SVM in 
-order to deal with the class imbalance ---by increasing the value of $C$, we 
-built more complex classifiers for those classes with less instances. 
-
+scikit-learn. We used a one-versus-all approach to account for the fact that 
+the learning problem is a multiclass one. We tuned the $C$ hyper-parameter of 
+the SVM in order to deal with the class imbalance ---by increasing the value of 
+$C$, we built more complex classifiers for those classes with less instances. 
+% 
 The features for this submission consist of lexical and semantic similarities 
 (Section~\ref{sub:sim}), context information (Section~\ref{ssub:context}), 
 $n$-Grams (Section~\ref{ssub:ngrams}), and heuristics 
@@ -78,14 +81,20 @@ $n$-Grams (Section~\ref{ssub:ngrams}), and heuristics
 rule-based system from the contrastive submission~2 is included as another 
 feature. 
 
+This submission obtained the third position in the competition. \pot comments 
+showed to be the hardest ones in identifying properly, as the border with 
+respect to the rest of comments is fuzzy. (Indeed, a manual inspection on some 
+random comments show the decision between \good and \pot comments nearly 
+impossible.)
+
 \paragraph{English B}
 
-Following the strategy applied during the manual labelling of the \yes/\no 
+Following the strategy applied during the manual labeling of the \yes/\no 
 questions by the task organizers~\cite{Marquez-EtAl:2015:SemEval}, our approach 
-to task B is divided in three steps:
+consists of three steps:
 \Ni identifying the \good comments among those associated to the question;
-\Nii classifying each of the \good comments as \yes, \no, or \unsure; and 
-\Niii aggregation. 
+\Nii classifying each of them as \yes, \no, or \unsure; and 
+\Niii aggregating the comment-level classifications into a question-level one. 
 The overall answer to a question is that of the majority of the comments. In 
 case of draw, we opt for labeling it as \unsure.%
 \footnote{\yes, the majority class in the training and development partitions, 
@@ -95,16 +104,15 @@ Step \Ni is indeed task A. As for step \Nii, our approach to this task is
 identical as that for English A, but adding the features described in 
 Sections~\ref{sub:polarity} and~\ref{sub:profile}.
 
-Differently to the rest of 
-submissions, our submitted results were obtained with a classifier trained on 
-the training data only (the development set was neglected). The reason behind 
-this decision was obtaining an unexpected distribution of (mostly) \yes answers 
-on the test set (completely different to that observed in both training 
-and development partitions. Further experiments carried out after the 
-submission demonstrated that the causes for such an unexpected behavior were a 
-few features for which no statistics enough existed to be valuable as well as a
-buggy implementation of some of the other features. Further discussion is 
-included in Section~\ref{sec:discussionb}.
+Differently to the rest of tasks, our submitted results were obtained with a 
+classifier trained on the training data only (the development set was 
+neglected). The reason behind this decision was obtaining an unexpected 
+distribution of (mostly) \yes answers on the test set (completely different to 
+that observed in both training and development partitions. Further experiments 
+carried out after the submission demonstrated that the causes for such an 
+unexpected behavior were a few features for which no statistics enough existed 
+to be valuable as well as a buggy implementation of some others. Further 
+discussion is included in Section~\ref{sec:discussionb}.
 
 
 \subsection{Contrastive Submissions}
@@ -112,16 +120,15 @@ included in Section~\ref{sec:discussionb}.
 
 \paragraph{Arabic} 
 
-Our contrastive submission~1 consists of a ranking problem. The similarity 
-$sim(q,c)$ for every $c$ in the question is computed, after stopwording and 
-stemming, as 
+Our contrastive submission~1 is approached as ranking problem. Similarity 
+$sim(q,c)$, after stopwording and stemming, is computed as 
 \begin{equation}
- sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cup c} \omega(t) \enspace ,
+ sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cap c} \omega(t) \enspace ,
  \label{eq:overlap}
 \end{equation}
 % 
-where $\omega(t)$ is the empirically-set weight of an $n$-gram: $\omega = 1$ 
-for $1$-grams and $\omega = 4$ for $2$-grams. Given the 5 comments 
+where the empirically-set weight $\omega(t)=1$ if $t$ is a $1$-gram and 
+$\omega(t)=4$ if $t$ is a $2$-gram. Given the 5 comments 
 $c_1,\ldots,c5\in C$ associated to $q$, the maximum similarity $\max_C sim(q,c)$ 
 is mapped to a maximum 100\% similarity and the rest of the scores are mapped 
 proportionally. Each comment is assigned a class according to the following 
@@ -135,13 +142,20 @@ accordingly: \dir for the 1st ranked, \rel for the 2nd ranked, and \irel for the
 rest. Only lexical similarities are included as features (discarding those 
 weighted with idf variants).
 
+
+The performance of these two submissions is comparable to that of the primary 
+one, particularly when identifying \rel comments. 
+
 \paragraph{English A}
 
-For our contrastive submission~1, the same machine learning schema as 
-for the primary submission is used. In contrast to the primary submission, 
-this time the $C$ hyper-parameter is set to the default value and the class 
-imbalance was dealt by tuning the $j$ parameter (cost of making mistakes on 
-positive examples). In this case we use SVM$^\mathrm{light}$~\cite{Joachims:99}.
+For our contrastive submission~1, the same machine learning schema as for the 
+primary submission is used, but now using 
+SVM$^\mathrm{light}$~\cite{Joachims:99}. This toolkit allows us for dealing with 
+the class imbalance by tuning the $j$ parameter (cost of making mistakes on 
+positive examples). This time the $C$ hyper-parameter is set to the default 
+value. As we focused on improve the performance on \pot instances, we obtained 
+better results on this category, even surpassing the overall performance from 
+the primary submission.
 
 Our English contrastive submission~2 operates in the same way as the Arabic 
 contrastive submission~1. The applied ranges are the same, this time used to 
@@ -156,10 +170,15 @@ acknowledgments are considered \dial; which become \bad comments.
 % (Section~\ref{ssub:heuristics}) \blue{confirm}
 
 
+
 \paragraph{English B}
 
 Our contrastive submission~1 is identical as the primary one, but considering 
-both training and development data for estimating the model.
+both training and development data for estimating the model. The 
+reason behind the disastrous results is a buggy implementation of some of 
+the polarity features (\cf Section~\ref{sub:polarity}) and the lack of 
+statistics for properly estimating category-level user profiles (\cf 
+Section~\ref{sub:profile}). 
  
  
 The contrastive submission~2 consists of a rule-based system. A comment is 
@@ -167,8 +186,8 @@ labeled as \yes if it starts with affirmative words: \textit{yes}, \textit{yep},
 \textit{yeah}, etc.
 % \footnote{\blue{complete it or cite the source for affirmative words; the same 
 % for the rest}}
-It is labeled as \no if it starts with \textit{no}, \textit{nop}, 
-\textit{nope}, etc”, 
+It is labeled as \no if it starts with \textit{no}, \textit{nop}, \textit{nope}, 
+etc”, 
 
 
 
@@ -215,8 +234,6 @@ It is labeled as \no if it starts with \textit{no}, \textit{nop},
 %  \item Error analysis: Potential versus Good/Bad errors
 % \end{itemize}
 
-\subsection{Discussion and Further Experiments} \label{sec:expdiscussion}
-
 
 % \begin{table*}
 % \begin{tabular}{|c|c|c|c|c|c|c|c|}
@@ -259,19 +276,19 @@ It is labeled as \no if it starts with \textit{no}, \textit{nop},
 
 
 
-
-\textbf{English B}
-\begin{itemize}
- \item Any proposal? Probably no questions enough for an error analysis
-\end{itemize}
-
-
-
-\textbf{Arabic}
-
-\begin{itemize}
- \item Let's ask the Arabic team!
-\end{itemize}
+% 
+% \textbf{English B}
+% \begin{itemize}
+%  \item Any proposal? Probably no questions enough for an error analysis
+% \end{itemize}
+% 
+% 
+% 
+% \textbf{Arabic}
+% 
+% \begin{itemize}
+%  \item Let's ask the Arabic team!
+% \end{itemize}
 
 % these are the submissions for English Subtask A and the Arabic Task
 % 
