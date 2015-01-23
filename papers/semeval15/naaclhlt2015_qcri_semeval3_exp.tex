@@ -71,7 +71,7 @@ particularly high performance when labeling \rel comments.
 The submission applies the linear-kernel SVM for model estimation from 
 scikit-learn. We used a one-versus-all approach to account for the fact that 
 the learning problem is a multiclass one. We tuned the $C$ hyper-parameter of 
-the SVM in order to deal with the class imbalance ---by increasing the value of 
+the SVM in order to deal with class imbalance ---by increasing the value of 
 $C$, we built more complex classifiers for those classes with less instances. 
 % 
 The features for this submission consist of lexical and semantic similarities 
@@ -82,9 +82,9 @@ rule-based system from the contrastive submission~2 is included as another
 feature. 
 
 This submission obtained the third position in the competition. \pot comments 
-showed to be the hardest ones in identifying properly, as the border with 
-respect to the rest of comments is fuzzy. (Indeed, a manual inspection on some 
-random comments show the decision between \good and \pot comments nearly 
+showed to be the hardest ones to identify, as the border with 
+respect to the rest of the comments is fuzzy. (Indeed, a manual inspection on some 
+random comments show that the decision between \good and \pot comments is nearly 
 impossible.)
 
 \paragraph{English B}
@@ -93,7 +93,7 @@ Following the strategy applied during the manual labeling of the \yes/\no
 questions by the task organizers~\cite{Marquez-EtAl:2015:SemEval}, our approach 
 consists of three steps:
 \Ni identifying the \good comments among those associated to the question;
-\Nii classifying each of them as \yes, \no, or \unsure; and 
+\Nii classifying each of them as \yes, \no or \unsure; and 
 \Niii aggregating the comment-level classifications into a question-level one. 
 The overall answer to a question is that of the majority of the comments. In 
 case of draw, we opt for labeling it as \unsure.%
@@ -104,15 +104,19 @@ Step \Ni is indeed task A. As for step \Nii, our approach to this task is
 identical as that for English A, but adding the features described in 
 Sections~\ref{sub:polarity} and~\ref{sub:profile}.
 
-Differently to the rest of tasks, our submitted results were obtained with a 
+Differently to the rest of the tasks, our submitted results were obtained with a 
 classifier trained on the training data only (the development set was 
-neglected). The reason behind this decision was obtaining an unexpected 
-distribution of (mostly) \yes answers on the test set (completely different to 
-that observed in both training and development partitions. Further experiments 
-carried out after the submission demonstrated that the causes for such an 
-unexpected behavior were a few features for which no statistics enough existed 
-to be valuable as well as a buggy implementation of some others. Further 
-discussion is included in Section~\ref{sec:discussionb}.
+neglected). The reason behind this decision was that, when learning was performed on training and development sets,
+an unexpected distribution of mostly \yes answers on the test was obtained. 
+Such distribution is completely different to that observed in both training and development partitions. 
+%The reason behind this decision was obtaining an unexpected 
+%distribution of (mostly) \yes answers on the test set (completely different to 
+%that observed in both training and development partitions. 
+Further experiments carried out after the submission demonstrated that the causes for such an 
+unexpected behavior were a buggy implementation of some features and the fact that 
+some features were computed on unreliable statistics of the data. 
+%based on values for which not enough statistics is available. %to be valuable. % as well as a buggy implementation of some others. 
+Further discussion is included in Section~\ref{sec:discussionb}.
 
 
 \subsection{Contrastive Submissions}
@@ -120,7 +124,7 @@ discussion is included in Section~\ref{sec:discussionb}.
 
 \paragraph{Arabic} 
 
-Our contrastive submission~1 is approached as ranking problem. Similarity 
+Our contrastive submission~1 is approached as a ranking problem. Similarity 
 $sim(q,c)$, after stopwording and stemming, is computed as 
 \begin{equation}
  sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cap c} \omega(t) \enspace ,
@@ -150,22 +154,22 @@ one, particularly when identifying \rel comments.
 
 For our contrastive submission~1, the same machine learning schema as for the 
 primary submission is used, but now using 
-SVM$^\mathrm{light}$~\cite{Joachims:99}. This toolkit allows us for dealing with 
+SVM$^\mathrm{light}$~\cite{Joachims:99}. This toolkit allows us to deal with 
 the class imbalance by tuning the $j$ parameter (cost of making mistakes on 
 positive examples). This time the $C$ hyper-parameter is set to the default 
-value. As we focused on improve the performance on \pot instances, we obtained 
+value. As we focused on improving the performance on \pot instances, we obtained 
 better results on this category, even surpassing the overall performance from 
 the primary submission.
 
 Our English contrastive submission~2 operates in the same way as the Arabic 
-contrastive submission~1. The applied ranges are the same, this time used to 
+contrastive submission~1. The applied ranges are the same, but this time they used to 
 assign the classes \good, \pot, and \bad. Some heuristics override the so 
 generated decisions: $c$ is classified as \good if it includes a URL, starts 
 with an imperative verb (\eg \textit{try}, \textit{view}, \textit{contact}, 
 \textit{check}), or contains \textit{yes words} (\eg \textit{yes}, \textit{yep}, 
 \textit{yup}) or \textit{no words} (\eg \textit{no}, \textit{nooo}, 
 \textit{nope}). Comments written by the author of the question or including 
-acknowledgments are considered \dial; which become \bad comments. 
+acknowledgments are considered \dial and classified as \bad. 
 %   only rule-based features 
 % (Section~\ref{ssub:heuristics}) \blue{confirm}
 
@@ -173,7 +177,7 @@ acknowledgments are considered \dial; which become \bad comments.
 
 \paragraph{English B}
 
-Our contrastive submission~1 is identical as the primary one, but considering 
+Our contrastive submission~1 is identical to the primary one, but it considers 
 both training and development data for estimating the model. The 
 reason behind the disastrous results is a buggy implementation of some of 
 the polarity features (\cf Section~\ref{sub:polarity}) and the lack of 
@@ -189,141 +193,3 @@ labeled as \yes if it starts with affirmative words: \textit{yes}, \textit{yep},
 It is labeled as \no if it starts with \textit{no}, \textit{nop}, \textit{nope}, 
 etc”, 
 
-
-
-
-%  \begin{table}[h]
-%  \begin{tabular}{c|c|c|c|c}
-%   \multicolumn{5}{c}{Subtask A} \\
-%   \hline
-%  Subm.		& F1-Good 	& F1-Bad 	& F1-Pot 	& F1	 \\
-%   \hline
-%   E. P.  & $78.45$	& $72.39$	& $10.40$	& $53.74$ \\
-%   E. C1 & $76.08$	& $75.68$	& $17.44$	& $56.40$ \\
-%   E. C2 & $75.46$	& $72.48$ 	& $7.97$	& $51.97$ \\
-%   A. P. & $77.31$	& $91.21$	& $67.13$	& $78.55$ \\
-%   A. C1& $74.89$ 	& $91.23$	& $63.68$	& $76.60$ \\
-%   A. C2& $76.63$	& $90.30$	& $63.98$	& $76.97$ \\
-% \hline 
-%   \multicolumn{5}{c}{Subtask B} \\
-% \hline  
-%  Subm.		& F1-Yes 	& F1-No 	& F1-Unsure 	& F1	 \\
-%   \hline
-%   E. P.	& $78.45$	& $72.39$	& $10.40$	& $53.74$ \\
-%   E. C1  & $76.08$	& $75.68$	& $17.44$	& $56.40$ \\
-%   E. C2 & $75.46$	& $72.48$ 	& $7.97$	& $51.97$ \\
-%  \end{tabular}
-% \caption{Results of our experiments on SemEval Task 3. The first column specify 
-% the submission type, English (E) or Arabic (A) and Primary (P) or Contrastive 1 
-% or 2 (C1 or C2). The columns 2-4 specify the F1 measure of the binary learning 
-% problem, for example Good VS all other classes. Finally the 6-th column shows 
-% the official F1 score for the submission.\label{tab:results}}
-% \end{table}
-
-
-
-% - Clearly define tuning, submission and post-submission
-% 
-% Potentially interesting experiments to show/discuss
-% 
-% \textbf{English A}
-% \begin{itemize}
-%  \item Feature sets in isolation. 
-%  \item Altogether
-%  \item Simplified experiment: Potential becomes bad; Good vs Bad
-%  \item Error analysis: Potential versus Good/Bad errors
-% \end{itemize}
-
-
-% \begin{table*}
-% \begin{tabular}{|c|c|c|c|c|c|c|c|}
-% \hline
-% Exp&Lexical & Syntactic & Semantic & Context & $n$-grams & Heuristics\\ 
-% \hline
-% 1	& x	& 	& 	& 	& 	& 		\\
-% 2	& 	& x	& 	& 	& 	& 		\\
-% 3	& 	& 	& x	& 	& 	& 		\\
-% 4	& 	& 	& 	& x	& 	& 		\\
-% 5	& 	& 	& 	& 	& x	& 		\\
-% 6	& 	& 	& 	& 	& 	& x		\\
-% 7	& x	& x	& x	& 	& 	& 	 	\\
-% \hline
-% \end{tabular}
-% 
-% 
-% 
-% \begin{tabular}{|l|c|c|c|c|c|c|c|}
-% \hline
-% Exp	&Lexical & Syntactic & Semantic & Context & $n$-grams & Heuristics\\ 
-% \hline
-% Massimo	& x	& x	& 	& 	& x	& 		\\
-% % Iman	& 	& 	& 	& 	& 	& 		\\
-% Hamdy	& 	& 	& 	& 	& 	& x		\\
-% Simone	& 	& 	& x	& x	& 	& x		\\
-% Wei	& x	& 	& 	& 	& 	& 		\\
-% Preslav	& 	& 	& x	& 	& 	& 		\\
-% 
-% \hline
-% \end{tabular}
-
-
-% 
-% \caption{Experiments with features subsets.} 
-%  
-%  
-%  
-% \end{table*}
-
-
-
-% 
-% \textbf{English B}
-% \begin{itemize}
-%  \item Any proposal? Probably no questions enough for an error analysis
-% \end{itemize}
-% 
-% 
-% 
-% \textbf{Arabic}
-% 
-% \begin{itemize}
-%  \item Let's ask the Arabic team!
-% \end{itemize}
-
-% these are the submissions for English Subtask A and the Arabic Task
-% 
-% English Subtask A
-% - subtask_a_python_primary.pred (Python system including ngrams and features from everybody)
-% - subtask_a_svmlight_contrastive1.pred (Python system feature vectors, learning and classification carried out with svmlight and tuned parameters)
-% - subtask_a_hamdy_contrastive2.pred (predictions by Hamdy's system)
-% 
-% Arabic Task
-% - arabic_max_hamdy_primary.pred (Python system including Hamdy's predictions as features)
-% - arabic_hamdy_contrastive1.pred (predictions by Hamdy's system)
-% - arabic_max_contrastive2.pred (Python system with no ngrams and Hamdy rule + Hamdy's predictions as features)
-% 
-% Since the primary system for Arabic without Hamdy's predictions was weaker than the second contrastive on the dev set, I used the latter. It's the system using only similarity features (no ngrams), classifier parameters crossvalidated on the train set and Hamdy's rule for selecting Direct, Relevant and Irrelevant comments.
-
-%SUBTASK B
-% we just defined the three submissions, which you can find attached:
-% 
-% a) subtask_a_primary.pred was generated by our standard pipeline for
-% task B, trained on the Iman's features for the training partition *only*
-% b) subtask_a_contrastive1.pred is as the primary one, but using the
-% train+dev features set generated by Iman
-% c) subtask_a_contrastive2.pred includes Hamdy's predictions.
-% 
-% Regarding submission a, remember we were trying three "comment
-% filtering" alternatives to select the adequate evidence when deciding
-% the label Yes, No or Unsure on the entire question. Whereas on the dev
-% set we observed that these three strategies impacted on the final
-% result, such a behaviour disappeared on the test, so the three
-% alternatives became 1.
-% 
-% Beside that, we found a somehow unexpected behaviour when classifying
-% the test set with our system trained on the new train+dev set generated
-% by Iman. In brief, almost 90% of the questions were classified as "Yes";
-% a distribution unexpected with respect to that from the development set.
-% As a result, this output became our contrastive submission 2
-% 
-% Regarding (c), I do not have information about Hamdy's prediction at hand.
