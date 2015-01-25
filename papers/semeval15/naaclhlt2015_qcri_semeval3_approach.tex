@@ -117,66 +117,71 @@ belongs to a category in which a given kind of answer is expected, are important
 factors. Therefore, we consider set of features that 
 try to describe a comment in its context.   
 
-Let $C={c_1, \ldots,c_C}$ be the stream of comments associated to question $q$, 
-asked by $u_q$. The first subset of features for comment $c$ are of type 
-boolean. Four of them are set to \texttt{True} according to the 
-following criteria:
+%Let $C={c_1, \ldots,c_C}$ be the stream of comments associated to question $q$, 
+%asked by $u_q$. 
+A first subset of context features for comment $c$ are boolean indicators 
+exploring the following situations: %. Four of them are set to \texttt{True} according to the 
+%following criteria:
 
-\begin{enumerate}
+\begin{itemize}
 \item $c$ is written by $u_q$ (\ie the same user behind $q$); 
 \item \label{enu:context_ack} 
   $c$ is written by $u_q$ and contains and acknowledgment (e.g.   
   \textit{thank*}, \textit{appreciat*});
 \item \label{enu:context_quest}
-  $c$ is written by $u_q$ and includes further questions; and
+  $c$ is written by $u_q$ and includes further questions; 
 \item $c$ is written by $u_q$ and includes no acknowledgments nor further 
 questions.
-\end{enumerate}
+\end{itemize}
 % 
-The second subset intends to model $c$ according to those comments by $u_q$ 
-appearing in its proximity. Intuitively, whether $c$ appears close to an 
-acknowledgment or further questions by $u_q$ could be a relevant factor when 
-classifying it. Our function to represent the relationship between a comment 
-$c_{t-k}$ in time $t-k$ and $c_{q,t}$, given that $t$ is the 
-time of the comment by $u_q$ is as follows:
+A second subset explores whether comment $c$ appears in its proximity of a comment by $u_q$. 
+The intuition is that acknowledgment or further questions by $u_q$ could be a relevant factor when 
+classifying $c$. Features investigating the following occurrences have been developed:
+
+\begin{itemize}
+\item among the comments following $c$ there is a comment by $u_q$ containing an acknowledgment
+\item among the comments following $c$ there is a comment by $u_q$ not containing an acknowledgment
+\item among the comments following $c$ there is a comment by $u_q$ containing a question
+\item among the comments preceding $c$ there is a comment by $u_q$ containing a question
+\end{itemize}
+
+The value of those features is scaled according to the distance $k$ (in number of comments; it is set to $\infty$) occurring between $c$
+and the comment by $u_q$:
+%Our function to represent the relationship between a comment 
+%$c_{t-k}$ in time $t-k$ and $c_{q,t}$, given that $t$ is the 
+%time of the comment by $u_q$ is as follows:
 % 
 \begin{equation}
- f(c_{t-k})=\max \left(0\enspace,\enspace 1.1-(k*0.1) \right)
+ f(c)=\max \left(0\enspace,\enspace 1.1-(k \cdot 0.1) \right)
 \end{equation}
 %
-where $k$ is the distance between $c_{t-k}$ and $c_{q,t}$ in the past. This 
-function, which stop criterion is the occurrence of another comment by $u_q$, 
-is applied to generate four features according to four criteria:
-
-\begin{enumerate}\setcounter{enumi}{4}
-\item a $c_q$ for which feature~\ref{enu:context_ack} is \texttt{True},
-\item a $c_q$ for which feature~\ref{enu:context_ack} is \texttt{False}, 
-\item a $c_q$ for which feature~\ref{enu:context_quest} is \texttt{True}, and 
-\item same as the previous one, but looking at the future instead. 
-\end{enumerate}
-
+%where $k$ is the distance between $c_{t-k}$ and $c_{q,t}$ in the past.
 
 We also tried to model potential dialogues by identifying interlacing comments 
 between two users. Our dialogue features rely on identifying 
-a sequence of comments 
+a sequence of users 
 \begin{align*}
-c_i \rightarrow c_j \rightarrow c_i \rightarrow c_j^*,
+u_i \rightarrow u_j \rightarrow u_i \rightarrow u_j^*,
 \end{align*}
 % 
-where $u_i$ and $u_j$ are the authors of $c_i$ and $c_j$. 
+%where $u_i$ and $u_j$ are the authors of $c_i$ and $c_j$. 
 Note that comments by other 
 users can appear in between this ``pseudo-conversation''. Three features are 
 considered, whether a comment is at the beginning, middle, or ending position of 
 the pseudo-dialogue. We consider three more features for those cases in which 
-$q=j$. 
+$u_q=u_j$. 
 
 We are also interested in realizing whether a user $u_i$ has been particularly 
 active in a question. As a result, we consider one boolean feature, whether 
 $u_i$ wrote more than one comment in the current stream, and three more features 
 identifying the first, middle and last comments by $u_i$. One extra real feature 
-counts the total number of comments written by $u_i$.
+counts the total number of comments written by $u_i$. Moreover we empirically 
+observed that the likelihood for a comment to be \good decreases 
+the farther it appears from the question. Therefore, we consider one more 
+real-valued feature: $\max(20, i)/20$, where $i$ represents the position of 
+the comment in the stream.
 
-Qatar Living includes twenty-six different categories in which a person could 
+Finally,Qatar Living includes twenty-six different categories in which a person could 
 request for information and advice. Some of them tend to include more open 
 questions and even invite to discussions on ambiguous topics (e.g., \textit{life 
 in Qatar}, \textit{Qatari culture}). Some others require more precise answers 
@@ -184,10 +189,7 @@ and allow for less discussion (e.g. \textit{Electronics}, \textit{visas and
 permits}). Therefore, we include one boolean feature per category to consider 
 this information. 
  
-We empirically observed that the likelihood for a comment to be \good decreases 
-the farther it appears from the question. Therefore, we consider one more 
-real-valued feature: $\max(20, i)/20$, where $i$ represents the position of 
-the comment in the stream.
+
 
 
 \subsection{Word $n$-Grams}

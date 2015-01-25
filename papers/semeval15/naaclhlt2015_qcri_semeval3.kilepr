@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=naaclhlt2015_qcri_semeval3_exp.tex
+lastDocument=naaclhlt2015_qcri_semeval3_discussion.tex
 masterDocument=
 name=naaclhlt2015_qcri_semeval3
 pkg_extIsRegExp=false
@@ -80,22 +80,22 @@ order=1
 
 [item:naaclhlt2015_qcri_semeval3_discussion.tex]
 archive=true
-column=8
+column=65
 encoding=UTF-8
 highlight=LaTeX
-line=11
+line=85
 mode=LaTeX
-open=false
-order=3
+open=true
+order=1
 
 [item:naaclhlt2015_qcri_semeval3_exp.tex]
 archive=true
-column=25
+column=69
 encoding=UTF-8
 highlight=LaTeX
-line=123
+line=311
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [item:naaclhlt2015_qcri_semeval3_intro.tex]
@@ -131,16 +131,16 @@ JumpList=
 ViMarks=.,321,77,[,322,0,],-1,-1
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3_discussion.tex]
-CursorColumn=8
-CursorLine=11
+CursorColumn=65
+CursorLine=85
 JumpList=
-ViMarks=.,37,22,[,37,23,],37,22
+ViMarks=.,86,24,[,86,13,],86,24
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3_exp.tex]
-CursorColumn=25
-CursorLine=123
+CursorColumn=69
+CursorLine=311
 JumpList=
-ViMarks=.,113,73,[,114,0,],-1,-1
+ViMarks=.,278,0,[,278,0,],278,1
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3_intro.tex]
 CursorColumn=62
