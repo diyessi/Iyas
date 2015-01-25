@@ -1,6 +1,10 @@
 \section{Pots-Submission Experiments}
 \label{sec:discussion}
 
+We carried out some further experiments after the official task deadline to 
+understand how different feature families contributed to the final performance 
+of our classifiers. 
+
 
 \subsection{Arabic} \label{sec:discussionArabic}
 
@@ -21,17 +25,26 @@ of the different features families.
  no max iyas sim&	&	&	& 78.69	\\ 
   \hline
  \end{tabular}
- \caption{Post-competition experiments Arabic\label{tab:aftertaskarabic}}
+ \caption{Post-competition experiments Arabic.\label{tab:aftertaskarabic}}
  \end{table}
 
 \subsection{English Task A} \label{sec:discussiona}
 
-Table~\ref{tab:aftertaska} shows the results obtained on the test set by 
-considering both the different subsets of features in isolation (\textit{only 
-with}) or all the features except for a subset (\textit{without}). According to 
-these figures, the heuristic features seem to be the most useful, followed by 
-the context-based information. The best performing subsets are close to that 
-combining all the features (\cf Table~{tab:results}).
+Table~\ref{tab:aftertaska} shows the results obtained on the test set ---with 
+the same framework as in the primary submission---, by considering both the 
+different subsets of features in isolation (\textit{only with}) or all the 
+features except for a subset (\textit{without}). Interestingly, most of the 
+subset perform close to the overall set in isolation. According to the figures, 
+the heuristic features seem to be the most useful, followed by the context-based 
+information. The advantage of the latter is that they can be applied to other 
+community question answering scenations, without further human adaptation. 
+On the other side, using all the features but the $n$-grams allows for a better 
+performance than that in the primary run (\cf Table~{tab:results}). This is an 
+interesting results as these features had significantly pushed up the 
+performance of our system at development time. 
+
+
+performing subsets are close to that combining all the features 
 
 
 \begin{table}%[h]	
@@ -41,36 +54,36 @@ combining all the features (\cf Table~{tab:results}).
 \hline  
  Only with 	& \bf \good & \bf \bad & \bf \texttt{POT} & \bf \texttt{MACRO} 
 \\\hline
-context	&	&	&	& 47.90	\\
- $n$-grams	&	&	&	& 44.86\\
- heuristics	&	&	&	& 52.57\\
- Similarities	& 	&	&	& 46.16	\\
- \,\,\,\,\, lexical	&	&	&	& 44.82	\\
- \,\,\,\,\, syntactic&	&	&	& 36.47	 \\
- \,\,\,\,\, semantic&	&	&	& 42.16	 \\\hline
+ context		& 67.65	& 45.03	& 11.51	& 47.90	\\
+ $n$-grams		& 71.22	& 40.12	& 5.99	& 44.86	\\
+ heuristics		& 76.46	& 41.94	& 7.11	& 52.57	\\
+ Similarities		& 62.93	& 44.58	& 9.62	& 46.16	\\
+ \,\,\,\, lexical	& 62.25	& 41.46	& 8.66	& 44.82	\\
+ \,\,\,\, syntactic	& 59.18	& 36.20	& 0.00	& 36.47	\\
+ \,\,\,\, semantic	& 55.56	& 40.42	& 9.92	& 42.16	\\\hline
  Without 	& \bf \good & \bf \bad & \bf \texttt{POT} & \bf 
 \texttt{MACRO} 
 \\\hline
  context	&	&	&	& 51.49	\\
- $n$-grams	&	&	&	& 55.17\\
+ $n$-grams	&	&	&	& \bf 55.17\\
  heuristics	&	&	&	& 48.60\\
  Similarities	& 	&	&	& \blue{??.??}	\\
- \,\,\,\,\, lexical&	&	&	& 53.34	\\
- \,\,\,\,\, syntactic&	&	&	& 53.73	 \\
- \,\,\,\,\, semantic&	&	&	& 53.50	 \\ 
+ \,\,\,\, lexical&	&	&	& 53.34	\\
+ \,\,\,\, syntactic&	&	&	& 53.73	 \\
+ \,\,\,\, semantic&	&	&	& 53.50	 \\ 
   
   \hline
  \end{tabular}
- \caption{Post-competition experiments English A \label{tab:aftertaska}}
+ \caption{Post-competition experiments English A. \label{tab:aftertaska}}
  \end{table}
 
 
 
 \subsection{English Task B} \label{sec:discussionb}
 
-After the submission we investigated on the reasons why learning on the training 
-only was considerably better than learning on the union of the training and 
-development sets. 
+Our post-task further efforts on task B are intended to investigate on the 
+reasons why learning on the training only was considerably better than learning 
+on the union of the training and development sets. 
 The sequences of predicted target labels on the test set in the two learning 
 scenarios showed considerable differences: when learning on the union of the 
 training and development sets the predicted labels were YES on all but three 
