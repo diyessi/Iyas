@@ -1,22 +1,21 @@
 \section{Pots-Submission Experiments}
 \label{sec:discussion}
 
-We carried out some further experiments after the official task deadline to 
-understand how different feature families contributed to the final performance 
-of our classifiers. 
-
-
-\subsection{Arabic} \label{sec:discussionArabic}
-
-Table~\ref{tab:aftertaskarabic} shows the results obained after discarding each 
-of the different features families.
-
 \begin{table}%[h]	
-\begin{tabular}{|l|crrr|}
+\begin{tabular}{|l|cccc|}
 % \hline
-%   \multicolumn{5}{c}{Arabic} \\
+%   \multicolumn{5}{c}{Subtask A} \\
 \hline  
- Subm. without& \bf \texttt{DIR} & \bf \texttt{REL} & \bf \texttt{IREL} & 
+ \bf ar (only)& \bf \texttt{DIR} & \bf \texttt{REL} & \bf \texttt{IREL} & 
+\bf \texttt{MACRO} \\\hline
+ $n$-grams	&	&	&	& 	\\
+ cont$_1$	&	&	&	& 	\\
+ no max iyas	&	&	&	& 	\\
+ no max sim	&	&	&	& 	\\
+ no max iyas sim&	&	&	& 	\\ 
+  \hline
+  \hline  
+ \bf ar (without)& \bf \texttt{DIR} & \bf \texttt{REL} & \bf \texttt{IREL} & 
 \bf \texttt{MACRO} \\\hline
  $n$-grams	&	&	&	& 76.75	\\
  cont$_1$	&	&	&	& 67.74	\\
@@ -24,97 +23,132 @@ of the different features families.
  no max sim	&	&	&	& 78.37	\\
  no max iyas sim&	&	&	& 78.69	\\ 
   \hline
- \end{tabular}
- \caption{Post-competition experiments Arabic.\label{tab:aftertaskarabic}}
- \end{table}
-
-\subsection{English Task A} \label{sec:discussiona}
-
-Table~\ref{tab:aftertaska} shows the results obtained on the test set ---with 
-the same framework as in the primary submission---, by considering both the 
-different subsets of features in isolation (\textit{only with}) or all the 
-features except for a subset (\textit{without}). Interestingly, most of the 
-subset perform close to the overall set in isolation. According to the figures, 
-the heuristic features seem to be the most useful, followed by the context-based 
-information. The advantage of the latter is that they can be applied to other 
-community question answering scenations, without further human adaptation. 
-On the other side, using all the features but the $n$-grams allows for a better 
-performance than that in the primary run (\cf Table~{tab:results}). This is an 
-interesting results as these features had significantly pushed up the 
-performance of our system at development time. 
-
-
-performing subsets are close to that combining all the features 
-
-
-\begin{table}%[h]	
-\begin{tabular}{|l|cccc|}
-% \hline
-%   \multicolumn{5}{c}{Subtask A} \\
 \hline  
- Only with 	& \bf \good & \bf \bad & \bf \texttt{POT} & \bf \texttt{MACRO} 
+ \bf en A (only)& \bf \good & \bf \bad & \bf \texttt{POT} & \bf 
+\texttt{MACRO} 
 \\\hline
  context		& 67.65	& 45.03	& 11.51	& 47.90	\\
  $n$-grams		& 71.22	& 40.12	& 5.99	& 44.86	\\
  heuristics		& 76.46	& 41.94	& 7.11	& 52.57	\\
- Similarities		& 62.93	& 44.58	& 9.62	& 46.16	\\
+ similarities		& 62.93	& 44.58	& 9.62	& 46.16	\\
  \,\,\,\, lexical	& 62.25	& 41.46	& 8.66	& 44.82	\\
  \,\,\,\, syntactic	& 59.18	& 36.20	& 0.00	& 36.47	\\
- \,\,\,\, semantic	& 55.56	& 40.42	& 9.92	& 42.16	\\\hline
- Without 	& \bf \good & \bf \bad & \bf \texttt{POT} & \bf 
+ \,\,\,\, semantic	& 55.56	& 40.42	& 9.92	& 42.16	\\
+ \hline
+ \hline
+ \bf en A (without)	& \bf \good & \bf \bad & \bf \texttt{POT} & \bf 
 \texttt{MACRO} 
 \\\hline
  context	&	&	&	& 51.49	\\
  $n$-grams	&	&	&	& \bf 55.17\\
  heuristics	&	&	&	& 48.60\\
- Similarities	& 	&	&	& \blue{??.??}	\\
+ similarities	& 	&	&	& 	\\
  \,\,\,\, lexical&	&	&	& 53.34	\\
  \,\,\,\, syntactic&	&	&	& 53.73	 \\
- \,\,\,\, semantic&	&	&	& 53.50	 \\ 
-  
+ \,\,\,\, semantic&	&	&	& 53.50	 \\   
   \hline
+  \hline
+  \bf en B	& \bf \yes & \bf \no & \bf \unsure & \bf \texttt{MACRO}	 \\
+ \hline
+ bug-free	& $78.79$	& $57.14$	& $20.00$	& $51.98$ \\
+ no-cat		& $85.71$	& $57.14$	& $25.00$ 	& $55.95$ \\
+ \hline
  \end{tabular}
- \caption{Post-competition experiments English A. \label{tab:aftertaska}}
- \end{table}
+ \caption{Post-competition experiments for Arabic and English A and B tasks. 
+\label{tab:aftertask}}
+\end{table}
+
+We carried out further experiments after the task deadline to understand how 
+different feature families contributed to the performance of our classifiers. 
+The results on the corresponding test sets are are reported in 
+Table~\ref{tab:aftertask}.
 
 
 
+\subsection{Arabic} \label{sec:discussionArabic}
+
+% The first rows of Table~\ref{tab:aftertask} show the results obtained after 
+% discarding each of the different features families.
+
+% \begin{table}%[h]	
+% \begin{tabular}{|l|crrr|}
+% % \hline
+% %   \multicolumn{5}{c}{Arabic} \\
+% \hline  
+%  Subm. without& \bf \texttt{DIR} & \bf \texttt{REL} & \bf \texttt{IREL} & 
+% \bf \texttt{MACRO} \\\hline
+%  $n$-grams	&	&	&	& 76.75	\\
+%  cont$_1$	&	&	&	& 67.74	\\
+%  no max iyas	&	&	&	& 79.13	\\
+%  no max sim	&	&	&	& 78.37	\\
+%  no max iyas sim&	&	&	& 78.69	\\ 
+%   \hline
+%  \end{tabular}
+%  \caption{Post-competition experiments Arabic.\label{tab:aftertaskarabic}}
+%  \end{table}
+
+
+\subsection{English Task A} \label{sec:discussiona}
+
+We ran experiments with the same framework as in the primary submission by 
+considering both the different subsets of features in isolation (\textit{only 
+with}) or all the features except for a subset (\textit{without}). 
+Interestingly, most of the subset perform close to the overall set in isolation. 
+According to the figures, the heuristic features seem to be the most useful, 
+followed by the context-based information. The advantage of the latter is that 
+they can be applied to other community question answering scenarios, without 
+further human adaptation. On the other side, using all the features but the 
+$n$-grams allows for a better performance than that in the primary run (\cf 
+Table~{tab:results}). This is an interesting result as these features had 
+significantly pushed up the performance of our system at development time. 
+ 
+%  performing subsets are close to that combining all the features 
+ 
+
+ 
 \subsection{English Task B} \label{sec:discussionb}
 
-Our post-task further efforts on task B are intended to investigate on the 
-reasons why learning on the training only was considerably better than learning 
-on the union of the training and development sets. 
-The sequences of predicted target labels on the test set in the two learning 
-scenarios showed considerable differences: when learning on the union of the 
-training and development sets the predicted labels were YES on all but three 
-cases. 
-After correcting a bug, the results obtained by learning on the union of the 
-training and development sets were the ones in the ``after$_1$'' submission in 
-the first row of Table~\ref{tab:aftertaskb}, i.e.  
-a Macro F1 value of $51.98$. Learning on the training set only still gives a 
-higher macro F1 of $69.35$, but the sequences of predicted labels are now more 
-consistent and the difference might not be significant (REFERENCE TO TASK 
-DESCRIPTION PAPER). 
-We observed that the values of those features counting the number of Good, Bad, 
-and Potential comments within categories from the same user (\cf 
-Section~\ref{sub:profile}) vary greatly when computed on the training or 
-training+dev datasets. 
-This is due to the fact that the number of comments of a user for a category is, 
-in most cases, too limited to generate reliable statistics. 
-After discarding these three features, the obtained Macro F1 value is $55.95$ 
-(see ``after$_2$'' submission in Table~\ref{tab:aftertaskb}), which represents a 
-higher performance than the ones obtained during at submission time.
+Our post-task efforts are intended to investigate on the reasons why learning on 
+training only was considerably better than learning on the union of the 
+training and development sets. The sequences of predicted target labels on the 
+test set in the two learning scenarios showed considerable differences: when 
+learning on the union the predicted labels were \yes on all but three cases. 
+After correcting a bug in our implementation of the polarity-related features, 
+the result obtained by learning on the union of the training and development 
+sets was F$_1=51.98$ (\cf Table~\ref{tab:aftertask} for details). Further 
+feature-based analyses pointed that the features counting the number of \good, 
+\bad, and \pot comments within categories from the same user (\cf 
+Section~\ref{sub:profile}) varied greatly when computed on the training or 
+training+dev datasets. The reason is that the number of comments of a user in a 
+category is, in most cases, too limited to generate reliable statistics. After 
+discarding these three features, F$_1 = 55.95$, as reported in 
+Table~\ref{tab:aftertask}, \textit{no-cat}). This figures represent a higher 
+performance than that obtained at submission time. Observe that, once again, the 
+\unsure class is the hardest to identify properly.
 
-\begin{table}%[h]	
-\begin{tabular}{|l|cccc|}
-% \hline
-%   \multicolumn{5}{c}{Subtask B} \\
-\hline  
- Subm.		& \bf \yes & \bf \no & \bf \unsure & \bf \texttt{MACRO}	 \\
-  \hline
-  \,\,after$_1$	& $78.79$	& $57.14$	& $20.00$	& $51.98$ \\
-  \,\,after$_2$ & $85.71$	& $57.14$	& $25.00$ 	& $55.95$ \\
-  \hline
- \end{tabular}
- \caption{\label{tab:aftertaskb}}
- \end{table}
+Surprisingly, applying the bug-free implementation on the training set only 
+still allowed for a higher F$_1 =69.35$ on test.
+% , the sequences of predicted labels with the entire dataset showed to be more 
+% consistent. 
+A manual analysis allowed us to observe that the difference in performance was 
+the result of misclassifying only four questions either as \yes or \unsure. 
+Indeed, the differences occur only by the randomness of the classifier on 
+a small dataset and cannot be considered statistically 
+significant~\cite{Marquez-EtAl:2015:SemEval}. 
+
+% \begin{table}%[h]	
+% \begin{tabular}{|l|cccc|}
+% % \hline
+% %   \multicolumn{5}{c}{Subtask B} \\
+% \hline  
+% 	& \bf \yes & \bf \no & \bf \unsure & \bf \texttt{MACRO}	 \\
+%  \hline
+%  bug-free	& $78.79$	& $57.14$	& $20.00$	& $51.98$ \\
+%  no-cat		& $85.71$	& $57.14$	& $25.00$ 	& $55.95$ \\
+%  \hline
+%  \end{tabular}
+%  \caption{Post-competition experiments English B: \textit{bug-free} refers to 
+% our run after correcting some implementation bugs; \textit{no-cat} is the 
+% result after discarding the category-level per-user statistics.
+% \label{tab:aftertaskb}}
+%  \end{table}
