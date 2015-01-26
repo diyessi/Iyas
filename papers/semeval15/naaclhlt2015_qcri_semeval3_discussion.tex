@@ -2,7 +2,7 @@
 \label{sec:discussion}
 
 \begin{table}%[h]	
-\begin{tabular}{|l|cccc|}
+\begin{tabular}{|l|c@{\hskip 0.3cm}c@{\hskip 0.3cm}c@{\hskip 0.3cm}c|}
 % \hline
 %   \multicolumn{5}{c}{Subtask A} \\
 \hline  
@@ -10,9 +10,7 @@
 \bf \texttt{MACRO} \\\hline
  $n$-grams	&	&	&	& 	\\
  cont$_1$	&	&	&	& 	\\
- no max iyas	&	&	&	& 	\\
- no max sim	&	&	&	& 	\\
- no max iyas sim&	&	&	& 	\\ 
+ similarities	&	&	&	& 	\\ 
   \hline
   \hline  
  \bf ar (without)& \bf \texttt{DIR} & \bf \texttt{REL} & \bf \texttt{IREL} & 
@@ -21,7 +19,7 @@
  cont$_1$	&	&	&	& 67.74	\\
  no max iyas	&	&	&	& 79.13	\\
  no max sim	&	&	&	& 78.37	\\
- no max iyas sim&	&	&	& 78.69	\\ 
+ nomaxiyassim&	&	&	& 78.69	\\ 
   \hline
 \hline  
  \bf en A (only)& \bf \good & \bf \bad & \bf \texttt{POT} & \bf 
@@ -48,20 +46,28 @@
  \,\,\,\, semantic&	&	&	& 53.50	 \\   
   \hline
   \hline
-  \bf en B	& \bf \yes & \bf \no & \bf \unsure & \bf \texttt{MACRO}	 \\
+  \bf en B	& \bf \yes & \bf \no & \bf \texttt{UNS} & \bf \texttt{MACRO}	
+ \\
  \hline
- bug-free	& $78.79$	& $57.14$	& $20.00$	& $51.98$ \\
- no-cat		& $85.71$	& $57.14$	& $25.00$ 	& $55.95$ \\
+ post$_1$	& $78.79$	& $57.14$	& $20.00$	& $51.98$ \\
+ post$_2$	& $85.71$	& $57.14$	& $25.00$ 	& 
+$55.95$ \\
  \hline
  \end{tabular}
  \caption{Post-competition experiments for Arabic and English A and B tasks. 
 \label{tab:aftertask}}
 \end{table}
 
+
 We carried out further experiments after the task deadline to understand how 
 different feature families contributed to the performance of our classifiers. 
-The results on the corresponding test sets are are reported in 
-Table~\ref{tab:aftertask}.
+% The results on the corresponding test sets are reported in 
+Table~\ref{tab:aftertask} reports the results on the 
+different test sets.
+
+
+% The results on the corresponding test sets are reported in 
+% Table~\ref{tab:aftertask}.
 
 
 
@@ -87,20 +93,19 @@ Table~\ref{tab:aftertask}.
 %  \caption{Post-competition experiments Arabic.\label{tab:aftertaskarabic}}
 %  \end{table}
 
-
 \subsection{English Task A} \label{sec:discussiona}
 
 We ran experiments with the same framework as in the primary submission by 
-considering both the different subsets of features in isolation (\textit{only 
-with}) or all the features except for a subset (\textit{without}). 
-Interestingly, most of the subset perform close to the overall set in isolation. 
-According to the figures, the heuristic features seem to be the most useful, 
-followed by the context-based information. The advantage of the latter is that 
-they can be applied to other community question answering scenarios, without 
-further human adaptation. On the other side, using all the features but the 
-$n$-grams allows for a better performance than that in the primary run (\cf 
-Table~{tab:results}). This is an interesting result as these features had 
-significantly pushed up the performance of our system at development time. 
+considering both the different subsets of features in isolation (\textit{only}) 
+or all the features except for a subset (\textit{without}). Interestingly, most 
+of the subset perform close to the overall set in isolation. According to the 
+figures, the heuristic features seem to be the most useful ones, followed by the 
+context-based information. The advantage of the latter is that they can be 
+applied to other community question answering scenarios, without further human 
+adaptation. On the other side, using all the features but the $n$-grams allows 
+for a better performance than that in the primary run (\cf Table~{tab:results}). 
+This is an interesting result as these features had significantly pushed up the 
+performance of our system at development time. 
  
 %  performing subsets are close to that combining all the features 
  
@@ -110,19 +115,18 @@ significantly pushed up the performance of our system at development time.
 
 Our post-task efforts are intended to investigate on the reasons why learning on 
 training only was considerably better than learning on the union of the 
-training and development sets. The sequences of predicted target labels on the 
-test set in the two learning scenarios showed considerable differences: when 
-learning on the union the predicted labels were \yes on all but three cases. 
-After correcting a bug in our implementation of the polarity-related features, 
-the result obtained by learning on the union of the training and development 
-sets was F$_1=51.98$ (\cf Table~\ref{tab:aftertask} for details). Further 
-feature-based analyses pointed that the features counting the number of \good, 
-\bad, and \pot comments within categories from the same user (\cf 
-Section~\ref{sub:profile}) varied greatly when computed on the training or 
-training+dev datasets. The reason is that the number of comments of a user in a 
-category is, in most cases, too limited to generate reliable statistics. After 
-discarding these three features, F$_1 = 55.95$, as reported in 
-Table~\ref{tab:aftertask}, \textit{no-cat}). This figures represent a higher 
+training+dev. The sequences of predicted target labels on the test set in the 
+two learning scenarios showed considerable differences: when learning on the 
+union, the predicted labels were \yes on all but three cases. After correcting a 
+bug in our implementation of the polarity-related features, the result obtained 
+by learning on the union of the training and development sets was F$_1=51.98$ 
+(Table~\ref{tab:aftertask}, post$_1$). Further feature-based analyses pointed 
+that the features counting the number of \good, \bad, and \pot comments within 
+categories from the same user (\cf Section~\ref{sub:profile}) varied greatly 
+when computed on the training or training+dev datasets. The reason is that the 
+number of comments of a user in a category is, in most cases, too limited to 
+generate reliable statistics. After discarding these three features, F$_1 = 
+55.95$ (Table~\ref{tab:aftertask}, post$_2$). This figures represent a higher 
 performance than that obtained at submission time. Observe that, once again, the 
 \unsure class is the hardest to identify properly.
 

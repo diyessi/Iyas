@@ -2,13 +2,13 @@
 \label{sec:approach}
 
 % \blue{TODO describe the datasets?}
-Most of our approaches are built on top of supervised machine learning, 
-whereas a few contrastive sbmissions were based on rule-based approaches. In 
-this section we describe all the different features we considered including 
+Most of our approaches are built on top of supervised machine learning, whereas 
+a few contrastive submissions were based on rule-based approaches. In this 
+section we describe all the different features we considered including 
 similarities (Section~\ref{sub:sim}), the context in which a comment appears 
 (Section~\ref{ssub:context}), and the occurrence of certain vocabulary and 
-phrase triggers (Sections~\ref{ssub:ngrams} and~\ref{ssub:heuristics}). How 
-and where they are applied is discussed in Section~\ref{sec:experiments}.
+phrase triggers (Sections~\ref{ssub:ngrams} and~\ref{ssub:heuristics}). How and 
+where they are applied is discussed in Section~\ref{sec:experiments}.
 
 % \subsection{Arabic task}
 % \label{sub:app_arabic}
@@ -23,7 +23,7 @@ and where they are applied is discussed in Section~\ref{sec:experiments}.
 Our intuition is that the higher the similarity  $sim(q,c)$, the higher the 
 likelihood that $c$ is a \good answer. We consider different types.
 
-\subsubsection{Lexical similarities}
+\subsubsection{Lexical Similarities}
 
 After stopwording, we compute $sim(q, c)$ for word $n$-gram representations of 
 $q$ and $c$ ($n=[1,\ldots,4]$), and different $sim$ functions: greedy string 
@@ -69,7 +69,7 @@ $c$.
 % of the \textit{idf} concept by \blue{Salton (1986)} and 
 % \blue{Nallapati (2004)}.\footnote{\blue{Wei, please add the proper references}}
 
-\subsubsection{Syntactic similarity \blue{Massimo; contrast?}}
+\subsubsection{Syntactic Similarity}
 \label{sub:syntactic}
 
 Partial tree kernel (PTK) similarity between question and comment according 
@@ -78,7 +78,7 @@ representations of $q$ and $c$. Such trees have lemmas as leaves, each leaf has
 a parent node representing a part-of-speech tag, and part-of-speech nodes are 
 grouped by chunks at the top level.
 
-\subsubsection{Semantic similarities}
+\subsubsection{Semantic Similarities}
 \label{sub:semantic}
 
 We apply three approaches to build  word-embedding vector representations:
@@ -87,14 +87,12 @@ trained on the Qatar Living corpus applying a co-occurrence window of size
 $\pm3$ and coming out with a vector of dimension 250, after SVD reduction (we 
 included an instance on the entire vocabulary and nouns only);
 \Nii GloVe~\cite{Pennington:2014}, using the pre-trained model \textit{Common 
-Crawl (42B tokens)}, with 300 dimensions;%
-\footnote{Available at \url{http://nlp.stanford.edu/projects/glove/}; last 
-visit: Jan 6th, 2015.}
-and \Niii COMPOSES~\cite{Baroni:2014}, using previously-estimated predict 
-vectors of 400 dimensions.%
-\footnote{Available at 
-\url{http://clic.cimec.unitn.it/composes/semantic-vectors.html}; last visit: Jan 
-6th, 2015.}
+Crawl (42B tokens)}, with 300 dimensions; and 
+\Niii COMPOSES~\cite{Baroni:2014}, using previously-estimated predict vectors of 
+400 dimensions.%
+\footnote{They are available at \url{http://nlp.stanford.edu/projects/glove/} 
+and \url{http://clic.cimec.unitn.it/composes/semantic-vectors.html}}
+% ; last visit: Jan 6th, 2015.}
 We also experimented with \textit{word2vec}~\cite{Mikolov:2013} 
 vectors pre-trained (both with cbow and skipgram) and both word2vec and GloVe 
 with vectors trained on Qatar Living data, but we discarded them, as they did 
@@ -119,8 +117,8 @@ in its context.
 
 %Let $C={c_1, \ldots,c_C}$ be the stream of comments associated to question $q$, 
 %asked by $u_q$. 
-A first subset of context features for comment $c$ are boolean indicators 
-exploring the following situations: %. Four of them are set to \texttt{True} according to the 
+A first subset of context features are boolean indicators exploring the 
+following situations: %. Four of them are set to \texttt{True} according to the 
 %following criteria:
 
 \begin{itemize}
@@ -140,13 +138,13 @@ $u_q$ could be a relevant factor when classifying $c$. Features investigating
 the following occurrences have been developed:
 
 \begin{itemize}
-\item among the comments following $c$ there is a comment by $u_q$ containing 
+\item among the comments following $c$ there is one by $u_q$ containing 
 an acknowledgment,
-\item among the comments following $c$ there is a comment by $u_q$ not 
+\item among the comments following $c$ there is one by $u_q$ not 
 containing an acknowledgment,
-\item among the comments following $c$ there is a comment by $u_q$ containing a 
+\item among the comments following $c$ there is one by $u_q$ containing a 
 question, and
-\item among the comments preceding $c$ there is a comment by $u_q$ containing a 
+\item among the comments preceding $c$ there is one by $u_q$ containing a 
 question.
 \end{itemize}
 
@@ -178,8 +176,8 @@ the pseudo-dialogue. We consider three more features for those cases in which
 $u_q=u_j$. 
 
 We are also interested in realizing whether a user $u_i$ has been particularly 
-active in a question. As a result, we consider one boolean feature, whether 
-$u_i$ wrote more than one comment in the current stream, and three more features 
+active in a question. As a result, we consider one boolean feature: whether 
+$u_i$ wrote more than one comment in the current stream. Three more features 
 identifying the first, middle and last comments by $u_i$. One extra real feature 
 counts the total number of comments written by $u_i$. Moreover we empirically 
 observed that the likelihood for a comment to be \good decreases 
@@ -299,9 +297,9 @@ quantitative polarity of $c$ is modeled as:
 pol(c) = \sum_{w\in c} pol(w) 
 \end{equation}
 %
-where $pol(w)$ represents the polarity of word $w$ in the NRC Hashtag Sentiment 
+where $pol(w)$ is the polarity of word $w$ in the NRC Hashtag Sentiment 
 Lexicon v0.1~\cite{MohammadKZ2013}.%
-\footnote{\url{
+\footnote{\url{%
 http://www.umiacs.umd.edu/~saif/WebPages/Abstracts/NRC-SentimentAnalysis.htm}; 
 last visit: Jan 18, 2015.}
 Words with polarity in the range $(-1,1)$ are discarded to neglect nearly 

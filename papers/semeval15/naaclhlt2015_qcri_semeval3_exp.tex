@@ -10,10 +10,6 @@ competition results.
 
 \begin{table}%[h]
  \begin{tabular}{|l|c@{\hskip 0.2cm}c@{\hskip 0.2cm}c@{\hskip 0.2cm}c|}
-%   \multicolumn{5}{c}{Subtask A} \\
-%   \hline
-%  Subm.		& \bf \good & \bf\bad 	& \bf \texttt{POT} & 	
-%  \\
   \hline
   \bf ar& \bf\dir & \bf\rel &\bf \texttt{IRREL} & \bf\texttt{MACRO}\\  \hline  
   prim	& $77.31$ & $91.21$	& $67.13$	& $78.55$ \\
@@ -40,12 +36,8 @@ competition results.
   \hline
  \end{tabular}
 \caption{Per-class and overall $F_1$-measure of our \textit{prim}ary and 
-\textit{cont}rastive submissions to SemEval Task 3 for Arabic (A) and English 
-(en).
-% The columns 2-4 specify the F1 measure of 
-% the binary learning problem, for example Good VS all other classes. Finally 
-the 
-% 6-th column shows the official F1 score for the submission.
+\textit{cont}rastive submissions to SemEval Task 3 for Arabic (ar) and English 
+(en) A and B.
 \label{tab:results}}
 \end{table}
 
@@ -89,17 +81,17 @@ impossible.)
 
 \paragraph{English B}
 
-Following the strategy applied during the manual labeling of the \yes/\no 
-questions by the task organizers~\cite{Marquez-EtAl:2015:SemEval}, our approach 
+Following the manual labeling strategy applied to the \yes/\no questions by the 
+task organizers~\cite{Marquez-EtAl:2015:SemEval}, our approach 
 consists of three steps:
-\Ni identifying the \good comments among those associated to the question;
+\Ni identifying the \good comments among those associated to $q$;
 \Nii classifying each of them as \yes, \no or \unsure; and 
 \Niii aggregating the comment-level classifications into a question-level one. 
-The overall answer to a question is that of the majority of the comments. In 
+The overall answer to $q$ becomes that of the majority of the comments. In 
 case of draw, we opt for labeling it as \unsure.%
-\footnote{\yes, the majority class in the training and development partitions, 
-could have been the default answer. Still, we opted for a conservative decision: 
-deciding \unsure if no evidence enough was at hand.}
+\footnote{\yes, the majority class in the training and dev.\ sets, could have 
+been the default answer. Still, we opted for a conservative decision: deciding 
+\unsure if no evidence enough was at hand.}
 Step \Ni is indeed task A. As for step \Nii, our approach to this task is 
 identical as that for English A, but adding the features described in 
 Sections~\ref{sub:polarity} and~\ref{sub:profile}.
@@ -124,7 +116,7 @@ Further discussion is included in Section~\ref{sec:discussionb}.
 
 \paragraph{Arabic} 
 
-Our contrastive submission~1 is approached as a ranking problem. Similarity 
+We approach our contrastive submission~1 as a ranking problem. Similarity 
 $sim(q,c)$, after stopwording and stemming, is computed as 
 \begin{equation}
  sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cap c} \omega(t) \enspace ,
