@@ -8,53 +8,50 @@
 \hline  
  \bf ar (only)& \bf \texttt{DIR} & \bf \texttt{REL} & \bf \texttt{IREL} & 
 \bf \texttt{MACRO} \\\hline
- $n$-grams	&	&	&	& 	\\
- cont$_1$	&	&	&	& 	\\
- similarities	&	&	&	& 	\\ 
+ $n$-grams	& 30.40	& 72.27	& 41.07	& 47.91	\\
+ cont$_1$	& 74.89	& 91.23	& 63.68	& 76.60	\\
+ similarities	& 61.83	& 82.55	& 25.63	& 56.67	\\ 
   \hline
   \hline  
  \bf ar (without)& \bf \texttt{DIR} & \bf \texttt{REL} & \bf \texttt{IREL} & 
 \bf \texttt{MACRO} \\\hline
- $n$-grams	&	&	&	& 76.75	\\
- cont$_1$	&	&	&	& 67.74	\\
- no max iyas	&	&	&	& 79.13	\\
- no max sim	&	&	&	& 78.37	\\
- nomaxiyassim&	&	&	& 78.69	\\ 
+ $n$-grams	& 75.51	& 91.31	& 63.85	& 76.89	\\
+ cont$_1$	& 69.50	& 82.85	& 50.87	& 67.74	\\
+ similarities	& 77.24	& 91.07	& 67.76	& \bf 78.69	\\ 
   \hline
 \hline  
- \bf en A (only)& \bf \good & \bf \bad & \bf \texttt{POT} & \bf 
-\texttt{MACRO} 
+ \bf en A (only)& \bf \good & \bf \bad & \bf \texttt{POT} & \bf \texttt{MACRO} 
 \\\hline
- context		& 67.65	& 45.03	& 11.51	& 47.90	\\
- $n$-grams		& 71.22	& 40.12	& 5.99	& 44.86	\\
- heuristics		& 76.46	& 41.94	& 7.11	& 52.57	\\
- similarities		& 62.93	& 44.58	& 9.62	& 46.16	\\
- \,\,\,\, lexical	& 62.25	& 41.46	& 8.66	& 44.82	\\
- \,\,\,\, syntactic	& 59.18	& 36.20	& 0.00	& 36.47	\\
- \,\,\,\, semantic	& 55.56	& 40.42	& 9.92	& 42.16	\\
+ context		& 67.65	& 45.03	& 11.51		& 47.90	\\
+ $n$-grams		& 71.22	& 40.12	& \,\,\,5.99	& 44.86	\\
+ heuristics		& 76.46	& 41.94	& \,\,\,7.11	& 52.57	\\
+ similarities		& 62.93	& 44.58	& \,\,\,9.62	& 46.16	\\
+ \,\,\,\, lexical	& 62.25	& 41.46	& \,\,\,8.66	& 44.82	\\
+ \,\,\,\, syntactic	& 59.18	& 36.20	& \,\,\,0.00	& 36.47	\\
+ \,\,\,\, semantic	& 55.56	& 40.42	& \,\,\,9.92	& 42.16	\\
  \hline
  \hline
  \bf en A (without)	& \bf \good & \bf \bad & \bf \texttt{POT} & \bf 
 \texttt{MACRO} 
 \\\hline
- context	&	&	&	& 51.49	\\
- $n$-grams	&	&	&	& \bf 55.17\\
- heuristics	&	&	&	& 48.60\\
- similarities	& 	&	&	& 	\\
- \,\,\,\, lexical&	&	&	& 53.34	\\
- \,\,\,\, syntactic&	&	&	& 53.73	 \\
- \,\,\,\, semantic&	&	&	& 53.50	 \\   
+ context		& 76.05	& 41.53	& \,\,\,8.98	& 51.50	\\
+ $n$-grams		& 77.25	& 45.56	& 12.23		& \bf 55.17\\
+ heuristics		& 73.84	& 65.33	& \,\,\,6.81	& 48.66\\
+ similarities		& 78.02	& 71.82	& \,\,\,9.88	& 53.24	\\
+ \,\,\,\, lexical	& 78.23	& 72.81	& \,\,\,9.91	& 53.65	\\
+ \,\,\,\, syntactic	& 78.81	& 43.89	& \,\,\,9.91	& 53.73	 \\
+ \,\,\,\, semantic	& 78.41	& 71.82	& 10.30		& 53.51	 \\   
   \hline
   \hline
   \bf en B	& \bf \yes & \bf \no & \bf \texttt{UNS} & \bf \texttt{MACRO}	
  \\
  \hline
- post$_1$	& $78.79$	& $57.14$	& $20.00$	& $51.98$ \\
- post$_2$	& $85.71$	& $57.14$	& $25.00$ 	& 
-$55.95$ \\
+ post$_1$	& 78.79	& 57.14	& 20.00	& 51.98 \\
+ post$_2$	& 85.71	& 57.14	& 25.00 & \bf 55.95 \\
  \hline
  \end{tabular}
- \caption{Post-competition experiments for Arabic and English A and B tasks. 
+ \caption{Post-competition results for Arabic (ar) and English (en) A and B 
+tasks. Best results per task highlighted.
 \label{tab:aftertask}}
 \end{table}
 
@@ -62,8 +59,9 @@ $55.95$ \\
 We carried out further experiments after the task deadline to understand how 
 different feature families contributed to the performance of our classifiers. 
 % The results on the corresponding test sets are reported in 
-Table~\ref{tab:aftertask} reports the results on the 
-different test sets.
+Table~\ref{tab:aftertask} reports the results on the different test sets. We 
+managed to slightly raise the performance for the three tasks due to different 
+reasons.
 
 
 % The results on the corresponding test sets are reported in 
@@ -72,6 +70,14 @@ different test sets.
 
 
 \subsection{Arabic} \label{sec:discussionArabic}
+
+We ran experiments with the same framework as in the primary submission by 
+considering both the different subsets of features in isolation (\textit{only}) 
+or all the features except for a subset (\textit{without}). The $n$-grams 
+features together with contrastive submission~1 allow for a slightly better 
+performance than our already winning submission. Our ranking approach 
+(contrastive~1) shows to be the most important one to get such a good result.
+
 
 % The first rows of Table~\ref{tab:aftertask} show the results obtained after 
 % discarding each of the different features families.
@@ -95,36 +101,35 @@ different test sets.
 
 \subsection{English Task A} \label{sec:discussiona}
 
-We ran experiments with the same framework as in the primary submission by 
-considering both the different subsets of features in isolation (\textit{only}) 
-or all the features except for a subset (\textit{without}). Interestingly, most 
-of the subset perform close to the overall set in isolation. According to the 
+We performed similar experiments as the ones for Arabic.
+% Interestingly, most of the subsets perform close to the overall set in 
+% isolation. 
+According to the 
 figures, the heuristic features seem to be the most useful ones, followed by the 
 context-based information. The advantage of the latter is that they can be 
-applied to other community question answering scenarios, without further human 
+applied to other community question answering scenarios without further human 
 adaptation. On the other side, using all the features but the $n$-grams allows 
-for a better performance than that in the primary run (\cf Table~{tab:results}). 
+for a better performance than that in the primary run (\cf 
+Table~\ref{tab:results}). 
 This is an interesting result as these features had significantly pushed up the 
 performance of our system at development time. 
  
 %  performing subsets are close to that combining all the features 
- 
-
- 
+  
 \subsection{English Task B} \label{sec:discussionb}
 
 Our post-task efforts are intended to investigate on the reasons why learning on 
-training only was considerably better than learning on the union of the 
-training+dev. The sequences of predicted target labels on the test set in the 
-two learning scenarios showed considerable differences: when learning on the 
-union, the predicted labels were \yes on all but three cases. After correcting a 
-bug in our implementation of the polarity-related features, the result obtained 
-by learning on the union of the training and development sets was F$_1=51.98$ 
-(Table~\ref{tab:aftertask}, post$_1$). Further feature-based analyses pointed 
+training only was considerably better than learning on training+dev. The 
+sequences of predicted target labels on the test set in the two learning 
+scenarios showed considerable differences: when learning on training+dev, the 
+predicted labels were \yes on all but three cases. After correcting a bug in our 
+implementation of the polarity-related features, the result obtained 
+by learning on training+dev was F$_1=51.98$ (Table~\ref{tab:aftertask}, 
+post$_1$). Further feature-based analyses pointed 
 that the features counting the number of \good, \bad, and \pot comments within 
 categories from the same user (\cf Section~\ref{sub:profile}) varied greatly 
 when computed on the training or training+dev datasets. The reason is that the 
-number of comments of a user in a category is, in most cases, too limited to 
+number of comments from a user in a category is, in most cases, too limited to 
 generate reliable statistics. After discarding these three features, F$_1 = 
 55.95$ (Table~\ref{tab:aftertask}, post$_2$). This figures represent a higher 
 performance than that obtained at submission time. Observe that, once again, the 

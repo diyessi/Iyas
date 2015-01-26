@@ -63,47 +63,47 @@ archive=true
 column=7
 encoding=UTF-8
 highlight=LaTeX
-line=127
+line=128
 mode=LaTeX
 open=true
 order=0
 
 [item:naaclhlt2015_qcri_semeval3_approach.tex]
 archive=true
-column=39
+column=16
 encoding=UTF-8
 highlight=LaTeX
-line=172
+line=301
 mode=LaTeX
 open=false
 order=1
 
 [item:naaclhlt2015_qcri_semeval3_discussion.tex]
 archive=true
-column=57
+column=27
 encoding=UTF-8
 highlight=LaTeX
-line=92
+line=148
 mode=LaTeX
 open=true
 order=1
 
 [item:naaclhlt2015_qcri_semeval3_exp.tex]
 archive=true
-column=29
+column=12
 encoding=UTF-8
 highlight=LaTeX
-line=172
+line=71
 mode=LaTeX
-open=true
+open=false
 order=2
 
 [item:naaclhlt2015_qcri_semeval3_intro.tex]
 archive=true
-column=62
+column=3
 encoding=UTF-8
 highlight=LaTeX
-line=59
+line=48
 mode=LaTeX
 open=false
 order=-1
@@ -120,33 +120,33 @@ order=3
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3.tex]
 CursorColumn=7
-CursorLine=127
+CursorLine=128
 JumpList=
-ViMarks=.,41,68,[,41,67,],41,68
+ViMarks=.,60,45,[,60,45,],60,52
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3_approach.tex]
-CursorColumn=39
-CursorLine=172
+CursorColumn=16
+CursorLine=301
 JumpList=
-ViMarks=.,189,81,[,190,0,],-1,-1
+ViMarks=.,301,15,[,301,15,],301,15
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3_discussion.tex]
-CursorColumn=57
-CursorLine=92
+CursorColumn=27
+CursorLine=148
 JumpList=
-ViMarks=.,129,46,[,129,39,],129,46
+ViMarks=.,131,22,[,131,20,],131,22
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3_exp.tex]
-CursorColumn=29
-CursorLine=172
+CursorColumn=12
+CursorLine=71
 JumpList=
-ViMarks=.,183,45,[,183,45,],183,45
+ViMarks=.,71,54,[,72,0,],-1,-1
 
 [view-settings,view=0,item:naaclhlt2015_qcri_semeval3_intro.tex]
-CursorColumn=62
-CursorLine=59
+CursorColumn=3
+CursorLine=48
 JumpList=
-ViMarks=.,58,77,[,59,0,],-1,-1
+ViMarks=.,47,78,[,48,0,],-1,-1
 
 [view-settings,view=0,item:semeval15.bib]
 CursorColumn=40
