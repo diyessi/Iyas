@@ -15,11 +15,10 @@ community question answering website on the Islamic religion.%
 \footnote{\url{http://fatwa.islamweb.net}} 
 Each question includes five comments, provided by scholars on 
 the topic, each of which has to be automatically labeled as 
-\Ni \textit{direct}, a direct answer to the question;
-\Nii \textit{related}, not a direct answer to the question but with information 
-related to the topic; and 
-\Niii \textit{irrelevant}, an answer to another question, not related to the 
-topic. 
+\Ni \dir: a direct answer to the question;
+\Nii \rel: not a direct answer to the question but with information related to 
+the topic; and 
+\Niii \irel: an answer to another question, not related to the topic. 
 
 In the case of English, the dataset was extracted from \textit{Qatar Living}, 
 a forum for people to pose questions on multiple aspects of daily life in 
@@ -27,36 +26,32 @@ Qatar.%
 \footnote{\url{http://www.qatarliving.com/forum}}
 Unlike Fatwa, the questions and comments in this dataset come from regular 
 users, making them significantly more varied, informal, open, and noisy. In 
-this case, 
-the input to the system consists of a question and a variable number of 
-comments, each of which are to be labeled as 
-\Ni \good, the comment is definitively relevant; 
-\Nii \pot, the comment is potentially useful; and 
-\Niii \bad, the comment is irrelevant (\eg it is part of a dialogue, unrelated 
+this case, the input to the system consists of a question and a variable number 
+of comments, each of which are to be labeled as 
+\Ni \good: the comment is definitively relevant; 
+\Nii \pot: the comment is potentially useful; and 
+\Niii \bad: the comment is irrelevant (\eg it is part of a dialogue, unrelated 
 to the topic, or it is written in a language other than English). 
-We refer to this task as English task A. Additionally, a subset of the 
-questions in the corpus requires a \yes/\no answer.
+We refer to this task as English task A. Additionally, a subset of the questions 
+in the corpus requires a \yes/\no answer.
 % , which means the expected answer to the question is precisely either \yes or 
 % \no. 
-In this case the task is determining whether the overall answer to the question, 
-according to the evidence provided within the comments, is 
+In this case the task consists of determining whether the overall answer to the 
+question, according to the evidence provided within the comments, is 
 \Ni \yes, 
-\Nii \no, or if no evidence enough exists to make a decision, 
-\Niii \unsure. 
+\Nii \no, or 
+\Niii \unsure when there is no evidence to make a decision. 
 We refer to this as English task B. 
 
 In this paper we describe the supervised machine learning approach of QCRI\@. 
-We 
-considered different kinds of features, including lexical, syntactic and 
-semantic similarities, the context in which a comment appears (\eg before a 
-comment where the person asking the question acknowledges), $n$-grams 
-occurrence, and some heuristics on specific keywords. Our approach ranked 1st 
-out of four teams in the Arabic task, 3rd out of twelve in English Task A, and 
-3rd out of eight in English Task B. 
+We approach the problem as a classification task considering different kinds 
+of features: lexical, syntactic and semantic similarities, the context in which 
+a comment appears, $n$-grams occurrence, and some heuristics on specific 
+keywords. Our approach ranked 1st out of four teams in the Arabic task, 3rd out 
+of twelve in English task~A, and 3rd out of eight in English task~B. 
 
-The rest of the contribution is distributed as follows. 
-Section~\ref{sec:approach} describes the features used in our approaches. 
-Section~\ref{sec:experiments} describes our prediction models and discuss the 
-results obtained at competition time. Section~\ref{sec:discussion} discusses 
-some further post-competition experiments and offers some final remarks.
-
+The rest of the paper is organized as follows. Section~\ref{sec:approach} 
+describes the features used in our approaches. Section~\ref{sec:experiments} 
+describes our prediction models and discuss the results obtained at competition 
+time. Section~\ref{sec:discussion} discusses further post-competition 
+experiments and offers some final remarks.

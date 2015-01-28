@@ -1,11 +1,11 @@
 \section{Features Description}
 \label{sec:approach}
 
-% \blue{TODO describe the datasets?}
 Most of our approaches are built on top of supervised machine learning, whereas 
 a few contrastive submissions were based on rule-based approaches. In this 
 section we describe all the different features we considered including 
-similarities (Section~\ref{sub:sim}), the context in which a comment appears 
+similarity measures (Section~\ref{sub:sim}), the context in which a comment 
+appears 
 (Section~\ref{ssub:context}), and the occurrence of certain vocabulary and 
 phrase triggers (Sections~\ref{ssub:ngrams} and~\ref{ssub:heuristics}). How and 
 where they are applied is discussed in Section~\ref{sec:experiments}.
@@ -17,7 +17,7 @@ where they are applied is discussed in Section~\ref{sec:experiments}.
 %  \item[Lexical similarity]  Massimo, Hamdy's overlap (same as in A) 
 % \end{description}
 
-\subsection{Similarities}
+\subsection{Similarity Measures}
 \label{sub:sim}
 
 Our intuition is that the higher the similarity  $sim(q,c)$, the higher the 
@@ -35,7 +35,8 @@ including stopwords or not).
 % \blue{Wei}
 % We computed three features on the intersection of the tokens in both $q$ and 
 % $c$ by considering three term weighting schemes:
-Three other similarities are computed, weighting the terms by means of three 
+Three other similarity measures are computed, weighting the terms by means of 
+three 
 formul\ae: 
 %
 \begin{eqnarray}
@@ -47,12 +48,11 @@ formul\ae:
 \label{idfvar2}
 \end{eqnarray}
 % 
-where $idf(t)$ represents the inverse document frequency~\cite{Jones:1972} of 
-term $t$ in the entire Qatar Living dataset, $C$ represents the amount of 
-comments in the entire collection, and $tf(t)$ represents the term frequency of 
-the term in the comment. Equations~\ref{idfvar1} and~\ref{idfvar2} are 
-variations of the IDF concept by Nallapati~\shortcite{Nallapati:2004}.
-
+where $idf(t)$ is the inverse document frequency~\cite{Jones:1972} of term $t$ 
+in the entire Qatar Living dataset, $C$ is the amount of comments in the entire 
+collection, and $tf(t)$ is the term frequency of the term in the comment. 
+Equations~\ref{idfvar1} and~\ref{idfvar2} are variations of the IDF concept by 
+Nallapati~\shortcite{Nallapati:2004}.
 
 Yet another similarity variation is considered (only for task B): the cosine 
 similarity between the $tf$-$idf$-weighted vocabulary intersection of $q$ and 
@@ -72,11 +72,11 @@ $c$.
 \subsubsection{Syntactic Similarity}
 \label{sub:syntactic}
 
-Partial tree kernel (PTK) similarity between question and comment according 
-to~\cite{Moschitti:2006}. The similarity is computed between shallow tree  
-representations of $q$ and $c$. Such trees have lemmas as leaves, each leaf has 
-a parent node representing a part-of-speech tag, and part-of-speech nodes are 
-grouped by chunks at the top level.
+Partial tree kernel (PTK) similarity between question and comment syntactic 
+trees according to~\cite{Moschitti:2006}. The similarity is computed between 
+shallow tree  representations of $q$ and $c$. Such trees have lemmas as leaves, 
+each leaf has a parent node representing a part-of-speech tag, and 
+part-of-speech nodes are grouped by chunks at the top level.
 
 \subsubsection{Semantic Similarities}
 \label{sub:semantic}
@@ -84,8 +84,8 @@ grouped by chunks at the top level.
 We apply three approaches to build  word-embedding vector representations:
 \Ni an instance of latent semantic analysis~\cite{croce-previtali:2010:GEMS}, 
 trained on the Qatar Living corpus applying a co-occurrence window of size 
-$\pm3$ and coming out with a vector of dimension 250, after SVD reduction (we 
-included an instance on the entire vocabulary and nouns only);
+$\pm3$ and producing a vector of dimension 250, after SVD reduction (we included 
+an instance on the entire vocabulary and nouns only);
 \Nii GloVe~\cite{Pennington:2014}, using the pre-trained model \textit{Common 
 Crawl (42B tokens)}, with 300 dimensions; and 
 \Niii COMPOSES~\cite{Baroni:2014}, using previously-estimated predict vectors of 
@@ -93,35 +93,27 @@ Crawl (42B tokens)}, with 300 dimensions; and
 \footnote{They are available at \url{http://nlp.stanford.edu/projects/glove/} 
 and \url{http://clic.cimec.unitn.it/composes/semantic-vectors.html}}
 % ; last visit: Jan 6th, 2015.}
-We also experimented with \textit{word2vec}~\cite{Mikolov:2013} 
-vectors pre-trained (both with cbow and skipgram) and both word2vec and GloVe 
-with vectors trained on Qatar Living data, but we discarded them, as they did 
-not contribute positively to our approach.
-Both $q$ and $c$ are then represented by a sum of the vectors 
-corresponding to the words within them (neglecting the subject of $c$), and 
-compute the cosine similarity to estimate $sim(q,c)$. 
-% \footnote{\blue{Preslav, we have some extra details for LSA, such as the 
-% window size, etc. If you give more details for your embeddings, we can 
-% improve both descriptions}}
-
-% These semantic similarities are not applied in the Arabic task.
+We also experimented with \textit{word2vec}~\cite{Mikolov:2013} vectors 
+pre-trained (both with cbow and skipgram) and both word2vec and GloVe with 
+vectors trained on Qatar Living data, but we discarded them, as they did not 
+contribute positively to our approach. Both $q$ and $c$ are then represented by 
+a sum of the vectors corresponding to the words within them (neglecting the 
+subject of $c$). To estimate $sim(q,c)$ we compute the cosine similarity. 
 
 \subsection{Context}
 \label{ssub:context}
 
-Intuitively, whether a question includes further comments by $u_q$ (some of them 
+Comments are organized sequentially according to the time line of the comment 
+thread. Whether a question includes further comments by $u_q$ (some of them 
 acknowledging), more than one comment from the same user, or whether $q$ belongs 
 to a category in which a given kind of answer is expected, are important 
-factors. Therefore, we consider a set of features that try to describe a comment 
-in its context.   
+factors. Therefore, we consider a set of features that try to describe a 
+comment in its context.   
 
-%Let $C={c_1, \ldots,c_C}$ be the stream of comments associated to question $q$, 
-%asked by $u_q$. 
 A first subset of context features are boolean indicators exploring the 
-following situations: %. Four of them are set to \texttt{True} according to the 
-%following criteria:
+following situations:
 
-\begin{itemize}
+\begin{itemize}\setlength\itemsep{0em}
 \item $c$ is written by $u_q$ (\ie the same user behind $q$),
 \item \label{enu:context_ack} 
   $c$ is written by $u_q$ and contains and acknowledgment (e.g.   
@@ -137,7 +129,7 @@ comment by $u_q$. The intuition is that acknowledgment or further questions by
 $u_q$ could be a relevant factor when classifying $c$. Features investigating 
 the following occurrences have been developed:
 
-\begin{itemize}
+\begin{itemize}\setlength\itemsep{0em}
 \item among the comments following $c$ there is one by $u_q$ containing 
 an acknowledgment,
 \item among the comments following $c$ there is one by $u_q$ not 
@@ -148,9 +140,9 @@ question, and
 question.
 \end{itemize}
 
-The value of those features is scaled according to the distance $k$ (in number 
-of comments; it is set to $\infty$ if no comments from $u_q$ exist) occurring 
-between $c$ and the comment by $u_q$:
+The value of these features is scaled according to the distance $k$, in number 
+of comments, between $c$ and the comment by $u_q$ ($k=\infty$ if no 
+comments from $u_q$ exist):
 %Our function to represent the relationship between a comment 
 %$c_{t-k}$ in time $t-k$ and $c_{q,t}$, given that $t$ is the 
 %time of the comment by $u_q$ is as follows:
@@ -178,12 +170,12 @@ $u_q=u_j$.
 We are also interested in realizing whether a user $u_i$ has been particularly 
 active in a question. As a result, we consider one boolean feature: whether 
 $u_i$ wrote more than one comment in the current stream. Three more features 
-identifying the first, middle and last comments by $u_i$. One extra real feature 
-counts the total number of comments written by $u_i$. Moreover we empirically 
-observed that the likelihood for a comment to be \good decreases 
-the farther it appears from the question. Therefore, we consider one more 
-real-valued feature: $\max(20, i)/20$, where $i$ represents the position of 
-the comment in the stream.
+identify the first, middle and last comments by $u_i$. One extra feature counts 
+the total number of comments written by $u_i$. Moreover we empirically observed 
+that the likelihood for a comment to be \good decreases the farther it appears 
+from the question. Therefore, we consider one more real-valued feature: 
+$\max(20, i)/20$, where $i$ represents the position of the comment in the 
+stream.
 
 Finally, Qatar Living includes twenty-six different categories in which a person 
 could 
@@ -194,9 +186,6 @@ and allow for less discussion (e.g. \textit{Electronics}, \textit{visas and
 permits}). Therefore, we include one boolean feature per category to consider 
 this information. 
  
-
-
-
 \subsection{Word $n$-Grams}
 \label{ssub:ngrams}
 
@@ -216,11 +205,11 @@ are based on tf-idf on the whole Qatar Living dataset.
 \subsection{Heuristics}
 \label{ssub:heuristics}
 
-Exploring the data, we noticed that many \good comments suggested visiting a 
-Web site or writing to an email address. Therefore, we included two boolean 
-features to verify the presence of URLs or emails in $c$. Another feature 
-captures the length of $c$, as longer (\good) comments usually contain detailed 
-information to answer a question. 
+Exploring the data, we noticed that many \good comments suggested visiting a Web 
+site or writing to an email address. Therefore, we included two boolean features 
+to verify the presence of URLs or emails in $c$. Another feature captures the 
+length of $c$, as longer (\good) comments usually contain detailed information 
+to answer a question. 
 
 
 
@@ -325,9 +314,6 @@ comments. These features are computed both considering all the questions and
 only those from the same category as the current one.%
 \footnote{In Section~\ref{sec:discussionb} we will observe that computing these 
 category-level statistics was not a good idea.}
-Even if these features seem to fit with task A, rather than B, at development 
-time they showed to be effective only for the latter one. Therefore, we only 
-applied the user profiles to task B. 
 
 
 % \blue{these two features were under consideration already:}
