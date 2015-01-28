@@ -1,10 +1,36 @@
 \section{Post-Submission Experiments}
 \label{sec:discussion}
 
-\begin{table}%[h]	
-\begin{tabular}{|l|c@{\hskip 0.3cm}c@{\hskip 0.3cm}c@{\hskip 0.3cm}c|}
+We carried out further experiments after the task deadline to understand how 
+different feature families contributed to the performance of our classifiers. 
+% The results on the corresponding test sets are reported in 
+Table~\ref{tab:aftertask} reports the results on the different test sets. We 
+managed to slightly raise the performance for the three tasks due to different 
+reasons.
+
+\subsection{Arabic} \label{sec:discussionArabic}
+
+We ran experiments with the same framework as in the primary submission by 
+considering both the different subsets of features in isolation (\textit{only}) 
+or all the features except for a subset (\textit{without}). The $n$-grams 
+features together with contrastive submission~1 allow for a slightly better 
+performance than our already winning submission. Our ranking approach 
+(contrastive~1) shows to be the most important one to get such a good result.
+
+\begin{table}[t]	
+\footnotesize
+\centering
+% \begin{tabular}{|l|c@{\hskip 0.3cm}c@{\hskip 0.3cm}c@{\hskip 0.3cm}c|}
+\begin{tabular}{|l|cccc|}
 % \hline
 %   \multicolumn{5}{c}{Subtask A} \\
+\hline  
+ \bf primary	&  & &  & \\\hline
+ \bf ar	(primary)	& $77.31$ & $91.21$	& $67.13$	& $78.55$ \\
+ \bf en A (primary)	& $78.45$ & $72.39$	& $10.40$	& $53.74$ \\
+ \bf en B (primary)	& $80.00$ & $44.44$	& $36.36$	& $53.60$ \\
+  \hline
+
 \hline  
  \bf ar (only)	& \texttt{DIR} & \texttt{REL} & \texttt{IREL} & \texttt{F$_1$} 
 \\\hline
@@ -47,32 +73,14 @@
  \hline
  \end{tabular}
  \caption{Post-competition results for Arabic (ar) and English (en) A and B 
-tasks. Best results per task highlighted.
+tasks. Best results per task highlighted. Primary submissions included for 
+comparison.
 \label{tab:aftertask}}
 \end{table}
 
 
-We carried out further experiments after the task deadline to understand how 
-different feature families contributed to the performance of our classifiers. 
-% The results on the corresponding test sets are reported in 
-Table~\ref{tab:aftertask} reports the results on the different test sets. We 
-managed to slightly raise the performance for the three tasks due to different 
-reasons.
 
 
-% The results on the corresponding test sets are reported in 
-% Table~\ref{tab:aftertask}.
-
-
-
-\subsection{Arabic} \label{sec:discussionArabic}
-
-We ran experiments with the same framework as in the primary submission by 
-considering both the different subsets of features in isolation (\textit{only}) 
-or all the features except for a subset (\textit{without}). The $n$-grams 
-features together with contrastive submission~1 allow for a slightly better 
-performance than our already winning submission. Our ranking approach 
-(contrastive~1) shows to be the most important one to get such a good result.
 
 
 % The first rows of Table~\ref{tab:aftertask} show the results obtained after 

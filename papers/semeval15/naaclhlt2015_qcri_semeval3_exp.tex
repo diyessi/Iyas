@@ -9,25 +9,28 @@ competition results; all the reported $F_1$ values are macro-averaged.
 
 
 \begin{table}%[h]
- \begin{tabular}{|l|c@{\hskip 0.2cm}c@{\hskip 0.2cm}c@{\hskip 0.2cm}c|}
+\centering
+\footnotesize
+%  \begin{tabular}{|l|c@{\hskip 0.2cm}c@{\hskip 0.2cm}c@{\hskip 0.2cm}c|}
+\begin{tabular}{|l|cccc|}
   \hline
-  \bf ar& \dir & \rel & \texttt{IRREL} & \texttt{F$_1$}\\  \hline  
-  prim	& $77.31$ & $91.21$	& $67.13$	& $78.55$ \\
+  \bf ar	& \dir & \rel & \texttt{IRREL} & \texttt{F$_1$}\\  \hline  
+  primary	& $77.31$ & $91.21$	& $67.13$	& $78.55$ \\
   cont$_1$	& $74.89$ & $91.23$	& $63.68$	& $76.60$ \\
   cont$_2$	& $76.63$ & $90.30$	& $63.98$	& $76.97$ \\
   \hline \hline
 
-  \bf en A & \good 	& \bad 		& \texttt{POT}	& \texttt{F$_1$}\\\hline
-  prim     & $78.45$	& $72.39$	& $10.40$	& $53.74$ \\
-  cont$_1$ & $76.08$	& $75.68$	& $17.44$	& $56.40$ \\
-  cont$_2$ & $75.46$	& $72.48$ 	& $\,\,\,7.97$	& $51.97$ \\
+  \bf en A	& \good   & \bad 	& \texttt{POT}	& \texttt{F$_1$}\\\hline
+  primary	& $78.45$ & $72.39$	& $10.40$	& $53.74$ \\
+  cont$_1$ 	& $76.08$ & $75.68$	& $17.44$	& $56.40$ \\
+  cont$_2$ 	& $75.46$ & $72.48$ 	& $\,\,\,7.97$	& $51.97$ \\
 \hline  \hline
 
-\bf en B   & \yes 	& \no		& \unsure	& F$_1$	 \\
+\bf en B	& \yes	  & \no		& \unsure	& F$_1$	 \\
   \hline  
-  prim	   & $80.00$	& $44.44$	& $36.36$	& $53.60$ \\
-  cont$_1$ & $75.68$	& $\,\,\,0.00$	& $\,\,\,0.00$	& $25.23$ \\
-  cont$_2$ & $66.67$	& $33.33$ 	& $47.06$	& $49.02$ \\
+  primary	& $80.00$ & $44.44$	& $36.36$	& $53.60$ \\
+  cont$_1$ 	& $75.68$ & $\,\,\,0.00$& $\,\,\,0.00$	& $25.23$ \\
+  cont$_2$ 	& $66.67$ & $33.33$ 	& $47.06$	& $49.02$ \\
   \hline
  \end{tabular}
 \caption{Per-class and macro-averaged $F_1$-measure of our \textit{prim}ary and 
@@ -149,15 +152,16 @@ value. As we focused on improving the performance on \pot instances, we
 obtained better results on this category, surpassing the overall performance 
 from the primary submission.
 
-Our English contrastive submission~2 operates in the same way as the Arabic 
-contrastive submission~1. The applied ranges are the same, but this time for 
-\good, \pot, and \bad. Some heuristics override the so generated decisions: $c$ 
-is classified as \good if it includes a URL, starts with an imperative verb (\eg 
-\textit{try}, \textit{view}, \textit{contact}, \textit{check}), or contains 
-\textit{yes words} (\eg \textit{yes}, \textit{yep}, \textit{yup}) or \textit{no 
-words} (\eg \textit{no}, \textit{nooo}, \textit{nope}). Comments written by the 
-author of the question or including acknowledgments are considered dialogues and 
-classified as \bad. 
+Our contrastive submission~2 operates in the same way as the Arabic contrastive 
+submission~1. The applied ranges are the same, but this time for \good, \pot, 
+and \bad. Some heuristics override the so generated decisions: $c$ is classified 
+as \good if it includes a URL, starts with an imperative verb (\eg \textit{try}, 
+\textit{view}, \textit{contact}, \textit{check}), or contains \textit{yes words} 
+(\eg \textit{yes}, \textit{yep}, \textit{yup}) or \textit{no words} (\eg 
+\textit{no}, \textit{nooo}, \textit{nope}). Comments written by the author of 
+the question or including acknowledgments are considered dialogues and 
+classified as \bad. The result of this submission is slightly lower than the 
+others', where the automatic learning allows for better predictions.
 
 \paragraph{English B}
 
@@ -171,5 +175,7 @@ estimating category-level user profiles (\cf Section~\ref{sub:profile}).
 The contrastive submission~2 consists of a rule-based system. A comment is 
 labeled as \yes if it starts with affirmative words: \textit{yes}, \textit{yep}, 
 \textit{yeah}, etc. It is labeled as \no if it starts with \textit{no}, 
-\textit{nop}, \textit{nope}, etc. 
+\textit{nop}, \textit{nope}, etc. It is worth noting the comparably high 
+performance of this system when dealing with \unsure questions 
+\blue{TODO HAMDY}
 
