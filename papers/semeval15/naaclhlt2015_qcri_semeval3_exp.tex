@@ -61,12 +61,12 @@ particularly high performance when labeling \rel comments.
 \paragraph{English A}
 The submission applies a linear-kernel SVM from scikit-learn. We used a 
 one-versus-all approach to account for the fact that the learning problem is a 
-multiclass one. We tuned the $C$ hyper-parameter of the SVM in order to build 
-higher variance classifiers for classes with few positive instances. This 
-helped the multiclassifier to actually predict classes with few positive 
-examples. The features for this submission consist of lexical, syntactic, and 
-semantic similarities (Section~\ref{sub:sim}), context information 
-(Section~\ref{ssub:context}), $n$-Grams (Section~\ref{ssub:ngrams}), and 
+multiclass one. We tuned the $C$ hyper-parameter of the SVM in order to deal 
+with class imbalance ---by increasing the value of $C$, we built more complex 
+classifiers for those classes with less instances. The features for this 
+submission consist of lexical, syntactic, and semantic similarities 
+(Section~\ref{sub:sim}), context information 
+(Section~\ref{ssub:context}), $n$-grams (Section~\ref{ssub:ngrams}), and 
 heuristics (Section~\ref{ssub:heuristics}). Similarly to the Arabic submission, 
 the output of our rule-based system from the contrastive submission~2 is 
 another feature. 
