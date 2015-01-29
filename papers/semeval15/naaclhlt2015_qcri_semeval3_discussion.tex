@@ -14,8 +14,9 @@ We ran experiments with the same framework as in the primary submission by
 considering both the different subsets of features in isolation (\textit{only}) 
 or all the features except for a subset (\textit{without}). The $n$-grams 
 features together with contrastive submission~1 allow for a slightly better 
-performance than our already winning submission. Our ranking approach 
-(contrastive~1) shows to be the most important one to get such a good result.
+performance than our already winning submission (F$_1=78.69$, compared to 
+F$_1=78.55$). Our ranking approach (contrastive~1) shows to be the most 
+important one to get such a good result.
 
 \begin{table}[t]	
 \footnotesize
@@ -25,21 +26,20 @@ performance than our already winning submission. Our ranking approach
 % \hline
 %   \multicolumn{5}{c}{Subtask A} \\
 \hline  
- \bf primary	&  & &  & \\\hline
- \bf ar	(primary)	& $77.31$ & $91.21$	& $67.13$	& $78.55$ \\
- \bf en A (primary)	& $78.45$ & $72.39$	& $10.40$	& $53.74$ \\
- \bf en B (primary)	& $80.00$ & $44.44$	& $36.36$	& $53.60$ \\
-  \hline
-
-\hline  
- \bf ar (only)	& \texttt{DIR} & \texttt{REL} & \texttt{IREL} & \texttt{F$_1$} 
+\bf ar (only)	& \texttt{DIR} & \texttt{IRREL} & \texttt{REL} & 
+\texttt{F$_1$} 
 \\\hline
- $n$-grams	& 30.40	& 72.27	& 41.07	& 47.91	\\
- cont$_1$	& 74.89	& 91.23	& 63.68	& 76.60	\\
- similarities	& 61.83	& 82.55	& 25.63	& 56.67	\\ 
+ $n$-grams	& 30.40	& 41.07	& 72.27	& 47.91	\\
+ cont$_1$	& 74.89	& 63.68	& 91.23	& 76.60	\\
+ similarities	& 61.83	& 25.63	& 82.55	& 56.67	\\
+%  \bf ar (only)	& \texttt{DIR} & \texttt{REL} & \texttt{IRREL} & \texttt{F$_1$} 
+% \\\hline
+%  $n$-grams	& 30.40	& 72.27	& 41.07	& 47.91	\\
+%  cont$_1$	& 74.89	& 91.23	& 63.68	& 76.60	\\
+%  similarities	& 61.83	& 82.55	& 25.63	& 56.67	\\ 
   \hline
   \hline  
- \bf ar (without)& \texttt{DIR} & \texttt{REL} & \texttt{IREL} & \texttt{F$_1$} 
+ \bf ar (without)& \texttt{DIR} & \texttt{REL} & \texttt{IRREL} &\texttt{F$_1$} 
 \\\hline
  $n$-grams	& 75.51	& 91.31	& 63.85	& 76.89	\\
  cont$_1$	& 69.50	& 82.85	& 50.87	& 67.74	\\
@@ -67,10 +67,19 @@ performance than our already winning submission. Our ranking approach
  \,\,\,\, semantic	& 78.41	& 71.82	& 10.30		& 53.51	 \\   
   \hline
   \hline
-  \bf en B	& \yes & \no	& \texttt{UNS} & \texttt{F$_1$}	\\ \hline
+  \bf en B	& \yes & \no	& \texttt{UNS}	& \texttt{F$_1$}\\ \hline
  post$_1$	& 78.79	& 57.14	& 20.00		& 51.98 \\
  post$_2$	& 85.71	& 57.14	& 25.00 	& \bf 55.95 \\
  \hline
+ \hline  
+ \bf primaries	& \texttt{D/G/Y}& \texttt{I/B/N}& \texttt{R/P/U} & 
+\texttt{F$_1$}\\\hline
+  ar		& 77.31		& 91.21		& 67.13	& 78.55 \\
+  en A		& 78.45		& 72.39		& 10.40	& 53.74 \\
+  en B 		& 80.00		& 44.44		& 36.36	& 53.60 \\
+  \hline
+ 
+ 
  \end{tabular}
  \caption{Post-competition results for Arabic (ar) and English (en) A and B 
 tasks. Best results per task highlighted. Primary submissions included for 
@@ -111,10 +120,10 @@ followed by the context-based information. The latter features explore a
 dimension completely ignored by other features:  they are completely 
 uncorrelated and provide a good performance boosting (as the \textit{without} 
 experiment shows). On the other side, using all the features but the $n$-grams 
-allows for a better performance than that in the primary run (\cf 
-Table~\ref{tab:results}). This is an interesting but not very significant result 
-as these features had significantly pushed up the performance of our system at 
-development time. Further research is necessary.
+allows for a better performance than that in the primary run (F$_1=55.17$ 
+compared to F$_1=53.74$) . This is an interesting but not very significant 
+result as these features had significantly pushed up the performance of our 
+system at development time. Further research is necessary.
   
 \subsection{English Task B} \label{sec:discussionb}
 
