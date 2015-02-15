@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: naaclhlt2015_qcri_semeval3.aux
+The style file: naaclhlt2015.bst
+Database file #1: semeval15.bib
+Warning--empty publisher in Lyon:2001
+You've used 14 entries,
+            2490 wiz_defined-function locations,
+            667 strings with 8210 characters,
+and the built_in function-call counts, 6595 in all, are:
+= -- 724
+> -- 206
+< -- 10
++ -- 67
+- -- 66
+* -- 461
+:= -- 1003
+add.period$ -- 62
+call.type$ -- 14
+change.case$ -- 86
+chr.to.int$ -- 14
+cite$ -- 15
+duplicate$ -- 314
+empty$ -- 532
+format.name$ -- 82
+if$ -- 1454
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 15
+newline$ -- 85
+num.names$ -- 46
+pop$ -- 105
+preamble$ -- 1
+purify$ -- 101
+quote$ -- 0
+skip$ -- 234
+stack$ -- 0
+substring$ -- 383
+swap$ -- 102
+text.length$ -- 10
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 108
+warning$ -- 1
+while$ -- 60
+width$ -- 19
+write$ -- 214
+(There was 1 warning)
