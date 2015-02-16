@@ -457,7 +457,12 @@ The code used in two tutorials given on the IYAS framework is contained in the\\
 \\\\
 The \texttt{AnalyzerAndTreeFrameworkTutorial} shows how to run analysis pipelines, serialize results, retrieve and use annotations, produce tree structures from text and annotation and manipulate trees.
 \\\\
-The \texttt{LowerCaseExample} and \texttt{LowerCaseAnnotator} show how to build a simple UIMA annotator using uimaFIT.
+The \texttt{LowerCaseExample} and \texttt{LowerCaseAnnotator} show how to build 
+a simple UIMA annotator using uimaFIT.%
+\footnote{If you run any experiment (e.g., LowercaseExample) and get an error, 
+delete the content of the corresponding CASes folder (e.g. 
+Iyas/CASes/tutorial/lowercase-example for LowercasesExample) before trying 
+again.}
 
 \section{TREC Reranking Pipeline}
 
@@ -489,11 +494,13 @@ The pipeline can be run from the Eclipse IDE setting the program and Java Virtua
 \\\\
 Launch the \texttt{TrecPipelineRunner.java} program with these arguments:
 \\\\
-\texttt{argumentsFilePath arguments/trec-en-pipeline-arguments.txt}
+\texttt{-argumentsFilePath arguments/trec-en-pipeline-arguments.txt}
 \\\\
 This file defines all the required arguments for the program, such as the options and the files with the data.
 \\\\
-The Java Virtual Machine requires these arguments:
+The Java Virtual Machine requires these arguments:%
+\footnote{Note that the \texttt{-Xss128m} parameter is necessary for running 
+any code making use of the JNI SVMLightTK library.}
 \\\\
 \texttt{-Djava.util.logging.config.file="resources/logging.properties" -Xss128m}
 \\\\
