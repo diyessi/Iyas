@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <name>AcknowledgmentTypeDescriptor</name>
+    <description>This type descriptor describes the Acknowledgment type, 
+    	which can be used to search acknowledgments,  on any document.</description>
+    <version>1.0</version>
+    <vendor/>
+  <types>
+    <typeDescription>
+      <name>qa.qcri.qf.type.Acknowledgment</name>
+      <description/>
+      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <features>
+        <featureDescription>
+          <name>ack</name>
+          <description/>
+          <rangeTypeName>uima.cas.Boolean</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+  </types>
+</typeSystemDescription>

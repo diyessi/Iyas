@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>true</primitive>  <annotatorImplementationName>qa.qcri.qf.features.heuristics.AcknowledgmentAnnotator</annotatorImplementationName>
+  <analysisEngineMetaData>
+    <name>AcknowledgmentAEDescriptor</name>
+    <description>The analysis engine descriptor for acknowledgments identification in a text.</description>
+    <version>0.1</version>
+    <vendor>QCRI</vendor>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <typeSystemDescription>
+      <imports>
+        <import location="/home/alberto/Iyas/desc/Iyas/AcknowledgmentDescriptor.xml"/>
+      </imports>
+    </typeSystemDescription>
+    <typePriorities/>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs/>
+        <outputs>
+          <type>qa.qcri.qf.type.Acknowledgment</type>
+          <feature>qa.qcri.qf.type.Acknowledgment:ack</feature>
+        </outputs>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+  <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <resourceManagerConfiguration/>
+</analysisEngineDescription>
