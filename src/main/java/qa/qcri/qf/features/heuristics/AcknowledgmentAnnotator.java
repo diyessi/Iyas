@@ -24,7 +24,7 @@ public class AcknowledgmentAnnotator extends JCasAnnotator_ImplBase{
 			boo = true;
 		}
 		
-		//This is the invocation of the tipe
+		//This is the invocation of the type
 		Acknowledgment acknowledgmentAnnotation = new Acknowledgment(aJCas);
 		acknowledgmentAnnotation.setAck(boo);
 		//to be added to the CAS indexes (it wont be found later, otherwise)

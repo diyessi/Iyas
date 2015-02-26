@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
-    <name>AcknowledgmentTypeDescriptor</name>
+    <name>AcknowledgmentDescriptor</name>
     <description>This type descriptor describes the Acknowledgment type, 
-    	which can be used to search acknowledgments,  on any document.</description>
+which can be used to search acknowledgments on any document.</description>
     <version>1.0</version>
-    <vendor/>
+    <vendor>QCRI</vendor>
   <types>
     <typeDescription>
       <name>qa.qcri.qf.type.Acknowledgment</name>

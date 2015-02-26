@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <name>UrlTypeDescriptor</name>
+    <description>This type descriptor describes the URL and EMAIL types. It can be 
+used to search for both URLs and emails in any document.</description>
+    <version>1.0</version>
+    <vendor/>
+  <types>
+    <typeDescription>
+      <name>qa.qcri.qf.type.Url</name>
+      <description/>
+      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <features>
+        <featureDescription>
+          <name>uriType</name>
+          <description>Whether the URI belongs to a "url" or an "email".</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+  </types>
+</typeSystemDescription>
