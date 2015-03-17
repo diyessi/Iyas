@@ -2,15 +2,11 @@
 \label{sec:experiments}
 
 Now we describe our primary submissions to the three tasks, followed by the 
-contrastive submissions. Table~\ref{tab:results} includes our official 
-competition results; all the reported $F_1$ values are macro-averaged.
+contrastive submissions. Our classifications for both Arabic and English A are at the comment level. Table~\ref{tab:results} includes our official competition results; all the reported $F_1$ values are macro-averaged.
 
 \subsection{Primary Submissions}
 
-In general, our approaches perform multi-class classification on the basis of a 
-one-vs-rest support vector machines strategy (\ie we train one classifier for 
-each class). Our classifications for both Arabic and English A are at the
-comment level.
+\blue{Introductory paragraph deleted because it made no sense (it said that we were using SVMs for everything)}
 
 \begin{table}%[h]
 \centering
@@ -61,7 +57,7 @@ performance when labeling \rel comments.
 \paragraph{English A}
 The submission applies a linear-kernel SVM from scikit-learn. We used a 
 one-versus-rest approach to account for the fact that the learning problem is a 
-multiclass one. We tuned the value of the $C$ hyper-parameter of the SVM in 
+multiclass one (\ie we train one classifier for each class). We tuned the value of the $C$ hyper-parameter of the SVM in 
 order to deal with class imbalance ---by increasing the value of $C$, we built 
 more complex classifiers for those classes with less instances. The features for 
 this submission consist of lexical, syntactic, and semantic similarities 
@@ -73,7 +69,7 @@ of our rule-based system from the contrastive submission~2 is another feature.
 This submission achieved the third position in the competition (F$_1=53.74$, 
 compared to $57.19$ for the top one). \pot comments showed to be the 
 hardest ones to identify, as the border with respect to the rest of the comments 
-is very fuzzy. Indeed, a manual inspection on some random comments show that the 
+is very fuzzy. Indeed, a manual inspection on some random comments shows that the 
 decision between \good and \pot comments is nearly impossible in some cases.
 
 \paragraph{English B}
@@ -89,15 +85,15 @@ draw, we opt for labeling it as \unsure.%
 \footnote{The majority class in the training and dev.\ sets (\yes), could have 
 been the default answer. Still, we opted for a conservative decision: deciding 
 \unsure if no evidence enough was at hand.}
-Step \Ni is indeed task A. As for step \Nii, we train a classifier as that for 
-English task A, but adding the polarity and user's profile features (\cf 
+Step \Ni is indeed task A. As for step \Nii, we train a classifier as with English task A, 
+but adding the polarity and user's profile features (\cf 
 Sections~\ref{sub:polarity} and~\ref{sub:profile}).%
 \footnote{Even if the user's profile information seems to fit with task A, 
 rather than B, at development time they showed to be effective only for the 
 latter one.}
 
 This submission achieved the third position in the competition (F$_1=53.60$, 
-compared to $63.70$ for the top one). Differently to the rest of the tasks, our 
+compared to $63.70$ for the top one). Differently from the rest of the tasks, our 
 submitted results were obtained with a classifier trained on the training data 
 only (the development set was neglected). The reason behind this decision was 
 that we obtained an unexpected distribution of mostly \yes predictions on the 

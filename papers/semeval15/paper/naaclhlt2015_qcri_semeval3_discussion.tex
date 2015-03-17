@@ -15,8 +15,8 @@ considering both the different subsets of features in isolation (\textit{only})
 or all the features except for a subset (\textit{without}). The $n$-grams 
 features together with contrastive submission~1 allow for a slightly better 
 performance than our already winning submission (F$_1=78.69$, compared to 
-F$_1=78.55$). Our ranking approach (contrastive~1) shows to be the most 
-important one to get such a good result.
+F$_1=78.55$). Our ranking approach (contrastive~1) represents the most 
+important one to get such a good result. \blue{It is worth noting that the cont$_1$ submission is indeed based on similarity.}
 
 \begin{table}[t]	
 \footnotesize
@@ -134,7 +134,7 @@ differences: when learning on training+dev, the predicted labels were \yes on
 all but three cases. After correcting a bug in our implementation of the 
 polarity-related features, the result obtained by learning on training+dev was 
 F$_1=51.98$ (Table~\ref{tab:aftertask}, post$_1$). Further feature-based 
-analyses pointed that the features counting the number of \good, \bad, and \pot 
+analyses showed that the features counting the number of \good, \bad, and \pot 
 comments within categories from the same user (\cf Section~\ref{sub:profile}) 
 varied greatly when computed on the training or training+dev datasets. The 
 reason is that the number of comments from a user in a category is, in most 

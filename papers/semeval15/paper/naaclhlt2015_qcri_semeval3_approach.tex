@@ -20,7 +20,7 @@ and where they are applied is discussed in Section~\ref{sec:experiments}.
 \label{sub:sim}
 
 Our assumption is that the higher the similarity  $sim(q,c)$, the higher the 
-likelihood that $c$ is a \good answer. We consider different types.
+likelihood that $c$ is a \good answer. We consider three different types.
 
 \subsubsection{Lexical Similarity}
 
@@ -49,8 +49,8 @@ formul\ae:
 s
 % 
 where $idf(t)$ is the inverse document frequency~\cite{Jones:1972} of term $t$ 
-in the entire Qatar Living dataset, $C$ is the amount of comments in the entire 
-collection, and $tf(t)$ is the term frequency of the term in the comment. 
+in the entire Qatar Living dataset, $C$ is the amount of comments in this collection, 
+and $tf(t)$ is the term frequency of the term in the comment. 
 Equations~\ref{idfvar1} and~\ref{idfvar2} are variations of the IDF concept by 
 Nallapati~\shortcite{Nallapati:2004}.
 
@@ -182,8 +182,8 @@ $\max(20, i)/20$, where $i$ represents the position of the comment in the
 stream.
 
 Finally, Qatar Living includes twenty-six different categories in which a person 
-could request for information and advice. Some of them tend to include more 
-open questions and even invite to discussions on ambiguous topics (\eg
+could request information and advice. Some of them tend to include more 
+open questions and even invite discussions on ambiguous topics (\eg
 \textit{life in Qatar}, \textit{Qatari culture}). Some others require more 
 precise answers and allow for less discussion (\eg \textit{visas and permits}). 
 Therefore, we include one boolean feature per category to consider this 
@@ -191,19 +191,31 @@ information.
  
 \subsection{Word $n$-Grams}
 \label{ssub:ngrams}
+\blue{Reapproached subsection. Original commented}
 
-We assume that a properly produced question should allow for the creation of 
-\good comments. That is, objective and clear questions would tend to produce 
-objective and \good comments. On the other side, subjective or badly formulated 
-questions would call for \bad comments or even discussion (\ie dialogues) among 
-the users. When talking about comments, they could also include specific 
-indicators that trigger a \good or a \bad class, regardless of the specific 
-question they intends to reply to. Our aim is to capture those words which 
-are associated with questions and comments in the different classes. 
+Our features include $n$-grams, independently obtained from both $q$ and $c$ 
+---$[1,2]$-grams for Arabic and stopworded $[1,2,3]$-grams for English. That is, 
+each $n$-gram appearing in the texts becomes a member of the feature vector. 
+The value for such features is given by the tf-idf, computed on the entire Qatar 
+Living dataset.
 
-Our features include $n$-grams, independently obtained from the question and the
-comments ---$[1,2]$-grams for Arabic and stopworded $[1,2,3]$-grams for English. 
-The weights are based on tf-idf on the entire Qatar Living dataset. 
+Our aim is to capture those words which are associated with questions and comments 
+in the different classes. We assume that objective and clear questions would tend to produce objective and \good comments. On the other side, subjective or badly formulated 
+questions would call for \bad comments or discussion (\ie dialogues) among 
+the users. This can be reflected by the vocabulary used, regardless of the topic of the formulated question. This is also true for comments: the occurrence of particular (sets of) words could make a comment either \good or \bad.
+ 
+%We assume that a properly produced question should allow for the creation of 
+%\good comments. That is, objective and clear questions would tend to produce 
+%objective and \good comments. On the other side, subjective or badly formulated 
+%questions would call for \bad comments or even discussion (\ie dialogues) among 
+%the users. When talking about comments, they could also include specific 
+%indicators that trigger a \good or a \bad class, regardless of the specific 
+%question they intends to reply to. Our aim is to capture those words which 
+%are associated with questions and comments in the different classes. 
+%
+%Our features include $n$-grams, independently obtained from the question and the
+%comments ---$[1,2]$-grams for Arabic and stopworded $[1,2,3]$-grams for English. 
+%The weights are based on tf-idf on the entire Qatar Living dataset. 
 
 \subsection{Heuristics}
 \label{ssub:heuristics}
@@ -283,9 +295,9 @@ to answer a question.
 \subsection{Polarity}
 \label{sub:polarity}
 
-These features, used in task B only, intend to determine whether a comment is 
-positive or negative, which could be associated to \yes or \no answers. A 
-quantitative polarity of $c$ is modeled as:
+These features, used for task B only, intend to determine whether a comment is 
+positive or negative, which could be associated to \yes or \no answers. The
+polarity of $c$ is \blue{a real value computed} as:
 \begin{equation}
 pol(c) = \sum_{w\in c} pol(w) 
 \end{equation}
@@ -295,8 +307,7 @@ Lexicon v0.1~\cite{MohammadKZ2013}.%
 \footnote{\url{%
 http://www.umiacs.umd.edu/~saif/WebPages/Abstracts/NRC-SentimentAnalysis.htm}.}
 % ; last visit: Jan 18, 2015.}
-We discard words with polarity in the range $(-1,1)$ to neglect nearly neutral 
-words.
+\blue{The polarities in this lexicon are not ranged and the ones closest to zero are associated to nearly neutral words. Therefore, we disregard $pol(w)$ if it is in the range $(-1,1)$.}
 
 We consider other boolean features on the existence of some keywords in the 
 comment. Features are set to true if $c$ contains
@@ -313,7 +324,16 @@ comment. Features are set to true if $c$ contains
 With this set of features, we aim at modeling the behavior of the different 
 participants in previous queries. Given comment $c$ by user $u$, we consider 
 the number of \good, \bad, \pot, and \dial comments the user has produced 
-before. We also consider the average word length of \good, \bad, \pot, and \dial 
+before. 
+\blue{(Around 56\% of the commentators in the test set also have comments in the training plus development set.)}
+%NUMBERS BY IMAN ON MARCH 17th:
+%There are 5,881 users in the training set (train + dev combined). 4,954 
+%users write comments and 2,170 write questions. For the test set there are 1,047 
+%users. 912 users write comments and 275 ask questions. The overlap between 
+%those who write comments is 514 users, and for those who write questions the 
+%overlap is 76.
+%The total overlap of all users in both train and test is 579 users.
+We also consider the average word length of \good, \bad, \pot, and \dial 
 comments. These features are computed both considering all the questions and 
 only those from the same category as the current one.%
 \footnote{In Section~\ref{sec:discussionb}, we will observe that computing 
