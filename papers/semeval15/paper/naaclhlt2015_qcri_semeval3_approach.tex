@@ -38,15 +38,21 @@ Three other similarity measures are computed, weighting the terms by means of
 three 
 formul\ae: 
 %
-\begin{eqnarray}
- sim(q, c)=\sum_{t\in q\cap c} & idf(t) \enspace,		\\
- sim(q, c)=\sum_{t\in q\cap c} & log(idf(t)) \enspace, \enspace \mathrm{and} 
+\begin{align}
+sim(q,c) = &
+	\sum_{t\in q\cap c} & idf(t) \enspace,		\\
+ 	& \sum_{t\in q\cap c} & log(idf(t)) \enspace, \enspace \mathrm{and} 
 \label{idfvar1}\\
- sim(q, c)=\sum_{t\in q\cap c} & log\left(1 + \frac{|C|}{tf(t)}\right) \enspace 
-,
-\label{idfvar2}
-\end{eqnarray}
-s
+ 	& \sum_{t\in q\cap c} & log\left(1 + \frac{|C|}{tf(t)}\right) \enspace , \label{idfvar2}
+\end{align}
+%\begin{eqnarray}
+% sim(q, c)=\sum_{t\in q\cap c} & idf(t) \enspace,		\\
+% sim(q, c)=\sum_{t\in q\cap c} & log(idf(t)) \enspace, \enspace \mathrm{and} 
+%\label{idfvar1}\\
+% sim(q, c)=\sum_{t\in q\cap c} & log\left(1 + \frac{|C|}{tf(t)}\right) \enspace 
+%,
+%\label{idfvar2}
+%\end{eqnarray}
 % 
 where $idf(t)$ is the inverse document frequency~\cite{Jones:1972} of term $t$ 
 in the entire Qatar Living dataset, $C$ is the amount of comments in this collection, 
@@ -98,7 +104,7 @@ pre-trained (both with cbow and skipgram) and both word2vec and GloVe with
 vectors trained on Qatar Living data, but we discarded them, as they did not 
 contribute positively to our approach. We represent both $q$ and $c$ as 
 a sum of the vectors corresponding to the words within them (neglecting the 
-subject of $c$). To estimate $sim(q,c)$, we compute the cosine similarity. 
+subject of $c$). We compute the cosine similarity to estimate $sim(q,c)$. 
 
 \subsection{Context}
 \label{ssub:context}
@@ -325,7 +331,8 @@ With this set of features, we aim at modeling the behavior of the different
 participants in previous queries. Given comment $c$ by user $u$, we consider 
 the number of \good, \bad, \pot, and \dial comments the user has produced 
 before. 
-\blue{(Around 56\% of the commentators in the test set also have comments in the training plus development set.)}
+\footnote{\blue{Circa 72\% of the comments in the test set were written by users who 
+had been seen in the training/ development set.}}
 %NUMBERS BY IMAN ON MARCH 17th:
 %There are 5,881 users in the training set (train + dev combined). 4,954 
 %users write comments and 2,170 write questions. For the test set there are 1,047 

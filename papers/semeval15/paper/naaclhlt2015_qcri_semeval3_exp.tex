@@ -82,8 +82,7 @@ steps:
 \Niii aggregating the comment-level classifications into question-level. The 
 overall answer to $q$ becomes that of the majority of the comments. In case of a
 draw, we opt for labeling it as \unsure.%
-\footnote{The majority class in the training and dev.\ sets (\yes), could have 
-been the default answer. Still, we opted for a conservative decision: deciding 
+\footnote{The majority class in the training and dev.\ sets (\yes), could be the default answer. Still, we opted for a conservative decision: deciding 
 \unsure if no evidence enough was at hand.}
 Step \Ni is indeed task A. As for step \Nii, we train a classifier as with English task A, 
 but adding the polarity and user's profile features (\cf 
