@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>true</primitive>  <annotatorImplementationName>qa.qcri.qf.features.cooking.EmailAnnotator</annotatorImplementationName>
+  <analysisEngineMetaData>
+    <name>EmailAnnotatorDescriptor</name>
+    <description>A simple annotator that identifies emails within a text</description>
+    <version>1.0</version>
+    <vendor>ALT-QCRI</vendor>
+    <configurationParameters>
+      <configurationParameter>
+        <name>EmailPattern</name>
+        <type>String</type>
+        <multiValued>false</multiValued>
+        <mandatory>true</mandatory>
+      </configurationParameter>
+    </configurationParameters>
+    <configurationParameterSettings>
+      <nameValuePair>
+        <name>EmailPattern</name>
+        <value>
+          <string>[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}\\@[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+</string>
+        </value>
+      </nameValuePair>
+    </configurationParameterSettings>
+    <typeSystemDescription>
+      <types>
+        <typeDescription>
+          <name>qa.qcri.qf.features.cooking.Email</name>
+          <description/>
+          <supertypeName>uima.tcas.Annotation</supertypeName>
+        </typeDescription>
+      </types>
+    </typeSystemDescription>
+    <typePriorities/>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs/>
+        <outputs/>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+  <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <resourceManagerConfiguration/>
+</analysisEngineDescription>
