@@ -1,12 +1,118 @@
 \section{Submissions and Results}
 \label{sec:experiments}
 
-Now we describe our primary submissions to the three tasks, followed by the 
-contrastive submissions. Our classifications for both Arabic and English A are at the comment level. Table~\ref{tab:results} includes our official competition results; all the reported $F_1$ values are macro-averaged.
+Below we describe our primary submissions for the three subtasks;
+then we discuss our contrastive submissions.
+Our classifications for subtask A, for both Arabic and English, are at the comment level.
+Table~\ref{tab:results} shows our official results at the competition;
+all reported $F_1$ values are macro-averaged.
 
 \subsection{Primary Submissions}
 
-\blue{Introductory paragraph deleted because it made no sense (it said that we were using SVMs for everything)}
+%\blue{Introductory paragraph deleted because it made no sense (it said that we were using SVMs for everything)}
+
+%\begin{table}%[h]
+%\centering
+%\footnotesize
+%%  \begin{tabular}{|l|c@{\hskip 0.2cm}c@{\hskip 0.2cm}c@{\hskip 0.2cm}c|}
+%\begin{tabular}{|l|cccc|}
+%  \hline
+%  \bf ar	& \dir & \texttt{IRREL} & \rel & \texttt{F$_1$}\\  \hline  
+%  primary	& $77.31$ & $91.21$	& $67.13$	&  $78.55$ \\
+%  cont$_1$	& $74.89$ & $91.23$	& $63.68$	&  $76.60$ \\
+%  cont$_2$	& $76.63$ & $90.30$	& $63.98$	& $76.97$ \\  
+%%   primary	& $77.31$ & $91.21$	& $67.13$	& $78.55$ \\
+%%   cont$_1$	& $74.89$ & $91.23$	& $63.68$	& $76.60$ \\
+%%   cont$_2$	& $76.63$ & $90.30$	& $63.98$	& $76.97$ \\
+%  \hline \hline
+%
+%  \bf en A	& \good   & \bad 	& \texttt{POT}	& \texttt{F$_1$}\\\hline
+%  primary	& $78.45$ & $72.39$	& $10.40$	& $53.74$ \\
+%  cont$_1$ 	& $76.08$ & $75.68$	& $17.44$	& $56.40$ \\
+%  cont$_2$ 	& $75.46$ & $72.48$ 	& $\,\,\,7.97$	& $51.97$ \\
+%\hline  \hline
+%
+%\bf en B	& \yes	  & \no		& \unsure	& F$_1$	 \\
+%  \hline  
+%  primary	& $80.00$ & $44.44$	& $36.36$	& $53.60$ \\
+%  cont$_1$ 	& $75.68$ & $\,\,\,0.00$& $\,\,\,0.00$	& $25.23$ \\
+%  cont$_2$ 	& $66.67$ & $33.33$ 	& $47.06$	& $49.02$ \\
+%  \hline
+% \end{tabular}
+%\caption{Per-class and macro-averaged $F_1$ for our primary and 
+%contrastive submissions to SemEval-2015 Task~3 for Arabic (ar) and English 
+%(en) A and B.
+%\label{tab:results}}
+%\end{table}
+
+\paragraph{Arabic.} 
+%Our submission applies the logistic regressor from scikit-learn.%
+%\footnote{http://scikit-learn.org/stable/}
+We used logistic regression.
+The features are lexical similarities (Section~\ref{sub:sim}) and  $n$-grams 
+(Section~\ref{ssub:ngrams}). In a sort of stacking, the output of our 
+cont$_1$ submission is included as another feature (\cf 
+Section~\ref{sub:contrastive}). 
+
+This submission achieved the first position in the competition (F$_1=78.55$, 
+compared to $70.99$ for the second one). It showed a particularly high 
+performance when labeling \rel comments.
+
+\paragraph{English, subtask A.}
+Here we used a linear SVM,
+and a one-vs.-rest approach as we have a multiclass problem.
+% (\ie we train one classifier for each class).
+%We tuned the value of the $C$ hyper-parameter of the SVM in 
+%order to deal with class imbalance -- by increasing the value of $C$, we built 
+%more complex classifiers for those classes with less instances.
+The features for this submission consist of lexical, syntactic, and semantic similarities 
+(Section~\ref{sub:sim}), context information (Section~\ref{ssub:context}), 
+$n$-grams (Section~\ref{ssub:ngrams}), and heuristics 
+(Section~\ref{ssub:heuristics}). Similarly to Arabic, the output 
+of our rule-based system from the cont$_2$ submission is another feature. 
+
+This submission achieved the third position in the competition (F$_1=53.74$, 
+compared to $57.19$ for the top one). \pot comments proved to be the 
+hardest, as the border with respect to the rest of the comments is very fuzzy.
+Indeed, a manual inspection on some random comments has shown that
+distinguishing between \good and \pot comments is often impossible.
+
+\paragraph{English, subtask B.}
+
+Following the organizers' manual labeling strategy for the \yes/\no 
+questions~\cite{Marquez-EtAl:2015:SemEval}, we used three steps:
+\Ni identifying the \good comments for $q$;
+\Nii classifying each of them as \yes, \no, or \unsure; and 
+\Niii aggregating these predictions to the question level (majority).
+%The overall answer to $q$ is given by the majority of the comments.
+In case of a draw, we labeled the question as \unsure.%
+\footnote{The majority class in the training and dev.\ sets (\yes) could be the default answer.
+Still, we opted for a conservative decision: choosing \unsure if no enough evidence was found.}
+
+Step \Ni is subtask A. For step \Nii, we train a classifier as for subtask A, 
+including the polarity and the user profile features (\cf 
+Sections~\ref{sub:polarity} and~\ref{sub:profile}).\footnote{Even if the user profile information seems to fit for subtask A 
+rather than B, at development time it was effective for B only.}
+
+This submission achieved the third position in the competition:
+F$_1=53.60$, compared to $63.70$ for the top one. 
+Unlike the other subtasks, for which we trained on both the training and the testing datasets,
+here we used the training data only, which was due to instability of the results
+when adding the development data.
+%The reason behind this decision was 
+%that we obtained an unexpected distribution of mostly \yes predictions on the 
+%test set when both training and development sets had been considered. Such 
+%distribution is completely different to that observed in both training and 
+%development partitions.
+Post-submission experiments
+revealed this was due to some bugs as well as to unreliability of some of the statistics.
+Further discussion on this can be found in Section~\ref{sec:discussionb}.
+
+%Further experiments, carried out after the submission, 
+%have revealed that the causes for such an unexpected behavior were
+%bugs in the implementation of some features 
+%as well as unreliability of some of the statistics some features were based on.
+%Further discussion on this can be found in Section~\ref{sec:discussionb}.
 
 \begin{table}%[h]
 \centering
@@ -36,146 +142,82 @@ contrastive submissions. Our classifications for both Arabic and English A are a
   cont$_2$ 	& $66.67$ & $33.33$ 	& $47.06$	& $49.02$ \\
   \hline
  \end{tabular}
-\caption{Per-class and macro-averaged $F_1$-measure of our primary and 
-contrastive submissions to SemEval Task 3 for Arabic (ar) and English 
-(en) A and B.
+\caption{Per-class and macro-averaged $F_1$ scores for our official primary and 
+contrastive submissions to SemEval-2015 Task~3 for Arabic (ar) and English 
+(en), subtasks A and B.
 \label{tab:results}}
 \end{table}
-
-\paragraph{Arabic} 
-Our submission applies the logistic regressor from scikit-learn.%
-\footnote{http://scikit-learn.org/stable/}
-The features are lexical similarities (Section~\ref{sub:sim}) and  $n$-grams 
-(Section~\ref{ssub:ngrams}). In a sort of stacking, the output of our 
-contrastive submission~1 is included as another feature (\cf 
-Section~\ref{sub:contrastive}). 
-
-This submission achieved the first position in the competition (F$_1=78.55$, 
-compared to $70.99$ for the second one). It showed a particularly high 
-performance when labeling \rel comments.
-
-\paragraph{English A}
-The submission applies a linear-kernel SVM from scikit-learn. We used a 
-one-versus-rest approach to account for the fact that the learning problem is a 
-multiclass one (\ie we train one classifier for each class). We tuned the value of the $C$ hyper-parameter of the SVM in 
-order to deal with class imbalance ---by increasing the value of $C$, we built 
-more complex classifiers for those classes with less instances. The features for 
-this submission consist of lexical, syntactic, and semantic similarities 
-(Section~\ref{sub:sim}), context information (Section~\ref{ssub:context}), 
-$n$-grams (Section~\ref{ssub:ngrams}), and heuristics 
-(Section~\ref{ssub:heuristics}). Similarly to the Arabic submission, the output 
-of our rule-based system from the contrastive submission~2 is another feature. 
-
-This submission achieved the third position in the competition (F$_1=53.74$, 
-compared to $57.19$ for the top one). \pot comments showed to be the 
-hardest ones to identify, as the border with respect to the rest of the comments 
-is very fuzzy. Indeed, a manual inspection on some random comments shows that the 
-decision between \good and \pot comments is nearly impossible in some cases.
-
-\paragraph{English B}
-
-Following the manual labeling strategy applied to the \yes/\no questions by the 
-task organizers~\cite{Marquez-EtAl:2015:SemEval}, our approach consists of three 
-steps:
-\Ni identifying the \good comments among those associated with $q$;
-\Nii classifying each of them as \yes, \no, or \unsure; and 
-\Niii aggregating the comment-level classifications into question-level. The 
-overall answer to $q$ becomes that of the majority of the comments. In case of a
-draw, we opt for labeling it as \unsure.%
-\footnote{The majority class in the training and dev.\ sets (\yes), could be the default 
-answer. Still, we opted for a conservative decision: deciding 
-\unsure if no evidence enough was at hand.}
-Step \Ni is indeed task A. As for step \Nii, we train a classifier as with English task A, 
-but adding the polarity and user's profile features (\cf 
-Sections~\ref{sub:polarity} and~\ref{sub:profile}).%
-\footnote{Even if the user's profile information seems to fit with task A, 
-rather than B, at development time they showed to be effective only for the 
-latter one.}
-
-This submission achieved the third position in the competition (F$_1=53.60$, 
-compared to $63.70$ for the top one). Differently from the rest of the tasks, our 
-submitted results were obtained with a classifier trained on the training data 
-only (the development set was neglected). The reason behind this decision was 
-that we obtained an unexpected distribution of mostly \yes predictions on the 
-test set when both training and development sets had been considered. Such 
-distribution is completely different to that observed in both training and 
-development partitions. Further experiments, carried out after the submission, 
-demonstrated that the causes for such an unexpected behavior were bugs in the 
-implementation of some features and the fact that some features were computed on 
-unreliable statistics of the data. Further discussion is included in 
-Section~\ref{sec:discussionb}.
 
 
 \subsection{Contrastive Submissions}
 \label{sub:contrastive}
 
-\paragraph{Arabic} 
+\paragraph{Arabic.} 
 
-We approach our contrastive submission~1 as a ranking problem. After 
-stopwording and stemming, $sim(q,c)$ is computed as 
+We approach our contrastive submission~1 as a ranking problem.
+After stopword removal and stemming, we compute $sim(q,c)$ as follows:
 \begin{equation}
- sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cap c} \omega(t) \enspace ,
+ sim(q,c) = \frac{1}{|q|} \sum_{t\in q\cap c} \omega(t)
  \label{eq:overlap}
 \end{equation}
 % 
-where the empirically-set weight $\omega(t)=1$ if $t$ is a $1$-gram and 
-$\omega(t)=4$ if $t$ is a $2$-gram. Given the 5 comments $c_1,\ldots,c_5\in C$ 
-associated to $q$, the maximum similarity $\max_C sim(q,c)$ is mapped to a 
-maximum 100\% similarity and the rest of the scores are mapped proportionally. 
+where we empirically set $\omega(t)=1$ if $t$ is a $1$-gram,
+and $\omega(t)=4$ if $t$ is a $2$-gram.
+Given the 5 comments $c_1,\ldots,c_5\in C$ associated with $q$,
+we map the maximum similarity $\max_C sim(q,c)$
+to a maximum 100\% similarity and we map the rest of the scores proportionally. 
 Each comment is assigned a class according to the following ranges: [80, 100]\% 
-for \dir, (20,80)\% for \rel, and [0,20]\% for \irel. Threshold values manually 
-tuned on the training data.
-
+for \dir, (20,80)\% for \rel, and [0,20]\% for \irel.
+We manually tuned these threshold values on the training data.
 
 As for the contrastive submission~2, we built a binary classifier \dir vs. 
-\texttt{NO-}\dir based on logistic regression. The comments are then sorted 
-according to the classifier's prediction confidence and the final labels are 
-assigned accordingly: \dir for the 1st ranked, \rel for the 2nd ranked, and 
-\irel for the rest. Only lexical similarities are included as features 
-(discarding those weighted with idf variants).
+\texttt{NO-}\dir using logistic regression. We then sorted the comments 
+according to the classifier's prediction confidence and we assigned labels as 
+follows: \dir for the top ranked, \rel for the second ranked, and \irel for the 
+rest. We only included lexical similarities as features, discarding those weighted 
+with idf variants.
 
 
-The performance of these two submissions is below but close to that of the 
-primary one (F$_1=76.60$ and $76.97$), particularly when identifying \irel 
-comments. 
+The performance of these two contrastive submissions was below but close to 
+that of our primary submission (F$_1$ of 76.60 and 76.97, vs. 78.55 for 
+primary), particularly for \irel comments. 
 
-\paragraph{English A}
 
-For our contrastive submission~1, the same machine learning schema as for the 
-primary submission is used, but now using 
-SVM$^\mathrm{light}$~\cite{Joachims:99}. This toolkit allows us to deal with 
-the class imbalance by tuning the $j$ parameter (cost of making mistakes on 
-positive examples). This time the $C$ hyper-parameter is set to the default 
-value. As we focused on improving the performance on \pot instances, we 
-obtained better results for this category (F$_1=17.44$), surpassing the overall 
-performance from the primary submission (F$_1=56.40$).
+\paragraph{English, subtask A.}
 
-Our contrastive submission~2 operates in the same way as the Arabic contrastive 
-submission~1. The applied ranges are the same, but this time for \good, \pot, 
-and \bad. Some heuristics override the so generated decisions: $c$ is classified 
-as \good if it includes a URL, starts with an imperative verb (\eg \textit{try}, 
+Our contrastive submission~1, uses the same features and schema as our primary 
+submission, but with SVM$^\mathrm{light}$~\cite{Joachims:99}, which allows us 
+to deal with the class imbalance by tuning the $j$ parameter, i.e., the cost of 
+making mistakes on positive examples. This time, we set the $C$ hyper-parameter 
+to the default value. As we focused on improving the performance on \pot instances,
+we obtained better results for this category (F$_1$ of 17.44 vs. 10.40 for \pot),
+surpassing the overall performance for our primary submission (F$_1$ of 56.40 vs. 53.74).
+
+Our contrastive submission~2 is similar to our Arabic contrastive submission~1,
+using the same ranges, but now for \good, \pot, and \bad. We also have post-processing 
+heuristics:
+$c$ is classified as \good if it includes a URL, starts with an imperative verb (\eg \textit{try}, 
 \textit{view}, \textit{contact}, \textit{check}), or contains \textit{yes words} 
 (\eg \textit{yes}, \textit{yep}, \textit{yup}) or \textit{no words} (\eg 
-\textit{no}, \textit{nooo}, \textit{nope}). Comments written by the author of 
-the question or including acknowledgments are considered dialogues and 
-classified as \bad. The result of this submission is slightly lower than the 
-others' (F$_1=51.97$), where the automatic learning allows for better 
-predictions.
+\textit{no}, \textit{nooo}, \textit{nope}). Moreover, comments written by the author of 
+the question or including acknowledgments are considered dialogues,
+and thus classified as \bad. The result of this submission is slightly lower than
+for primary and contrastive 1: F$_1$=51.97.
 
-\paragraph{English B}
 
-Our contrastive submission~1 is identical to our primary one, but it uses both 
-the training and the development data for training the model. The reason behind 
-the disastrous results (F$_1=25.23$) is a buggy implementation of some of the 
-polarity features (\cf Section~\ref{sub:polarity}) and the lack of statistics 
-for properly estimating category-level user profiles (\cf 
+\paragraph{English, subtask B.}
+
+Our contrastive submission~1 is like our primary,
+but is trained on both the training and the development data.
+The reason for the low results (an F$_1$ of 25.23, compared to 53.60 for the primary)
+were bugs in the polarity features (\cf Section~\ref{sub:polarity})
+and lack of statistics for properly estimating the category-level user profiles (\cf 
 Section~\ref{sub:profile}). 
- 
- 
-The contrastive submission~2 consists of a rule-based system. A comment is 
-labeled as \yes if it starts with affirmative words: \textit{yes}, 
+
+The contrastive submission~2 is a rule-based system. A question is answered
+as \yes if it starts with affirmative words: \textit{yes}, 
 \textit{yep}, \textit{yeah}, etc. It is labeled as \no if it starts with 
 negative words: \textit{no}, \textit{nop}, \textit{nope}, etc. The answer to $q$ 
-becomes that of the majority of the comments ---\unsure in case of tie. It is 
-worth noting the comparably high performance when dealing with \unsure questions 
-(F$_1=47.06$) with this simple rationale.
+becomes that of the majority of the comments: \unsure in case of tie. It is 
+worth noting the comparably high performance when dealing with \unsure questions: 
+F$_1$=47.06, compared to 36.36 for our primary submission.

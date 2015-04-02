@@ -13,7 +13,7 @@
 \usepackage{color}
 \usepackage{amsmath} % for the "align" and "align*" environments
 
-\usepackage{chato-notes}
+%\usepackage{chato-notes}
 
 
 %colors for highlighting
@@ -22,7 +22,7 @@
 \newcommand{\green}{\textcolor{green}} 
 
 \newcommand{\cf}{cf.~}
-\newcommand{\ie}{i.e.~}
+\newcommand{\ie}{i.e.,~}
 \newcommand{\eg}{e.g.,~}
 
 \newcommand{\Ni}{({\em i})~}
@@ -47,13 +47,13 @@
 \title{%
 % QCRI: Experiments in Answer Selection for \\Community Question Answering 
 % for Arabic and English
-QCRI: Answer Selection for Community Question Answering -- \\ Experiments for 
-Arabic and English
+QCRI: Answer Selection for Community Question Answering --\\
+Experiments for Arabic and English
 % \Thanks{}
 }
 
 \author{%
-Massimo Nicosia$^1$, Simone Filice$^2$, Alberto Barr\'on-Cede\~no$^2$  \\
+Massimo Nicosia$^1$, Simone Filice$^2$, Alberto Barr\'on-Cede\~no$^2$,  \\
 {\bf Iman Saleh}$^3$, {\bf Hamdy Mubarak}$^2$, {\bf Wei Gao$^2$}, 
 {\bf Preslav Nakov$^2$}, \\
 {\bf Giovanni Da San Martino$^2$}, {\bf Alessandro Moschitti}$^2$,
@@ -115,15 +115,16 @@ $^3$ Cairo University \\
 \begin{document}
 \maketitle
 \begin{abstract}
-This paper describes the QCRI participation in SemEval-2015 Task 3 ---Answer 
-Selection in Community Question Answering--- in both Arabic and English 
-real-life question forums. We apply a supervised machine learning approach 
+This paper describes QCRI's participation in SemEval-2015 Task 3 ``Answer 
+Selection in Community Question Answering'',
+which targeted real-life Web forums,
+and was offered in both Arabic and English.
+We apply a supervised machine learning approach 
 considering a manifold of features including among others word $n$-grams, text 
-similarity, vocabulary polarity, the presence of specific words, and the context 
+similarity, sentiment analysis, the presence of specific words, and the context 
 of a comment.
-
-Our approach was the best performing one in the Arabic task and the third 
-best in the English tasks.
+Our approach was the best performing one in the Arabic subtask and the third 
+best in the two English subtasks.
 \end{abstract}
 
 \input{naaclhlt2015_qcri_semeval3_intro}
@@ -133,9 +134,25 @@ best in the English tasks.
 \input{naaclhlt2015_qcri_semeval3_discussion}
 
 
+\section{Conclusions and Future Work}
+\label{sec:conclusion}
+
+We have presented the system developed by the team of the Qatar Computing Research Institute (QCRI)
+for participating in SemEval-2015 Task 3 on Answer Selection in Community Question Answering.
+We used a supervised machine learning approach and a manifold of features including word
+$n$-grams, text similarity, sentiment dictionaries, the presence of specific words, the context of a comment, some heuristics, etc.
+Our approach was the best performing one in the Arabic task,
+and the third best in the two English tasks.
+
+We further presented a detailed study of which kinds of features helped most for each language and for each subtask, which should help researchers focus their efforts in the future.
+
+In future work, we plan to use richer linguistic annotations, more complex kernels,
+and large semantic resources.% such as DBpedia and linked open data.
+
+
 \begin{footnotesize}
 \section*{Acknowledgments}
-This research is developed by the Arabic Language Technologies (ALT) group at Qatar Computing Research Institute (QCRI) within the Qatar Foundation in collaboration with MIT. It is part of the Interactive sYstems for Answer Search (Iyas) project.
+This research is developed by the Arabic Language Technologies (ALT) group at the Qatar Computing Research Institute (QCRI), Qatar Foundation in collaboration with MIT. It is part of the Interactive sYstems for Answer Search (Iyas) project.
 \end{footnotesize}
 
 % \begin{thebibliography}{}

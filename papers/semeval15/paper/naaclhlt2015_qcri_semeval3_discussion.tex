@@ -1,22 +1,29 @@
 \section{Post-Submission Experiments}
 \label{sec:discussion}
 
-We carried out further experiments after the task deadline to understand how 
-different feature families contributed to the performance of our classifiers. 
+We carried out post-submission experiments in order to understand how 
+different feature families contributed to the performance of our classifiers;
+the results are shown in Table~\ref{tab:aftertask}.
 % The results on the corresponding test sets are reported in 
-Table~\ref{tab:aftertask} reports the results on the different test sets. We 
-managed to slightly raise the performance for the three tasks due to different 
-reasons.
+%Table~\ref{tab:aftertask} reports the results on the different test sets.
+We also managed to improve our performance for all three subtasks.
+
 
 \subsection{Arabic} \label{sec:discussionArabic}
 
-We ran experiments with the same framework as in the primary submission by 
-considering both the different subsets of features in isolation (\textit{only}) 
-or all the features except for a subset (\textit{without}). The $n$-grams 
-features together with contrastive submission~1 allow for a slightly better 
-performance than our already winning submission (F$_1=78.69$, compared to 
-F$_1=78.55$). Our ranking approach (contrastive~1) represents the most 
-important one to get such a good result. \blue{It is worth noting that the cont$_1$ submission is indeed based on similarity.}
+We ran experiments with the same framework as in our primary submission by 
+considering the subsets of features in isolation (\textit{only}) or all features 
+except for a subset (\textit{without}). The $n$-gram features together with 
+our cont$_1$ submission (recall that we also use cont$_1$ as a feature in our
+primary submission) allow for a slightly better performance than our 
+---already winning--- primary submission (F$_1=78.69$, compared to 
+F$_1=78.55$). The cont$_1$ feature turns out to be the most important one,
+and, as it already contains similarity, combining it with other similarity features
+does not yield any further improvements.
+%When combined with the similarity features, no improvement
+%is observed as cont$_1$ is based already upon similarity computations.
+%It is worth noting that cont$_1$ 
+%includes already similarity computations.
 
 \begin{table}[t]	
 \footnotesize
@@ -72,7 +79,7 @@ important one to get such a good result. \blue{It is worth noting that the cont$
  post$_2$	& 85.71	& 57.14	& 25.00 	& \bf 55.95 \\
  \hline
  \hline  
- \bf primaries	& \texttt{D/G/Y}& \texttt{I/B/N}& \texttt{R/P/U} & 
+ \bf primary	& \texttt{D/G/Y}& \texttt{I/B/N}& \texttt{R/P/U} & 
 \texttt{F$_1$}\\\hline
   ar		& 77.31		& 91.21		& 67.13	& 78.55 \\
   en A		& 78.45		& 72.39		& 10.40	& 53.74 \\
@@ -81,15 +88,14 @@ important one to get such a good result. \blue{It is worth noting that the cont$
  
  
  \end{tabular}
- \caption{Post-competition results for Arabic (ar) and English (en) A and B 
-tasks. Best results per task highlighted. Primary submissions included for 
-comparison.
+ \caption{Post-submission results for Arabic (ar) and English (en), for subtasks A and B.
+ The lines marked with \emph{only} show results  using a particular type of features only,
+ while those marked as \emph{without} show results
+ when using all features but those of a particular type.
+ The best results for each subtask are marked in bold;
+ the results for our official primary submissions are included for comparison.
 \label{tab:aftertask}}
 \end{table}
-
-
-
-
 
 
 % The first rows of Table~\ref{tab:aftertask} show the results obtained after 
@@ -112,45 +118,43 @@ comparison.
 %  \caption{Post-competition experiments Arabic.\label{tab:aftertaskarabic}}
 %  \end{table}
 
-\subsection{English Task A} \label{sec:discussiona}
+\subsection{English, Subtask A} \label{sec:discussiona}
 
-We performed similar experiments as the ones for Arabic. According to the 
-\textit{(only)} figures, the heuristic features seem to be the most useful ones, 
-followed by the context-based information. The latter features explore a 
-dimension completely ignored by other features:  they are completely 
-uncorrelated and provide a good performance boosting (as the \textit{without} 
-experiment shows). On the other side, using all the features but the $n$-grams 
-allows for a better performance than that in the primary run (F$_1=55.17$ 
-compared to F$_1=53.74$) . This is an interesting but not very significant 
-result as these features had significantly pushed up the performance of our 
-system at development time. Further research is necessary.
+We performed experiments similar to those we did for Arabic. According to the 
+\textit{only} figures, the heuristic features seem to be the most useful ones, 
+followed by the context-based ones. The latter explore a 
+dimension ignored by the rest:  these features are completely 
+uncorrelated and provide a good performance boost (as the \textit{without} 
+experiments show). On the other hand, using all features but the $n$-grams 
+improves over the performance of our primary run (F$_1=55.17$ 
+compared to F$_1=53.74$). This is an interesting but not very significant 
+result as these features had already boosted our performance
+at development time. Further research is necessary.
   
-\subsection{English Task B} \label{sec:discussionb}
+\subsection{English, Subtask B} \label{sec:discussionb}
 
-Our post-task efforts are intended to investigate on the reasons why learning on 
-training only was considerably better than learning on training+dev. Output 
+Our post-submission efforts focused on investigating why learning from 
+the training data only was considerably better than learning from training+dev. The output 
 labels on the test set in the two learning scenarios showed considerable 
-differences: when learning on training+dev, the predicted labels were \yes on 
+differences: when learning from training+dev, the predicted labels were \yes for 
 all but three cases. After correcting a bug in our implementation of the 
-polarity-related features, the result obtained by learning on training+dev was 
-F$_1=51.98$ (Table~\ref{tab:aftertask}, post$_1$). Further feature-based 
-analyses showed that the features counting the number of \good, \bad, and \pot 
-comments within categories from the same user (\cf Section~\ref{sub:profile}) 
-varied greatly when computed on the training or training+dev datasets. The 
-reason is that the number of comments from a user in a category is, in most 
-cases, too limited to generate reliable statistics. After discarding these three 
-features, the F$_1$ raised to $55.95$ (Table~\ref{tab:aftertask}, post$_2$). 
-This figures represent a higher performance than that obtained at submission 
-time. Observe that, once again, the \unsure class is the hardest to identify 
-properly.
+polarity-related features, the result when learning on training+dev became 
+F$_1$=51.98 (Table~\ref{tab:aftertask}, post$_1$). Further 
+analysis showed that the features counting the number of \good, \bad, and \pot 
+comments within categories by the same user (\cf Section~\ref{sub:profile}) 
+varied greatly when computed on training and on training+dev,
+as the number of comments by a user in a category was, in most 
+cases, too small to yield very reliable statistics. After discarding these three 
+features, the F$_1$ raised to 55.95 (Table~\ref{tab:aftertask}, post$_2$),
+which is higher than what we obtained at submission time.
+Note that, once again, the \unsure class is by far the hardest to identify properly.
 
-Surprisingly, applying the bug-free implementation on the training set only 
-still allowed for a higher F$_1 =69.35$ on test. A manual analysis allowed us 
-to observe that the difference in performance was the result of misclassifying 
-only four questions either as \yes or \unsure. Indeed, the differences seem to 
-occur due to the randomness of the classifier on a small dataset and they 
-cannot be considered statistically 
-significant~\cite{Marquez-EtAl:2015:SemEval}. 
+Surprisingly, learning with the bug-free implementation from the training set 
+yielded a much higher F$_1$ of $69.35$ on the test dataset (not shown in the table).
+Analysis revealed that the difference in performance was due to misclassifying 
+just four questions. Indeed, the differences seem to 
+occur due to the natural randomness of the classifier on a small test dataset and they 
+cannot be considered statistically significant~\cite{Marquez-EtAl:2015:SemEval}. 
 
 % \begin{table}%[h]	
 % \begin{tabular}{|l|cccc|}

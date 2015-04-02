@@ -2,12 +2,12 @@
 \label{sec:intro}
 
 
-The SemEval-2015 Task 3 ---Answer Selection in Community Question Answering---, 
-challenged participants in the problem of automatically identifying the 
-appropriateness of user-generated answers in a community question answering 
-setting both in Arabic and English~\cite{Marquez-EtAl:2015:SemEval}. A question 
-$q\in Q$, asked by user $u_q$, together with a set of comments $C$ are given and 
-the system is asked to determine whether a comment $c\in C$ offers a suitable 
+SemEval-2015 Task 3 ``Answer Selection in Community Question Answering''
+challenged the participants to automatically predict the 
+appropriateness of the answers in a community question answering 
+setting \cite{Marquez-EtAl:2015:SemEval}.
+Given a question $q\in Q$ asked by user $u_q$ and a set of comments $C$,
+the main task was to determine whether a comment $c\in C$ offered a suitable 
 answer to $q$ or not. 
 
 In the case of Arabic, the questions were extracted from \textit{Fatwa}, a 
@@ -19,6 +19,7 @@ the topic, each of which has to be automatically labeled as
 \Nii \rel: not a direct answer to the question but with information related to 
 the topic; and 
 \Niii \irel: an answer to another question, not related to the topic. 
+This is subtask A, Arabic.
 
 In the case of English, the dataset was extracted from \textit{Qatar Living}, 
 a forum for people to pose questions on multiple aspects of daily life in 
@@ -27,32 +28,36 @@ Qatar.%
 Unlike \textit{Fatwa}, the questions and comments in this dataset come from 
 regular users, making them significantly more varied, informal, open, and noisy. 
 In this case, the input to the system consists of a question and a variable 
-number of comments, each of which are to be labeled as 
+number of comments, each of which is to be labeled as 
 \Ni \good: the comment is definitively relevant; 
 \Nii \pot: the comment is potentially useful; and 
 \Niii \bad: the comment is irrelevant (\eg it is part of a dialogue, unrelated 
 to the topic, or it is written in a language other than English). 
-We refer to this task as English task A. Additionally, a subset of the questions 
-in the corpus requires a \yes/\no answer.
+This is subtask A, English.
+
+Additionally, a subset of the questions required a \yes/\no answer,
 % , which means the expected answer to the question is precisely either \yes or 
 % \no. 
-In this case, the task consists of determining whether the overall answer to 
-the question, according to the evidence provided by the comments, is 
+and there was another subtask for them,
+which asked to determine whether the overall answer to the question,
+according to the evidence provided by the comments, is 
 \Ni \yes, 
 \Nii \no, or 
-\Niii \unsure when there is no evidence to make a decision. 
-We refer to this as English task B. 
-Refer to~\cite{Marquez-EtAl:2015:SemEval} for more information on tasks 
-definitions and settings.
+\Niii \unsure.
+% when there is no evidence to make a decision. 
+This is subtask B, English.
 
-In this paper, we describe the supervised machine learning approach of QCRI\@,
+Details about the subtasks and the experimental settings
+can be found in \cite{Marquez-EtAl:2015:SemEval}.
+
+Below we describe the supervised learning approach of QCRI\@,
 which considers different kinds of features: lexical, syntactic and semantic similarities; 
-the context in which a comment appears; $n$-grams occurrence; and some 
-heuristics. Our approach ranked 1st out of four teams in the 
-Arabic task, 3rd out of twelve in English task~A, and 3rd out of eight in English task~B. 
+the context in which a comment appears; $n$-grams occurrence; and some heuristics.
+We ranked first in the Arabic, and third in the two English subtasks.
+%Our team ranked 1st out of four teams in the 
+%Arabic subtask, 3rd out of twelve in English subtask~A, and 3rd out of eight in English subtask~B. 
 
-The rest of the paper is organized as follows. Section~\ref{sec:approach} 
-describes the features used in our approaches. Section~\ref{sec:experiments} 
-describes our prediction models and discusses the results obtained at 
-competition time. Section~\ref{sec:discussion} discusses further 
-post-competition experiments and offers some final remarks.
+The rest of the paper is organized as follows:
+Section~\ref{sec:approach} describes the features used,
+Section~\ref{sec:experiments} discusses our models and our official results, and
+Section~\ref{sec:discussion} presents post-competition experiments and offers some final remarks.
