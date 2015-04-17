@@ -1,0 +1,39 @@
+\section{Experiments}
+
+\begin{table*}
+\caption{Multiclass setting. All includes all the features, but $n$-grams; sub includes all the features available in the pipeline, except for LSA; noc is like sub, without context features). }
+
+\begin{tabular}{lccccccccccccc}
+\hline
+				& \multicolumn{3}{c}{Good}	& \multicolumn{3}{c}{Potential} &\multicolumn{3}{c}{Bad} & \multicolumn{4}{c}{Overall}\\
+						&	P			& R			& F			&	P			& R			& F			& 	P			& R			& F			& 	P				& R			& F			& A	\\
+\hline
+SVM$_{all}$		& 	74.59	& 73.02	& 73.80	& 15.62	& 17.96	& 16.71	& 	71.78	& 71.43	& 71.60	& 	54.00	& 54.14	&	54.04	& 67.71	\\
+SVM$_{sub}$	& 73.18	& 75.83	& 74.48	& 13.41	& 13.17	& 13.29	& 73.17	& 	70.20	& 	71.65	& 	53.26	& 53.07	&	53.14	& 68.22	\\
+SVM$_{noc}$	& 	73.33	& 67.30	& 	70.19	&  6.56	& 	7.19		&  6.86	& 64.69	& 	69.65	& 67.22	& 48.19	& 48.15	&	48.09	& 63.31	\\
+%				& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+%			& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+%				& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+				
+\hline
+\end{tabular}
+\end{table*}
+
+\begin{table*}
+\caption{Binary setting. All includes all the features, but $n$-grams; sub includes all the features available in the pipeline, except for LSA; noc is like sub, without context features). }
+
+\begin{tabular}{lccccccccccccc}
+\hline
+				& \multicolumn{3}{c}{Good}	& \multicolumn{3}{c}{Potential} &\multicolumn{3}{c}{Bad} & \multicolumn{4}{c}{Overall}\\
+						&	P			& R			& F			&	P			& R			& F			& 	P			& R			& F			& 	P				& R			& F			& A	\\
+\hline
+SVM$_{all}$		& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+SVM$_{sub}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+SVM$_{noc}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+CRF$_{all}$		& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+CRF$_{sub}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+LogReg$_{all}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+LogReg$_{sub}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\				
+\hline
+\end{tabular}
+\end{table*}
