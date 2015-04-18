@@ -2,38 +2,73 @@
 
 \begin{table*}
 \caption{Multiclass setting. All includes all the features, but $n$-grams; sub includes all the features available in the pipeline, except for LSA; noc is like sub, without context features). }
-
-\begin{tabular}{lccccccccccccc}
+\centering
+\begin{tabular}{lc@{\hspace{2mm}}c@{\hspace{2mm}}c
+							c@{\hspace{2mm}}c@{\hspace{2mm}}c
+							c@{\hspace{2mm}}c@{\hspace{2mm}}c
+							c@{\hspace{2mm}}c@{\hspace{2mm}}c@{\hspace{2mm}}c}
 \hline
 				& \multicolumn{3}{c}{Good}	& \multicolumn{3}{c}{Potential} &\multicolumn{3}{c}{Bad} & \multicolumn{4}{c}{Overall}\\
-						&	P			& R			& F			&	P			& R			& F			& 	P			& R			& F			& 	P				& R			& F			& A	\\
+				&	P			& R			& F			&	P			& R			& F			& 	P			& R			& F			& 	P				& R			& F			& A	\\
 \hline
-SVM$_{all}$		& 	74.59	& 73.02	& 73.80	& 15.62	& 17.96	& 16.71	& 	71.78	& 71.43	& 71.60	& 	54.00	& 54.14	&	54.04	& 67.71	\\
-SVM$_{sub}$	& 73.18	& 75.83	& 74.48	& 13.41	& 13.17	& 13.29	& 73.17	& 	70.20	& 	71.65	& 	53.26	& 53.07	&	53.14	& 68.22	\\
-SVM$_{noc}$	& 	73.33	& 67.30	& 	70.19	&  6.56	& 	7.19		&  6.86	& 64.69	& 	69.65	& 67.22	& 48.19	& 48.15	&	48.09	& 63.31	\\
-%				& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
+NOC	\\
+SVM			& 	73.33	& 67.30	& 	70.19	&  6.56	& 	7.19		&  6.86	& 64.69	& 	69.65	& 67.22	& 48.19	& 48.15	&	48.09	& 63.31	\\
+\hline
+
+SUB	\\
+SVM			& 73.18	& 75.83	& 74.48	& 13.41	& 13.17	& 13.29	& 73.17	& 	70.20	& 	71.65	& 	53.26	& 53.07	&	53.14	& 68.22	\\
+OrdReg		& 71.10	& 72.32	& 71.71	& 10.17	& 21.56	& 13.82	& 74.34	& 55.67	& 63.66	& 51.87	& 49.85	&	49.73	& 69.18	\\
+\hline
+
+ALL	\\
+SVM			& 	74.59	& 73.02	& 73.80	& 15.62	& 17.96	& 16.71	& 	71.78	& 71.43	& 71.60	& 	54.00	& 54.14	&	54.04	& 67.71	\\
 %			& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
 %				& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
-				
 \hline
 \end{tabular}
 \end{table*}
 
 \begin{table*}
-\caption{Binary setting. All includes all the features, but $n$-grams; sub includes all the features available in the pipeline, except for LSA; noc is like sub, without context features). }
+\caption{Binary setting. All includes all the features, but $n$-grams; sub includes all the features available in the pipeline, except for LSA; noc is like sub, without context features).  Sub-indexes in CRF denote the order. }
+\centering
+\begin{tabular}{lcccccccccc}
+\hline
+				& \multicolumn{3}{c}{Good}	& \multicolumn{3}{c}{Bad} & \multicolumn{4}{c}{Overall}\\
+				&	P			& R			& F			&	P			& R			& F			& 	P			& R			& F			& A	\\
+\hline
+NOC	\\
+SVM			& 71.11	& 72.82	& 71.95	& 71.62	& 69.87	& 70.73	& 71.36	& 	71.34	&	71.34	& 71.36	\\
+\multicolumn{9}{c}{Shafiq: please confirm if these CRFs were trained with the "NOC" set}	\\
+CRF$_1$	& 69.95	& 77.53	& 73.55	& 74.28	& 66.09	& 69.95	& 72.12	& 71.81	&	71.75	& 71.86	\\				
+CRF$_2$	& 71.28	& 75.43	& 	73.29	& 73.40	& 69.05	& 71.16	& 72.34	& 72.24	&	72.23	& 72.27	\\				
+LogReg		& 63.00	& 86.76	& 73.00	& 78.11	& 48.11	& 59.54	& 70.56	& 67.44	&	66.27	& 67.61	\\				
+\hline
 
-\begin{tabular}{lccccccccccccc}
+SUB	\\
+SVM			& 72.53 	& 	78.94	& 75.60	& 76.43	& 69.56	& 72.83	& 74.48	& 74.25	&	74.22	& 74.29	\\
+CRF			& 72.15 	& 83.65	& 77.47	& 80.12	& 67.11	& 73.04	& 76.13	& 75.38	&	75.26	& 75.46	\\
+CRF$_{2}$&73.08 	& 83.05	& 77.75	& 79.95	& 68.85	& 73.98	& 75.52	& 75.95	&	75.87	& 76.01	\\				
+CRF$_{3}$&72.94 	& 80.84	& 76.69	& 78.07	& 69.46	& 73.51	& 75.51	& 75.15	&	75.10	& 75.20	\\
+LogReg		& 69.10	& 86.36	& 76.77	& 81.37	& 60.67	& 69.51	& 75.24	& 73.52	&	73.14	& 73.63	\\
 \hline
-				& \multicolumn{3}{c}{Good}	& \multicolumn{3}{c}{Potential} &\multicolumn{3}{c}{Bad} & \multicolumn{4}{c}{Overall}\\
-						&	P			& R			& F			&	P			& R			& F			& 	P			& R			& F			& 	P				& R			& F			& A	\\
-\hline
-SVM$_{all}$		& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
-SVM$_{sub}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
-SVM$_{noc}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
-CRF$_{all}$		& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
-CRF$_{sub}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
-LogReg$_{all}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\
-LogReg$_{sub}$	& 		& 	& 	& 	& 	& 	& 		& 	& 	& 		& 	&		& 	\\				
+
+ALL	\\
+SVM			& 72.29	& 	77.73	& 	74.92	& 75.44	& 69.66	& 72.44	& 73.87	& 	73.70	& 73.68	& 73.73 	\\
+CRF			& 	72.48 	& 81.34	& 79.65	& 78.30	& 68.54	& 73.09	& 75.39	& 74.94	& 74.87	&	75.00 	\\
+LogReg		& 71.80	& 80.44	& 75.88	& 77.30	& 67.82	& 72.25	& 74.55	& 74.13	&	74.06	& 74.19	\\
+
+
+				
+
+				
+%LogReg$_{sub}$& 	& 	& 	& 	& 	& 	& 	& 	&		& 	\\				
+%LogReg$_{sub}$& 	& 	& 	& 	& 	& 	& 	& 	&		& 	\\				
+%LogReg$_{sub}$& 	& 	& 	& 	& 	& 	& 	& 	&		& 	\\				
 \hline
 \end{tabular}
 \end{table*}
+
+
+
+
+
