@@ -11,4 +11,6 @@ public class LocalConfig {
 	public static String DEV_DIR = PROJECT_FOLDER + "/data/dev_small";
 	public static String DEV_SMALL = DEV_DIR + "/user_status.csv";
 	public static String DEV_SMALL_TARGETS = DEV_DIR  + "/big5.csv";
+	
+	public static String RANDOM_DATASET = PROJECT_FOLDER + "/target/user_status.random.csv";
 }
