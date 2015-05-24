@@ -57,13 +57,18 @@ public class CommentwiseSimilarity {
 	private static final String GOOD = "GOOD";
 	private static final String BAD = "BAD";
 	
+	/* With this flag and value we limit the number fo comments per question 
+	 * to be considered (this intends to reduce the impact of long threads. 
+	 * */
+	public static final boolean LIMIT_COMMENTS_PER_Q = true;
+	public static final int LIMIT_COMMENTS = 20;
 	
 	public static final String LANG_ENGLISH = "ENGLISH";
 			
 	public static final boolean USE_QCRI_ALT_TOOLS = false;
 	
 	private static final String CQA_QL = "semeval2015-3/data/"
-		+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml";
+		+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml";
 	
 	private static final String SUFFIX = ".pairsim.csv"; 
 	
@@ -262,6 +267,10 @@ public class CommentwiseSimilarity {
 			 * Parse comment nodes
 			 */
 			Elements comments = question.getElementsByTag("Comment");
+			
+			if (LIMIT_COMMENTS_PER_Q && comments.size() >= LIMIT_COMMENTS){
+				continue;
+			}
 			
 			for(Element comment : comments) {
 				String cid = comment.attr("CID");

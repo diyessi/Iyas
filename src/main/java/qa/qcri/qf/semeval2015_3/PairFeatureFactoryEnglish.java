@@ -200,8 +200,8 @@ public class PairFeatureFactoryEnglish {
 				String featureName = measure.getName(representation);
 				double featureValue = measure.getSimilarity(representations);				
 				fv.add(featureName, featureValue);
-				System.out.println(String.format("%s:%f", featureName, featureValue));
-				System.out.println(fv.toString());
+//				System.out.println(String.format("%s:%f", featureName, featureValue));
+//				System.out.println(fv.toString());
 			}
 		} catch (StringIndexOutOfBoundsException ex) {
 			
