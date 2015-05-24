@@ -289,7 +289,7 @@ public class CommentwiseSimilarity {
 			for(Element comment : comments) {
 				allCommentsCas.add(computeCommentCas(comment));
 				ids.add(comment.attr("CID"));
-				labels.add(comment.attr("CGOLD"));
+				labels.add(getgold(comment.attr("CGOLD")));
 			}			
 			
 			
@@ -357,17 +357,10 @@ public class CommentwiseSimilarity {
 		JCas cCas = JCasFactory.createJCas();
 		String cid = comment.attr("CID");
 		String cuserid = comment.attr("CUSERID");
-		String cgold = comment.attr("CGOLD");
+		//String cgold = comment.attr("CGOLD");
+		//String cgold = getgold(comment.attr("CGOLD"));
 		
-		//Replacing the labels for the "macro" ones: Good vs Bad
-		 if(ONLY_BAD_AND_GOOD_CLASSES){
-				if(cgold.equalsIgnoreCase("good")){
-					cgold = GOOD;
-				}else{
-					cgold = BAD;
-				}
-			}
-		String cgold_yn = comment.attr("CGOLD_YN");
+		//String cgold_yn = comment.attr("CGOLD_YN");
 		String csubject = comment.getElementsByTag("CSubject").get(0).text();
 		String cbody = comment.getElementsByTag("CBody").get(0).text();
 		
@@ -390,7 +383,20 @@ public class CommentwiseSimilarity {
 
 	}
 	
+	public String getgold(String cgold){
+		//Replacing the labels for the "macro" ones: Good vs Bad
+		if(ONLY_BAD_AND_GOOD_CLASSES){
+			if(cgold.equalsIgnoreCase("good")){
+				cgold = GOOD;
+			}else{
+				cgold = BAD;
+			}
+		}
+		return cgold;
 
+	}
+	
+	
 	
 	public List<Double> serializeFv(FeatureVector fv) {
 		List<Double> features = new ArrayList<>();
