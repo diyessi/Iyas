@@ -33,10 +33,10 @@ public class ToCSV {
 			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-train.xml";
 	
 	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-devel.xml";
+			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-test.xml";
 	
 	public static final String CQA_QL_TRAIN_AR = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-Arabic-data/datasets/QA-Arabic-train.xml";
+			+ "SemEval2015-Task3-Arabic-data/datasets/QA-Arabic-train+dev.xml";
 	
 	public static final String CQA_QL_DEV_AR = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-Arabic-data/datasets/QA-Arabic-dev.xml";
@@ -56,9 +56,9 @@ public class ToCSV {
 		/**
 		 * Run the code for the Arabic task
 		 */
-		//new ToCSV().runForArabic();
+		new ToCSV().runForArabic();
 
-		new ToCSV().runForEnglish();
+		//new ToCSV().runForEnglish();
 	}
 	
 	public ToCSV() {
@@ -187,7 +187,7 @@ public class ToCSV {
 		this.b_labels.add("Yes");
 		this.b_labels.add("Unsure");
 
-		this.processEnglishFile(CQA_QL_TRAIN_EN, "train");
+		//this.processEnglishFile(CQA_QL_TRAIN_EN, "train");
 		this.processEnglishFile(CQA_QL_DEV_EN, "dev");
 	}
 

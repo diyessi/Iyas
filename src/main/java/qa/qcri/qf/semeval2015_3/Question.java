@@ -250,19 +250,19 @@ public class Question implements Comparable<Question>,  Serializable {
 	        Map.Entry pairs = (Entry) it.next();
 	        switch(type){
 				case THANKS:
-					remove = (! AlbertoSimoneFeatureExtractor.containsAcknowledge(
+					remove = (! FeatureExtractor.containsAcknowledge(
 			        		(Comment) pairs.getValue())) ? true : false;
 					break;
 				case NOTHANKS:
-					remove = (AlbertoSimoneFeatureExtractor.containsAcknowledge(
+					remove = (FeatureExtractor.containsAcknowledge(
 			        		(Comment) pairs.getValue())) ? true : false;
 					break;
 				case HASQ:
-					remove = (! AlbertoSimoneFeatureExtractor.containsQuestion((
+					remove = (! FeatureExtractor.containsQuestion((
 			        		(Comment) pairs.getValue()))) ? true : false;
 					break;
 				case NOHASQ: 	
-					remove = (AlbertoSimoneFeatureExtractor.containsQuestion((
+					remove = (FeatureExtractor.containsQuestion((
 			        		(Comment) pairs.getValue()))) ? true : false;
 					break;				
 	        }	        
@@ -279,7 +279,7 @@ public class Question implements Comparable<Question>,  Serializable {
 		Iterator it = qComments.entrySet().iterator();
 	    while (it.hasNext()) {	    	
 	        Map.Entry pairs = (Entry) it.next();
-	        if (! AlbertoSimoneFeatureExtractor.containsAcknowledge(
+	        if (! FeatureExtractor.containsAcknowledge(
 	        		(Comment) pairs.getValue())){
 	        	it.remove();
 	        }	        
@@ -293,7 +293,7 @@ public class Question implements Comparable<Question>,  Serializable {
 		Iterator it = qComments.entrySet().iterator();
 	    while (it.hasNext()) {	    	
 	        Map.Entry pairs = (Entry) it.next();
-	        if (AlbertoSimoneFeatureExtractor.containsAcknowledge(
+	        if (FeatureExtractor.containsAcknowledge(
 	        		(Comment) pairs.getValue())){
 	        	it.remove();
 	        }	        
