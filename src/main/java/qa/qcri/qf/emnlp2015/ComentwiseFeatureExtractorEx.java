@@ -31,6 +31,7 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.semeval2015_3.PairFeatureFactoryEnglish;
 import qa.qcri.qf.semeval2015_3.Question;
+import qa.qcri.qf.semeval2015_3.textnormalization.TextNormalizer;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.MarkTwoAncestors;
 import qa.qcri.qf.trees.RichTree;
@@ -288,7 +289,8 @@ public class ComentwiseFeatureExtractorEx {
 			 */
 			questionCas.reset();
 			questionCas.setDocumentLanguage("en");
-			questionCas.setDocumentText(qsubject + ". " + qbody);
+			String questionText = TextNormalizer.normalize(SubjectBodyAggregator.getQuestionText(qsubject, qbody));
+			questionCas.setDocumentText(questionText);
 			
 			/**
 			 * Run the UIMA pipeline
@@ -358,7 +360,8 @@ public class ComentwiseFeatureExtractorEx {
 				 */
 				commentCas.reset();
 				commentCas.setDocumentLanguage("en");
-				commentCas.setDocumentText(csubject + ". " + cbody);
+				String commentText = TextNormalizer.normalize(SubjectBodyAggregator.getCommentText(csubject, cbody));
+				commentCas.setDocumentText(commentText);
 				
 				/**
 				 * Run the UIMA pipeline
