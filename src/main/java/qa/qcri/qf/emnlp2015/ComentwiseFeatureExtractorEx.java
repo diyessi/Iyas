@@ -70,7 +70,7 @@ public class ComentwiseFeatureExtractorEx {
 	//True if the combination is a concat; false if it is a subtract
 	public static final Boolean COMBINATION_CONCAT = false;
 	
-	public static final Boolean THREE_CLASSES = true;
+	public static final Boolean THREE_CLASSES = false;
 	
 	public static final boolean USE_QCRI_ALT_TOOLS = false;
 	
@@ -79,13 +79,13 @@ public class ComentwiseFeatureExtractorEx {
 	/* With this flag and value we limit the number fo comments per question 
 	 * to be considered (this intends to reduce the impact of long threads. 
 	 * */
-	public static final boolean LIMIT_COMMENTS_PER_Q = true;
+	public static final boolean LIMIT_COMMENTS_PER_Q = false;
 	public static final int LIMIT_COMMENTS = 20;
 	
 	public static final String CQA_QL_EN = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml";
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml";
 	
-	public static final String SUFFIX = ".pairwise.shortened.csv";
+	public static final String SUFFIX = ".pairwise2.csv";
 	
 	private Set<String> a_labels = new HashSet<>();
 	

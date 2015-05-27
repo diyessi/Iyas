@@ -28,6 +28,7 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.semeval2015_3.PairFeatureFactoryEnglish;
 import qa.qcri.qf.semeval2015_3.Question;
+import qa.qcri.qf.semeval2015_3.textnormalization.TextNormalizer;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.MarkTwoAncestors;
 import qa.qcri.qf.trees.nodes.RichNode;
@@ -60,7 +61,7 @@ public class CommentwiseSimilarity {
 	/* With this flag and value we limit the number fo comments per question 
 	 * to be considered (this intends to reduce the impact of long threads. 
 	 * */
-	public static final boolean LIMIT_COMMENTS_PER_Q = true;
+	public static final boolean LIMIT_COMMENTS_PER_Q = false;
 	public static final int LIMIT_COMMENTS = 20;
 	
 	public static final String LANG_ENGLISH = "ENGLISH";
@@ -68,9 +69,9 @@ public class CommentwiseSimilarity {
 	public static final boolean USE_QCRI_ALT_TOOLS = false;
 	
 	private static final String CQA_QL = "semeval2015-3/data/"
-		+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml";
+		+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-devel.xml";
 	
-	private static final String SUFFIX = ".pairsim.csv"; 
+	private static final String SUFFIX = ".pairsim2.csv"; 
 	
 	private Set<String> a_labels = new HashSet<>();
 	
@@ -371,7 +372,9 @@ public class CommentwiseSimilarity {
 		 */
 		cCas.reset();
 		cCas.setDocumentLanguage("en");
-		cCas.setDocumentText(csubject + ". " + cbody);
+		String commentText = TextNormalizer.normalize(SubjectBodyAggregator.getCommentText(csubject, cbody));
+		cCas.setDocumentText(commentText);
+		//cCas.setDocumentText(csubject + ". " + cbody);
 		
 		/**
 		 * Run the UIMA pipeline
