@@ -3,14 +3,12 @@ package qa.qcri.qf.emnlp2015;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngine;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.uima.UIMAException;
@@ -20,7 +18,6 @@ import org.apache.uima.fit.factory.JCasFactory;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -29,9 +26,13 @@ import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
+import qa.qcri.qf.semeval2015_3.AlbertoSimoneFeatureExtractor;
 import qa.qcri.qf.semeval2015_3.PairFeatureFactoryEnglish;
 import qa.qcri.qf.semeval2015_3.Question;
+import qa.qcri.qf.semeval2015_3.Question.Comment;
+import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
 import qa.qcri.qf.semeval2015_3.textnormalization.TextNormalizer;
+import qa.qcri.qf.semeval2015_3.textnormalization.UserProfile;
 import qa.qcri.qf.treemarker.MarkTreesOnRepresentation;
 import qa.qcri.qf.treemarker.MarkTwoAncestors;
 import qa.qcri.qf.trees.RichTree;
@@ -52,59 +53,71 @@ import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 
 
-public class ComentwiseFeatureExtractorEx {
-	
+public class CommentSelectionDatasetCreator {
+
 	private static final boolean GENERATE_MASSIMO_FEATURES = true;
 	private static final boolean GENERATE_ALBERTO_AND_SIMONE_FEATURES = true;
-	private static final boolean CREATE_KELP_DATASETS = false;
-	
-	private static final boolean ONLY_BAD_AND_GOOD_CLASSES = true;
+
+	private static final boolean ONLY_BAD_AND_GOOD_CLASSES = false;
 	private static final String GOOD = "GOOD";
 	private static final String BAD = "BAD";
-	
-	private static final String LABEL_MATCH = "EQUAL";
-	private static final String LABEL_NO_MATCH = "DIFF";
-	
+
+
 	public static final String LANG_ENGLISH = "ENGLISH";
-	
-	//True if the combination is a concat; false if it is a subtract
-	public static final Boolean COMBINATION_CONCAT = false;
-	
-	public static final Boolean THREE_CLASSES = false;
-	
+
+	/**
+	 * Set this option to true if you want to produce also data for
+	 * SVMLightTK in order to train ad structural model with trees
+	 * and feature vectors.
+	 */
+	public static final boolean PRODUCE_SVMLIGHTTK_DATA = false;
+	public static final boolean PRODUCE_KELP_DATA = true;
+
+
 	public static final boolean USE_QCRI_ALT_TOOLS = false;
+
+	//	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
+	//			+ "SemEval2015-Task3-English-data/tmp/CQA-QL-train.xml";
+	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml";
 	
-	public static final boolean ALESSANDRO_COMBINATION = false;
-	
-	/* With this flag and value we limit the number fo comments per question 
-	 * to be considered (this intends to reduce the impact of long threads. 
-	 * */
-	public static final boolean LIMIT_COMMENTS_PER_Q = false;
-	public static final int LIMIT_COMMENTS = 20;
-	
-	public static final String CQA_QL_EN = "semeval2015-3/data/"
+	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-devel.xml";
 	
-	public static final String SUFFIX = ".pairwise2.csv";
-	
+	public static final String CQA_QL_TEST_EN = "semeval2015-3/data/"
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml";
+
+	//	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
+	//			+ "SemEval2015-Task3-English-data/tmp/CQA-QL-devel.xml";
+
+
+	//public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
+	//		+ "SemEval2015-Task3-English-data/tmp/test_task3_English.xml";
+
+	/*public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
+			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-train.xml";
+
+	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
+			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-devel.xml";*/
+
 	private Set<String> a_labels = new HashSet<>();
-	
+
 	private Set<String> b_labels = new HashSet<>();
-	
+
 	private FileManager fm;
-	
+
 	private AnalysisEngine[] analysisEngineList;
-	
-	//private JCas preliminaryCas; // Used by the QCRI Arabic pipeline
-	
+
 	private PairFeatureFactoryEnglish pfEnglish;
-	
+
 	private Alphabet alphabet;
-	
+
 	private Stopwords stopwords;
-	
+
 	private Analyzer analyzer;
 	
+	private Map<String,UserProfile> userProfiles;
+
 	public static void main(String[] args) throws IOException, UIMAException, SimilarityException {
 		/**
 		 * Setup logger
@@ -112,41 +125,52 @@ public class ComentwiseFeatureExtractorEx {
 		org.apache.log4j.BasicConfigurator.configure();
 		
 		/**
-		 * Run the code for the Arabic task
-		 */
-		//new AlbertoSimoneBaseline().runForArabic();
-		
-		/**
 		 * Run the code for the English tasks
 		 */
-		new ComentwiseFeatureExtractorEx().runForEnglish();
+		new CommentSelectionDatasetCreator().runForEnglish();
 	}
-	
-	public ComentwiseFeatureExtractorEx() {
+
+	public CommentSelectionDatasetCreator() {
 		/**
 		 * Default language
 		 */
-		
+
 		this.fm = new FileManager();
-		
+
 		this.alphabet = new Alphabet();
 	}
-	
-	
-	public void runForEnglish() throws UIMAException {
+
+
+	public void runForEnglish() throws UIMAException, IOException {
+
+		System.out.println("EXTRACTING THE USER SIGNATURES");
+		Document docTrain = JsoupUtils.getDoc(CQA_QL_TRAIN_EN);
+		Document docDevel = JsoupUtils.getDoc(CQA_QL_DEV_EN);
+		Document docTest = JsoupUtils.getDoc(CQA_QL_TEST_EN);
+		
+		this.userProfiles = UserProfile.createUserProfiles(docTrain, docDevel, docTest);
+//		for(Entry<String, UserProfile> entry: userProfiles.entrySet()){
+//			if(entry.getValue().getSignatures().size()>0){
+//				System.out.println("---------- SIGNATURES FOR USER: " + entry.getKey() + " ----------");
+//				for(String signature : entry.getValue().getSignatures()){
+//					System.out.println("____\n" + JsoupUtils.recoverOriginalText(signature));
+//				}
+//			}
+//		}
+		
 		
 		this.stopwords = new Stopwords(Stopwords.STOPWORD_EN);
-		
+
 		this.pfEnglish = new PairFeatureFactoryEnglish(this.alphabet);
 		this.pfEnglish.setupMeasures(RichNode.OUTPUT_PAR_LEMMA, this.stopwords);
-		
+
 		/**
 		 * Add some punctuation to the stopwords list
 		 */
 		for(String stopword : ".|...|\\|,|?|!|#|(|)|$|%|&".split("\\|")) {
 			this.stopwords.add(stopword);
 		}
-		
+
 		/**
 		 * Specify A and B subtask labels 
 		 */
@@ -155,38 +179,41 @@ public class ComentwiseFeatureExtractorEx {
 		this.a_labels.add("Potential");
 		this.a_labels.add("Dialogue");
 		this.a_labels.add("Bad");
-		
+
 		this.b_labels.add("No");
 		this.b_labels.add("Yes");
 		this.b_labels.add("Unsure");
-		
+
 		/**
 		 * Create the analysis pipeline
 		 */
-		
+
 		AnalysisEngine segmenter = createEngine(createEngineDescription(OpenNlpSegmenter.class));
 		AnalysisEngine postagger = createEngine(createEngineDescription(OpenNlpPosTagger.class));
 		AnalysisEngine chunker = createEngine(createEngineDescription(OpenNlpChunker.class));
 		AnalysisEngine lemmatizer = createEngine(createEngineDescription(StanfordLemmatizer.class));
-		
+
 		this.analysisEngineList = new AnalysisEngine[4];
 		this.analysisEngineList[0] = segmenter;
 		this.analysisEngineList[1] = postagger;
 		this.analysisEngineList[2] = chunker;
 		this.analysisEngineList[3] = lemmatizer;
-		
+
 		this.analyzer = new Analyzer(new UIMAFilePersistence("CASes/semeval"));
 		for(AnalysisEngine ae : this.analysisEngineList) {
 			analyzer.addAE(ae);
 		}
-		
-		try {
-			this.processEnglishFile(CQA_QL_EN);			
 
+		try {
+			this.processEnglishFile(docTrain, CQA_QL_TRAIN_EN, "train");			
+			this.processEnglishFile(docDevel, CQA_QL_DEV_EN, "devel");
+			this.processEnglishFile(docTest, CQA_QL_TEST_EN, "test");
 		} catch (UIMAException | IOException
 				| SimilarityException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("TOTAL NUMBER OF REMOVED SIGNATURES: " + UserProfile.getRemovedSignatures());
 	}
 
 	/**
@@ -201,64 +228,57 @@ public class ComentwiseFeatureExtractorEx {
 	 * @throws AnalysisEngineProcessException
 	 * @throws SimilarityException
 	 */
-	private void processEnglishFile(String dataFile)
+	private void processEnglishFile(Document doc, String dataFile, String suffix)
 			throws ResourceInitializationException, UIMAException, IOException,
 			AnalysisEngineProcessException, SimilarityException {
 
+		String plainTextOutputPath = dataFile + "plain.txt";
+		String kelpFilePath = dataFile + ".klp";
+		
 		/**
 		 * Parameters for matching tree structures
 		 */
 		String parameterList = Joiner.on(",").join(
 				new String[] { RichNode.OUTPUT_PAR_LEMMA, RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
-		
+
 		/**
 		 * Marker which adds relational information to a pair of trees
 		 */
 		MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(
 				new MarkTwoAncestors());
-		
+
 		/**
 		 * Load stopwords for english
 		 */
 		marker.useStopwords(Stopwords.STOPWORD_EN);
-		
+
 		/**
 		 * Tree serializer for converting tree structures to string
 		 */
 		TreeSerializer ts = new TreeSerializer().enableRelationalTags().useRoundBrackets();
-		
+
 		/**
 		 * Instantiate CASes
 		 */
 		JCas questionCas = JCasFactory.createJCas();
 		JCas commentCas = JCasFactory.createJCas();
-		
-		WriteFile out = new WriteFile(dataFile + SUFFIX);
-				
-		Document doc = Jsoup.parse(new File(dataFile), "UTF-8");
-		
+
+		WriteFile out = new WriteFile(dataFile + ".csv");
+
 		doc.select("QURAN").remove();
 		doc.select("HADEETH").remove();
-		
+
 		boolean firstRow = true;
-		
+
 		/**
 		 * Consume data
 		 */
 		Elements questions = doc.getElementsByTag("Question");		
 		int numberOfQuestions = questions.size();
 		int questionNumber = 1;
-		
-		Map<String, Boolean> commentIsDialogue = new HashMap<>();
-//		HashSet<String> questionCategories = new HashSet<String>();
+
 		for(Element question : questions) {
-			
-			List<String> listCid = new ArrayList<String>();
-			List<String> listCgold = new ArrayList<String>();
-			List<String> listCgold_yn = new ArrayList<String>(); 
-			List<List<Double>>	listFeatures = new ArrayList<List<Double>>();
-			
-			
+
 			Question q = new Question();
 			System.out.println("[INFO]: Processing " + questionNumber++ + " out of " + numberOfQuestions);
 			/**
@@ -270,11 +290,13 @@ public class ComentwiseFeatureExtractorEx {
 			String quserid = question.attr("QUSERID");
 			String qtype = question.attr("QTYPE");
 			String qgold_yn = question.attr("QGOLD_YN");		
-			String qsubject = question.getElementsByTag("QSubject").get(0).text();
+			String qsubject = JsoupUtils.recoverOriginalText(question.getElementsByTag("QSubject").get(0).text());
+			qsubject = TextNormalizer.normalize(qsubject);
 			String qbody = question.getElementsByTag("QBody").get(0).text();
-			
-//			questionCategories.add(qcategory);
-			
+			qbody = JsoupUtils.recoverOriginalText(UserProfile.removeSignature(qbody, userProfiles.get(quserid)));
+			qbody = TextNormalizer.normalize(qbody);
+			//			questionCategories.add(qcategory);
+
 			q.setQid(qid);
 			q.setQcategory(qcategory);
 			q.setQdate(qdate);
@@ -283,183 +305,125 @@ public class ComentwiseFeatureExtractorEx {
 			q.setQgoldYN(qgold_yn);
 			q.setQsubject(qsubject);
 			q.setQbody(qbody);
-			
+
 			/**
 			 * Setup question CAS
 			 */
 			questionCas.reset();
 			questionCas.setDocumentLanguage("en");
-			String questionText = TextNormalizer.normalize(SubjectBodyAggregator.getQuestionText(qsubject, qbody));
+			String questionText = SubjectBodyAggregator.getQuestionText(qsubject, qbody);
+			fm.writeLn(plainTextOutputPath, "---------------------------- QID: " + qid + " USER:" + quserid);
+			fm.writeLn(plainTextOutputPath, questionText);
 			questionCas.setDocumentText(questionText);
-			
+
 			/**
 			 * Run the UIMA pipeline
 			 */
+
 			SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
-			
+	
+
 			//this.analyzer.analyze(questionCas, new SimpleContent("q-" + qid, qsubject + ". " + qbody));
-			
+
 			/**
 			 * Parse comment nodes
 			 */
 			Elements comments = question.getElementsByTag("Comment");
-			
-			
-			
-			if (LIMIT_COMMENTS_PER_Q && comments.size() >= LIMIT_COMMENTS){
-				continue;
-			}
-			
-			
+	
 			/**
 			 * Extracting context statistics for Alberto-Simone Features
 			 */
+
+
 			
-			
-			int commentCounter = 0;
 			for(Element comment : comments) {
+				
 				String cid = comment.attr("CID");
 				String cuserid = comment.attr("CUSERID");
 				String cgold = comment.attr("CGOLD");
 				String cgold_yn = comment.attr("CGOLD_YN");
-				String csubject = comment.getElementsByTag("CSubject").get(0).text();
+				String csubject = JsoupUtils.recoverOriginalText(comment.getElementsByTag("CSubject").get(0).text());
+				csubject = TextNormalizer.normalize(csubject);
 				String cbody = comment.getElementsByTag("CBody").get(0).text();
+				cbody = JsoupUtils.recoverOriginalText(UserProfile.removeSignature(cbody, userProfiles.get(cuserid)));
+				cbody = TextNormalizer.normalize(cbody);
 				q.addComment(cid, cuserid, cgold, cgold_yn, csubject, cbody);
-	
-				commentCounter++;
 			}
+	
 			List<HashMap<String, Double>> albertoSimoneFeatures;
 			if(GENERATE_ALBERTO_AND_SIMONE_FEATURES){
-				albertoSimoneFeatures = ComentwiseFeatureExtractorBack.extractFeatures(q);
+				albertoSimoneFeatures = AlbertoSimoneFeatureExtractor.extractFeatures(q);
 			}
-			
+	
 			int commentIndex = 0;
-			for(Element comment : comments) {
-				String cid = comment.attr("CID");
-				String cuserid = comment.attr("CUSERID");
-				String cgold = comment.attr("CGOLD");
-				
+			for(Comment comment : q.getComments()) {
+	
+				String cid = comment.getCid();
+				String cuserid = comment.getCuserid();
+				String cgold = comment.getCgold();
+
 				//Replacing the labels for the "macro" ones: Good vs Bad
-				 if(ONLY_BAD_AND_GOOD_CLASSES){
-						if(cgold.equalsIgnoreCase("good")){
-							cgold = GOOD;
-						}else{
-							cgold = BAD;
-						}
+				if(ONLY_BAD_AND_GOOD_CLASSES){
+					if(cgold.equalsIgnoreCase("good")){
+						cgold = GOOD;
+					}else{
+						cgold = BAD;
 					}
-				
-				
-				String cgold_yn = comment.attr("CGOLD_YN");
-				String csubject = comment.getElementsByTag("CSubject").get(0).text();
-				String cbody = comment.getElementsByTag("CBody").get(0).text();
-				
-				
-				
+				}
+
+				String cgold_yn = comment.getCgold_yn();
+				String csubject = comment.getCsubject();
+				String cbody = comment.getCbody();
 				/**
 				 * Setup comment CAS
 				 */
 				commentCas.reset();
 				commentCas.setDocumentLanguage("en");
-				String commentText = TextNormalizer.normalize(SubjectBodyAggregator.getCommentText(csubject, cbody));
+				String commentText = SubjectBodyAggregator.getCommentText(csubject, cbody);
+//				if(commentText.contains("&")){
+//					System.out.println(commentText);
+//				}
 				commentCas.setDocumentText(commentText);
-				
+				fm.writeLn(plainTextOutputPath, "- CID: " + cid.replace("_", "-") + " USER:" + cuserid);
+				fm.writeLn(plainTextOutputPath, commentText);
 				/**
 				 * Run the UIMA pipeline
 				 */
+	
 				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
-				
 				//this.analyzer.analyze(commentCas, new SimpleContent("c-" + cid, csubject + ". " + cbody));
+
+
 
 				AugmentableFeatureVector fv;
 				if(GENERATE_MASSIMO_FEATURES){
 					fv = (AugmentableFeatureVector) pfEnglish.getPairFeatures(questionCas, commentCas, parameterList);
+
 				}else{
 					fv = new AugmentableFeatureVector(this.alphabet);
 				}
 
 				if(GENERATE_ALBERTO_AND_SIMONE_FEATURES){
-				
+
 					HashMap<String, Double> featureVector = albertoSimoneFeatures.get(commentIndex);
-					List<Double> features = new ArrayList<Double>();
 					
-					for(String featureName : ComentwiseFeatureExtractorBack.getPastFeatureNames()){
+					for(String featureName : AlbertoSimoneFeatureExtractor.getAllFeatureNames()){
 						Double value = featureVector.get(featureName);
 						double featureValue =0;
 						if(value!=null){
 							featureValue = value;
 						}
-						features.add(featureValue);
+					
 						fv.add(featureName, featureValue);
-						
-						//System.out.println(entry.getKey() + ":" + entry.getValue());
 					}
-					
-					features.clear();
-					
-					for(String featureName : ComentwiseFeatureExtractorBack.getLsaQuestionFeatureNames()){
-						Double value = featureVector.get(featureName);
-						double featureValue =0;
-						if(value!=null){
-							featureValue = value;
-						}
-						features.add(featureValue);
-						fv.add(featureName, featureValue);
-						
-						//System.out.println(entry.getKey() + ":" + entry.getValue());
-					}
-					
-					features.clear();
-					
-					for(String featureName : ComentwiseFeatureExtractorBack.getLsaCommentFeatureNames()){
-						Double value = featureVector.get(featureName);
-						double featureValue =0;
-						if(value!=null){
-							featureValue = value;
-						}
-						features.add(featureValue);
-						fv.add(featureName, featureValue);
-						
-						//System.out.println(entry.getKey() + ":" + entry.getValue());
-					}
-					
-					features.clear();
-					
-					
-					////
-					for(String featureName : ComentwiseFeatureExtractorBack.getHeuristicFeatureNames()){
-						Double value = featureVector.get(featureName);
-						double featureValue =0;
-						if(value!=null){
-							featureValue = value;
-						}
-						features.add(featureValue);
-						fv.add(featureName, featureValue);
-						
-						//System.out.println(entry.getKey() + ":" + entry.getValue());
-					}
-					
-					features.clear();
-					
-					////
-					
-					for(String featureName : ComentwiseFeatureExtractorBack.getContextFeatureNames()){
-						Double value = featureVector.get(featureName);
-						double featureValue =0;
-						if(value!=null){
-							featureValue = value;
-						}
-						features.add(featureValue);
-						fv.add(featureName, featureValue);
-						
-						//System.out.println(entry.getKey() + ":" + entry.getValue());
-					}	
+
 				}
 				commentIndex++;
-				
+
 				/***************************************
 				 * * * * PLUG YOUR FEATURES HERE * * * *
 				 ***************************************/
-				
+
 				/**
 				 * fv is actually an AugmentableFeatureVector from the Mallet library
 				 * 
@@ -475,177 +439,187 @@ public class ComentwiseFeatureExtractorEx {
 				 * afv.add("your_super_feature_id", 42);
 				 * 
 				 */
-				
-				boolean quseridEqCuserid = quserid.equals(cuserid);
-				if(quseridEqCuserid) {
-					commentIsDialogue.put(cid, true);
-				}
-				
+
+
 				//((AugmentableFeatureVector) fv).add("quseridEqCuserid", quseridEqCuserid);
-				
+
 				/***************************************
 				 * * * * THANKS! * * * *
 				 ***************************************/
-				
+
 				/**
 				 * Produce output line
 				 */
-				
+
 				if(firstRow) {
-					out.write("qid,cgold");
+					out.write("qid,cgold,cgold_yn");
 					for(int i = 0; i < fv.numLocations(); i++) {
 						int featureIndex = i + 1;
 						out.write(",f" + featureIndex);
 					}
 					out.write("\n");
-					
+
 					firstRow = false;
 				}
-				
+
 				List<Double> features = this.serializeFv(fv);
-				
-				listCid.add(cid);
-				listCgold.add(cgold);
-				listCgold_yn.add(cgold_yn); 
-				listFeatures.add(features);
-				
-				
-			}//END FOR COMMENTS
-			
-			
-			
-			if (listCid.size() > 1){//more than one comment; otherwise nothing to do
 
-				//in this case we subtract the features. 
-				//as a result, comparing c1,c2 is NOT the same as c2,c1
+				out.writeLn(cid + "," + cgold + "," + cgold_yn + "," + Joiner.on(",").join(features));
 
-				StringBuffer sb = new StringBuffer();
-
-
-				if (ALESSANDRO_COMBINATION) {
-					for (int i=0; i < listCid.size() -1 ; i++){						
-						for (int j = listCid.size()-1; j>=0; j--){
-							if (i==j)
-								continue;
-
-							sb.append(listCid.get(i))
-							.append("-")
-							.append(listCid.get(j))
-							.append(",");
-							if (listCgold.get(i).equals(listCgold.get(j))){
-								sb.append(LABEL_MATCH);
-								if (THREE_CLASSES) {
-									if (listCgold.get(i).toLowerCase().equals("good")){
-										sb.append("_GOOD");
-									} else {
-										sb.append("_BAD");
-									}
-								}
-							}else { 
-								sb.append(LABEL_NO_MATCH);
-							}
-							
-							sb.append(",");
-
-							sb.append(Joiner.on(",").join(
-									difference(listFeatures.get(i), listFeatures.get(j))));
-
-
-							out.writeLn(sb.toString());
-							sb.delete(0, sb.length());
-						}
-					}
-				} else {						
-					for (int i=0; i < listCid.size() -1 ; i++){						
-						for (int j=i+1; j < listCid.size(); j++){
-							if (i==j)
-								continue;
-
-							sb.append(listCid.get(i))
-							.append("-")
-							.append(listCid.get(j))
-							.append(",");
-							if (listCgold.get(i).equals(listCgold.get(j))){
-								sb.append(LABEL_MATCH);
-							} else { 
-								sb.append(LABEL_NO_MATCH);
-							}
-							sb.append(",");
-
-							if (COMBINATION_CONCAT){
-								sb.append(Joiner.on(",").join(
-										concatVectors(listFeatures.get(i), listFeatures.get(j))));
-							} else {
-								sb.append(Joiner.on(",").join(
-										absoluteDifference(listFeatures.get(i), listFeatures.get(j))));
-							}
-
-							out.writeLn(sb.toString());
-							sb.delete(0, sb.length());
-						}
-					}
-					//sb.append("\n");
-
-					//sb.delete(0, sb.length());
-					//				out.writeLn(cid + "," + cgold + "," + cgold_yn + "," + Joiner.on(",").join(features));
-
+				/**
+				 * Produce also the file needed to train structural models
+				 */
+				if(PRODUCE_SVMLIGHTTK_DATA) {
+					produceSVMLightTKExample(questionCas, commentCas, suffix, ts,
+							qid, cid, cgold, cgold_yn, features);
+				}
+				if(PRODUCE_KELP_DATA){
+					produceKelpExample(questionCas, commentCas, kelpFilePath, ts,
+							qid, cid, cgold, cgold_yn, features);
 				}
 			}
-
-
 		}
+
+		//		Iterator<String> iterator = questionCategories.iterator();
+		//		while(iterator.hasNext()){
+		//			System.out.println("CATEGORY_" + iterator.next());
+		//		}
+
 		
-		for(String commentId : commentIsDialogue.keySet()) {
-			this.fm.writeLn(dataFile + ".dialogue.txt", commentId);
-		}
-//		Iterator<String> iterator = questionCategories.iterator();
-//		while(iterator.hasNext()){
-//			System.out.println("CATEGORY_" + iterator.next());
-//		}
-		
-		this.fm.closeFiles();		
+		this.fm.closeFiles();
 		out.close();
 	}
 
-	
-	private List<Double> difference(List<Double> v1, List<Double> v2){
-		if (v1.size() != v2.size()) {
-			System.err.println("Vectors size mismatch");
-			System.exit(1);
+	private void produceSVMLightTKExample(JCas questionCas, JCas commentCas,
+			String suffix, TreeSerializer ts, String qid, String cid,
+			String cgold, String cgold_yn, List<Double> features) {
+		/**
+		 * Produce output for SVMLightTK
+		 */
+
+		TokenTree questionTree = RichTree.getPosChunkTree(questionCas);
+		String questionTreeString = ts.serializeTree(questionTree);
+
+		TokenTree commentTree = RichTree.getPosChunkTree(commentCas);
+		String commentTreeString = ts.serializeTree(commentTree);
+
+		for(String label : this.a_labels) {
+			String svmLabel = "-1";
+			if(label.equals(cgold)) {
+				svmLabel = "+1";
+			}
+
+			String output = svmLabel + " ";
+			output += " |BT| " + questionTreeString + " |BT| " + commentTreeString + " |ET| ";
+
+			String featureString = "";
+
+			for(int i = 0; i < features.size(); i++) {
+				int featureIndex = i + 1;
+				Double feature = features.get(i);
+				if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
+
+					if(Math.abs(feature) > 1e100) {
+						feature = 0.0;
+					}
+
+					featureString += featureIndex + ":" 
+							+ String.format("%f", feature) + " ";
+				}
+			}
+
+			output += featureString + "|EV|";
+
+			output += " #" + qid + "\t" + cid;
+
+			fm.writeLn("semeval2015-3/svmlighttk/a/" + suffix + "/"
+					+ label.replaceAll(" ", "_") + ".svm",
+					output.trim());
 		}
-		List<Double> diff = new ArrayList<Double>();
-		for (int i=0; i < v1.size(); i++){
-			diff.add(v1.get(i)-v2.get(i));
-		}		
-		return diff;		
-	}
-	
-	
-	private List<Double> absoluteDifference(List<Double> v1, List<Double> v2){
-		if (v1.size() != v2.size()) {
-			System.err.println("Vectors size mismatch");
-			System.exit(1);
+
+		for(String label : this.b_labels) {
+
+			if(cgold_yn.equals("Not Applicable")) {
+				continue;
+			}
+
+			String svmLabel = "-1";
+			if(label.equals(cgold_yn)) {
+				svmLabel = "+1";
+			}
+
+			String output = svmLabel + " |BT| " + questionTreeString
+					+ " |BT| " + commentTreeString + " |ET| ";
+
+			String featureString = "";
+
+			for(int i = 0; i < features.size(); i++) {
+				int featureIndex = i + 1;
+				Double feature = features.get(i);
+				if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
+
+					if(Math.abs(feature) > 1e100) {
+						feature = 0.0;
+					}
+
+					featureString += featureIndex + ":" 
+							+ String.format("%f", feature) + " ";
+				}
+			}
+
+			output += featureString + "|EV|";
+
+			output += " #" + qid + "\t" + cid;
+
+			fm.writeLn("semeval2015-3/svmlighttk/b/" + suffix + "/"
+					+ label.replaceAll(" ", "_") + ".svm",
+					output);
 		}
-		List<Double> diff = new ArrayList<Double>();
-		for (int i=0; i < v1.size(); i++){
-			diff.add(Math.abs(v1.get(i)-v2.get(i)));
-		}		
-		return diff;		
 	}
-	
-	private List<Double> concatVectors(List<Double> v1, List<Double> v2){
-		if (v1.size() != v2.size()) {
-			
-			System.err.println("Vectors size mismatch");
-			System.exit(1);
+
+	private void produceKelpExample(JCas questionCas, JCas commentCas,
+			String outputPath, TreeSerializer ts, String qid, String cid,
+			String cgold, String cgold_yn, List<Double> features) {
+		/**
+		 * Produce output for Kelp
+		 */
+
+		TokenTree questionTree = RichTree.getPosChunkTree(questionCas);
+		String questionTreeString = ts.serializeTree(questionTree, RichNode.OUTPUT_PAR_SEMANTIC_KERNEL);
+
+		TokenTree commentTree = RichTree.getPosChunkTree(commentCas);
+		String commentTreeString = ts.serializeTree(commentTree, RichNode.OUTPUT_PAR_SEMANTIC_KERNEL);
+
+		String output = cgold + " ";
+		output += "|<||BT:tree| " + questionTreeString.replace('|', '-') + " |ET||,||BT:tree| " + commentTreeString.replace('|', '-') + " |ET| |>| ";
+
+		String featureString = "|BV:features|";
+
+		for(int i = 0; i < features.size(); i++) {
+			int featureIndex = i + 1;
+			Double feature = features.get(i);
+			if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
+
+				if(Math.abs(feature) > 1e100) {
+					feature = 0.0;
+				}
+
+				featureString += featureIndex + ":"
+						+ String.format("%f", feature).replace(',', '.') + " ";
+			}
 		}
-		List<Double> cc = new ArrayList<Double>();
-		cc.addAll(v1);
-		cc.addAll(v2);				
-		return  cc;		
+
+		output += featureString + "|EV|";
+
+		output += "|BS:info| #" + qid + "\t" + cid + "|ES|";
+
+		fm.writeLn(outputPath,
+				output.trim());
+
+
 	}
-	
-	
+
+
 	public List<Double> serializeFv(FeatureVector fv) {
 		List<Double> features = new ArrayList<>();
 		int numLocations = fv.numLocations();
@@ -657,31 +631,5 @@ public class ComentwiseFeatureExtractorEx {
 		}
 		return features;
 	}
-	
-//	public JCas getPreliminarCas(Analyzer analyzer, JCas emptyCas,
-//			String sentenceId, String sentence) {
-//		this.preliminaryCas.reset();
-//		
-//		/**
-//		 * Without this the annotator fails badly
-//		 */
-//		sentence = sentence.replaceAll("/", "");
-//		sentence = sentence.replaceAll("~", "");
-//
-//		// Carry out preliminary analysis
-//		Analyzable content = new SimpleContent(sentenceId, sentence, ArabicAnalyzer.ARABIC_LAN);
-//		
-//		analyzer.analyze(this.preliminaryCas, content);
-//		
-//		// Copy data to a new CAS and use normalized text as DocumentText
-//		emptyCas.reset();	
-//		emptyCas.setDocumentLanguage(ArabicAnalyzer.ARABIC_LAN);
-//	
-//		CasCopier.copyCas(this.preliminaryCas.getCas(), emptyCas.getCas(), false);
-//	
-//		String normalizedText = JCasUtil.selectSingle(this.preliminaryCas, NormalizedText.class).getText();
-//		emptyCas.setDocumentText(normalizedText);
-//
-//		return emptyCas;
-//	}
+
 }
