@@ -26,7 +26,7 @@ import qa.qcri.qf.fileutil.FileManager;
 import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
-import qa.qcri.qf.semeval2015_3.AlbertoSimoneFeatureExtractor;
+import qa.qcri.qf.semeval2015_3.FeatureExtractor;
 import qa.qcri.qf.semeval2015_3.PairFeatureFactoryEnglish;
 import qa.qcri.qf.semeval2015_3.Question;
 import qa.qcri.qf.semeval2015_3.Question.Comment;
@@ -352,7 +352,7 @@ public class CommentSelectionDatasetCreator {
 	
 			List<HashMap<String, Double>> albertoSimoneFeatures;
 			if(GENERATE_ALBERTO_AND_SIMONE_FEATURES){
-				albertoSimoneFeatures = AlbertoSimoneFeatureExtractor.extractFeatures(q);
+				albertoSimoneFeatures = FeatureExtractor.extractFeatures(q);
 			}
 	
 			int commentIndex = 0;
@@ -407,7 +407,7 @@ public class CommentSelectionDatasetCreator {
 
 					HashMap<String, Double> featureVector = albertoSimoneFeatures.get(commentIndex);
 					
-					for(String featureName : AlbertoSimoneFeatureExtractor.getAllFeatureNames()){
+					for(String featureName : FeatureExtractor.getAllFeatureNames()){
 						Double value = featureVector.get(featureName);
 						double featureValue =0;
 						if(value!=null){
