@@ -232,23 +232,23 @@ public class ComentwiseFeatureExtractorEx {
 		 */
 		JCas questionCas = JCasFactory.createJCas();
 		JCas commentCas = JCasFactory.createJCas();
-		
+
 		WriteFile out = new WriteFile(dataFile + SUFFIX);
-				
+
 		Document doc = Jsoup.parse(new File(dataFile), "UTF-8");
-		
+
 		doc.select("QURAN").remove();
 		doc.select("HADEETH").remove();
-		
+
 		boolean firstRow = true;
-		
+
 		/**
 		 * Consume data
 		 */
 		Elements questions = doc.getElementsByTag("Question");		
 		int numberOfQuestions = questions.size();
 		int questionNumber = 1;
-		
+
 		Map<String, Boolean> commentIsDialogue = new HashMap<>();
 //		HashSet<String> questionCategories = new HashSet<String>();
 		for(Element question : questions) {
@@ -272,9 +272,9 @@ public class ComentwiseFeatureExtractorEx {
 			String qgold_yn = question.attr("QGOLD_YN");		
 			String qsubject = question.getElementsByTag("QSubject").get(0).text();
 			String qbody = question.getElementsByTag("QBody").get(0).text();
-			
+
 //			questionCategories.add(qcategory);
-			
+
 			q.setQid(qid);
 			q.setQcategory(qcategory);
 			q.setQdate(qdate);

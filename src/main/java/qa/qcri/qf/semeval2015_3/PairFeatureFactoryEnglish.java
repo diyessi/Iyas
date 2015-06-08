@@ -37,6 +37,7 @@ import de.tudarmstadt.ukp.similarity.algorithms.lexical.string.LongestCommonSubs
  */
 public class PairFeatureFactoryEnglish {
 
+	
 	/**
 	 * Mallet Alphabet is used to index features
 	 */
@@ -55,6 +56,10 @@ public class PairFeatureFactoryEnglish {
 	 */
 	private List<Pair<MeasureAdaptor, Representation>> measures;
 
+	/*Total number of computed features*/
+	public static final int NUM_SIM_FEATURES = 21;
+	
+	
 	/**
 	 * Instantiates the feature factory with a feature index that should be
 	 * shared among the modules working on the same datasets

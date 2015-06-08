@@ -29,7 +29,7 @@ public class TextNormalizer {
 		
 		normalizedText = normalizedText.replaceAll("[.]+", ".");//eliminates multiple occurrences of .
 		
-		normalizedText = normalizedText.replaceAll("([a-zA-Z])(\\1{2,})", "$1");//substitues triple (or more) occurrences of the same letter with a single occurrence
+		normalizedText = normalizedText.replaceAll("([a-zA-Z])(\\1{2,})", "$1");//substitutes triple (or more) occurrences of the same letter with a single occurrence
 		
 		normalizedText = normalizedText.replaceAll("\\[[^\\]\\[]*\\]", "");//eliminates text in squared brackets (they usually are not informative and they confuse the parser)
 		

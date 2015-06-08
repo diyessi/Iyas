@@ -23,7 +23,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import qa.qcri.qf.fileutil.FileManager;
-import qa.qcri.qf.fileutil.WriteFile;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.semeval2015_3.FeatureExtractor;
@@ -58,20 +57,35 @@ public class CommentSelectionDatasetCreator {
 	private static final boolean GENERATE_MASSIMO_FEATURES = true;
 	private static final boolean GENERATE_ALBERTO_AND_SIMONE_FEATURES = true;
 
-	private static final boolean ONLY_BAD_AND_GOOD_CLASSES = false;
-	private static final String GOOD = "GOOD";
-	private static final String BAD = "BAD";
-
-
-	public static final String LANG_ENGLISH = "ENGLISH";
-
+	
+	private static final boolean ONLY_BAD_AND_GOOD_CLASSES = true;
+	
+	public static final Boolean THREE_CLASSES = true;
+	
+	
+	//True if we want to compute comment-to-comment similarities
+	private static final boolean INCLUDE_SIMILARITIES = true;
+	
+	//True if the combination is a concat; false if it is a subtract
+	public static final Boolean COMBINATION_CONCAT = false;
+	
+	//True if we want to subtract, without absolute value
+	public static final boolean COMBINATION_SUBTR_NOABS = false;
+	
+	/** With this flag and value we limit the number fo comments per question 
+	 * to be considered (this intends to reduce the impact of long threads. 
+	 * */
+	public static final boolean LIMIT_COMMENTS_PER_Q = false;
+	public static final int LIMIT_COMMENTS = 20;
+	public static boolean LIMIT_COMMENTS_ACTIVE = LIMIT_COMMENTS_PER_Q; 
+	
 	/**
 	 * Set this option to true if you want to produce also data for
 	 * SVMLightTK in order to train ad structural model with trees
 	 * and feature vectors.
 	 */
 	public static final boolean PRODUCE_SVMLIGHTTK_DATA = false;
-	public static final boolean PRODUCE_KELP_DATA = true;
+	public static final boolean PRODUCE_KELP_DATA = false;
 
 
 	public static final boolean USE_QCRI_ALT_TOOLS = false;
@@ -100,6 +114,21 @@ public class CommentSelectionDatasetCreator {
 	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-devel.xml";*/
 
+	/**
+	 * Parameters for matching tree structures
+	 */
+	private static final String PARAMETER_LIST = Joiner.on(",").join(
+			new String[] { RichNode.OUTPUT_PAR_LEMMA, RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
+	
+	private static final String GOOD = "GOOD";
+	private static final String BAD = "BAD";
+
+	private static final String LABEL_MATCH = "EQUAL";
+	private static final String LABEL_NO_MATCH = "DIFF";
+	
+	public static final String LANG_ENGLISH = "ENGLISH";
+
+	
 	private Set<String> a_labels = new HashSet<>();
 
 	private Set<String> b_labels = new HashSet<>();
@@ -205,8 +234,9 @@ public class CommentSelectionDatasetCreator {
 		}
 
 		try {
-			this.processEnglishFile(docTrain, CQA_QL_TRAIN_EN, "train");			
+			this.processEnglishFile(docTrain, CQA_QL_TRAIN_EN, "train");	
 			this.processEnglishFile(docDevel, CQA_QL_DEV_EN, "devel");
+			LIMIT_COMMENTS_ACTIVE = false;
 			this.processEnglishFile(docTest, CQA_QL_TEST_EN, "test");
 		} catch (UIMAException | IOException
 				| SimilarityException e) {
@@ -216,11 +246,15 @@ public class CommentSelectionDatasetCreator {
 		System.out.println("TOTAL NUMBER OF REMOVED SIGNATURES: " + UserProfile.getRemovedSignatures());
 	}
 
+
+	
 	/**
 	 * Process the xml file and output a csv file with the results in the same directory
 	 * @param dataFile the xml file to process
 	 * @suffix suffix for identifying the data file 
 	 * 
+	 * @param doc
+	 * @param dataFile
 	 * @param suffix
 	 * @throws ResourceInitializationException
 	 * @throws UIMAException
@@ -233,13 +267,12 @@ public class CommentSelectionDatasetCreator {
 			AnalysisEngineProcessException, SimilarityException {
 
 		String plainTextOutputPath = dataFile + "plain.txt";
+		String goodVSbadOutputPath = dataFile + ".csv";
+		String pairwiseOutputPath = dataFile + getPairwiseSuffix();
 		String kelpFilePath = dataFile + ".klp";
 		
-		/**
-		 * Parameters for matching tree structures
-		 */
-		String parameterList = Joiner.on(",").join(
-				new String[] { RichNode.OUTPUT_PAR_LEMMA, RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
+		
+		
 
 		/**
 		 * Marker which adds relational information to a pair of trees
@@ -261,9 +294,9 @@ public class CommentSelectionDatasetCreator {
 		 * Instantiate CASes
 		 */
 		JCas questionCas = JCasFactory.createJCas();
-		JCas commentCas = JCasFactory.createJCas();
+		
 
-		WriteFile out = new WriteFile(dataFile + ".csv");
+		//WriteFile out = new WriteFile(dataFile + ".csv");
 
 		doc.select("QURAN").remove();
 		doc.select("HADEETH").remove();
@@ -279,6 +312,10 @@ public class CommentSelectionDatasetCreator {
 
 		for(Element question : questions) {
 
+			/*Comment-level features to be combined*/
+			List<List<Double>>	listFeatures = new ArrayList<List<Double>>();
+			
+			
 			Question q = new Question();
 			System.out.println("[INFO]: Processing " + questionNumber++ + " out of " + numberOfQuestions);
 			/**
@@ -331,16 +368,22 @@ public class CommentSelectionDatasetCreator {
 			Elements comments = question.getElementsByTag("Comment");
 	
 			/**
-			 * Extracting context statistics for Alberto-Simone Features
+			 * Extracting context statistics for context Features
 			 */
-
-
 			
 			for(Element comment : comments) {
 				
 				String cid = comment.attr("CID");
 				String cuserid = comment.attr("CUSERID");
 				String cgold = comment.attr("CGOLD");
+				//Replacing the labels for the "macro" ones: GOOD vs BAD
+				if(ONLY_BAD_AND_GOOD_CLASSES){
+					if(cgold.equalsIgnoreCase("good")){
+						cgold = GOOD;
+					}else{
+						cgold = BAD;
+					}
+				}
 				String cgold_yn = comment.attr("CGOLD_YN");
 				String csubject = JsoupUtils.recoverOriginalText(comment.getElementsByTag("CSubject").get(0).text());
 				csubject = TextNormalizer.normalize(csubject);
@@ -356,20 +399,22 @@ public class CommentSelectionDatasetCreator {
 			}
 	
 			int commentIndex = 0;
+			
+			List<JCas> allCommentsCas = new ArrayList<JCas>();
 			for(Comment comment : q.getComments()) {
 	
 				String cid = comment.getCid();
 				String cuserid = comment.getCuserid();
 				String cgold = comment.getCgold();
 
-				//Replacing the labels for the "macro" ones: Good vs Bad
-				if(ONLY_BAD_AND_GOOD_CLASSES){
-					if(cgold.equalsIgnoreCase("good")){
-						cgold = GOOD;
-					}else{
-						cgold = BAD;
-					}
-				}
+				
+//				if(ONLY_BAD_AND_GOOD_CLASSES){
+//					if(cgold.equalsIgnoreCase("good")){
+//						cgold = GOOD;
+//					}else{
+//						cgold = BAD;
+//					}
+//				}
 
 				String cgold_yn = comment.getCgold_yn();
 				String csubject = comment.getCsubject();
@@ -377,7 +422,7 @@ public class CommentSelectionDatasetCreator {
 				/**
 				 * Setup comment CAS
 				 */
-				commentCas.reset();
+				JCas commentCas = JCasFactory.createJCas();
 				commentCas.setDocumentLanguage("en");
 				String commentText = SubjectBodyAggregator.getCommentText(csubject, cbody);
 //				if(commentText.contains("&")){
@@ -393,11 +438,9 @@ public class CommentSelectionDatasetCreator {
 				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
 				//this.analyzer.analyze(commentCas, new SimpleContent("c-" + cid, csubject + ". " + cbody));
 
-
-
 				AugmentableFeatureVector fv;
 				if(GENERATE_MASSIMO_FEATURES){
-					fv = (AugmentableFeatureVector) pfEnglish.getPairFeatures(questionCas, commentCas, parameterList);
+					fv = (AugmentableFeatureVector) pfEnglish.getPairFeatures(questionCas, commentCas, PARAMETER_LIST);
 
 				}else{
 					fv = new AugmentableFeatureVector(this.alphabet);
@@ -440,7 +483,6 @@ public class CommentSelectionDatasetCreator {
 				 * 
 				 */
 
-
 				//((AugmentableFeatureVector) fv).add("quseridEqCuserid", quseridEqCuserid);
 
 				/***************************************
@@ -451,20 +493,43 @@ public class CommentSelectionDatasetCreator {
 				 * Produce output line
 				 */
 
+//				String goodVSbadOutputPath = dataFile + ".csv";
+//				String pairwiseOutputPath 
+				
 				if(firstRow) {
-					out.write("qid,cgold,cgold_yn");
+					//header for Good vs Bad
+					this.fm.write(goodVSbadOutputPath, "qid,cgold,cgold_yn");
 					for(int i = 0; i < fv.numLocations(); i++) {
 						int featureIndex = i + 1;
-						out.write(",f" + featureIndex);
+						this.fm.write(goodVSbadOutputPath, ",f" + featureIndex);
 					}
-					out.write("\n");
+					this.fm.writeLn(goodVSbadOutputPath, "");
+					
+					//header for pairwise
+					this.fm.write(pairwiseOutputPath, "qid,cgold");
+					int numFeatures = fv.numLocations();
+					if (COMBINATION_CONCAT){
+						numFeatures *=2;
+					}
+					if (INCLUDE_SIMILARITIES){
+						numFeatures += PairFeatureFactoryEnglish.NUM_SIM_FEATURES;
+					}
+						
+					for(int i = 0; i < numFeatures; i++) {
+						int featureIndex = i + 1;
+						this.fm.write(pairwiseOutputPath, ",f" + featureIndex);
+					}
+					this.fm.writeLn(pairwiseOutputPath, "");
 
 					firstRow = false;
 				}
 
 				List<Double> features = this.serializeFv(fv);
+				listFeatures.add(features);
 
-				out.writeLn(cid + "," + cgold + "," + cgold_yn + "," + Joiner.on(",").join(features));
+				this.fm.writeLn(goodVSbadOutputPath, 
+						cid + "," + cgold + "," + cgold_yn + "," 
+						+ Joiner.on(",").join(features));
 
 				/**
 				 * Produce also the file needed to train structural models
@@ -477,7 +542,12 @@ public class CommentSelectionDatasetCreator {
 					produceKelpExample(questionCas, commentCas, kelpFilePath, ts,
 							qid, cid, cgold, cgold_yn, features);
 				}
+				allCommentsCas.add(commentCas);
+				
 			}
+			
+			this.fm.write(pairwiseOutputPath, computePairwiseFeatures(q, listFeatures, allCommentsCas));
+			//out.writeLn(computePairwiseFeatures(q, listFeatures);
 		}
 
 		//		Iterator<String> iterator = questionCategories.iterator();
@@ -487,9 +557,177 @@ public class CommentSelectionDatasetCreator {
 
 		
 		this.fm.closeFiles();
-		out.close();
+		
 	}
 
+	private String computePairwiseFeatures(Question q, List<List<Double>>features,
+			List<JCas> allCommentsCas){
+		
+		if (features.size() <= 1 ||	//only one comment; otherwise nothing to do
+			(LIMIT_COMMENTS_ACTIVE && features.size() >= LIMIT_COMMENTS)){	
+			return "";
+		}
+
+		//in this case we subtract the features. 
+		//as a result, comparing c1,c2 is NOT the same as c2,c1
+
+		StringBuffer sb = new StringBuffer();
+
+		if (COMBINATION_SUBTR_NOABS) {
+			return garbage(q, features);
+		} else {
+			return standardCombination(q, features, allCommentsCas);
+		}				
+		
+		//sb.append("\n");
+
+		//sb.delete(0, sb.length());
+		//				out.writeLn(cid + "," + cgold + "," + cgold_yn + "," + Joiner.on(",").join(features));	
+	}
+	
+	
+	private String standardCombination(Question q, List<List<Double>>features,
+			List<JCas> allCommentsCas){
+		
+		StringBuffer sb = new StringBuffer();
+		
+		List<Comment> comments =q.getComments();
+
+		for (int i=0; i < comments.size() -1 ; i++){
+			Comment comment1 = comments.get(i);
+			
+			for (int j=i+1; j < comments.size(); j++){
+				Comment comment2 = comments.get(j);
+				
+				sb.append(comment1.getCid())
+				.append("-")
+				.append(comment2.getCid())
+				.append(",");
+				sb.append(getClassLabel(comment1.getCgold(), comment2.getCgold()));
+				sb.append(",");
+
+				if (COMBINATION_CONCAT){
+					sb.append(Joiner.on(",").join(
+							concatVectors(features.get(i), features.get(j))));
+				} else {
+					sb.append(Joiner.on(",").join(
+							absoluteDifference(features.get(i), features.get(j))));
+				}
+				
+				//Simimarities
+				if (INCLUDE_SIMILARITIES) {
+					AugmentableFeatureVector fv;
+					fv = (AugmentableFeatureVector) pfEnglish.getPairFeatures(
+							allCommentsCas.get(i), allCommentsCas.get(j), PARAMETER_LIST);
+					
+//					System.out.println(
+//							ids.get(i) + ","+
+//							labels.get(i) + ","+
+//							ids.get(j)+","+
+//							labels.get(j) + ","+
+//							Joiner.on(",").join(this.serializeFv(fv))
+//					);
+					
+					sb.append(",")
+						.append(Joiner.on(",").join(this.serializeFv(fv)));
+					
+				}
+
+				//out.writeLn(sb.toString());
+				sb.append("\n");
+			}
+		}
+		return sb.toString();
+	}
+	
+	private String garbage(Question q, List<List<Double>>features){
+//		StringBuffer sb = new StringBuffer();
+//		List<Comment> comments =q.getComments();
+//		for (int i=0; i < comments.size() -1 ; i++){
+//			Comment comment1 = comments.get(i);
+//			for (int j = comments.size()-1; j>=0; j--){
+//				Comment comment2 = comments.get(j);
+//				if (i==j)
+//					continue;
+//
+//				sb.append(comment1.getCid())
+//				.append("-")
+//				.append(comment2.getCid())
+//				.append(",");
+//				
+//				sb.append(getClassLabel(comment1.getCgold(), comment2.getCgold()));
+//				
+////				if (comment1.getCgold().get(i).equals(comment2.getCgold())){
+////					sb.append(LABEL_MATCH);
+////					if (THREE_CLASSES) {
+////						if (listCgold.get(i).toLowerCase().equals("good")){
+////							sb.append("_GOOD");
+////						} else {
+////							sb.append("_BAD");
+////						}
+////					}
+////				}else { 
+////					sb.append(LABEL_NO_MATCH);
+////				}
+//				
+//				sb.append(",");
+//
+//				sb.append(Joiner.on(",").join(
+//						difference(listFeatures.get(i), listFeatures.get(j))));
+//
+//
+//				out.writeLn(sb.toString());
+//				sb.delete(0, sb.length());
+//			}
+//		}
+		return "";
+	}
+	
+	private String getClassLabel(String label1, String label2){
+		String newLabel = new String();
+		if (label1.equals(label2)){
+			newLabel += LABEL_MATCH;
+			if (THREE_CLASSES) {
+				if (label1.toLowerCase().equals("good")){
+					newLabel += "_GOOD";
+				} else {
+					newLabel += "_BAD";
+				}
+			}
+		}else { 
+			newLabel = LABEL_NO_MATCH;
+		}
+		return newLabel; 
+	}
+	
+	
+	private List<Double> absoluteDifference(List<Double> v1, List<Double> v2){
+		if (v1.size() != v2.size()) {
+			System.err.println("Vectors size mismatch");
+			System.exit(1);
+		}
+		List<Double> diff = new ArrayList<Double>();
+		for (int i=0; i < v1.size(); i++){
+			diff.add(Math.abs(v1.get(i)-v2.get(i)));
+		}		
+		return diff;		
+	}
+
+	private List<Double> concatVectors(List<Double> v1, List<Double> v2){
+		if (v1.size() != v2.size()) {
+			
+			System.err.println("Vectors size mismatch");
+			System.exit(1);
+		}
+		List<Double> cc = new ArrayList<Double>();
+		cc.addAll(v1);
+		cc.addAll(v2);				
+		return  cc;		
+	}
+	
+
+	
+	
 	private void produceSVMLightTKExample(JCas questionCas, JCas commentCas,
 			String suffix, TreeSerializer ts, String qid, String cid,
 			String cgold, String cgold_yn, List<Double> features) {
@@ -615,10 +853,18 @@ public class CommentSelectionDatasetCreator {
 
 		fm.writeLn(outputPath,
 				output.trim());
-
-
 	}
 
+	private String getPairwiseSuffix(){
+		String suffix = ".";
+		if (INCLUDE_SIMILARITIES)
+			suffix += "sim.";
+		if (COMBINATION_CONCAT) 
+			suffix += "concat.";
+		
+		return suffix + "pairwise.csv";
+	}
+	
 
 	public List<Double> serializeFv(FeatureVector fv) {
 		List<Double> features = new ArrayList<>();
