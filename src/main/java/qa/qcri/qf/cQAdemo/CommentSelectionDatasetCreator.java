@@ -449,6 +449,7 @@ public class CommentSelectionDatasetCreator {
 
 				AugmentableFeatureVector fv;
 				if(GENERATE_MASSIMO_FEATURES){
+					//THIS FUNCTION THAT EXTRACTS "MASSIMO'S" FEATURES
 					fv = (AugmentableFeatureVector) pfEnglish.getPairFeatures(questionCas, commentCas, PARAMETER_LIST);
 
 				}else{
