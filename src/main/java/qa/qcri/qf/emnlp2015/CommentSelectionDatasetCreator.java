@@ -58,7 +58,7 @@ public class CommentSelectionDatasetCreator {
 	private static final boolean GENERATE_ALBERTO_AND_SIMONE_FEATURES = true;
 
 	
-	private static final boolean ONLY_BAD_AND_GOOD_CLASSES = true;
+	private static final boolean ONLY_BAD_AND_GOOD_CLASSES = false;
 	
 	public static final Boolean THREE_CLASSES = true;
 	
@@ -93,13 +93,13 @@ public class CommentSelectionDatasetCreator {
 	//	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
 	//			+ "SemEval2015-Task3-English-data/tmp/CQA-QL-train.xml";
 	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml";
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/kk/CQA-QL-train.xml";
 	
 	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-devel.xml";
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/kk/CQA-QL-devel.xml";
 	
 	public static final String CQA_QL_TEST_EN = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml";
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/kk/CQA-QL-test.xml";
 
 	//	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
 	//			+ "SemEval2015-Task3-English-data/tmp/CQA-QL-devel.xml";
