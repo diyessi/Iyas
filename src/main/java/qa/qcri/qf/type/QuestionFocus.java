@@ -12,8 +12,8 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
 
 /** 
- * Updated by JCasGen Wed Dec 31 15:35:49 AST 2014
- * XML source: /home/alberto/Iyas/desc/Iyas/QuestionFocus.xml
+ * Updated by JCasGen Sun Mar 22 10:04:46 AST 2015
+ * XML source: /Users/albarron/Iyas/desc/Iyas/QuestionFocus.xml
  * @generated */
 public class QuestionFocus extends Annotation {
   /** @generated

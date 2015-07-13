@@ -78,12 +78,12 @@ public class ArunFeatureExtractor {
 //	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
 //			+ "SemEval2015-Task3-English-data/tmp/CQA-QL-train.xml";
 	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-devel.xml";
+			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-tmp.xml";
 	
 //	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
 //			+ "SemEval2015-Task3-English-data/tmp/CQA-QL-devel.xml";
 	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-test.xml";
+			+ "SemEval2015-Task3-English-data/datasets/CQA-QL-tmp.xml";
 	
 	//public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
 	//		+ "SemEval2015-Task3-English-data/tmp/test_task3_English.xml";
