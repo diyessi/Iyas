@@ -7,7 +7,10 @@ public class SubjectBodyAggregator {
 		if(questionBody.toLowerCase().startsWith(questionSubject.toLowerCase())){
 			return questionBody;
 		}
-		return questionSubject+ ". " + questionBody; 
+		if(Character.isUpperCase(questionBody.charAt(0))){
+			return questionSubject+ ". " + questionBody; 
+		}
+		return questionSubject+ " " + questionBody; 
 		
 	}
 	
@@ -18,7 +21,13 @@ public class SubjectBodyAggregator {
 		if(commentBody.toLowerCase().startsWith(commentSubject.toLowerCase())){
 			return commentBody;
 		}
-		return commentSubject + ". " + commentBody;
+		if(commentBody.length()==0){
+			return commentSubject;
+		}
+		if(Character.isUpperCase(commentBody.charAt(0))){
+			return commentSubject+ ". " + commentBody; 
+		}
+		return commentSubject+ " " + commentBody; 
 	}
 
 }

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -64,7 +66,7 @@ public class CommentSelectionDatasetCreator {
 	
 	
 	//True if we want to compute comment-to-comment similarities
-	private static final boolean INCLUDE_SIMILARITIES = true;
+	private static final boolean INCLUDE_SIMILARITIES = false;
 	
 	//True if the combination is a concat; false if it is a subtract
 	public static final Boolean COMBINATION_CONCAT = false;
@@ -85,7 +87,7 @@ public class CommentSelectionDatasetCreator {
 	 * and feature vectors.
 	 */
 	public static final boolean PRODUCE_SVMLIGHTTK_DATA = false;
-	public static final boolean PRODUCE_KELP_DATA = false;
+	public static final boolean PRODUCE_KELP_DATA = true;
 
 
 	public static final boolean USE_QCRI_ALT_TOOLS = false;
@@ -152,6 +154,7 @@ public class CommentSelectionDatasetCreator {
 		 * Setup logger
 		 */
 		org.apache.log4j.BasicConfigurator.configure();
+		Logger.getRootLogger().setLevel(Level.INFO);
 		
 		/**
 		 * Run the code for the English tasks
