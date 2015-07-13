@@ -253,6 +253,76 @@ public class CommentSelectionDatasetCreator {
 
 	
 	/**
+	 * Parses the questin and its comments and returns a handy object to get 
+	 * access to all the necessary information.
+	 * @param question
+	 * @return
+	 */
+	private Question getFilledQuestion(Element question){
+		Question q = new Question();
+		
+		/**
+		 * Parse question node
+		 */
+		String qid = question.attr("QID");
+		String qcategory = question.attr("QCATEGORY");
+		String qdate = question.attr("QDATE");
+		String quserid = question.attr("QUSERID");
+		String qtype = question.attr("QTYPE");
+		String qgold_yn = question.attr("QGOLD_YN");		
+		String qsubject = JsoupUtils.recoverOriginalText(question.getElementsByTag("QSubject").get(0).text());
+		qsubject = TextNormalizer.normalize(qsubject);
+		String qbody = question.getElementsByTag("QBody").get(0).text();
+		qbody = JsoupUtils.recoverOriginalText(UserProfile.removeSignature(qbody, userProfiles.get(quserid)));
+		qbody = TextNormalizer.normalize(qbody);
+		//			questionCategories.add(qcategory);
+
+		q.setQid(qid);
+		q.setQcategory(qcategory);
+		q.setQdate(qdate);
+		q.setQuserId(quserid);
+		q.setQtype(qtype);
+		q.setQgoldYN(qgold_yn);
+		q.setQsubject(qsubject);
+		q.setQbody(qbody);
+		
+		
+		/**
+		 * Parse comment nodes
+		 */
+		Elements comments = question.getElementsByTag("Comment");
+
+		/**
+		 * Extracting context statistics for context Features
+		 */		
+		for(Element comment : comments) {
+			
+			String cid = comment.attr("CID");
+			String cuserid = comment.attr("CUSERID");
+			String cgold = comment.attr("CGOLD");
+			//Replacing the labels for the "macro" ones: GOOD vs BAD
+			if(ONLY_BAD_AND_GOOD_CLASSES){
+				if(cgold.equalsIgnoreCase("good")){
+					cgold = GOOD;
+				}else{
+					cgold = BAD;
+				}
+			}
+			String cgold_yn = comment.attr("CGOLD_YN");
+			String csubject = JsoupUtils.recoverOriginalText(comment.getElementsByTag("CSubject").get(0).text());
+			csubject = TextNormalizer.normalize(csubject);
+			String cbody = comment.getElementsByTag("CBody").get(0).text();
+			cbody = JsoupUtils.recoverOriginalText(UserProfile.removeSignature(cbody, userProfiles.get(cuserid)));
+			cbody = TextNormalizer.normalize(cbody);
+			q.addComment(cid, cuserid, cgold, cgold_yn, csubject, cbody);
+		}
+		
+		return q;
+		
+	}
+	
+	
+	/**
 	 * Process the xml file and output a csv file with the results in the same directory
 	 * @param dataFile the xml file to process
 	 * @suffix suffix for identifying the data file 
@@ -274,9 +344,6 @@ public class CommentSelectionDatasetCreator {
 		String goodVSbadOutputPath = dataFile + ".csv";
 		String pairwiseOutputPath = dataFile + getPairwiseSuffix();
 		String kelpFilePath = dataFile + ".klp";
-		
-		
-		
 
 		/**
 		 * Marker which adds relational information to a pair of trees
@@ -299,7 +366,6 @@ public class CommentSelectionDatasetCreator {
 		 */
 		JCas questionCas = JCasFactory.createJCas();
 		
-
 		//WriteFile out = new WriteFile(dataFile + ".csv");
 
 		doc.select("QURAN").remove();
@@ -316,44 +382,20 @@ public class CommentSelectionDatasetCreator {
 
 		for(Element question : questions) {
 
+			System.out.println("[INFO]: Processing " + questionNumber++ + " out of " + numberOfQuestions);
+			
 			/*Comment-level features to be combined*/
 			List<List<Double>>	listFeatures = new ArrayList<List<Double>>();
 			
-			
-			Question q = new Question();
-			System.out.println("[INFO]: Processing " + questionNumber++ + " out of " + numberOfQuestions);
-			/**
-			 * Parse question node
-			 */
-			String qid = question.attr("QID");
-			String qcategory = question.attr("QCATEGORY");
-			String qdate = question.attr("QDATE");
-			String quserid = question.attr("QUSERID");
-			String qtype = question.attr("QTYPE");
-			String qgold_yn = question.attr("QGOLD_YN");		
-			String qsubject = JsoupUtils.recoverOriginalText(question.getElementsByTag("QSubject").get(0).text());
-			qsubject = TextNormalizer.normalize(qsubject);
-			String qbody = question.getElementsByTag("QBody").get(0).text();
-			qbody = JsoupUtils.recoverOriginalText(UserProfile.removeSignature(qbody, userProfiles.get(quserid)));
-			qbody = TextNormalizer.normalize(qbody);
-			//			questionCategories.add(qcategory);
-
-			q.setQid(qid);
-			q.setQcategory(qcategory);
-			q.setQdate(qdate);
-			q.setQuserId(quserid);
-			q.setQtype(qtype);
-			q.setQgoldYN(qgold_yn);
-			q.setQsubject(qsubject);
-			q.setQbody(qbody);
-
+			Question q = getFilledQuestion(question);
+						
 			/**
 			 * Setup question CAS
 			 */
 			questionCas.reset();
 			questionCas.setDocumentLanguage("en");
-			String questionText = SubjectBodyAggregator.getQuestionText(qsubject, qbody);
-			fm.writeLn(plainTextOutputPath, "---------------------------- QID: " + qid + " USER:" + quserid);
+			String questionText = SubjectBodyAggregator.getQuestionText(q.getQsubject(), q.getQbody());
+			fm.writeLn(plainTextOutputPath, "---------------------------- QID: " + q.getQid() + " USER:" + q.getQuserid());
 			fm.writeLn(plainTextOutputPath, questionText);
 			questionCas.setDocumentText(questionText);
 
@@ -363,55 +405,18 @@ public class CommentSelectionDatasetCreator {
 
 			SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
 	
-
 			//this.analyzer.analyze(questionCas, new SimpleContent("q-" + qid, qsubject + ". " + qbody));
-
-			/**
-			 * Parse comment nodes
-			 */
-			Elements comments = question.getElementsByTag("Comment");
-	
-			/**
-			 * Extracting context statistics for context Features
-			 */
-			
-			for(Element comment : comments) {
-				
-				String cid = comment.attr("CID");
-				String cuserid = comment.attr("CUSERID");
-				String cgold = comment.attr("CGOLD");
-				//Replacing the labels for the "macro" ones: GOOD vs BAD
-				if(ONLY_BAD_AND_GOOD_CLASSES){
-					if(cgold.equalsIgnoreCase("good")){
-						cgold = GOOD;
-					}else{
-						cgold = BAD;
-					}
-				}
-				String cgold_yn = comment.attr("CGOLD_YN");
-				String csubject = JsoupUtils.recoverOriginalText(comment.getElementsByTag("CSubject").get(0).text());
-				csubject = TextNormalizer.normalize(csubject);
-				String cbody = comment.getElementsByTag("CBody").get(0).text();
-				cbody = JsoupUtils.recoverOriginalText(UserProfile.removeSignature(cbody, userProfiles.get(cuserid)));
-				cbody = TextNormalizer.normalize(cbody);
-				q.addComment(cid, cuserid, cgold, cgold_yn, csubject, cbody);
-			}
 	
 			List<HashMap<String, Double>> albertoSimoneFeatures;
 			if(GENERATE_ALBERTO_AND_SIMONE_FEATURES){
+				//THIS FUNCTION EXTRACTS THE CONTEXT AND HEURISTICS YOU CAN USE
 				albertoSimoneFeatures = FeatureExtractor.extractFeatures(q);
 			}
 	
 			int commentIndex = 0;
 			
 			List<JCas> allCommentsCas = new ArrayList<JCas>();
-			for(Comment comment : q.getComments()) {
-	
-				String cid = comment.getCid();
-				String cuserid = comment.getCuserid();
-				String cgold = comment.getCgold();
-
-				
+			for(Comment comment : q.getComments()) {				
 //				if(ONLY_BAD_AND_GOOD_CLASSES){
 //					if(cgold.equalsIgnoreCase("good")){
 //						cgold = GOOD;
@@ -420,20 +425,20 @@ public class CommentSelectionDatasetCreator {
 //					}
 //				}
 
-				String cgold_yn = comment.getCgold_yn();
-				String csubject = comment.getCsubject();
-				String cbody = comment.getCbody();
 				/**
 				 * Setup comment CAS
 				 */
 				JCas commentCas = JCasFactory.createJCas();
 				commentCas.setDocumentLanguage("en");
-				String commentText = SubjectBodyAggregator.getCommentText(csubject, cbody);
+				String commentText = SubjectBodyAggregator.getCommentText(
+						comment.getCsubject(), comment.getCbody());
 //				if(commentText.contains("&")){
 //					System.out.println(commentText);
 //				}
 				commentCas.setDocumentText(commentText);
-				fm.writeLn(plainTextOutputPath, "- CID: " + cid.replace("_", "-") + " USER:" + cuserid);
+				fm.writeLn(plainTextOutputPath, 
+							"- CID: " + comment.getCid().replace("_", "-") 
+							+ " USER:" + comment.getCuserid());
 				fm.writeLn(plainTextOutputPath, commentText);
 				/**
 				 * Run the UIMA pipeline
@@ -532,7 +537,8 @@ public class CommentSelectionDatasetCreator {
 				listFeatures.add(features);
 
 				this.fm.writeLn(goodVSbadOutputPath, 
-						cid + "," + cgold + "," + cgold_yn + "," 
+						comment.getCid() + "," + comment.getCgold() + "," 
+								+ comment.getCgold_yn() + "," 
 						+ Joiner.on(",").join(features));
 
 				/**
@@ -540,11 +546,13 @@ public class CommentSelectionDatasetCreator {
 				 */
 				if(PRODUCE_SVMLIGHTTK_DATA) {
 					produceSVMLightTKExample(questionCas, commentCas, suffix, ts,
-							qid, cid, cgold, cgold_yn, features);
+							q.getQid(), comment.getCid(), comment.getCgold(), 
+							comment.getCgold_yn(), features);
 				}
 				if(PRODUCE_KELP_DATA){
 					produceKelpExample(questionCas, commentCas, kelpFilePath, ts,
-							qid, cid, cgold, cgold_yn, features);
+							q.getQid(), comment.getCid(), comment.getCgold(), 
+							comment.getCgold_yn(), features);
 				}
 				allCommentsCas.add(commentCas);
 				
