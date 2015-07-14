@@ -13,6 +13,36 @@
 			<id>ukp-oss-model-snapshots</id>
 			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases/</url>
 		</repository>
+		<repository>
+			<id>kelp_repo_snap</id>
+			<name>Sag Libs Repository Snapshots</name>
+			<releases>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<url>http://sag.art.uniroma2.it:8081/artifactory/kelp-snapshot/</url>
+		</repository>
+		<repository>
+			<id>kelp_repo_release</id>
+			<name>Sag Libs Repository Stable</name>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<url>http://sag.art.uniroma2.it:8081/artifactory/kelp-release/</url>
+		</repository>
   </repositories>
   <parent>
    <groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -199,6 +229,11 @@
 		<version>1.0</version>
 		<scope>system</scope>
 		<systemPath>${project.basedir}/lib/berkeleyParser.jar</systemPath>
+	</dependency>
+	<dependency>
+			<groupId>it.uniroma2.sag.kelp</groupId>
+			<artifactId>kelp-full</artifactId>
+			<version>1.2.0</version>
 	</dependency>
   </dependencies>
   <build>
