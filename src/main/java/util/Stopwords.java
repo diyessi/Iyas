@@ -25,6 +25,10 @@ public class Stopwords {
 		in.close();
 	}
 	
+	public Stopwords(Stopwords s) {
+		this.stopwords = new HashSet<>(s.stopwords);
+	}
+	
 	public Stopwords() {
 		this.stopwords = new HashSet<>();
 	}

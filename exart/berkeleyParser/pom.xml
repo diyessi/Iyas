@@ -1,0 +1,22 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>qa.qcri.qf</groupId>
+  <artifactId>externals-berkeleyParser</artifactId>
+  <version>1</version>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.2</version>
+        <configuration>
+          <groupId>qa.qcri.qf</groupId>
+          <artifactId>berkeleyParser</artifactId>
+          <version>1</version>
+          <file>${project.basedir}/berkeleyParser.jar</file>
+          <packaging>jar</packaging>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
