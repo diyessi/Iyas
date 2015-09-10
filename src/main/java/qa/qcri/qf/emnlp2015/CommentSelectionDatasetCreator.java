@@ -3,14 +3,6 @@ package qa.qcri.qf.emnlp2015;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngine;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
@@ -53,54 +45,62 @@ import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordLemmatizer;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CommentSelectionDatasetCreator {
 
-	private static final boolean GENERATE_MASSIMO_FEATURES = true;
-	private static final boolean GENERATE_ALBERTO_AND_SIMONE_FEATURES = true;
+	protected static final boolean GENERATE_MASSIMO_FEATURES = true;
+	protected static final boolean GENERATE_ALBERTO_AND_SIMONE_FEATURES = true;
 
 	
-	private static final boolean ONLY_BAD_AND_GOOD_CLASSES = false;
+	protected static final boolean ONLY_BAD_AND_GOOD_CLASSES = false;
 	
-	public static final Boolean THREE_CLASSES = true;
+	protected static final Boolean THREE_CLASSES = true;
 	
 	
 	//True if we want to compute comment-to-comment similarities
-	private static final boolean INCLUDE_SIMILARITIES = false;
+	protected static final boolean INCLUDE_SIMILARITIES = false;
 	
 	//True if the combination is a concat; false if it is a subtract
-	public static final Boolean COMBINATION_CONCAT = false;
+	protected static final Boolean COMBINATION_CONCAT = false;
 	
 	//True if we want to subtract, without absolute value
-	public static final boolean COMBINATION_SUBTR_NOABS = false;
+	protected static final boolean COMBINATION_SUBTR_NOABS = false;
 	
-	/** With this flag and value we limit the number fo comments per question 
+	/** With this flag and value we limit the number for comments per question 
 	 * to be considered (this intends to reduce the impact of long threads. 
 	 * */
-	public static final boolean LIMIT_COMMENTS_PER_Q = false;
-	public static final int LIMIT_COMMENTS = 20;
-	public static boolean LIMIT_COMMENTS_ACTIVE = LIMIT_COMMENTS_PER_Q; 
+	private static final boolean LIMIT_COMMENTS_PER_Q = false;
+	protected static final int LIMIT_COMMENTS = 20;
+	protected static boolean LIMIT_COMMENTS_ACTIVE = LIMIT_COMMENTS_PER_Q; 
 	
 	/**
 	 * Set this option to true if you want to produce also data for
 	 * SVMLightTK in order to train ad structural model with trees
 	 * and feature vectors.
 	 */
-	public static final boolean PRODUCE_SVMLIGHTTK_DATA = false;
-	public static final boolean PRODUCE_KELP_DATA = true;
+	protected static final boolean PRODUCE_SVMLIGHTTK_DATA = false;
+	protected static final boolean PRODUCE_KELP_DATA = true;
 
 
-	public static final boolean USE_QCRI_ALT_TOOLS = false;
+	protected static final boolean USE_QCRI_ALT_TOOLS = false;
 
+	//TODO ABC, SEP 9. THESE VARIABLES SHOULDN'T BE PUBLIC!!! 
 	//	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
 	//			+ "SemEval2015-Task3-English-data/tmp/CQA-QL-train.xml";
-	public static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
+	protected static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml";
 	
-	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
+	protected static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-devel.xml";
 	
-	public static final String CQA_QL_TEST_EN = "semeval2015-3/data/"
+	protected static final String CQA_QL_TEST_EN = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml";
 
 	//	public static final String CQA_QL_DEV_EN = "semeval2015-3/data/"
@@ -119,36 +119,46 @@ public class CommentSelectionDatasetCreator {
 	/**
 	 * Parameters for matching tree structures
 	 */
-	private static final String PARAMETER_LIST = Joiner.on(",").join(
+	protected static final String PARAMETER_LIST = Joiner.on(",").join(
 			new String[] { RichNode.OUTPUT_PAR_LEMMA, RichNode.OUTPUT_PAR_TOKEN_LOWERCASE });
 	
-	private static final String GOOD = "GOOD";
-	private static final String BAD = "BAD";
+	protected static final String GOOD = "GOOD";
+	protected static final String BAD = "BAD";
 
-	private static final String LABEL_MATCH = "EQUAL";
-	private static final String LABEL_NO_MATCH = "DIFF";
+	protected static final String LABEL_MATCH = "EQUAL";
+	protected static final String LABEL_NO_MATCH = "DIFF";
 	
 	public static final String LANG_ENGLISH = "ENGLISH";
 
 	
-	private Set<String> a_labels = new HashSet<>();
+	protected Set<String> a_labels = new HashSet<>();
 
-	private Set<String> b_labels = new HashSet<>();
+	protected Set<String> b_labels = new HashSet<>();
 
-	private FileManager fm;
+	protected FileManager fm;
 
-	private AnalysisEngine[] analysisEngineList;
+	protected AnalysisEngine[] analysisEngineList;
 
-	private PairFeatureFactoryEnglish pfEnglish;
+	protected PairFeatureFactoryEnglish pfEnglish;
 
-	private Alphabet alphabet;
+	protected Alphabet alphabet;
 
-	private Stopwords stopwords;
+	protected Stopwords stopwords;
 
-	private Analyzer analyzer;
+	protected Analyzer analyzer;
 	
-	private Map<String,UserProfile> userProfiles;
+	protected Map<String,UserProfile> userProfiles;
 
+	public CommentSelectionDatasetCreator() {
+		/**
+		 * Default language
+		 */
+
+		this.fm = new FileManager();
+
+		this.alphabet = new Alphabet();
+	}
+	
 	public static void main(String[] args) throws IOException, UIMAException, SimilarityException {
 		/**
 		 * Setup logger
@@ -161,17 +171,6 @@ public class CommentSelectionDatasetCreator {
 		 */
 		new CommentSelectionDatasetCreator().runForEnglish();
 	}
-
-	public CommentSelectionDatasetCreator() {
-		/**
-		 * Default language
-		 */
-
-		this.fm = new FileManager();
-
-		this.alphabet = new Alphabet();
-	}
-
 
 	public void runForEnglish() throws UIMAException, IOException {
 
@@ -232,7 +231,7 @@ public class CommentSelectionDatasetCreator {
 		this.analysisEngineList[3] = lemmatizer;
 
 		this.analyzer = new Analyzer(new UIMAFilePersistence("CASes/semeval"));
-		for(AnalysisEngine ae : this.analysisEngineList) {
+		for (AnalysisEngine ae : this.analysisEngineList) {
 			analyzer.addAE(ae);
 		}
 
@@ -313,7 +312,7 @@ public class CommentSelectionDatasetCreator {
 		int numberOfQuestions = questions.size();
 		int questionNumber = 1;
 
-		for(Element question : questions) {
+		for (Element question : questions) {
 
 			/*Comment-level features to be combined*/
 			List<List<Double>>	listFeatures = new ArrayList<List<Double>>();
@@ -374,7 +373,7 @@ public class CommentSelectionDatasetCreator {
 			 * Extracting context statistics for context Features
 			 */
 			
-			for(Element comment : comments) {
+			for (Element comment : comments) {
 				
 				String cid = comment.attr("CID");
 				String cuserid = comment.attr("CUSERID");
@@ -404,7 +403,7 @@ public class CommentSelectionDatasetCreator {
 			int commentIndex = 0;
 			
 			List<JCas> allCommentsCas = new ArrayList<JCas>();
-			for(Comment comment : q.getComments()) {
+			for (Comment comment : q.getComments()) {
 	
 				String cid = comment.getCid();
 				String cuserid = comment.getCuserid();
@@ -449,7 +448,7 @@ public class CommentSelectionDatasetCreator {
 					fv = new AugmentableFeatureVector(this.alphabet);
 				}
 
-				if(GENERATE_ALBERTO_AND_SIMONE_FEATURES){
+				if (GENERATE_ALBERTO_AND_SIMONE_FEATURES){
 
 					HashMap<String, Double> featureVector = albertoSimoneFeatures.get(commentIndex);
 					
@@ -499,7 +498,7 @@ public class CommentSelectionDatasetCreator {
 //				String goodVSbadOutputPath = dataFile + ".csv";
 //				String pairwiseOutputPath 
 				
-				if(firstRow) {
+				if (firstRow) {
 					//header for Good vs Bad
 					this.fm.write(goodVSbadOutputPath, "qid,cgold,cgold_yn");
 					for(int i = 0; i < fv.numLocations(); i++) {
@@ -518,7 +517,7 @@ public class CommentSelectionDatasetCreator {
 						numFeatures += PairFeatureFactoryEnglish.NUM_SIM_FEATURES;
 					}
 						
-					for(int i = 0; i < numFeatures; i++) {
+					for (int i = 0; i < numFeatures; i++) {
 						int featureIndex = i + 1;
 						this.fm.write(pairwiseOutputPath, ",f" + featureIndex);
 					}
@@ -537,11 +536,11 @@ public class CommentSelectionDatasetCreator {
 				/**
 				 * Produce also the file needed to train structural models
 				 */
-				if(PRODUCE_SVMLIGHTTK_DATA) {
+				if (PRODUCE_SVMLIGHTTK_DATA) {
 					produceSVMLightTKExample(questionCas, commentCas, suffix, ts,
 							qid, cid, cgold, cgold_yn, features);
 				}
-				if(PRODUCE_KELP_DATA){
+				if (PRODUCE_KELP_DATA){
 					produceKelpExample(questionCas, commentCas, kelpFilePath, ts,
 							qid, cid, cgold, cgold_yn, features);
 				}
@@ -563,7 +562,7 @@ public class CommentSelectionDatasetCreator {
 		
 	}
 
-	private String computePairwiseFeatures(Question q, List<List<Double>>features,
+	protected String computePairwiseFeatures(Question q, List<List<Double>>features,
 			List<JCas> allCommentsCas){
 		
 		if (features.size() <= 1 ||	//only one comment; otherwise nothing to do
@@ -643,6 +642,7 @@ public class CommentSelectionDatasetCreator {
 		return sb.toString();
 	}
 	
+	//TODO ABC, Sep 9. ???????
 	private String garbage(Question q, List<List<Double>>features){
 //		StringBuffer sb = new StringBuffer();
 //		List<Comment> comments =q.getComments();
@@ -697,7 +697,7 @@ public class CommentSelectionDatasetCreator {
 					newLabel += "_BAD";
 				}
 			}
-		}else { 
+		} else { 
 			newLabel = LABEL_NO_MATCH;
 		}
 		return newLabel; 
@@ -731,9 +731,9 @@ public class CommentSelectionDatasetCreator {
 
 	
 	
-	private void produceSVMLightTKExample(JCas questionCas, JCas commentCas,
+	protected void produceSVMLightTKExample(JCas questionCas, JCas commentCas,
 			String suffix, TreeSerializer ts, String qid, String cid,
-			String cgold, String cgold_yn, List<Double> features) {
+			    String cgold, String cgold_yn, List<Double> features) {
 		/**
 		 * Produce output for SVMLightTK
 		 */
@@ -744,7 +744,7 @@ public class CommentSelectionDatasetCreator {
 		TokenTree commentTree = RichTree.getPosChunkTree(commentCas);
 		String commentTreeString = ts.serializeTree(commentTree);
 
-		for(String label : this.a_labels) {
+		for (String label : this.a_labels) {
 			String svmLabel = "-1";
 			if(label.equals(cgold)) {
 				svmLabel = "+1";
@@ -755,12 +755,12 @@ public class CommentSelectionDatasetCreator {
 
 			String featureString = "";
 
-			for(int i = 0; i < features.size(); i++) {
+			for (int i = 0; i < features.size(); i++) {
 				int featureIndex = i + 1;
 				Double feature = features.get(i);
 				if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
 
-					if(Math.abs(feature) > 1e100) {
+					if (Math.abs(feature) > 1e100) {
 						feature = 0.0;
 					}
 
@@ -778,14 +778,14 @@ public class CommentSelectionDatasetCreator {
 					output.trim());
 		}
 
-		for(String label : this.b_labels) {
+		for (String label : this.b_labels) {
 
-			if(cgold_yn.equals("Not Applicable")) {
+			if (cgold_yn.equals("Not Applicable")) {
 				continue;
 			}
 
 			String svmLabel = "-1";
-			if(label.equals(cgold_yn)) {
+			if (label.equals(cgold_yn)) {
 				svmLabel = "+1";
 			}
 
@@ -794,12 +794,12 @@ public class CommentSelectionDatasetCreator {
 
 			String featureString = "";
 
-			for(int i = 0; i < features.size(); i++) {
+			for (int i = 0; i < features.size(); i++) {
 				int featureIndex = i + 1;
 				Double feature = features.get(i);
-				if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
+				if (!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
 
-					if(Math.abs(feature) > 1e100) {
+					if (Math.abs(feature) > 1e100) {
 						feature = 0.0;
 					}
 
@@ -818,7 +818,7 @@ public class CommentSelectionDatasetCreator {
 		}
 	}
 
-	private void produceKelpExample(JCas questionCas, JCas commentCas,
+	protected void produceKelpExample(JCas questionCas, JCas commentCas,
 			String outputPath, TreeSerializer ts, String qid, String cid,
 			String cgold, String cgold_yn, List<Double> features) {
 		/**
@@ -836,12 +836,12 @@ public class CommentSelectionDatasetCreator {
 
 		String featureString = "|BV:features|";
 
-		for(int i = 0; i < features.size(); i++) {
+		for (int i = 0; i < features.size(); i++) {
 			int featureIndex = i + 1;
 			Double feature = features.get(i);
-			if(!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
+			if (!feature.isNaN() && !feature.isInfinite() && feature.compareTo(0.0) != 0) {
 
-				if(Math.abs(feature) > 1e100) {
+				if (Math.abs(feature) > 1e100) {
 					feature = 0.0;
 				}
 
@@ -858,7 +858,7 @@ public class CommentSelectionDatasetCreator {
 				output.trim());
 	}
 
-	private String getPairwiseSuffix(){
+	protected String getPairwiseSuffix(){
 		String suffix = ".";
 		if (INCLUDE_SIMILARITIES)
 			suffix += "sim.";
