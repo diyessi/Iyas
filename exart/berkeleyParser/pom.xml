@@ -7,14 +7,16 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-install-plugin</artifactId>
-        <version>2.5.2</version>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
         <configuration>
           <groupId>qa.qcri.qf</groupId>
           <artifactId>berkeleyParser</artifactId>
           <version>1</version>
           <file>${project.basedir}/berkeleyParser.jar</file>
           <packaging>jar</packaging>
+          <repositoryId>releases</repositoryId>
+          <url>http://sls.csail.mit.edu:8081/nexus/content/repositories/qcri-releases</url>
         </configuration>
       </plugin>
     </plugins>

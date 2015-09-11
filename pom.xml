@@ -4,7 +4,9 @@
 	<repositories>
 		<repository>
 			<id>Illinois</id>
-			<url>http://cogcomp.cs.illinois.edu/m2repo/</url>
+			<url>http://cogcomp.cs.illinois.edu/m2repo/</url> 
+			<releases><enabled>true</enabled></releases>
+			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
 		<repository>
 			<id>ukp-oss</id>
@@ -200,9 +202,9 @@
 			<version>1</version>
 		</dependency>
 		<dependency>
-			<groupId>qa.qcri.qf</groupId>
-			<artifactId>CRFPP</artifactId>
-			<version>1</version>
+			<groupId>edu.mit.csail.sls</groupId>
+			<artifactId>crfpp</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>qa.qcri.qf</groupId>

@@ -1,5 +1,5 @@
 /target
-
+/exart/*/target
 /data/trec/train
 /data/trec/test
 
