@@ -5,7 +5,7 @@ package qa.qcri.qf.semeval2015_3;
  * 2015 community question answering setting. This question
  * is intended to be part of a cQAinstance.
  * 
- * @see cQAinstance
+ * @see CQAinstance
  * 
  * @author albarron
  * @since 0.1

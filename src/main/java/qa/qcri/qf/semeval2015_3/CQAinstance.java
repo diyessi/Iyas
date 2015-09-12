@@ -24,7 +24,7 @@ import java.util.TreeMap;
  * @author albarron
  *
  */
-public class cQAinstance implements Comparable<cQAinstance>,  Serializable {
+public class CQAinstance implements Comparable<CQAinstance>,  Serializable {
 	
 	private static final long serialVersionUID = 7155250601309427542L;
 	
@@ -52,7 +52,7 @@ public class cQAinstance implements Comparable<cQAinstance>,  Serializable {
 	 * Invoke the class without setting any value. Comments list and question are 
 	 * initialized.
 	 */
-	public cQAinstance(CQAquestion question, String cat){
+	public CQAinstance(CQAquestion question, String cat){
 	  this.question = question;
 		comments = new ArrayList<CQAcomment>();
 		
@@ -236,7 +236,7 @@ public class cQAinstance implements Comparable<cQAinstance>,  Serializable {
 	}
 
 	@Override
-	public int compareTo(cQAinstance o) {
+	public int compareTo(CQAinstance o) {
 		if (getMethodToSort() > o.getMethodToSort()) {
 		      return 1;
 		    } else if (getMethodToSort() < o.getMethodToSort()) {

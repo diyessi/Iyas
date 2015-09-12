@@ -21,7 +21,9 @@ import java.util.TreeMap;
  * 
  * @author albarron
  *
+ *@deprecated use {@link CQAinstance} and {@link CQAquestion}instead.
  */
+@Deprecated
 public class Question implements Comparable<Question>,  Serializable {
 	
 	private static final long serialVersionUID = 7155250601309427542L;
@@ -96,7 +98,7 @@ public class Question implements Comparable<Question>,  Serializable {
 		setQtype(qtype);
 		setQgoldYN(qgold_yn);		
 		setQsubject(qsubject);
-		setQbody(qbody);		
+		setQbody(qbody); 
 	}
 	
 	
@@ -120,11 +122,11 @@ public class Question implements Comparable<Question>,  Serializable {
 	 * A simple class that stores all the values of a Question-related comment.
 	 * 
 	 * 
-	 * TODO put it into another file?
-	 * 
 	 * @author albarron
 	 *
+	 * @deprecated use {@link CQAcomment} instead.
 	 */
+	@Deprecated
 	public class Comment implements Serializable{
 			
 		private static final long serialVersionUID = 6131037150458266024L;

@@ -797,6 +797,26 @@ public class FeatureExtractor {
 		return false;
 	}
 
+	/**
+	 * @param text a chunk of free text
+	 * @return true if it contains an ack. keyword (thank* or appreciat*)
+	 */
+	//TODO move into a UIMA annotator?
+	public static boolean containsAcknowledge(String text){
+    text = text.toLowerCase();
+    if(text.contains("thank") || text.contains("appreciat")){
+      return true;
+    }
+    return false;
+  }
+	
+	/**
+	 * This is too attached to the (old) comment class and should be more generic.
+	 * Now the similar method receives just a text.
+	 * @param comment
+	 * @return
+	 */
+	@Deprecated
 	public static boolean containsAcknowledge(Comment comment){
 		String body = comment.getCbody().toLowerCase();
 		if(body.contains("thank") || body.contains("appreciat")){
@@ -822,6 +842,19 @@ public class FeatureExtractor {
 		return comment.toLowerCase().startsWith(word);
 	}
 	
+	/**
+	 * @param text
+	 * @return true if the text contains a question mark
+	 */
+	//TODO more sophisticated mechanisms to identify a question?
+	public static boolean containsQuestion(String text){
+    if (text.contains("?")) {
+      return true;
+    }
+    return false;
+  }
+	
+	@Deprecated
 	public static boolean containsQuestion(Comment comment){
 		String body = comment.getCbody();
 		if(body.contains("?")){
