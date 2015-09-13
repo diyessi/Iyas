@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
@@ -24,10 +25,12 @@ import it.uniroma2.sag.kelp.data.example.Example;
 import it.uniroma2.sag.kelp.data.example.SimpleExample;
 import it.uniroma2.sag.kelp.data.label.Label;
 import it.uniroma2.sag.kelp.data.label.StringLabel;
+import it.uniroma2.sag.kelp.data.representation.vector.DenseVector;
 import it.uniroma2.sag.kelp.data.representation.vector.SparseVector;
 import it.uniroma2.sag.kelp.learningalgorithm.classification.liblinear.LibLinearLearningAlgorithm;
 import it.uniroma2.sag.kelp.predictionfunction.classifier.BinaryLinearClassifier;
 import it.uniroma2.sag.kelp.predictionfunction.classifier.BinaryMarginClassifierOutput;
+import it.uniroma2.sag.kelp.predictionfunction.classifier.Classifier;
 import it.uniroma2.sag.kelp.utils.JacksonSerializerWrapper;
 import it.uniroma2.sag.kelp.utils.ObjectSerializer;
 import it.uniroma2.sag.kelp.utils.evaluation.BinaryClassificationEvaluator;
@@ -38,17 +41,16 @@ public class Demo {
 	private static final boolean TRAIN_SYSTEM = false;
 	private static final boolean COMPUTE_FEATURE_REPRESENTATION = false;
 	private static final String TRAIN_FILENAME = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml.klp";
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml.csv.klp";
 	private static final String TEST_FILENAME = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml.klp";
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml.csv.klp";
 	private static final String MODEL_FILENAME = TRAIN_FILENAME + ".model";
-	private static final String VECTORIAL_LINEARIZATION_NAME = "features";
+	private static final String VECTORIAL_LINEARIZATION_NAME = "semevalfeatures";
 	private static final float CP = 1;
 	private static final float CN = 1;
-	private static final String MODEL_REPRESENTATION = "0";
-	private StringLabel positiveClass = new StringLabel("Good");
+	private StringLabel positiveClass = new StringLabel("GOOD");
 	private BinaryLinearClassifier model;
-	private CommentSelectionDatasetCreator featureMapper;
+	private CommentSelectionDatasetCreator featureMapper; 
 	
 	public Demo() {
 		this.model = null;
@@ -75,7 +77,7 @@ public class Demo {
 			System.out.println("Training Label " + l.toString() + " "
 					+ trainingSet.getNumberOfNegativeExamples(l));
 		}
-		LibLinearLearningAlgorithm liblinear = new LibLinearLearningAlgorithm(this.positiveClass,
+		LibLinearLearningAlgorithm liblinear = new LibLinearLearningAlgorithm(positiveClass,
 																CP,CN,VECTORIAL_LINEARIZATION_NAME);
 		liblinear.learn(trainingSet);
 		this.model = (BinaryLinearClassifier) liblinear.getPredictionFunction();
@@ -128,7 +130,7 @@ public class Demo {
 		testSet.populate(TEST_FILENAME);
 		BinaryClassificationEvaluator evaluator = new BinaryClassificationEvaluator(this.positiveClass);
 		for (Example e : testSet.getExamples()) {
-			BinaryMarginClassifierOutput predict = this.model.predict(e);
+			BinaryMarginClassifierOutput predict = model.predict(e);
 			evaluator.addCount(e, predict);
 		}
 		return evaluator.getAccuracy();
@@ -137,14 +139,21 @@ public class Demo {
 	
 	private SimpleExample createKelpExampleFromVector(ArrayList<Double> featureValues) {
 		
-		SimpleExample ex;
 		SparseVector sp = new SparseVector();
-		sp.addFeaturesFromList(featureValues);
-		ex = new SimpleExample(sp);
-		for(Double f : featureValues) {
-			;
-		}		
-		return ex;
+		
+		int i = 0; 
+		for (double entry : featureValues) {
+			i = i+1;
+			sp.setFeatureValue(Integer.toString(i), (float) entry);
+		}
+		//sp.addFeaturesFromList(featureValues);
+		double[] featureArray = ArrayUtils.toPrimitive(featureValues.toArray(new Double[featureValues.size()]));
+		DenseVector dv = new DenseVector(featureArray);
+		
+		SimpleExample ex = new SimpleExample();
+		//ex.addRepresentation(VECTORIAL_LINEARIZATION_NAME, sp);
+		ex.addRepresentation(VECTORIAL_LINEARIZATION_NAME, dv);
+		return ex;		
 	}
 	
 	/**
@@ -154,24 +163,31 @@ public class Demo {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public void getQuestionAnswers(String userQuestion) throws UIMAException, IOException {
+	public ArrayList<Float> getQuestionAnswers(String userQuestion) throws UIMAException, IOException {
 		
 		//temporary
-		ArrayList<Question> threads = new ArrayList();
+/*		ArrayList<Question> threads = new ArrayList<Question>();
 		Document doc = JsoupUtils.getDoc("semeval2015-3/data/SemEval2015-Task3-English-data/datasets/trialSearchResult.xml");
-		doc.select("QURAN").remove();
-		doc.select("HADEETH").remove();
 		Elements candidateAnswers = doc.getElementsByTag("Question");
 		for (Element xmlThread : candidateAnswers) {
-			this.featureMapper.getCommentFeatureRepresentation(xmlThread);
+			//this.featureMapper.getCommentFeatureRepresentation(xmlThread);
 		}
-		//
-		//SimpleExample ex;
+*/		//
+		ArrayList<Double> f = new ArrayList<Double>();
+		for (int i=1;i<=82;i=i+1) {
+			f.add(0.3);
+		}
+		SimpleExample ex;
+		ArrayList<Float> scores = new ArrayList<Float>();
+		ex = createKelpExampleFromVector(f);
+		scores.add(model.predict(ex).getScore(positiveClass));
 		for(Question thread : this.retrieveCandidateAnswers(userQuestion)) {
 			//get feature representation for question and comments and convert them to Kelp format
-			this.createKelpExampleFromVector(this.featureMapper.getCommentFeatureRepresentation(thread, userQuestion));
-			//classify example
-		}		
+			//ex = createKelpExampleFromVector(featureMapper.getCommentFeatureRepresentation(thread, userQuestion));
+			//scores.add(model.predict(ex).getScore(positiveClass));
+		}
+		
+		return scores;
 	}
 	
 	/**
@@ -183,7 +199,7 @@ public class Demo {
 	 */
 	private List<Question> retrieveCandidateAnswers(String userQuestion) throws IOException {
 		
-		ArrayList<Question> candidateAnswers;
+		ArrayList<Question> candidateAnswers = new ArrayList<Question>();
 		//retrieveLinksToRelatedQuestions(userQuestion);
 		//if null then STOP
 		//String[] = getQuestionIDsFromLinks(String[])
@@ -218,10 +234,14 @@ public class Demo {
 		}
 		
 		if (demo.loadModelFromFile()) {
+			
 			String userQuestion = "What is your name?";
-			demo.getQuestionAnswers(userQuestion);
+			System.out.println("Processing question: " + userQuestion);
+			ArrayList<Float> scores = demo.getQuestionAnswers(userQuestion);
+			System.out.println(scores.get(0));
+			System.out.println("Done");
 		}
-
+		
 	}
 
 }
