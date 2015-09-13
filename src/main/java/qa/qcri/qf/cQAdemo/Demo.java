@@ -91,6 +91,7 @@ public class Demo {
 	private void saveModelToFile() throws IOException {
 		if (this.model==null) {
 			System.out.println("ERROR: model is null, thus it cannot be saved on file");
+			System.exit(1);
 		}
 		ObjectSerializer serializer = new JacksonSerializerWrapper();
 		serializer.writeValueOnFile(this.model, MODEL_FILENAME);
@@ -105,12 +106,7 @@ public class Demo {
 		File file = new File(MODEL_FILENAME);
 		try {
 			this.model = serializer.readValue(file, BinaryLinearClassifier.class);
-		}catch (FileNotFoundException e) {
-			System.out.println("Error: cannot load model from file: " + MODEL_FILENAME);
-			e.printStackTrace();
-			return false;
-		}catch (IOException e) {
-			e.printStackTrace();
+		}catch (Exception e) {
 			return false;
 		}
 		return true;
@@ -230,17 +226,20 @@ public class Demo {
 			}else {
 				System.out.println("Saved model not found, training the system...");
 			}
-			demo.trainSystem();		
+			demo.trainSystem();
 		}
 		
-		if (demo.loadModelFromFile()) {
-			
-			String userQuestion = "What is your name?";
-			System.out.println("Processing question: " + userQuestion);
-			ArrayList<Float> scores = demo.getQuestionAnswers(userQuestion);
-			System.out.println(scores.get(0));
-			System.out.println("Done");
-		}
+		if (!demo.loadModelFromFile()) {	
+			System.out.println("Error: cannot load model from file: " + MODEL_FILENAME);
+			System.exit(1);
+		}			
+		
+		String userQuestion = "What is your name?";
+		System.out.println("Processing question: " + userQuestion);
+		ArrayList<Float> scores = demo.getQuestionAnswers(userQuestion);
+		System.out.println(scores.get(0));
+		System.out.println("Done");
+		
 		
 	}
 
