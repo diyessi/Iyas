@@ -29,7 +29,7 @@ public class CQAinstance implements Comparable<CQAinstance>,  Serializable {
 	private static final long serialVersionUID = 7155250601309427542L;
 	
 	/** Category (Advice and help, Computers and Internet, etc.) */
-  private String category;
+	private String category;
   
 	
 	public static final String THANKS = "thanks";
@@ -196,7 +196,7 @@ public class CQAinstance implements Comparable<CQAinstance>,  Serializable {
 	 * 
 	 */
 	//TODO this could be moved to just a list of int, where int is the position
-  //of the the comment in the thred
+  //of the the comment in the thread
 	public Map<Integer, CQAcomment> getCommentsByUser(String userid) {
 	  Map<Integer, CQAcomment> comms = new TreeMap<Integer, CQAcomment>();
     int i =1;

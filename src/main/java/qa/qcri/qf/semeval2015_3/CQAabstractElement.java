@@ -1,20 +1,29 @@
 package qa.qcri.qf.semeval2015_3;
 
+/**
+ * 
+ * Abstract class with common functions for handling comments and questions 
+ * (generally referred to as posts) in a thread. 
+ * 
+ * @author albarron
+ *
+ */
+
 public abstract class CQAabstractElement {
 
-  /** Unique, global, id of the question */
+  /** Unique, global, id of the post */
   protected String id;
   
-  /** Date when the question was generated */
+  /** Date when the post was generated */
   protected String date;
   
-  /** User ID for the "questioner" Q */
+  /** User ID for the post */
   protected String userid;
   
-  /** Subject of the question, as set by Q */
+  /** Subject of the post */
   protected String subject;
   
-  /** Body of the question */
+  /** Body of the post */
   protected String body;
   
   
