@@ -1,4 +1,4 @@
-package qa.qcri.qf.semeval2015_3;
+package qa.qf.qcri.cqa;
 
 /**
  * 

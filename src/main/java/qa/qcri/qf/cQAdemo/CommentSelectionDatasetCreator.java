@@ -68,337 +68,6 @@ public class CommentSelectionDatasetCreator
 		new CommentSelectionDatasetCreator().runForEnglish();
 	}
 
-	
-	//XXX ABC, Sep 10, 2009. Gio: these variables are used only in processEnglishFile,
-	//which indeed now lives in the emnlp15 class. I'm commenting the function 
-	//as it seems useless. We can take it back if we split that big function there
-	//and we really find it necessary
-	private void setOutputFiles(String dataFile) {
-    this.plainTextOutputPath = dataFile + "plain.txt";
-    this.goodVSbadOutputPath = dataFile + ".csv";
-    this.pairwiseOutputPath = dataFile + getPairwiseSuffix();
-    this.kelpFilePath = dataFile + ".klp";    
-  }
-
-	//did here sounds reasonable: create a new method 
-  //to setup the uimatools and remove all those noisy lines from this method. 
-  //That should be transfered to the emnlp class. Discuss with him. The same applies
-  //to method processEnglishFile (next)
-	 	
-//	/**
-//	 * Process the xml file and output a csv file with the results in the same directory
-//	 * @param dataFile the xml file to process
-//	 * @suffix suffix for identifying the data file 
-//	 * 
-//	 * @param doc
-//	 * @param dataFile
-//	 * @param suffix
-//	 * @throws ResourceInitializationException
-//	 * @throws UIMAException
-//	 * @throws IOException
-//	 * @throws AnalysisEngineProcessException
-//	 * @throws SimilarityException
-//	 */
-//	//FIXME I DO NOT REMOVE THIS AS IT IS DIFFERENT TO THE ONE IN EMNLP!!!
-//	private void processEnglishFile(Document doc, String dataFile, String suffix)
-//			throws ResourceInitializationException, UIMAException, IOException,
-//			AnalysisEngineProcessException, SimilarityException {
-//
-//		setOutputFiles(dataFile);
-//			/**
-//		 * Marker which adds relational information to a pair of trees
-//		 */
-//		MarkTreesOnRepresentation marker = new MarkTreesOnRepresentation(
-//				new MarkTwoAncestors());
-//
-//		/**
-//		 * Load stopwords for english
-//		 */
-//		marker.useStopwords(Stopwords.STOPWORD_EN);
-//
-//		/**
-//		 * Tree serializer for converting tree structures to string
-//		 */
-//		this.ts = new TreeSerializer().enableRelationalTags().useRoundBrackets();
-//
-//		/**
-//		 * Instantiate CASes
-//		 */
-//		//JCas questionCas = JCasFactory.createJCas();
-//		this.questionCas = JCasFactory.createJCas();
-//
-//		//WriteFile out = new WriteFile(dataFile + ".csv");
-//
-//		doc.select("QURAN").remove();
-//		doc.select("HADEETH").remove();
-//
-//		//boolean firstRow = true;
-//
-//		/**
-//		 * Consume data
-//		 */
-//		Elements questions = doc.getElementsByTag("Question");		
-//		int numberOfQuestions = questions.size();
-//		int questionNumber = 1;
-//
-//		//FIXME ABC, Sep 10. My impression is that this loop does nothing, as 
-//		//the return value is not assigned. A possibility is that the method 
-//		//stores some value in a global
-//		for (Element question : questions) {
-//			List<Double> commentRepresentation = getCommentFeatureRepresentation(question); 
-//			//writeFeaturesToFile(AugmentableFeatureVector fv, JCas commentCas, String suffix, 
-//			//		TreeSerializer ts, String qid, String cid, String cgold, String cgold_yn)
-//		}
-//		
-//		for (Element question : questions) {
-//
-//			/*Comment-level features to be combined*/
-//			List<List<Double>>	listFeatures = new ArrayList<List<Double>>();
-//			
-//			
-//			Question q = new Question();
-//			System.out.println("[INFO]: Processing " + questionNumber++ + " out of " + numberOfQuestions);
-//			/**
-//			 * Parse question node
-//			 */
-//			String qid = question.attr("QID");
-//			String qcategory = question.attr("QCATEGORY");
-//			String qdate = question.attr("QDATE");
-//			String quserid = question.attr("QUSERID");
-//			String qtype = question.attr("QTYPE");
-//			String qgold_yn = question.attr("QGOLD_YN");		
-//			String qsubject = JsoupUtils.recoverOriginalText(question.getElementsByTag("QSubject").get(0).text());
-//			qsubject = TextNormalizer.normalize(qsubject);
-//			String qbody = question.getElementsByTag("QBody").get(0).text();
-//			qbody = JsoupUtils.recoverOriginalText(UserProfile.removeSignature(qbody, userProfiles.get(quserid)));
-//			qbody = TextNormalizer.normalize(qbody);
-//			//			questionCategories.add(qcategory);
-//
-//			q.setQid(qid);
-//			q.setQcategory(qcategory);
-//			q.setQdate(qdate);
-//			q.setQuserId(quserid);
-//			q.setQtype(qtype);
-//			q.setQgoldYN(qgold_yn);
-//			q.setQbody(qbody);
-//
-//			/**
-//			 * Setup question CAS
-//			 */
-//			questionCas.reset();
-//			questionCas.setDocumentLanguage("en");
-//			String questionText = SubjectBodyAggregator.getQuestionText(qsubject, qbody);
-//			fm.writeLn(plainTextOutputPath, "---------------------------- QID: " + qid + " USER:" + quserid);
-//			fm.writeLn(plainTextOutputPath, questionText);
-//			questionCas.setDocumentText(questionText);
-//
-//			/**
-//			 * Run the UIMA pipeline
-//			 */
-//
-//			SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
-//	
-//
-//			//this.analyzer.analyze(questionCas, new SimpleContent("q-" + qid, qsubject + ". " + qbody));
-//
-//			/**
-//			 * Parse comment nodes
-//			 */
-//			Elements comments = question.getElementsByTag("Comment");
-//	
-//			/**
-//			 * Extracting context statistics for context Features
-//			 */
-//			
-//			for (Element comment : comments) {
-//				
-//				String cid = comment.attr("CID");
-//				String cuserid = comment.attr("CUSERID");
-//				String cgold = comment.attr("CGOLD");
-//				//Replacing the labels for the "macro" ones: GOOD vs BAD
-//				if(ONLY_BAD_AND_GOOD_CLASSES){
-//					if(cgold.equalsIgnoreCase("good")){
-//						cgold = GOOD;
-//					}else{
-//						cgold = BAD;
-//					}
-//				}
-//				String cgold_yn = comment.attr("CGOLD_YN");
-//				String csubject = JsoupUtils.recoverOriginalText(comment.getElementsByTag("CSubject").get(0).text());
-//				csubject = TextNormalizer.normalize(csubject);
-//				String cbody = comment.getElementsByTag("CBody").get(0).text();
-//				cbody = JsoupUtils.recoverOriginalText(UserProfile.removeSignature(cbody, userProfiles.get(cuserid)));
-//				cbody = TextNormalizer.normalize(cbody);
-//				q.addComment(cid, cuserid, cgold, cgold_yn, csubject, cbody);
-//			}
-//	
-//			List<HashMap<String, Double>> albertoSimoneFeatures;
-//			if (GENERATE_ALBERTO_AND_SIMONE_FEATURES){
-//				albertoSimoneFeatures = FeatureExtractor.extractFeatures(q);
-//			}
-//	
-//			int commentIndex = 0;
-//			
-//			List<JCas> allCommentsCas = new ArrayList<JCas>();
-//			for (Comment comment : q.getComments()) {
-//	
-//				String cid = comment.getCid();
-//				String cuserid = comment.getCuserid();
-//				String cgold = comment.getCgold();
-//
-//				
-////				if(ONLY_BAD_AND_GOOD_CLASSES){
-////					if(cgold.equalsIgnoreCase("good")){
-////						cgold = GOOD;
-////					}else{
-////						cgold = BAD;
-////					}
-////				}
-//
-//				String cgold_yn = comment.getCgold_yn();
-//				String csubject = comment.getCsubject();
-//				String cbody = comment.getCbody();
-//				/**
-//				 * Setup comment CAS
-//				 */
-//				JCas commentCas = JCasFactory.createJCas();
-//				commentCas.setDocumentLanguage("en");
-//				String commentText = SubjectBodyAggregator.getCommentText(csubject, cbody);
-////				if(commentText.contains("&")){
-////					System.out.println(commentText);
-////				}
-//				commentCas.setDocumentText(commentText);
-//				fm.writeLn(plainTextOutputPath, "- CID: " + cid.replace("_", "-") + " USER:" + cuserid);
-//				fm.writeLn(plainTextOutputPath, commentText);
-//				/**
-//				 * Run the UIMA pipeline
-//				 */
-//	
-//				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
-//				//this.analyzer.analyze(commentCas, new SimpleContent("c-" + cid, csubject + ". " + cbody));
-//
-//				AugmentableFeatureVector fv;
-//				if (GENERATE_MASSIMO_FEATURES){
-//					fv = (AugmentableFeatureVector) pfEnglish.getPairFeatures(questionCas, commentCas, PARAMETER_LIST);
-//
-//				} else {
-//					fv = new AugmentableFeatureVector(this.alphabet);
-//				}
-//
-//				if (GENERATE_ALBERTO_AND_SIMONE_FEATURES){
-//
-//					HashMap<String, Double> featureVector = albertoSimoneFeatures.get(commentIndex);
-//					
-//					for (String featureName : FeatureExtractor.getAllFeatureNames()){
-//						Double value = featureVector.get(featureName);
-//						double featureValue =0;
-//						if(value!=null){
-//							featureValue = value;
-//						}
-//					
-//						fv.add(featureName, featureValue);
-//					}
-//
-//				}
-//				commentIndex++;
-//
-//				/***************************************
-//				 * * * * PLUG YOUR FEATURES HERE * * * *
-//				 ***************************************/
-//
-//				/**
-//				 * fv is actually an AugmentableFeatureVector from the Mallet library
-//				 * 
-//				 * Internally the features are named so you must specify an unique identifier.
-//				 * 
-//				 * An example:
-//				 * 
-//				 * ((AugmentableFeatureVector) fv).add("your_super_feature_id", 42);
-//				 * 
-//				 * or:
-//				 * 
-//				 * AugmentableFeatureVector afv = (AugmentableFeatureVector) fv;
-//				 * afv.add("your_super_feature_id", 42);
-//				 * 
-//				 */
-//
-//				//((AugmentableFeatureVector) fv).add("quseridEqCuserid", quseridEqCuserid);
-//
-//				/***************************************
-//				 * * * * THANKS! * * * *
-//				 ***************************************/
-//
-//				/**
-//				 * Produce output line
-//				 */
-//
-////				String goodVSbadOutputPath = dataFile + ".csv";
-////				String pairwiseOutputPath 
-//				
-//				if (firstRow) {
-//					//header for Good vs Bad
-//					this.fm.write(goodVSbadOutputPath, "qid,cgold,cgold_yn");
-//					for (int i = 0; i < fv.numLocations(); i++) {
-//						int featureIndex = i + 1;
-//						this.fm.write(goodVSbadOutputPath, ",f" + featureIndex);
-//					}
-//					this.fm.writeLn(goodVSbadOutputPath, "");
-//					
-//					//header for pairwise
-//					this.fm.write(pairwiseOutputPath, "qid,cgold");
-//					int numFeatures = fv.numLocations();
-//					if (COMBINATION_CONCAT){
-//						numFeatures *=2;
-//					}
-//					if (INCLUDE_SIMILARITIES){
-//						numFeatures += PairFeatureFactoryEnglish.NUM_SIM_FEATURES;
-//					}
-//						
-//					for (int i = 0; i < numFeatures; i++) {
-//						int featureIndex = i + 1;
-//						this.fm.write(pairwiseOutputPath, ",f" + featureIndex);
-//					}
-//					this.fm.writeLn(pairwiseOutputPath, "");
-//
-//					firstRow = false;
-//				}
-//
-//				List<Double> features = this.serializeFv(fv);
-//				listFeatures.add(features);
-//
-//				this.fm.writeLn(goodVSbadOutputPath, 
-//						cid + "," + cgold + "," + cgold_yn + "," 
-//						+ Joiner.on(",").join(features));
-//
-//				/**
-//				 * Produce also the file needed to train structural models
-//				 */
-//				if (PRODUCE_SVMLIGHTTK_DATA) {
-//					produceSVMLightTKExample(questionCas, commentCas, suffix, ts,
-//							qid, cid, cgold, cgold_yn, features);
-//				}
-//				if (PRODUCE_KELP_DATA){
-//					produceKelpExample(questionCas, commentCas, kelpFilePath, ts,
-//							qid, cid, cgold, cgold_yn, features);
-//				}
-//				allCommentsCas.add(commentCas);
-//				
-//			}
-//			
-//			this.fm.write(pairwiseOutputPath, computePairwiseFeatures(q, listFeatures, allCommentsCas));
-//			//out.writeLn(computePairwiseFeatures(q, listFeatures);
-//		}
-//
-//		//		Iterator<String> iterator = questionCategories.iterator();
-//		//		while(iterator.hasNext()){
-//		//			System.out.println("CATEGORY_" + iterator.next());
-//		//		}
-//
-//		
-//		this.fm.closeFiles();
-//		
-//	}
-
 	//FIXME ABC, Sep 10. Gio: this function is used, but returns null as 
 	//setFileSuffix is never used. Either remove these two methods and make
 	//suffix a parameter in the necessary method or actually use the setter at 
@@ -571,23 +240,15 @@ public class CommentSelectionDatasetCreator
 		//fm.writeLn(plainTextOutputPath, questionText);
 		this.questionCas.setDocumentText(questionText);
 
-		/**
-		 * Run the UIMA pipeline
-		 */
-
+		/** Run the UIMA pipeline */
 		SimplePipeline.runPipeline(questionCas, this.analysisEngineList);
-
 
 		//this.analyzer.analyze(questionCas, new SimpleContent("q-" + qid, qsubject + ". " + qbody));
 
-		/**
-		 * Parse comment nodes
-		 */
+		/** Parse comment nodes */
 		//Elements comments = thread.getElementsByTag("Comment");
 
-		/**
-		 * Extracting context statistics for context Features
-		 */
+		/** Extracting context statistics for context Features */
 		
 		for (Comment comment : thread.getComments()) {
 			if (ONLY_BAD_AND_GOOD_CLASSES){
@@ -643,10 +304,9 @@ public class CommentSelectionDatasetCreator
 				for (String featureName : FeatureExtractor.getAllFeatureNames()){
 					Double value = featureVector.get(featureName);
 					double featureValue =0;
-					if (value!=null){
+					if (value!=null) {
 						featureValue = value;
 					}
-				
 					fv.add(featureName, featureValue);
 				}
 
@@ -693,14 +353,12 @@ public class CommentSelectionDatasetCreator
 			 * Produce also the file needed to train structural models
 			 */			
 			allCommentsCas.add(commentCas);
-			
 		}
 		
 		if (WRITE_FEATURES_TO_FILE) {
 			this.fm.write(this.pairwiseOutputPath, computePairwiseFeatures(thread, listFeatures, allCommentsCas));
 			//out.writeLn(computePairwiseFeatures(q, listFeatures);
 		}
-		
 		return featureMap;
 	}
 
