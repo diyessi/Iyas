@@ -67,7 +67,7 @@ public class Demo {
 		QuestionRetriever qr = new QuestionRetriever();
 		LinkToQuestionObjectMapper threadObjectBuilder = 
 				new LinkToQuestionObjectMapper(); 
-		
+			
 		for (CQAinstance thread : threadObjectBuilder.getQuestions(qr.getLinks(userQuestion))) {
 			candidateAnswers.add(thread);
 		}
@@ -109,7 +109,7 @@ public class Demo {
 			//ArrayList<Double> f;
 			//get feature representation for question and comments and classify them
 			//TODO ALBERTO
-			scores.add(model.getExampleScoreFromFeatureVector(f));
+			//scores.add(model.getExampleScoreFromFeatureVector(f));
 		}
 		
 		return scores;
@@ -143,7 +143,7 @@ public class Demo {
 			userQuestion = args[0];
 		}else{
 			System.out.println("Asking a deafult question");
-			userQuestion = "What is your name?";
+			userQuestion = "is there any temple in Qatar?";
 		}
 		System.out.println("Processing question: " + userQuestion);
 		

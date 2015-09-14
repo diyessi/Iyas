@@ -3,6 +3,7 @@ package qa.qcri.qf.cQAdemo;
 import java.util.ArrayList;
 import java.util.List;
 
+import qa.qcri.qf.semeval2015_3.CQAinstance;
 import qa.qcri.qf.semeval2015_3.Question;
 
 /**
@@ -22,7 +23,7 @@ public class LinkToQuestionObjectMapper {
 	 * @param urls, a list of String representing urls 
 	 * @return a list of Question objects, each one related to the corresponding url 
 	 */
-	public List<Question> getQuestions(List<String> urls) {
+	public List<CQAinstance> getQuestions(List<String> urls) {
 		return null;
 	}
 	

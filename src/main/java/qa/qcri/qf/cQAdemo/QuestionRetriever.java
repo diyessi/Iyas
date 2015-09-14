@@ -3,6 +3,10 @@ package qa.qcri.qf.cQAdemo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.search.GoogleWebSearch;
+import com.google.search.SearchQuery;
+import com.google.search.SearchResult;
+
 /**
  * A class to extract URLs from questions in the QatarLiving forum.
  * So far, it is supposed to depend on Google's search engine.
@@ -15,8 +19,6 @@ public class QuestionRetriever {
 	
 	
 	public QuestionRetriever() {
-		//TODO Wei, please add the necessary code (including methods)
-		//dependencies should be maven-like
 	}
 
 	/**
@@ -25,8 +27,11 @@ public class QuestionRetriever {
 	 * @return
 	 */
 	public List<String> getLinks(String userQuestion) {
-		//TODO Wei, please add the necessary code
-		return null;
+
+		SearchQuery query = new SearchQuery.Builder(userQuestion).site("qatarliving.com").numResults(100).build();
+		SearchResult result = new GoogleWebSearch().search(query);
+	    List<String> urls = result.getUrls();
+		return urls;
 	}
 	
 	/**

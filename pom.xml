@@ -235,6 +235,17 @@
 			<artifactId>kelp-full</artifactId>
 			<version>1.2.0</version>
 	</dependency>
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5</version>
+    </dependency>
+    <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-core</artifactId>
+        <version>1.3</version>
+        <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
 	<plugins>
