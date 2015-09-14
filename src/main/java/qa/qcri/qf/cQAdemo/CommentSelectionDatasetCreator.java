@@ -126,15 +126,15 @@ public class CommentSelectionDatasetCreator
   
   
   //TODO This should be a List<List<Double>> as it contains all the features for the entire thread
-  public List<Double> getCommentFeatureRepresentation(CQAinstance thread) throws IOException, UIMAException {
+  public List<List<Double>> getCommentFeatureRepresentation(CQAinstance thread) throws IOException, UIMAException {
     //TODO confirm that getQbody is enough. Check how to get the question from a different place can be assigned
     return this.getCommentFeatureRepresentation(thread, thread.getQuestion().getBody());
   }
   
   //FIXME ABC, Sep 10. Gio: I still don't understand the reasoning behind this invocation. Let's discuss 
-  public ArrayList<Double> getCommentFeatureRepresentation(CQAinstance thread, String userQuestion) throws IOException, UIMAException {
+  public List<List<Double>> getCommentFeatureRepresentation(CQAinstance thread, String userQuestion) throws IOException, UIMAException {
     
-    ArrayList<Double> featureMap = new ArrayList<Double>();
+    //ArrayList<Double> featureMap = new ArrayList<Double>();
 
     /*Comment-level features to be combined*/
     List<List<Double>>  listFeatures = new ArrayList<List<Double>>();
@@ -286,7 +286,7 @@ public class CommentSelectionDatasetCreator
       this.fm.write(this.pairwiseOutputPath, computePairwiseFeatures(thread, listFeatures, allCommentsCas));
       //out.writeLn(computePairwiseFeatures(q, listFeatures);
     }
-    return featureMap;
+    return listFeatures;
   }
 
   
