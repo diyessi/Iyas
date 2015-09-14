@@ -1,4 +1,4 @@
-package qa.qcri.qf.semeval2015_3;
+package qa.qf.qcri.cqa;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+
+import qa.qcri.qf.semeval2015_3.FeatureExtractor;
 
 /**
  * A simple class that includes all the information related to Community 
@@ -91,6 +93,11 @@ public class CQAinstance implements Comparable<CQAinstance>,  Serializable {
 		}
 		return false;		
 	}	
+	
+	public CQAquestion getQuestion(){
+	  return question;
+	}
+	
 	
 	public List<CQAcomment> getComments(){
 		return comments;

@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import qa.qf.qcri.cqa.CQAcomment;
+import qa.qf.qcri.cqa.CQAinstance;
+import qa.qf.qcri.cqa.CQAquestion;
+
 /**
  * A simple class that includes all the information related to a Question and 
  * its comments in the Semeval 2015 task 3 on answer selection.
