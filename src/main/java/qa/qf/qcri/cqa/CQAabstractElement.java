@@ -1,5 +1,11 @@
 package qa.qf.qcri.cqa;
 
+import java.util.Map;
+
+import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
+import qa.qcri.qf.semeval2015_3.textnormalization.TextNormalizer;
+import qa.qcri.qf.semeval2015_3.textnormalization.UserProfile;
+
 /**
  * 
  * Abstract class with common functions for handling comments and questions 
@@ -63,12 +69,33 @@ public abstract class CQAabstractElement {
    * @return The sum of the subject and body of an element
    */
   public String getWholeText() {
-    if (body.toLowerCase().startsWith(subject.toLowerCase())) {
-      return body;
-    }
-    if (Character.isUpperCase(body.charAt(0))) {
-      return subject+ ". " + body; 
-    }
-    return subject+ " " + body;
+    return concatSubjectAndBody(subject,  body);
   }
+  
+  /**
+   * Text is normalised and potential signatures removed
+   * TODO potentually a uima annotator
+   * @param userProfiles
+   * @return
+   */
+  public String getWholeTextNormalized(Map<String, UserProfile> userProfiles) {
+    String qsubject = TextNormalizer.normalize(subject);
+    String qbody = JsoupUtils.recoverOriginalText(
+        UserProfile.removeSignature(body, userProfiles.get(userid)));
+    qbody = TextNormalizer.normalize(qbody);
+    //      questionCategories.add(qcategory);
+    return concatSubjectAndBody(qsubject,  qbody);
+  }
+  
+  private String concatSubjectAndBody(String s, String b) {
+    if (b.toLowerCase().startsWith(s.toLowerCase())) {
+      return b;
+    }
+    if (Character.isUpperCase(b.charAt(0))) {
+      return s+ ". " + b; 
+    }
+    return s+ " " + b;
+  }
+  
+  
 }
