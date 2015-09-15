@@ -1,41 +1,15 @@
 package qa.qcri.qf.cQAdemo;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import edu.stanford.nlp.util.StringUtils;
-import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
-import qa.qcri.qf.semeval2015_3.textnormalization.UserProfile;
-import qa.qf.qcri.cqa.CQAcomment;
 import qa.qf.qcri.cqa.CQAinstance;
-import it.uniroma2.sag.kelp.data.dataset.SimpleDataset;
-import it.uniroma2.sag.kelp.data.example.Example;
-import it.uniroma2.sag.kelp.data.example.SimpleExample;
-import it.uniroma2.sag.kelp.data.label.Label;
-import it.uniroma2.sag.kelp.data.label.StringLabel;
-import it.uniroma2.sag.kelp.data.representation.vector.DenseVector;
-import it.uniroma2.sag.kelp.data.representation.vector.SparseVector;
-import it.uniroma2.sag.kelp.learningalgorithm.classification.liblinear.LibLinearLearningAlgorithm;
-import it.uniroma2.sag.kelp.predictionfunction.classifier.BinaryLinearClassifier;
-import it.uniroma2.sag.kelp.predictionfunction.classifier.BinaryMarginClassifierOutput;
-import it.uniroma2.sag.kelp.predictionfunction.classifier.Classifier;
-import it.uniroma2.sag.kelp.utils.JacksonSerializerWrapper;
-import it.uniroma2.sag.kelp.utils.ObjectSerializer;
-import it.uniroma2.sag.kelp.utils.evaluation.BinaryClassificationEvaluator;
-
 
 public class Demo {
 
