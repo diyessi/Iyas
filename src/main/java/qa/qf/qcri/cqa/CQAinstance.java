@@ -8,7 +8,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.jsoup.nodes.Element;
+
 import qa.qcri.qf.semeval2015_3.FeatureExtractor;
+import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
+import qa.qcri.qf.semeval2015_3.textnormalization.TextNormalizer;
+import qa.qcri.qf.semeval2015_3.textnormalization.UserProfile;
 
 /**
  * A simple class that includes all the information related to Community 
@@ -62,6 +67,49 @@ public class CQAinstance implements Comparable<CQAinstance>,  Serializable {
 		setQcategory(cat);
 	}
 
+	public CQAinstance(Element qelement) {
+		comments = new ArrayList<CQAcomment>();
+	    String id = qelement.attr("QID");
+	    String category = qelement.attr("QCATEGORY");
+	    String date = qelement.attr("QDATE");
+	    String userid = qelement.attr("QUSERID");
+	    String type = qelement.attr("QTYPE");
+	    String goldYN = qelement.attr("QGOLD_YN");
+	    String subject = TextNormalizer.normalize( 
+	            JsoupUtils.recoverOriginalText(
+	                    qelement.getElementsByTag("QSubject").get(0).text()) 
+	              );
+	    //TODO we don't normalise the subject?
+	    String body = qelement.getElementsByTag("QBody").get(0).text();
+//	    body = JsoupUtils.recoverOriginalText(
+//	                UserProfile.removeSignature(body, 
+//	                              userProfiles.get(userid)));
+	    body = TextNormalizer.normalize(body);
+	    question = new CQAquestion(id,  date, userid, type, goldYN, subject, body);
+	    //question = new CQAinstance(q, category);
+	    
+	    /** Parse comment nodes */
+	    for (Element comment : qelement.getElementsByTag("Comment")) {      
+	      String cid = comment.attr("CID");
+	      String cuserid = comment.attr("CUSERID");
+	      String cgold = comment.attr("CGOLD");
+	      
+	      //if (ONLY_BAD_AND_GOOD_CLASSES) {
+	      //  cgold = (cgold.equalsIgnoreCase("good")) ? GOOD : BAD;
+	      //}
+	      String cgold_yn = comment.attr("CGOLD_YN");
+	      String csubject = JsoupUtils.recoverOriginalText(
+	                    comment.getElementsByTag("CSubject").get(0).text());
+	      csubject = TextNormalizer.normalize(csubject);
+	      String cbody = comment.getElementsByTag("CBody").get(0).text();
+	//      cbody = JsoupUtils.recoverOriginalText(
+	//               UserProfile.removeSignature(cbody, userProfiles.get(cuserid)));
+	      cbody = TextNormalizer.normalize(cbody);
+	      addComment(cid, cuserid, cgold, cgold_yn, csubject, cbody);
+	    }
+		setQcategory(category);
+	}
+	
 	/**
 	 * Add a new comment
 	 * @param cid comment id: (includes QID)

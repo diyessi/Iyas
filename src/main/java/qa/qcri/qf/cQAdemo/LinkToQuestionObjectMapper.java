@@ -1,8 +1,13 @@
 package qa.qcri.qf.cQAdemo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
 import qa.qf.qcri.cqa.CQAinstance;
 import qa.qf.qcri.cqa.CQAquestion;
 
@@ -22,9 +27,17 @@ public class LinkToQuestionObjectMapper {
 	 * The function, for each url of the QatarLiving website, create a Question object from the corresponding thread  
 	 * @param urls, a list of String representing urls 
 	 * @return a list of Question objects, each one related to the corresponding url 
+	 * @throws IOException 
 	 */
-	public List<CQAinstance> getQuestions(List<String> urls) {
-		return null;
+	public List<CQAinstance> getQuestions(List<String> urls) throws IOException {
+
+		List<CQAinstance> candidateAnswers = new ArrayList<CQAinstance>();
+		Document doc = JsoupUtils.getDoc("semeval2015-3/data/SemEval2015-Task3-English-data/datasets/trialSearchResult.xml");
+		for (Element thread : doc.getElementsByTag("Question")) {
+			candidateAnswers.add(new CQAinstance(thread));
+		}
+
+		return candidateAnswers;
 	}
 	
 	

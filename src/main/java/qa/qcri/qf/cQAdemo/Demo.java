@@ -16,6 +16,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import edu.stanford.nlp.util.StringUtils;
 import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
 import qa.qcri.qf.semeval2015_3.textnormalization.UserProfile;
 import qa.qf.qcri.cqa.CQAcomment;
@@ -44,10 +45,14 @@ public class Demo {
 
 	private CommentSelectionDatasetCreator featureMapper; 
 	private ModelTrainer model;
+	private QuestionRetriever qr;
+	private LinkToQuestionObjectMapper threadObjectBuilder;
 	
-	public Demo() {
+	public Demo() throws UIMAException, IOException {
 		this.featureMapper = new CommentSelectionDatasetCreator();
 		this.model = new ModelTrainer();
+		this.qr = new QuestionRetriever();
+		this.threadObjectBuilder = new LinkToQuestionObjectMapper(); 
 	}
 
 	/**
@@ -62,24 +67,13 @@ public class Demo {
 	private List<CQAinstance> retrieveCandidateAnswers(String userQuestion) 
 			throws IOException {
 		
-		ArrayList<CQAinstance> candidateAnswers = new ArrayList<CQAinstance>();
-		QuestionRetriever qr = new QuestionRetriever();
-		LinkToQuestionObjectMapper threadObjectBuilder = 
-				new LinkToQuestionObjectMapper(); 
+		List<CQAinstance> candidateAnswers;
 			
-		for (CQAinstance thread : threadObjectBuilder.getQuestions(qr.getLinks(userQuestion))) {
-			candidateAnswers.add(thread);
-		}
+		candidateAnswers = threadObjectBuilder.getQuestions(qr.getLinks(userQuestion));
 		if (candidateAnswers.size()==0) {
 			System.out.println("No similar questions were found in QatarLiving");
-			System.exit(0);
+			//System.exit(0); //TODO delete this line if possible
 		}
-		//temporary solution to provide fake candidate answers
-		//Document doc = JsoupUtils.getDoc("semeval2015-3/data/SemEval2015-Task3-English-data/datasets/trialSearchResult.xml");
-		//doc.select("QURAN").remove();
-		//doc.select("HADEETH").remove();
-		//candidateAnswers = doc.getElementsByTag("Question");
-		//		
 		return candidateAnswers;
 	}	
 
@@ -91,26 +85,22 @@ public class Demo {
 	 * @throws UIMAException
 	 * @throws IOException
 	 */
-	public ArrayList<Float> getQuestionAnswers(String userQuestion) 
+	public List<CQAinstance> getQuestionAnswers(String userQuestion) 
 			throws UIMAException, IOException {
+		List<List<Double>> threadFeatures = new ArrayList<List<Double>>();
+		List<CQAinstance> threads;
+		float score;
 		
-		ArrayList<Float> scores = new ArrayList<Float>();
-		
-		//temporary
-/*		ArrayList<Double> f = new ArrayList<Double>();
-		for (int i=1;i<=82;i=i+1) {
-			f.add(0.3);
-		}
-		scores.add(model.getExampleScoreFromFeatureVector(f));
-*/		//delete from temporary to here
-		
-		for(CQAinstance thread : retrieveCandidateAnswers(userQuestion)) {
-			for (List<Double> f : featureMapper.getCommentFeatureRepresentation(thread)) {
-				scores.add(model.getExampleScoreFromFeatureVector(f));
+		threads = retrieveCandidateAnswers(userQuestion);
+		for(CQAinstance thread : threads) {
+			threadFeatures = featureMapper.getCommentFeatureRepresentation(thread);
+			for (int i=0; i<thread.getNumberOfComments(); i++) {
+				score = model.getExampleScoreFromFeatureVector(threadFeatures.get(i));
+				thread.getComment(i).setPrediction("", score); 
 			}
 		}
 		
-		return scores;
+		return threads;
 	}
 	
 	private boolean loadModel(String modelFileName) {
@@ -125,9 +115,6 @@ public class Demo {
 		Logger.getRootLogger().setLevel(Level.INFO);
 		String userQuestion;
 		
-		if(args.length > 1) {
-			MODEL_FILE_NAME = args[1];
-		}
 		Demo demo = new Demo();
 				
 		if (!demo.loadModel(MODEL_FILE_NAME)) {	
@@ -138,15 +125,18 @@ public class Demo {
 		//write on the log file from which file the model has been loaded
 		
 		if(args.length > 0) {
-			userQuestion = args[0];
+			userQuestion = StringUtils.join(args, " ");
 		}else{
 			System.out.println("Asking a deafult question");
 			userQuestion = "is there any temple in Qatar?";
 		}
 		System.out.println("Processing question: " + userQuestion);
 		
-		ArrayList<Float> scores = demo.getQuestionAnswers(userQuestion);
-		System.out.println(scores.get(0));
+		List<CQAinstance> threads = demo.getQuestionAnswers(userQuestion);
+
+		OutputVisualization out = new OutputVisualization(threads);
+		out.printOnCommandLine();
+		//System.out.println(scores.get(0));
 		System.out.println("Done");
 		
 	}

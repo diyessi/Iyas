@@ -28,7 +28,7 @@ public class CommentSelectionDatasetCreator
     extends qa.qcri.qf.emnlp2015.CommentSelectionDatasetCreatorV2{
 
   /** */
-  public static final boolean WRITE_FEATURES_TO_FILE = true;
+  public static final boolean WRITE_FEATURES_TO_FILE = false;
 
   /** Add the meaning */
   private boolean firstRow;
@@ -44,7 +44,7 @@ public class CommentSelectionDatasetCreator
   private String pairwiseOutputPath;//added by Giovanni
   private String kelpFilePath;//added by Giovanni
 
-  public CommentSelectionDatasetCreator() {
+  public CommentSelectionDatasetCreator() throws UIMAException, IOException {
     super();
     this.firstRow = true;
   }
@@ -123,7 +123,6 @@ public class CommentSelectionDatasetCreator
 //    }
 //    return this.getCommentFeatureRepresentation(q, userQuestion);
 //  }
-  
   
   //TODO This should be a List<List<Double>> as it contains all the features for the entire thread
   public List<List<Double>> getCommentFeatureRepresentation(CQAinstance thread) throws IOException, UIMAException {

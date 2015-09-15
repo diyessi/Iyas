@@ -70,8 +70,8 @@ public class CommentSelectionDatasetCreatorV2 {
 	protected static final boolean GENERATE_MASSIMO_FEATURES = true;
 	protected static final boolean GENERATE_ALBERTO_AND_SIMONE_FEATURES = true;
 
-	protected static final boolean ONLY_BAD_AND_GOOD_CLASSES = false;
-	protected static final Boolean THREE_CLASSES = true;
+	protected static final boolean ONLY_BAD_AND_GOOD_CLASSES = true;
+	protected static final Boolean THREE_CLASSES = false;
 	
 	/** True if we want to compute comment-to-comment similarities */
 	protected static final boolean INCLUDE_SIMILARITIES = false;
@@ -153,9 +153,10 @@ public class CommentSelectionDatasetCreatorV2 {
 	
 	protected Map<String,UserProfile> userProfiles;
 
-	public CommentSelectionDatasetCreatorV2() {
+	public CommentSelectionDatasetCreatorV2() throws UIMAException, IOException {
 		this.fm = new FileManager();
 		this.alphabet = new Alphabet();
+		setupUimaTools();
 	}
 	
 	public static void main(String[] args) 
@@ -215,7 +216,8 @@ public class CommentSelectionDatasetCreatorV2 {
 	 * @throws AnalysisEngineProcessException
 	 * @throws SimilarityException
 	 */
-	private void processEnglishFile(Document doc, String dataFile, String suffix)
+	//TODO the method should be private
+	public void processEnglishFile(Document doc, String dataFile, String suffix)
 			throws ResourceInitializationException, UIMAException, IOException,
 			AnalysisEngineProcessException, SimilarityException {
 
@@ -631,9 +633,10 @@ public class CommentSelectionDatasetCreatorV2 {
               );
     //TODO we don't normalise the subject?
     String body = qelement.getElementsByTag("QBody").get(0).text();
-    body = JsoupUtils.recoverOriginalText(
-                UserProfile.removeSignature(body, 
-                              userProfiles.get(userid)));
+    //FIXME make it use useprofiles as below
+    //body = JsoupUtils.recoverOriginalText(
+    //            UserProfile.removeSignature(body, 
+    //                          userProfiles.get(userid)));
     body = TextNormalizer.normalize(body);
     CQAquestion q = new CQAquestion(id,  date, userid, type, goldYN, subject, body);
     CQAinstance cqa = new CQAinstance(q, category);
@@ -652,8 +655,9 @@ public class CommentSelectionDatasetCreatorV2 {
                     comment.getElementsByTag("CSubject").get(0).text());
       csubject = TextNormalizer.normalize(csubject);
       String cbody = comment.getElementsByTag("CBody").get(0).text();
-      cbody = JsoupUtils.recoverOriginalText(
-                UserProfile.removeSignature(cbody, userProfiles.get(cuserid)));
+      //FIXME make the following line work
+      //cbody = JsoupUtils.recoverOriginalText(
+      //          UserProfile.removeSignature(cbody, userProfiles.get(cuserid)));
       cbody = TextNormalizer.normalize(cbody);
       cqa.addComment(cid, cuserid, cgold, cgold_yn, csubject, cbody);
     }
@@ -671,7 +675,8 @@ public class CommentSelectionDatasetCreatorV2 {
   protected JCas cqaElementToCas(CQAabstractElement element) throws UIMAException {
     JCas jcas = JCasFactory.createJCas();
     jcas.setDocumentLanguage("en");
-    jcas.setDocumentText(element.getWholeTextNormalized(userProfiles));
+    jcas.setDocumentText(element.getWholeText());
+    //FIXME replace above command with this one (and make it work): jcas.setDocumentText(element.getWholeTextNormalized(userProfiles));
     return jcas;
   }
   

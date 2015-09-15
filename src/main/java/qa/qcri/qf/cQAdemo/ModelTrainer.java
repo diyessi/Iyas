@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.nodes.Document;
+
+import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
 import it.uniroma2.sag.kelp.data.dataset.SimpleDataset;
 import it.uniroma2.sag.kelp.data.example.Example;
 import it.uniroma2.sag.kelp.data.example.SimpleExample;
@@ -26,13 +29,19 @@ import it.uniroma2.sag.kelp.utils.evaluation.BinaryClassificationEvaluator;
 
 public class ModelTrainer {
 
+	private static final boolean COMPUTE_FEATURES = true;
+	private static final String CQA_QL_TRAIN_EN = "semeval2015-3/data/"
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml";
+	private static final String CQA_QL_TEST_EN = "semeval2015-3/data/"
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml";
 	private static final String TRAIN_FILENAME = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml.csv.klp";
+			//+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml.csv.klp";
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-train.xml.klp";
 	private static final String TEST_FILENAME = "semeval2015-3/data/"
-			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml.csv.klp";
+			+ "SemEval2015-Task3-English-data/datasets/emnlp15/CQA-QL-test.xml.klp";
 	private static final String MODEL_FILE_NAME = TRAIN_FILENAME + ".model";
 	
-	private static final String VECTORIAL_LINEARIZATION_NAME = "semevalfeatures";
+	private static final String VECTORIAL_LINEARIZATION_NAME = "features";
 	private static final String POSITIVE_CLASS_NAME = "Good";
 	private static final float CP = 1;
 	private static final float CN = 1;
@@ -43,6 +52,7 @@ public class ModelTrainer {
 	public ModelTrainer() {
 		this.model = null;
 		this.fv = new DenseVectorFromListOfDouble();
+		this.positiveClass = new StringLabel(POSITIVE_CLASS_NAME);
 	}
 
 	public String getModelFileName() {
@@ -80,7 +90,7 @@ public class ModelTrainer {
 	}
 
 	private String getRepresentationNameFromModel() {
-		return "semevalfeatures";
+		return VECTORIAL_LINEARIZATION_NAME;
 	}
 	
 	/**
@@ -92,6 +102,12 @@ public class ModelTrainer {
 	 */
 	private void trainSystem(String trainFileName) throws Exception {
 
+		if (COMPUTE_FEATURES) {
+			CommentSelectionDatasetCreator featureMapper = new CommentSelectionDatasetCreator();
+			Document docTrain = JsoupUtils.getDoc(CQA_QL_TRAIN_EN);
+			featureMapper.processEnglishFile(docTrain, CQA_QL_TRAIN_EN, "train");
+			trainFileName = CQA_QL_TRAIN_EN + ".klp";
+		}
 		SimpleDataset trainingSet = new SimpleDataset();
 		trainingSet.populate(trainFileName);
 		for (Label l : trainingSet.getClassificationLabels()) {
@@ -113,9 +129,14 @@ public class ModelTrainer {
 	 * @return the classification accuracy
 	 * @throws Exception
 	 */
-	private float classifyTestSet(String modelFileName, String testFileName, 
-			StringLabel positiveClass) throws Exception {
+	private float classifyTestSet(String modelFileName, String testFileName) throws Exception {
 		
+		if (COMPUTE_FEATURES) {
+			CommentSelectionDatasetCreator featureMapper = new CommentSelectionDatasetCreator();
+			Document docTrain = JsoupUtils.getDoc(CQA_QL_TEST_EN);
+			featureMapper.processEnglishFile(docTrain, CQA_QL_TEST_EN, "test");
+			testFileName = CQA_QL_TEST_EN + ".klp";
+		}
 		SimpleDataset testSet = new SimpleDataset();
 		if (model==null) {
 			loadModelFromFile(modelFileName);
@@ -145,10 +166,10 @@ public class ModelTrainer {
 	public static void main(String[] args) throws Exception {
 
 		ModelTrainer trainer = new ModelTrainer();
-		trainer.positiveClass = new StringLabel(POSITIVE_CLASS_NAME);
 		System.out.println("Training system..."); //add more info
-		trainer.trainSystem(TRAIN_FILENAME);
-		
+		//trainer.trainSystem(TRAIN_FILENAME);
+		System.out.println("Done");
+		System.out.println(trainer.classifyTestSet(MODEL_FILE_NAME, TEST_FILENAME));
 	}
 
 }
