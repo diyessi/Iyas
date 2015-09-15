@@ -41,7 +41,7 @@ public class Demo {
 
 	private static String MODEL_FILE_NAME = "semeval2015-3/data/"
 			+ "SemEval2015-Task3-English-data/datasets/emnlp15/" 
-			+ "CQA-QL-train.xml.csv.klp.model";
+			+ "CQA-QL-train.xml.klp.model";
 
 	private CommentSelectionDatasetCreator featureMapper; 
 	private ModelTrainer model;
@@ -135,8 +135,8 @@ public class Demo {
 		List<CQAinstance> threads = demo.getQuestionAnswers(userQuestion);
 
 		OutputVisualization out = new OutputVisualization(threads);
+		System.out.println("User Question: " + userQuestion);
 		out.printOnCommandLine();
-		//System.out.println(scores.get(0));
 		System.out.println("Done");
 		
 	}

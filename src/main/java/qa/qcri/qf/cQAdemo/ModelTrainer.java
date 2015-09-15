@@ -42,16 +42,18 @@ public class ModelTrainer {
 	private static final String MODEL_FILE_NAME = TRAIN_FILENAME + ".model";
 	
 	private static final String VECTORIAL_LINEARIZATION_NAME = "features";
-	private static final String POSITIVE_CLASS_NAME = "Good";
+	private static final String POSITIVE_CLASS_NAME = "GOOD";
 	private static final float CP = 1;
 	private static final float CN = 1;
 	private BinaryLinearClassifier model;
-	private DenseVectorFromListOfDouble fv;
+	//private DenseVectorFromListOfDouble fv;
+	private SparseVectorFromListOfDouble fv;
 	private StringLabel positiveClass;
 	
 	public ModelTrainer() {
 		this.model = null;
-		this.fv = new DenseVectorFromListOfDouble();
+		//this.fv = new DenseVectorFromListOfDouble();
+		this.fv = new SparseVectorFromListOfDouble();
 		this.positiveClass = new StringLabel(POSITIVE_CLASS_NAME);
 	}
 
@@ -157,8 +159,8 @@ public class ModelTrainer {
 		SimpleExample ex = new SimpleExample();
 		float score;
 		ex.addRepresentation(getRepresentationNameFromModel(), 
-				fv.createKelpDenseVectorFromArray(featureValues));
-		//ex = fv.createKelpExampleFromVector(featureValues);
+				fv.createKelpSparseVectorFromArray(featureValues));
+				//fv.createKelpDenseVectorFromArray(featureValues));
 		return model.predict(ex).getScore(positiveClass);
 		
 	}
@@ -167,7 +169,7 @@ public class ModelTrainer {
 
 		ModelTrainer trainer = new ModelTrainer();
 		System.out.println("Training system..."); //add more info
-		//trainer.trainSystem(TRAIN_FILENAME);
+		trainer.trainSystem(TRAIN_FILENAME);
 		System.out.println("Done");
 		System.out.println(trainer.classifyTestSet(MODEL_FILE_NAME, TEST_FILENAME));
 	}
