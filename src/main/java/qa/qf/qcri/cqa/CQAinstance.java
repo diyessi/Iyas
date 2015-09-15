@@ -103,6 +103,10 @@ public class CQAinstance implements Comparable<CQAinstance>,  Serializable {
 		return comments;
 	}
 	
+	public CQAcomment getComment(int index) {
+	  return comments.get(index);
+	}
+	
 	/** @return number of comments associated to this question */
 	public int size(){
 		return comments.size();
