@@ -131,7 +131,7 @@ public class ModelTrainer {
 	}
 
 	
-	public float getExampleScoreFromFeatureVector(ArrayList<Double> featureValues) {
+	public float getExampleScoreFromFeatureVector(List<Double> featureValues) {
 		
 		SimpleExample ex = new SimpleExample();
 		float score;

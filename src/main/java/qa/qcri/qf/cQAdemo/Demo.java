@@ -16,10 +16,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import qa.qcri.qf.emnlp2015.CommentSelectionDatasetCreator;
 import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
 import qa.qcri.qf.semeval2015_3.textnormalization.UserProfile;
-import qa.qcri.qf.semeval2015_3.Question;
+import qa.qf.qcri.cqa.CQAcomment;
 import qa.qf.qcri.cqa.CQAinstance;
 import it.uniroma2.sag.kelp.data.dataset.SimpleDataset;
 import it.uniroma2.sag.kelp.data.example.Example;
@@ -106,10 +105,9 @@ public class Demo {
 */		//delete from temporary to here
 		
 		for(CQAinstance thread : retrieveCandidateAnswers(userQuestion)) {
-			//ArrayList<Double> f;
-			//get feature representation for question and comments and classify them
-			//TODO ALBERTO
-			//scores.add(model.getExampleScoreFromFeatureVector(f));
+			for (List<Double> f : featureMapper.getCommentFeatureRepresentation(thread)) {
+				scores.add(model.getExampleScoreFromFeatureVector(f));
+			}
 		}
 		
 		return scores;

@@ -5,6 +5,7 @@ import it.uniroma2.sag.kelp.data.representation.vector.DenseVector;
 import it.uniroma2.sag.kelp.data.representation.vector.SparseVector;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 
@@ -14,8 +15,7 @@ public class DenseVectorFromListOfDouble extends DenseVector {
 		super();
 	}
 
-	public DenseVector createKelpDenseVectorFromArray(
-			ArrayList<Double> featureValues) {
+	public DenseVector createKelpDenseVectorFromArray(List<Double> featureValues) {
 		
 		double[] featureArray = ArrayUtils.toPrimitive(featureValues.toArray(
 				new Double[featureValues.size()]));
