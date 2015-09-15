@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author albarron
  *
  */
-public class CQAcomment extends CQAabstractElement implements Serializable {
+public class CQAcomment extends CQAabstractElement implements Serializable, Comparable {
 
   private static final long serialVersionUID = 6131037150458266024L;
 
@@ -19,6 +19,10 @@ public class CQAcomment extends CQAabstractElement implements Serializable {
   
   /** Whether it is a Y/N answer */
   private String gold_yn;
+  
+  private String prediction = "null";
+  
+  private double predictionScore = 0;
   
   public CQAcomment(String cid, String cuserid, String cGold, String cGoldYN, 
           String cSubject, String cBody){
@@ -44,6 +48,19 @@ public class CQAcomment extends CQAabstractElement implements Serializable {
     this.gold = cGold;
   }
 
+  public void setPrediction(String pred, double score){
+    prediction = pred;
+    predictionScore = score;
+  }
+  
+  public String getPredictedClass(){
+    return prediction;
+  }
+  
+  public double getScore(){
+    return predictionScore;
+  }
+  
   /*   /**
    * Previous to the operations in the abstract class, the following two rules are 
    * (potentially) applied...
@@ -65,6 +82,23 @@ public class CQAcomment extends CQAabstractElement implements Serializable {
       return subject;
     }
     return super.getWholeText();
+  }
+
+  @Override
+  public int compareTo(Object anotherComment) {
+    if (!(anotherComment instanceof CQAcomment))
+      throw new ClassCastException("A CQAcomment expected.");
+    double anotherCommentScore = ((CQAcomment) anotherComment).getScore();  
+    //return this.predictionScore - anotherCommentScore;
+    //TODO Check if the proper sorting is carried out
+    if (this.predictionScore > anotherCommentScore) {
+      return -1;
+    } else if (this.predictionScore < anotherCommentScore) {
+          return 1;
+    } else {
+      return 0;
+    } 
+    
   }
 
 }
