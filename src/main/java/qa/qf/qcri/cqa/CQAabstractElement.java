@@ -1,5 +1,6 @@
 package qa.qf.qcri.cqa;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
@@ -15,7 +16,7 @@ import qa.qcri.qf.semeval2015_3.textnormalization.UserProfile;
  *
  */
 
-public abstract class CQAabstractElement {
+public abstract class CQAabstractElement implements Serializable{
 
   /** Unique, global, id of the post */
   protected String id;
@@ -36,6 +37,31 @@ public abstract class CQAabstractElement {
   public CQAabstractElement() {
     
   }
+  
+  /* Setters */
+  
+  public void setId(String id){
+    this.id = id;   
+  }
+  
+  public void setDate(String date){
+    this.date = date;
+  }
+  
+  public void setUserId(String user){
+    userid = user;
+  }
+  
+
+  
+  public void setSubject(String subject){
+    this.subject = subject;
+  }
+
+  public void setBody(String body){
+    this.body = body;
+  }
+  
   
   public String getId(){
     return id;

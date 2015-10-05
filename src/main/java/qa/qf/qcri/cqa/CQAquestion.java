@@ -44,7 +44,7 @@ public class CQAquestion extends CQAabstractElement {
     setQsubject(qsubject);
     setQbody(qbody); 
   }
-  
+ 
   /* Getters */
 
   public String getType() {
@@ -83,11 +83,12 @@ public class CQAquestion extends CQAabstractElement {
     this.userid = user;
   }
   
-  private void setQtype(String type) {
+  //XXX public settes temprarilly added for compatibility with Hamdy's software
+  public void setQtype(String type) {
     this.type = type;
   }
 
-  private void setQgoldYN(String yn) {
+  public void setQgoldYN(String yn) {
     this.gold_yn = yn;    
   }
   
@@ -98,5 +99,14 @@ public class CQAquestion extends CQAabstractElement {
   private void setQbody(String body) {
     this.body = body;
   }
+  
+//  public void setType(String type){
+//    this.type = type;
+//    
+//  }
+
+//  public void setGoldYN(String yn){
+//    gold_yn = yn;    
+//  }
   
 }

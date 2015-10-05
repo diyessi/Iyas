@@ -121,9 +121,13 @@ public class CQAinstance implements Comparable<CQAinstance>,  Serializable {
 	 */
 	public void addComment(String cid, String cuserid, String cGold, String cGoldYN, 
 							String cSubject, String cBody){
-		comments.add(new CQAcomment(cid, cuserid, cGold, cGoldYN, 
+	  addComment(new CQAcomment(cid, cuserid, cGold, cGoldYN, 
 							cSubject, cBody));		
 	}	
+	
+	public void addComment(CQAcomment comment) {
+	 comments.add(comment); 
+	}
 
 	public boolean hasGoodComments(){
 		for (CQAcomment comment : comments){
