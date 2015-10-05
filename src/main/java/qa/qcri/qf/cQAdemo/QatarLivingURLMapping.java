@@ -43,6 +43,10 @@ public class QatarLivingURLMapping {
     urlMapping = null;   
     questionInfo = new Hashtable<Integer, CQAinstance>();
   }
+  
+  public QatarLivingURLMapping(String  path) {
+    serializedToMaps(path);
+  }
 
   public void xmlToMaps(String dataPathFolder){
     // TODO These assignments based on a variable folder and a fix file name 
