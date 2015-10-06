@@ -117,8 +117,10 @@ public abstract class CQAabstractElement implements Serializable{
     if (b.toLowerCase().startsWith(s.toLowerCase())) {
       return b;
     }
-    if (Character.isUpperCase(b.charAt(0))) {
-      return s+ ". " + b; 
+    if (b.length() > 0) {
+      if (Character.isUpperCase(b.charAt(0))) {
+        return s+ ". " + b; 
+      }
     }
     return s+ " " + b;
   }

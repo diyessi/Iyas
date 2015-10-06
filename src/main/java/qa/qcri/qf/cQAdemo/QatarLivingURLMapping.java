@@ -33,7 +33,7 @@ import qa.qf.qcri.cqa.CQAquestion;
  */
 public class QatarLivingURLMapping {
 
-  private static final boolean GENERATE_QL_SERIALIZED_FROM_XMLURLMappingFiles = false;
+  private static final boolean GENERATE_QL_SERIALIZED_FROM_XMLURLMappingFiles = true;
   
   private Map<String, Integer> urlMapping;
   private Hashtable<Integer, CQAinstance> questionInfo;
@@ -311,7 +311,7 @@ public class QatarLivingURLMapping {
             s = s.replaceFirst(CLOSE_FIELD_TAG, "");
             openQ_LONG = 0;
           }
-          question.setBody(s);
+          question.setBody(html2text(s));
 
           nofLines++;
           continue;
@@ -326,7 +326,7 @@ public class QatarLivingURLMapping {
             s = s.replaceFirst(CLOSE_FIELD_TAG, "");
             openC_LONG = 0;
           }
-          comment.setBody(s);
+          comment.setBody(html2text(s));
 
           nofLines++;
           continue;
@@ -390,7 +390,7 @@ public class QatarLivingURLMapping {
             s = s.replaceFirst(CLOSE_FIELD_TAG, "");
             //sQuestion += String.format("Q_SHORT:%s\t", s);
 
-            question.setSubject(s);
+            question.setSubject(html2text(s));
             tagFound = 1;
           }
         }
@@ -493,7 +493,7 @@ public class QatarLivingURLMapping {
             s = s.replaceFirst(CLOSE_FIELD_TAG, "");
             //sQuestion += String.format("C_SHORT:%s\t", s);
 
-            comment.setSubject(s);
+            comment.setSubject(html2text(s));
             tagFound = 1;
           }
         }
@@ -733,6 +733,10 @@ public class QatarLivingURLMapping {
     return urlMapping.size();
   }
   
+  
+  private String html2text (String html) {
+    return Jsoup.parse(Jsoup.parse(html).text()).text();
+  }
   /**
    * @param args the command line arguments
    */
@@ -742,7 +746,7 @@ public class QatarLivingURLMapping {
       CQAinstance q;
       QatarLivingURLMapping ql = new QatarLivingURLMapping();
 
-      final String path = "/Users/albarron/Iyas/data/qatarliving/";
+      final String path = "data/qatarliving/";
       
       
       

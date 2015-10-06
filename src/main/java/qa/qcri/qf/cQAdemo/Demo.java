@@ -20,13 +20,14 @@ public class Demo {
 	private CommentSelectionDatasetCreator featureMapper; 
 	private ModelTrainer model;
 	private QuestionRetriever qr;
-	private LinkToQuestionObjectMapper threadObjectBuilder;
+	private QatarLivingURLMapping threadObjectBuilder;
 	
 	public Demo() throws UIMAException, IOException {
 		this.featureMapper = new CommentSelectionDatasetCreator();
 		this.model = new ModelTrainer();
 		this.qr = new QuestionRetriever();
-		this.threadObjectBuilder = new LinkToQuestionObjectMapper(); 
+		//this.threadObjectBuilder = new LinkToQuestionObjectMapper();
+		this.threadObjectBuilder = new QatarLivingURLMapping("data/qatarliving/");
 	}
 
 	/**
