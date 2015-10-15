@@ -55,7 +55,7 @@ public class CHK {
     if (! file.canRead()) {
       throw new CheckFailedError(
           String.format("Check if file %s exists and has the proper reading permissions.\n%s",
-          message)
+          file.toString(), message)
           );
     }
   }
