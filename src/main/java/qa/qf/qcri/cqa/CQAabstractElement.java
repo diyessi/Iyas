@@ -18,6 +18,11 @@ import qa.qcri.qf.semeval2015_3.textnormalization.UserProfile;
 
 public abstract class CQAabstractElement implements Serializable{
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -1215531698820252375L;
+
   /** Unique, global, id of the post */
   protected String id;
   

@@ -9,8 +9,11 @@ import java.io.Serializable;
  * NOTE: in this case, the id includes the id of the question
  * @author albarron
  *
+ * @since 0.1
+ * @version 0.2
  */
-public class CQAcomment extends CQAabstractElement implements Serializable, Comparable {
+public class CQAcomment extends CQAabstractElement 
+implements Serializable, Comparable<Object> {
 
   private static final long serialVersionUID = 6131037150458266024L;
 
@@ -24,8 +27,8 @@ public class CQAcomment extends CQAabstractElement implements Serializable, Comp
   
   private double predictionScore = 0;
   
-  public CQAcomment(String cid, String cuserid, String cGold, String cGoldYN, 
-          String cSubject, String cBody){
+  public CQAcomment(String cid, String cuserid, String cGold, String cGoldYN,
+      String cSubject, String cBody){
     this.id = cid;
     this.userid = cuserid;
     this.gold = cGold;
@@ -35,6 +38,11 @@ public class CQAcomment extends CQAabstractElement implements Serializable, Comp
   }
 
   //TODO the date is missing in this case!!!
+  
+  public void setPrediction(String pred, double score){
+    prediction = pred;
+    predictionScore = score;
+  }
   
   public String getGold() {
     return gold;
@@ -47,11 +55,6 @@ public class CQAcomment extends CQAabstractElement implements Serializable, Comp
   public void setGold(String cGold){
     this.gold = cGold;
   }
-
-  public void setPrediction(String pred, double score){
-    prediction = pred;
-    predictionScore = score;
-  }
   
   public String getPredictedClass(){
     return prediction;
@@ -61,7 +64,7 @@ public class CQAcomment extends CQAabstractElement implements Serializable, Comp
     return predictionScore;
   }
   
-  /*   /**
+  /**
    * Previous to the operations in the abstract class, the following two rules are 
    * (potentially) applied...
    * 

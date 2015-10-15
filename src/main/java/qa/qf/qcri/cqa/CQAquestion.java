@@ -4,23 +4,20 @@ package qa.qf.qcri.cqa;
  * A container for all the fields of a question in the Semeval
  * 2015 community question answering setting. This question
  * is intended to be part of a cQAinstance.
- * 
  * @see CQAinstance
  * 
  * @author albarron
  * @since 0.1
- * @version 0.1
+ * @version 0.2
  */
 public class CQAquestion extends CQAabstractElement {
-  
-  //TODO candidates to be moved to the instance from here
+
+  private static final long serialVersionUID = -4613311256333363667L;
+
   /** Type of question (GENERAL, YES_NO) */
   private String type;  
   /** Whether the expected answer to the question is of type YES/NO */
   private String gold_yn;
-  //TODO candidates to be moved to the instance up to here
-  
-
   
   /**
    * Invoke the class setting all the values for the question (but not the 
