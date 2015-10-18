@@ -30,8 +30,13 @@ public class OutputVisualization {
 		for (CQAinstance thread : threadList) {
 			clist = thread.getComments();
 			Collections.sort(clist);
+<<<<<<< HEAD
 			System.out.println("\n****\nThread: " + thread.getQuestion().getWholeText());
 			counter =0;
+=======
+			System.out.println("\n****\nThread: " 
+					+ thread.getQuestion().getWholeText());
+>>>>>>> b5ee9ac6b3a574cb444e5b48d2fd6bcd96302a1f
 			for (CQAcomment c : clist) {
 			  if (++counter > MAX_TO_PRINT) {
 			    break;
