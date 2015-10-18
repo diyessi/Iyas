@@ -171,7 +171,7 @@ public class ModelTrainer {
 		System.out.println("Training system..."); //add more info
 		trainer.trainSystem(TRAIN_FILENAME);
 		System.out.println("Done");
-		System.out.println(trainer.classifyTestSet(MODEL_FILE_NAME, TEST_FILENAME));
+		//System.out.println(trainer.classifyTestSet(MODEL_FILE_NAME, TEST_FILENAME));
 	}
 
 }

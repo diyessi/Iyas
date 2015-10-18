@@ -22,8 +22,13 @@ public class Demo {
 	private QuestionRetriever qr;
 	private QatarLivingURLMapping threadObjectBuilder;
 	
-	public Demo() throws UIMAException, IOException {
-		this.featureMapper = new CommentSelectionDatasetCreator();
+	public Demo()  {
+		try {
+			this.featureMapper = new CommentSelectionDatasetCreator();
+		} catch (UIMAException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.model = new ModelTrainer();
 		this.qr = new QuestionRetriever();
 		//this.threadObjectBuilder = new LinkToQuestionObjectMapper();
@@ -61,14 +66,19 @@ public class Demo {
 	 * @throws IOException
 	 */
 	public List<CQAinstance> getQuestionAnswers(String userQuestion) 
-			throws UIMAException, IOException {
+			throws IOException {
 		List<List<Double>> threadFeatures = new ArrayList<List<Double>>();
 		List<CQAinstance> threads;
 		float score;
 		
 		threads = retrieveCandidateAnswers(userQuestion);
 		for(CQAinstance thread : threads) {
-			threadFeatures = featureMapper.getCommentFeatureRepresentation(thread);
+			try {
+				threadFeatures = featureMapper.getCommentFeatureRepresentation(thread);
+			} catch (UIMAException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			for (int i=0; i<thread.getNumberOfComments(); i++) {
 				score = model.getExampleScoreFromFeatureVector(threadFeatures.get(i));
 				thread.getComment(i).setPrediction("", score); 
@@ -78,7 +88,7 @@ public class Demo {
 		return threads;
 	}
 	
-	private boolean loadModel(String modelFileName) {
+	public boolean loadModel(String modelFileName) {
 		return this.model.loadModelFromFile(modelFileName);
 	}
 	
@@ -103,7 +113,7 @@ public class Demo {
 			userQuestion = StringUtils.join(args, " ");
 		}else{
 			System.out.println("Asking a deafult question");
-			userQuestion = "is there any temple in Qatar?";
+			userQuestion = "How can I get a working visa in Qatar?";
 		}
 		System.out.println("Processing question: " + userQuestion);
 		

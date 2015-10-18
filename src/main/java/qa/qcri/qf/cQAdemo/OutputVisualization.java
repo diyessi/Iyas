@@ -28,7 +28,8 @@ public class OutputVisualization {
 		for (CQAinstance thread : threadList) {
 			clist = thread.getComments();
 			Collections.sort(clist);
-			System.out.println("\n****\nThread: " + thread.getQuestion().getWholeText());
+			System.out.println("\n****\nThread: " 
+					+ thread.getQuestion().getWholeText());
 			for (CQAcomment c : clist) {
 				System.out.println(c.getScore() + ": " + c.getWholeText());
 			}
