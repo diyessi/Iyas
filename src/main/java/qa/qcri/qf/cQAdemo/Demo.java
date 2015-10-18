@@ -70,7 +70,7 @@ public class Demo {
 	 * @throws IOException
 	 */
 	public List<CQAinstance> getQuestionAnswers(String userQuestion) 
-			throws IOException {
+			throws IOException, UIMAException {
 		List<List<Double>> threadFeatures = new ArrayList<List<Double>>();
 		List<CQAinstance> threads;
 		float score;
@@ -78,7 +78,6 @@ public class Demo {
 		
 		threads = retrieveCandidateAnswers(userQuestion);
 		for(CQAinstance thread : threads) {
-<<<<<<< HEAD
 		  CQAinstance smallThread = new CQAinstance(thread.getQuestion(), thread.getQuestion().getId());
 		  counter = 0;
 		  for (CQAcomment com : thread.getComments()) {
@@ -89,15 +88,7 @@ public class Demo {
 		  //threadFeatures = featureMapper.getCommentFeatureRepresentation(thread);
 			threadFeatures = featureMapper.getCommentFeatureRepresentation(smallThread);
 			for (int i=0; i<smallThread.getNumberOfComments(); i++) {
-=======
-			try {
-				threadFeatures = featureMapper.getCommentFeatureRepresentation(thread);
-			} catch (UIMAException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			for (int i=0; i<thread.getNumberOfComments(); i++) {
->>>>>>> b5ee9ac6b3a574cb444e5b48d2fd6bcd96302a1f
+
 				score = model.getExampleScoreFromFeatureVector(threadFeatures.get(i));
 				smallThread.getComment(i).setPrediction("", score); 
 			}
