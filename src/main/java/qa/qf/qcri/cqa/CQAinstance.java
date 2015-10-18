@@ -31,7 +31,7 @@ import qa.qcri.qf.semeval2015_3.textnormalization.UserProfile;
  * @author albarron
  *
  */
-public class CQAinstance implements Comparable<CQAinstance>,  Serializable {
+public class CQAinstance implements Comparable<CQAinstance>, Serializable {
 	
 	private static final long serialVersionUID = 7155250601309427542L;
 	

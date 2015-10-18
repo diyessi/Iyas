@@ -10,6 +10,7 @@ import qa.qf.qcri.cqa.CQAinstance;
 
 public class OutputVisualization {
 
+  private final int MAX_TO_PRINT = 5;
 	private List<CQAinstance> threadList; 
 	
 	public OutputVisualization(List<CQAinstance> threads) {
@@ -25,11 +26,16 @@ public class OutputVisualization {
 	 */
 	public void printOnCommandLine() {
 		List<CQAcomment> clist;
+		int counter;
 		for (CQAinstance thread : threadList) {
 			clist = thread.getComments();
 			Collections.sort(clist);
 			System.out.println("\n****\nThread: " + thread.getQuestion().getWholeText());
+			counter =0;
 			for (CQAcomment c : clist) {
+			  if (++counter > MAX_TO_PRINT) {
+			    break;
+			  }
 				System.out.println(c.getScore() + ": " + c.getWholeText());
 			}
 			System.out.println("****\n");

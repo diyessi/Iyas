@@ -26,9 +26,9 @@ public class QuestionRetriever {
 	 * @param userQuestion a question in plain text
 	 * @return
 	 */
-	public List<String> getLinks(String userQuestion) {
+	public List<String> getLinks(String userQuestion, int maxHits) {
 
-		SearchQuery query = new SearchQuery.Builder(userQuestion).site("qatarliving.com").numResults(100).build();
+		SearchQuery query = new SearchQuery.Builder(userQuestion).site("qatarliving.com").numResults(maxHits).build();
 		SearchResult result = new GoogleWebSearch().search(query);
 	    List<String> urls = result.getUrls();
 		return urls;

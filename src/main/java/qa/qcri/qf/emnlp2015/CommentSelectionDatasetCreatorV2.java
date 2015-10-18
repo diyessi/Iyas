@@ -617,6 +617,8 @@ public class CommentSelectionDatasetCreatorV2 {
 	
 	 /**
    * Gets the contents of the question and feed it into a Question object
+   * TODO this method should be deprecated and moved into a class that just 
+   * reads the XML file and generates the object
    * @param qelement
    * @return object instance with the question data
    */

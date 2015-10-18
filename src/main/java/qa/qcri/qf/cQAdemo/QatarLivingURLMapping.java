@@ -98,7 +98,7 @@ public class QatarLivingURLMapping {
     CQAinstance question;
 
     n = urls.size();
-
+    
     for (i = 0; i < n; i++) {
       url = urls.get(i);
       url = url.replaceFirst("http://www.qatarliving.com/", "");

@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
 
 import edu.stanford.nlp.util.StringUtils;
+import qa.qf.qcri.cqa.CQAcomment;
 import qa.qf.qcri.cqa.CQAinstance;
 
 public class Demo {
@@ -17,6 +18,9 @@ public class Demo {
 			+ "SemEval2015-Task3-English-data/datasets/emnlp15/" 
 			+ "CQA-QL-train.xml.klp.model";
 
+	private final int MAX_HITS =15;
+	private final int MAX_COMMENTS=20;
+	
 	private CommentSelectionDatasetCreator featureMapper; 
 	private ModelTrainer model;
 	private QuestionRetriever qr;
@@ -44,7 +48,7 @@ public class Demo {
 		
 		List<CQAinstance> candidateAnswers;
 			
-		candidateAnswers = threadObjectBuilder.getQuestions(qr.getLinks(userQuestion));
+		candidateAnswers = threadObjectBuilder.getQuestions(qr.getLinks(userQuestion, MAX_HITS));
 		if (candidateAnswers.size()==0) {
 			System.out.println("No similar questions were found in QatarLiving");
 			//System.exit(0); //TODO delete this line if possible
@@ -65,27 +69,36 @@ public class Demo {
 		List<List<Double>> threadFeatures = new ArrayList<List<Double>>();
 		List<CQAinstance> threads;
 		float score;
+		int counter;
 		
 		threads = retrieveCandidateAnswers(userQuestion);
 		for(CQAinstance thread : threads) {
-			threadFeatures = featureMapper.getCommentFeatureRepresentation(thread);
-			for (int i=0; i<thread.getNumberOfComments(); i++) {
+		  CQAinstance smallThread = new CQAinstance(thread.getQuestion(), thread.getQuestion().getId());
+		  counter = 0;
+		  for (CQAcomment com : thread.getComments()) {
+		    if (counter ++ > MAX_COMMENTS )
+		    {break;}
+		    smallThread.addComment(com);
+		  }
+		  //threadFeatures = featureMapper.getCommentFeatureRepresentation(thread);
+			threadFeatures = featureMapper.getCommentFeatureRepresentation(smallThread);
+			for (int i=0; i<smallThread.getNumberOfComments(); i++) {
 				score = model.getExampleScoreFromFeatureVector(threadFeatures.get(i));
-				thread.getComment(i).setPrediction("", score); 
+				smallThread.getComment(i).setPrediction("", score); 
 			}
 		}
 		
 		return threads;
 	}
 	
-	private boolean loadModel(String modelFileName) {
+	public boolean loadModel(String modelFileName) {
 		return this.model.loadModelFromFile(modelFileName);
 	}
 	
 	
 	
 	public static void main(String[] args) throws Exception {
-		
+		long begin = System.currentTimeMillis();
 		org.apache.log4j.BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.INFO);
 		String userQuestion;
@@ -113,6 +126,7 @@ public class Demo {
 		System.out.println("User Question: " + userQuestion);
 		out.printOnCommandLine();
 		System.out.println("Done");
+		System.out.println("TIME: " + (System.currentTimeMillis() - begin));
 		
 	}
 
