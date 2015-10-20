@@ -57,6 +57,12 @@ public class ModelTrainer {
 		this.positiveClass = new StringLabel(POSITIVE_CLASS_NAME);
 	}
 
+	public ModelTrainer(String positiveClass) {
+		this.model = null;
+		this.fv = new SparseVectorFromListOfDouble();
+		this.positiveClass = new StringLabel(positiveClass);
+	}
+
 	public String getModelFileName() {
 		return MODEL_FILE_NAME;
 	}
@@ -78,7 +84,7 @@ public class ModelTrainer {
 
 	/**
 	 * Loads a model in Kelp format from file MODEL_FILENAME.    
-	 * @return true whether the model has been successfully loaded, false otherwise  
+	 * @return true if the model has been successfully loaded, false otherwise  
 	 */
 	public boolean loadModelFromFile(String modelFileName) {
 		ObjectSerializer serializer = new JacksonSerializerWrapper();
@@ -91,6 +97,14 @@ public class ModelTrainer {
 		return true;
 	}
 
+	public BinaryMarginClassifierOutput getExamplePrediction(Example e) {
+		return model.predict(e);
+	}
+	
+	public Float getExampleScore(Example e) {
+		return model.predict(e).getScore(positiveClass);
+	}
+	
 	private String getRepresentationNameFromModel() {
 		return VECTORIAL_LINEARIZATION_NAME;
 	}
@@ -153,6 +167,7 @@ public class ModelTrainer {
 		return evaluator.getAccuracy();
 	}
 
+	
 	
 	public float getExampleScoreFromFeatureVector(List<Double> featureValues) {
 		
