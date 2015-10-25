@@ -233,7 +233,7 @@
 	<dependency>
 			<groupId>it.uniroma2.sag.kelp</groupId>
 			<artifactId>kelp-full</artifactId>
-			<version>1.2.0</version>
+			<version>1.2.2-SNAPSHOT</version>
 	</dependency>
     <dependency>
         <groupId>org.apache.httpcomponents</groupId>
