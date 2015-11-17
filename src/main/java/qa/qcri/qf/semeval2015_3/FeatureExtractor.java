@@ -3,6 +3,7 @@ package qa.qcri.qf.semeval2015_3;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -16,6 +17,8 @@ import org.maltparser.core.helper.HashSet;
 
 import qa.qcri.qf.semeval2015_3.Question.Comment;
 import qa.qcri.qf.semeval2015_3.wordspace.WordSpace;
+import qa.qf.qcri.cqa.CQAcomment;
+import qa.qf.qcri.cqa.CQAinstance;
 
 public class FeatureExtractor {
 	
@@ -255,474 +258,944 @@ public class FeatureExtractor {
 		}
 	}
 
+	public static List<Map<String, Double>> extractFeatures(CQAinstance cqainstance){
+	  List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
+	  Map<String, List<Integer>> userCommentIndices = new HashMap<String, List<Integer>>();
+	  List<String> commentThread = new ArrayList<String>();
+
+	  String quserid = cqainstance.getQuestion().getUserId();
+	  
+	  //TODO change to an iterator and get rid of the commentCount?
+	  int commentCount = 0;
+	  /** Get all the necessary info from the comment thread  */
+	  for (CQAcomment comment : cqainstance.getComments()) {
+	    String cuserid = comment.getUserId();
+	    List<Integer> indices = userCommentIndices.get(cuserid);
+	    if (indices==null) {
+	      indices = new ArrayList<Integer>();
+	      indices.add(commentCount);
+	      userCommentIndices.put(cuserid, indices);
+	    } else {
+	      indices.add(commentCount);
+	    }
+	    CommentInfo info = new FeatureExtractor().new CommentInfo();
+
+	    if (cuserid.equals(quserid)) {
+	      info.isQuestionAuthor = true;
+	      //TODO ABC, Sep 14 2015. Discuss: whether this should be getWholeText rather than getBody only
+	      info.containsAckFromQuestionAuthor = containsAcknowledge(comment.getBody());
+	      info.containsQuestionFromQuestionAuthor = containsQuestion(comment.getBody());
+	    }
+	    commentThread.add(comment.getGold());
+	    commentInfos.add(info);
+	    commentCount++;
+	  }
+
+	  //AQUI VOY APPARENTLY HERE WE SETUP ALL THE NECESSARY INFO TO PRODUCE ALL THE
+	  //FEATURES. AS MANY VARIABLES ARE FED, IT IS HAR TO COME OUT WITH A FUNCTION 
+	  //(OF COURSE IT WOULD BE POSSIBLE, BUT THAT WOULD IMPLY TO DUPLICATE OR 
+	  //EVEN TRIPLICATE LOOPS. CHECK AND (PROBABLY) LEAVE AS IT IS
+
+	  /** INITIALIZING THE OUTPUT by creating an empty hashmap for each comment*/
+	   List<Map<String, Double>> features = new ArrayList<Map<String,Double>>();
+	   for(int i=0; i<cqainstance.getComments().size(); i++ ){
+	     features.add(new HashMap<String, Double>());
+	   }
+
+	   /** Extracting ACK, QUEST_PAST & NO_ACK
+	    */
+	   double ackValue = 0;
+	   double questValue = 0;
+	   double noAckValue = 0;
+	   for (int i = commentInfos.size() -1; i>=0; i--) {
+	     CommentInfo currentInfo = commentInfos.get(i);
+	     if (currentInfo.isQuestionAuthor) {
+	       features.get(i).put(QUSER_COMMENT, 1.0);
+	       if (currentInfo.containsAckFromQuestionAuthor && 
+	           currentInfo.containsQuestionFromQuestionAuthor) {
+	         ackValue = 1;         
+	         questValue = 1;
+	         noAckValue = 0;
+	         features.get(i).put(QUSER_ACK, 1.0);
+	         features.get(i).put(QUSER_QUEST, 1.0);
+	       } else if (currentInfo.containsAckFromQuestionAuthor) {
+	         ackValue = 1;
+	         questValue = 0;
+	         noAckValue = 0;
+	         features.get(i).put(QUSER_ACK, 1.0);
+	       } else if (currentInfo.containsQuestionFromQuestionAuthor) {
+	         ackValue = 0;
+	         questValue = 1;
+	         noAckValue = 0;
+	         features.get(i).put(QUSER_QUEST, 1.0);
+	       } else {
+	         ackValue = 0;
+	         questValue = 0;
+	         noAckValue = 1;
+	         features.get(i).put(QUSER_NOACK, 1.0);
+	       }
+	     } else {
+	       if (ackValue>EPSILON) {
+	         features.get(i).put(ACK, ackValue);
+	         ackValue -= 1.0/PROPAGATION_WINDOW;
+	       }
+	       if (questValue>EPSILON) {
+	         features.get(i).put(QUEST_PAST, questValue);
+	         questValue -= 1.0/PROPAGATION_WINDOW;
+	       }
+	       if (noAckValue>EPSILON) {
+	         features.get(i).put(NOACK, noAckValue);
+	         noAckValue -= 1.0/PROPAGATION_WINDOW;
+	       }
+	     }
+	   }
+	   /**
+	    * Extracting QUEST_FUT
+	    */
+	   questValue=0;
+	   for(int i=0; i<commentInfos.size(); i++){
+	     CommentInfo currentInfo = commentInfos.get(i);
+	     if(currentInfo.isQuestionAuthor){
+	       if(currentInfo.containsQuestionFromQuestionAuthor){
+	         questValue = 1;
+	       }else{
+	         questValue = 0;
+	       }
+	     }else{
+	       if(questValue>EPSILON){
+	         features.get(i).put(QUEST_FUT, questValue);
+	         questValue -= 1.0/PROPAGATION_WINDOW;
+	       }
+	     }
+	   }
+
+	   /**
+	    * EXTRACTING MULT features
+	    */
+	   for(List<Integer> indices : userCommentIndices.values()){
+	     if(indices.size()>1){
+	       for(int i=0; i<indices.size(); i++){
+	         int index = indices.get(i);
+	         Map<String, Double> commentFeatureVector = features.get(index);
+	         commentFeatureVector.put(MULT_BOOL, 1.0);
+
+	         if(i==0){
+	           commentFeatureVector.put(MULT_FIRST, 1.0);
+	         } else {
+	           if(i==indices.size()-1){          
+	             commentFeatureVector.put(MULT_LAST, 1.0);             
+	           }else{
+	             commentFeatureVector.put(MULT_MID, 1.0);              
+	           }
+	           commentFeatureVector.put(MULT_REAL, 
+	               Math.min(MULT_REAL_SATURATION, (double)i) /
+	               MULT_REAL_SATURATION);
+	         }
+	       }
+	     }
+
+	   }
+
+	   /**
+	    * EXTRACTING DIAL_Uq features
+	    */
+	   //    List<Integer> uqIndices = userCommentIndices.get(quserid);
+	   //    if(uqIndices!=null){//qUser wrote at least a comment so he could have had a dialog
+	   //      for(Entry<String, List<Integer>> entry : userCommentIndices.entrySet()){
+	   //        if(entry.getKey().equals(quserid)){
+	   //          continue;//skipping qUser
+	   //        }
+	   //        List<Integer> uIndices = entry.getValue();
+	   //        if(uIndices.size() > 1){//user u had at least two comments, so he could have started a dialog with qUser
+	   //          int u=0;
+	   //          int q=0;
+	   //          boolean uTalked = false;
+	   //      
+	   //          while(u<uIndices.size() && q<uqIndices.size()){
+	   //            if(uIndices.get(u) < uqIndices.get(q)){
+	   //              uTalked = true;
+	   //              u++;
+	   //            }else{
+	   //              if(uTalked){//the dialog starts
+	   //                features.get(uIndices.get(u-1)).put("DIAL_Uq_START", 1.0);
+	   //                for(int i = u; i<uIndices.size()-1; i++){
+	   //                  features.get(uIndices.get(i)).put("DIAL_Uq_IN", 1.0);
+	   //                }
+	   //                int uLastCommentIndex = uIndices.get(uIndices.size()-1);
+	   //                int uqLastCommentIndex = uqIndices.get(uqIndices.size()-1);
+	   //                if(uLastCommentIndex > uqLastCommentIndex){
+	   //                  features.get(uLastCommentIndex).put("DIAL_Uq_END", 1.0);
+	   //                }else{
+	   //                  features.get(uLastCommentIndex).put("DIAL_Uq_IN", 1.0);
+	   //                }
+	   //                break;
+	   //              }
+	   //              q++;
+	   //            }
+	   //          }
+	   //        }
+	   //      }
+	   //      
+	   //    }
+
+	   List<Integer> uqIndices = userCommentIndices.get(quserid);
+	   if(uqIndices!=null){//qUser wrote at least a comment so he could have had a dialog
+	     for(Entry<String, List<Integer>> entry : userCommentIndices.entrySet()){
+	       if(entry.getKey().equals(quserid)){
+	         continue;//skipping qUser
+	       }
+	       List<Integer> uIndices = entry.getValue();
+	       if(uIndices.size() > 1){//user u had at least two comments, so he could have started a dialog with qUser
+	         int u=0;
+	         int q=0;
+	         int mergedIndex = 0;
+	         int [] mergedIndices = new int[uIndices.size()+uqIndices.size()];
+	         char [] userSequence = new char [uIndices.size()+uqIndices.size()];
+
+	         while(u<uIndices.size() && q<uqIndices.size()){
+	           if(uIndices.get(u) < uqIndices.get(q)){
+	             mergedIndices[mergedIndex] = uIndices.get(u);
+	             userSequence[mergedIndex] = 'U';
+	             u++;
+	           }else{
+	             mergedIndices[mergedIndex] = uqIndices.get(q);
+	             userSequence[mergedIndex] = 'Q';
+	             q++;
+	           }
+	           mergedIndex++;
+	         }
+
+	         while(u<uIndices.size()){//adding remaining comments from u
+
+	           mergedIndices[mergedIndex] = uIndices.get(u);
+	           userSequence[mergedIndex] = 'U';
+	           u++;
+	           mergedIndex++;
+	         }
+	         while(q<uqIndices.size()){//adding remaining comments from q
+	           mergedIndices[mergedIndex] = uqIndices.get(q);
+	           userSequence[mergedIndex] = 'Q';
+	           q++;
+	           mergedIndex++;
+	         }
+
+	         String sequenceString = String.copyValueOf(userSequence);
+	         String regex = "UQ+U";
+
+	         Pattern pattern = Pattern.compile(regex);
+	         Matcher matcher = pattern.matcher(sequenceString);
+
+	         if(matcher.find()){
+	           int startIndex = matcher.start();
+	           features.get(mergedIndices[startIndex]).put(DIAL_Uq_START, 1.0);
+	           for(int i = startIndex + 1; i<mergedIndices.length-1; i++){
+	             features.get(mergedIndices[i]).put(DIAL_Uq_IN, 1.0);
+	           }
+	           features.get(mergedIndices[mergedIndices.length-1]).put(DIAL_Uq_END, 1.0);
+	         }
+
+	       }
+	     }
+
+	   }
+
+	   /**
+	    * EXTRACTING DIAL_U features
+	    */
+	   ArrayList<Entry<String, List<Integer>>> indicesPerUser = new ArrayList<Entry<String, List<Integer>>>();
+	   indicesPerUser.addAll(userCommentIndices.entrySet());
+	   //looping on all pair of users to check whether they had a dialog
+	   for(int u1=0; u1<indicesPerUser.size()-1; u1++){
+	     if(indicesPerUser.get(u1).getKey().equals(quserid)){
+	       continue;//skipping the quser
+	     }
+	     List<Integer> u1Indices = indicesPerUser.get(u1).getValue();
+	     if(u1Indices.size()>1){//user u1 has multiple comments, so he could have had a conversation
+	       for(int u2=u1+1; u2<indicesPerUser.size(); u2++){
+	         if(indicesPerUser.get(u2).getKey().equals(quserid)){
+	           continue;//skipping the quser
+	         }
+	         List<Integer> u2Indices = indicesPerUser.get(u2).getValue();
+
+	         if(u2Indices.size()>1){//u2 has multiple comments, so he could have had a conversation with u1
+	           int u1Index=0;
+	           int u2Index=0;
+	           int mergedIndex = 0;
+	           int [] mergedIndices = new int[u1Indices.size()+u2Indices.size()];
+	           char [] userSequence = new char [u1Indices.size()+u2Indices.size()];
+	           while(u1Index<u1Indices.size() && u2Index<u2Indices.size()){//creating an interlaced sequence between u1 and u2
+	             if(u1Indices.get(u1Index) < u2Indices.get(u2Index)){//current comment is from u1
+	               mergedIndices[mergedIndex] = u1Indices.get(u1Index);
+	               userSequence[mergedIndex] = '1';
+	               u1Index++;
+	             }else{//current comment is from u2
+	               mergedIndices[mergedIndex] = u2Indices.get(u2Index);
+	               userSequence[mergedIndex] = '2';
+	               u2Index++;
+	             }
+	             mergedIndex++;
+	           }
+	           while(u1Index<u1Indices.size()){//adding remaining comments from u1
+	             mergedIndices[mergedIndex] = u1Indices.get(u1Index);
+	             userSequence[mergedIndex] = '1';
+	             u1Index++;
+	             mergedIndex++;
+	           }
+	           while(u2Index<u2Indices.size()){//adding remaining comments from u2
+	             mergedIndices[mergedIndex] = u2Indices.get(u2Index);
+	             userSequence[mergedIndex] = '2';
+	             u2Index++;
+	             mergedIndex++;
+	           }
+
+	           String sequenceString = String.copyValueOf(userSequence);
+
+	           String regex1 = "12+1+2";
+	           String regex2 = "21+2+1";
+	           Pattern pattern = Pattern.compile(regex1);
+	           Matcher matcher = pattern.matcher(sequenceString);
+	           int startIndex = Integer.MAX_VALUE;
+	           boolean conversationStarted = false;
+	           if(matcher.find()){
+	             startIndex = matcher.start();
+	             conversationStarted = true;
+	           }
+	           pattern = Pattern.compile(regex2);
+	           matcher = pattern.matcher(sequenceString);
+	           if(matcher.find()){
+	             int startIndex2 = matcher.start();
+	             conversationStarted = true;
+	             if(startIndex2<startIndex){
+	               startIndex = startIndex2;
+	             }
+	           }
+
+	           if(conversationStarted){
+	             features.get(mergedIndices[startIndex]).put(DIAL_U_START, 1.0);
+	             for(int i = startIndex + 1; i<mergedIndices.length-1; i++){
+	               features.get(mergedIndices[i]).put(DIAL_U_IN, 1.0);
+	             }
+	             features.get(mergedIndices[mergedIndices.length-1]).put(DIAL_U_END, 1.0);
+	           }
+	         }
+	       }
+	     }
+	   }
+
+
+	   /**
+	    * EXTRACTING HISTORY-BASED FEATURES 
+	    */
+	   if (INCLUDE_PAST) {
+
+	     /**
+	      * 1-GRAM: whether the previous comment in the stream is 
+	      * good/bad/potential (or it is the first one) 
+	      */
+	     features.get(0).put(HISTORY_1_Start, 1.0);    
+
+	     for(int i=1; i<commentInfos.size(); i++){
+	       features.get(i).put(
+	           String.format("HISTORY_1_%s", commentThread.get(i-1)), 
+	           1.0);
+	     }
+
+	     /**
+	      * 2-gram: whether the two previous comment in the stream are a 
+	      * combination of [start]/good/bad/potential (non-applicable for the 
+	      * first one)
+	      */       
+	     if (commentInfos.size() > 1){
+	       features.get(1).put("HISTORY_2_Start_"+commentThread.get(0), 1.0);
+	       for (int i=2; i < commentInfos.size(); i++){
+	         features.get(i).put(
+	             String.format("HISTORY_2_%s_%s", 
+	                 commentThread.get(i-2), 
+	                 commentThread.get(i-1)),  
+	                 1.0);     
+	       }     
+	     }
+	   }
+
+	   /** EXTRACTING CATEGORY FEATURES */
+	   String categoryFeature = "CATEGORY_" + cqainstance.getCategory();
+	   for(Map<String, Double> featureVector : features){
+	     featureVector.put(categoryFeature, 1.0);
+	   }
+
+	   /** EXTRACTING EMAIL, URL, LENGTH and POSITION FEATURE */
+	   for(int i=0; i<cqainstance.getComments().size(); i++){
+
+	     //Modified text in this section; copied into temporal to avoid alterations
+	     //TODO ABC, Sep 14 2015. Discuss: this replacement should be done as part 
+	     //of the text assignment in the object? just keep if different spacings are 
+	     //somehow meaningfull
+	     String commentBody = cqainstance.getComments().get(i).getBody().replaceAll("\\s+"," ");
+	     if (containsEmail(commentBody)){
+	       features.get(i).put(EMAIL, 1.0);
+	       commentBody = removePattern(EMAIL_REGEX, commentBody);
+	     }
+
+	     //ATT: note that an email has to be looked up before a URL because
+	     //the URL pattern also recognizes mails as URLs
+	     if (hasUrl(commentBody)){
+	       features.get(i).put(URL, 1.0);
+	       commentBody = removePattern(URL_REGEX, commentBody);
+	     }
+
+	     for (String word : KEY_WORDS){
+	       if (containsWord(commentBody, word)){
+	         features.get(i).put(PREF_CONTAIN+word, 1.0);
+	       }
+	     }
+
+	     for (String seq : KEY_SYMBOLS){
+	       if (containsSequence(commentBody, seq)){
+	         features.get(i).put(PREF_CONTAINS_SYMB+seq, 1.0);
+	       }
+	     }   
+
+	     for (String word : START_WORDS){
+	       if (startsWithWord(commentBody, word)){
+	         features.get(i).put(PREF_STARTS+word, 1.0);
+	       }
+	     }
+
+	     double lengthFeature = (double)commentBody.length();
+	     if(lengthFeature>LENGTH_SATURATION){
+	       lengthFeature = (double)LENGTH_SATURATION;
+	     }
+	     features.get(i).put(LENGTH, lengthFeature/LENGTH_SATURATION);
+
+
+	     features.get(i).put(REPEATED_CHARS, 
+	         (containsRepeatedChars(commentBody)) ? 1.0 : 0.0
+	         );
+
+	     features.get(i).put(VERY_LONG_WORD, 
+	         (containsLongWord(commentBody)) ? 1.0 : 0.0
+	         );
+
+	     double positionFeature = (double)i;
+	     if(positionFeature>POSITION_SATURATION){
+	       positionFeature = (double)POSITION_SATURATION;
+	     }
+	     features.get(i).put(POSITION, positionFeature/POSITION_SATURATION);
+
+	   }
+
+	   /**
+	    * EXTRACTING LSA FEATURES
+	    */
+	   if (INCLUDE_LSA_SIMILARITY || INCLUDE_LSA_VECTORS) {
+	     DenseMatrix64F qVector = wordspace.sentence2vector(
+	         cqainstance.getQuestion().getSubject());
+	     CommonOps.addEquals(qVector, wordspace.sentence2vector(
+	         cqainstance.getQuestion().getBody())); 
+
+	     //posOfInterest refers to the POS we want to include in these vectors.
+	     DenseMatrix64F qPosFilteredVector = wordspace.sentence2vector(
+	         cqainstance.getQuestion().getSubject(), posOfInterest);
+	     CommonOps.addEquals(qPosFilteredVector, wordspace.sentence2vector(
+	         cqainstance.getQuestion().getBody(), posOfInterest)); 
+
+	     for (int i=0; i<cqainstance.getComments().size(); i++) {
+	       DenseMatrix64F cVector = wordspace.sentence2vector(
+	           cqainstance.getComments().get(i).getBody());
+	       DenseMatrix64F cPosFilteredVector = wordspace.sentence2vector(
+	           cqainstance.getComments().get(i).getBody(), posOfInterest);
+	       if (INCLUDE_LSA_SIMILARITY) {
+	         double similarity = cosineSimilarity(qVector, cVector);
+	         double filteredSimilarity = cosineSimilarity(qPosFilteredVector, cPosFilteredVector);
+	         features.get(i).put(LSA_SIMILARITY, similarity);
+	         features.get(i).put(N_LSA_SIMILARITY, filteredSimilarity);
+
+	       }
+	       if (INCLUDE_LSA_VECTORS) {
+	         for(int f=0; f<wordspace.getSpaceDimensionality(); f++){
+	           features.get(i).put(LSA_Q_PREFIX + (f+1),  qPosFilteredVector.get(0,f));
+	           features.get(i).put(LSA_C_PREFIX + (f+1),  cPosFilteredVector.get(0,f));
+	         }
+	       }
+	     }
+	   }
+	   return features;
+	}
+
+	/**
+	 * Call extractFeatures with CQAquestion instead.
+	 * @param question
+	 * @return
+	 */
+	@Deprecated
 	public static List<HashMap<String, Double>> extractFeatures(Question question){
-		String quserid = question.getQuserid();
-		List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
-		HashMap<String, List<Integer>> userCommentIndices = new HashMap<String, List<Integer>>();
-		
-		List<String> commentThread = new ArrayList<String>();
+	  String quserid = question.getQuserid();
+	  List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
+	  HashMap<String, List<Integer>> userCommentIndices = new HashMap<String, List<Integer>>();
 
-		int commentCount = 0;
-		for(Comment comment : question.getComments()){
-			String cuserid = comment.getCuserid();
-			List<Integer> indices = userCommentIndices.get(cuserid);
-			if(indices==null){
-				indices = new ArrayList<Integer>();
-				indices.add(commentCount);
-				userCommentIndices.put(cuserid, indices);
-			}else{
-				indices.add(commentCount);
-			}
-			CommentInfo info = new FeatureExtractor().new CommentInfo();
+	  List<String> commentThread = new ArrayList<String>();
 
-			if(cuserid.equals(quserid)){
-				info.isQuestionAuthor = true;
-				info.containsAckFromQuestionAuthor = containsAcknowledge(comment);
-				info.containsQuestionFromQuestionAuthor = containsQuestion(comment);
-			}
-			
-			
-			commentThread.add(comment.getCgold());
-			commentInfos.add(info);
-			commentCount++;
-		}
+	  int commentCount = 0;
+	  for(Comment comment : question.getComments()){
+	    String cuserid = comment.getCuserid();
+	    List<Integer> indices = userCommentIndices.get(cuserid);
+	    if(indices==null){
+	      indices = new ArrayList<Integer>();
+	      indices.add(commentCount);
+	      userCommentIndices.put(cuserid, indices);
+	    }else{
+	      indices.add(commentCount);
+	    }
+	    CommentInfo info = new FeatureExtractor().new CommentInfo();
 
-		/**
-		 * INITIALIZING THE OUTPUT
-		 */
-
-		List<HashMap<String, Double>> features = new ArrayList<HashMap<String,Double>>();
-		for(int i=0; i<question.getComments().size(); i++ ){
-			features.add(new HashMap<String, Double>());
-		}
-		/**
-		 * Extracting ACK, QUEST_PAST & NO_ACK
-		 */
-		double ackValue = 0;
-		double questValue = 0;
-		double noAckValue = 0;
-		for(int i = commentInfos.size() -1; i>=0; i--){
-			CommentInfo currentInfo = commentInfos.get(i);
-			if(currentInfo.isQuestionAuthor){
-				features.get(i).put(QUSER_COMMENT, 1.0);
-				if(currentInfo.containsAckFromQuestionAuthor && currentInfo.containsQuestionFromQuestionAuthor){
-					ackValue = 1;					
-					questValue = 1;
-					noAckValue = 0;
-					features.get(i).put(QUSER_ACK, 1.0);
-					features.get(i).put(QUSER_QUEST, 1.0);
-
-				}
-				else if(currentInfo.containsAckFromQuestionAuthor){
-					ackValue = 1;
-					questValue = 0;
-					noAckValue = 0;
-					features.get(i).put(QUSER_ACK, 1.0);
-				}
-				else if(currentInfo.containsQuestionFromQuestionAuthor){
-					ackValue = 0;
-					questValue = 1;
-					noAckValue = 0;
-					features.get(i).put(QUSER_QUEST, 1.0);
-				}else{
-					ackValue = 0;
-					questValue = 0;
-					noAckValue = 1;
-					features.get(i).put(QUSER_NOACK, 1.0);
-				}
-
-			}else{
-
-				if(ackValue>EPSILON){
-					features.get(i).put(ACK, ackValue);
-					ackValue -= 1.0/PROPAGATION_WINDOW;
-				}
-				if(questValue>EPSILON){
-					features.get(i).put(QUEST_PAST, questValue);
-					questValue -= 1.0/PROPAGATION_WINDOW;
-				}
-				if(noAckValue>EPSILON){
-					features.get(i).put(NOACK, noAckValue);
-					noAckValue -= 1.0/PROPAGATION_WINDOW;
-				}
-			}
-
-		}
-		/**
-		 * Extracting QUEST_FUT
-		 */
-		questValue=0;
-		for(int i=0; i<commentInfos.size(); i++){
-			CommentInfo currentInfo = commentInfos.get(i);
-			if(currentInfo.isQuestionAuthor){
-				if(currentInfo.containsQuestionFromQuestionAuthor){
-					questValue = 1;
-				}else{
-					questValue = 0;
-				}
-			}else{
-				if(questValue>EPSILON){
-					features.get(i).put(QUEST_FUT, questValue);
-					questValue -= 1.0/PROPAGATION_WINDOW;
-				}
-			}
-		}
-
-		/**
-		 * EXTRACTING MULT features
-		 */
-		for(List<Integer> indices : userCommentIndices.values()){
-			if(indices.size()>1){
-				for(int i=0; i<indices.size(); i++){
-					int index = indices.get(i);
-					HashMap<String, Double> commentFeatureVector = features.get(index);
-					commentFeatureVector.put(MULT_BOOL, 1.0);
-
-					if(i==0){
-						commentFeatureVector.put(MULT_FIRST, 1.0);
-					} else {
-						if(i==indices.size()-1){					
-							commentFeatureVector.put(MULT_LAST, 1.0);							
-						}else{
-							commentFeatureVector.put(MULT_MID, 1.0);							
-						}
-						commentFeatureVector.put(MULT_REAL, 
-								Math.min(MULT_REAL_SATURATION, (double)i) /
-								MULT_REAL_SATURATION);
-					}
-				}
-			}
-
-		}
-
-		/**
-		 * EXTRACTING DIAL_Uq features
-		 */
-		//		List<Integer> uqIndices = userCommentIndices.get(quserid);
-		//		if(uqIndices!=null){//qUser wrote at least a comment so he could have had a dialog
-		//			for(Entry<String, List<Integer>> entry : userCommentIndices.entrySet()){
-		//				if(entry.getKey().equals(quserid)){
-		//					continue;//skipping qUser
-		//				}
-		//				List<Integer> uIndices = entry.getValue();
-		//				if(uIndices.size() > 1){//user u had at least two comments, so he could have started a dialog with qUser
-		//					int u=0;
-		//					int q=0;
-		//					boolean uTalked = false;
-		//			
-		//					while(u<uIndices.size() && q<uqIndices.size()){
-		//						if(uIndices.get(u) < uqIndices.get(q)){
-		//							uTalked = true;
-		//							u++;
-		//						}else{
-		//							if(uTalked){//the dialog starts
-		//								features.get(uIndices.get(u-1)).put("DIAL_Uq_START", 1.0);
-		//								for(int i = u; i<uIndices.size()-1; i++){
-		//									features.get(uIndices.get(i)).put("DIAL_Uq_IN", 1.0);
-		//								}
-		//								int uLastCommentIndex = uIndices.get(uIndices.size()-1);
-		//								int uqLastCommentIndex = uqIndices.get(uqIndices.size()-1);
-		//								if(uLastCommentIndex > uqLastCommentIndex){
-		//									features.get(uLastCommentIndex).put("DIAL_Uq_END", 1.0);
-		//								}else{
-		//									features.get(uLastCommentIndex).put("DIAL_Uq_IN", 1.0);
-		//								}
-		//								break;
-		//							}
-		//							q++;
-		//						}
-		//					}
-		//				}
-		//			}
-		//			
-		//		}
-
-		List<Integer> uqIndices = userCommentIndices.get(quserid);
-		if(uqIndices!=null){//qUser wrote at least a comment so he could have had a dialog
-			for(Entry<String, List<Integer>> entry : userCommentIndices.entrySet()){
-				if(entry.getKey().equals(quserid)){
-					continue;//skipping qUser
-				}
-				List<Integer> uIndices = entry.getValue();
-				if(uIndices.size() > 1){//user u had at least two comments, so he could have started a dialog with qUser
-					int u=0;
-					int q=0;
-					int mergedIndex = 0;
-					int [] mergedIndices = new int[uIndices.size()+uqIndices.size()];
-					char [] userSequence = new char [uIndices.size()+uqIndices.size()];
-
-					while(u<uIndices.size() && q<uqIndices.size()){
-						if(uIndices.get(u) < uqIndices.get(q)){
-							mergedIndices[mergedIndex] = uIndices.get(u);
-							userSequence[mergedIndex] = 'U';
-							u++;
-						}else{
-							mergedIndices[mergedIndex] = uqIndices.get(q);
-							userSequence[mergedIndex] = 'Q';
-							q++;
-						}
-						mergedIndex++;
-					}
-					
-					while(u<uIndices.size()){//adding remaining comments from u
-						
-						mergedIndices[mergedIndex] = uIndices.get(u);
-						userSequence[mergedIndex] = 'U';
-						u++;
-						mergedIndex++;
-					}
-					while(q<uqIndices.size()){//adding remaining comments from q
-						mergedIndices[mergedIndex] = uqIndices.get(q);
-						userSequence[mergedIndex] = 'Q';
-						q++;
-						mergedIndex++;
-					}
-
-					String sequenceString = String.copyValueOf(userSequence);
-					String regex = "UQ+U";
-
-					Pattern pattern = Pattern.compile(regex);
-					Matcher matcher = pattern.matcher(sequenceString);
-
-					if(matcher.find()){
-						int startIndex = matcher.start();
-						features.get(mergedIndices[startIndex]).put(DIAL_Uq_START, 1.0);
-						for(int i = startIndex + 1; i<mergedIndices.length-1; i++){
-							features.get(mergedIndices[i]).put(DIAL_Uq_IN, 1.0);
-						}
-						features.get(mergedIndices[mergedIndices.length-1]).put(DIAL_Uq_END, 1.0);
-					}
-
-				}
-			}
-
-		}
-
-		/**
-		 * EXTRACTING DIAL_U features
-		 */
-		ArrayList<Entry<String, List<Integer>>> indicesPerUser = new ArrayList<Entry<String, List<Integer>>>();
-		indicesPerUser.addAll(userCommentIndices.entrySet());
-		//looping on all pair of users to check whether they had a dialog
-		for(int u1=0; u1<indicesPerUser.size()-1; u1++){
-			if(indicesPerUser.get(u1).getKey().equals(quserid)){
-				continue;//skipping the quser
-			}
-			List<Integer> u1Indices = indicesPerUser.get(u1).getValue();
-			if(u1Indices.size()>1){//user u1 has multiple comments, so he could have had a conversation
-				for(int u2=u1+1; u2<indicesPerUser.size(); u2++){
-					if(indicesPerUser.get(u2).getKey().equals(quserid)){
-						continue;//skipping the quser
-					}
-					List<Integer> u2Indices = indicesPerUser.get(u2).getValue();
-
-					if(u2Indices.size()>1){//u2 has multiple comments, so he could have had a conversation with u1
-						int u1Index=0;
-						int u2Index=0;
-						int mergedIndex = 0;
-						int [] mergedIndices = new int[u1Indices.size()+u2Indices.size()];
-						char [] userSequence = new char [u1Indices.size()+u2Indices.size()];
-						while(u1Index<u1Indices.size() && u2Index<u2Indices.size()){//creating an interlaced sequence between u1 and u2
-							if(u1Indices.get(u1Index) < u2Indices.get(u2Index)){//current comment is from u1
-								mergedIndices[mergedIndex] = u1Indices.get(u1Index);
-								userSequence[mergedIndex] = '1';
-								u1Index++;
-							}else{//current comment is from u2
-								mergedIndices[mergedIndex] = u2Indices.get(u2Index);
-								userSequence[mergedIndex] = '2';
-								u2Index++;
-							}
-							mergedIndex++;
-						}
-						while(u1Index<u1Indices.size()){//adding remaining comments from u1
-							mergedIndices[mergedIndex] = u1Indices.get(u1Index);
-							userSequence[mergedIndex] = '1';
-							u1Index++;
-							mergedIndex++;
-						}
-						while(u2Index<u2Indices.size()){//adding remaining comments from u2
-							mergedIndices[mergedIndex] = u2Indices.get(u2Index);
-							userSequence[mergedIndex] = '2';
-							u2Index++;
-							mergedIndex++;
-						}
-
-						String sequenceString = String.copyValueOf(userSequence);
-
-						String regex1 = "12+1+2";
-						String regex2 = "21+2+1";
-						Pattern pattern = Pattern.compile(regex1);
-						Matcher matcher = pattern.matcher(sequenceString);
-						int startIndex = Integer.MAX_VALUE;
-						boolean conversationStarted = false;
-						if(matcher.find()){
-							startIndex = matcher.start();
-							conversationStarted = true;
-						}
-						pattern = Pattern.compile(regex2);
-						matcher = pattern.matcher(sequenceString);
-						if(matcher.find()){
-							int startIndex2 = matcher.start();
-							conversationStarted = true;
-							if(startIndex2<startIndex){
-								startIndex = startIndex2;
-							}
-						}
-
-						if(conversationStarted){
-							features.get(mergedIndices[startIndex]).put(DIAL_U_START, 1.0);
-							for(int i = startIndex + 1; i<mergedIndices.length-1; i++){
-								features.get(mergedIndices[i]).put(DIAL_U_IN, 1.0);
-							}
-							features.get(mergedIndices[mergedIndices.length-1]).put(DIAL_U_END, 1.0);
-						}
+	    if(cuserid.equals(quserid)){
+	      info.isQuestionAuthor = true;
+	      info.containsAckFromQuestionAuthor = containsAcknowledge(comment);
+	      info.containsQuestionFromQuestionAuthor = containsQuestion(comment);
+	    }
 
 
-					}
+	    commentThread.add(comment.getCgold());
+	    commentInfos.add(info);
+	    commentCount++;
+	  }
+
+	  /**
+	   * INITIALIZING THE OUTPUT
+	   */
+
+	  List<HashMap<String, Double>> features = new ArrayList<HashMap<String,Double>>();
+	  for(int i=0; i<question.getComments().size(); i++ ){
+	    features.add(new HashMap<String, Double>());
+	  }
+	  /**
+	   * Extracting ACK, QUEST_PAST & NO_ACK
+	   */
+	  double ackValue = 0;
+	  double questValue = 0;
+	  double noAckValue = 0;
+	  for(int i = commentInfos.size() -1; i>=0; i--){
+	    CommentInfo currentInfo = commentInfos.get(i);
+	    if(currentInfo.isQuestionAuthor){
+	      features.get(i).put(QUSER_COMMENT, 1.0);
+	      if(currentInfo.containsAckFromQuestionAuthor && currentInfo.containsQuestionFromQuestionAuthor){
+	        ackValue = 1;					
+	        questValue = 1;
+	        noAckValue = 0;
+	        features.get(i).put(QUSER_ACK, 1.0);
+	        features.get(i).put(QUSER_QUEST, 1.0);
+
+	      }
+	      else if(currentInfo.containsAckFromQuestionAuthor){
+	        ackValue = 1;
+	        questValue = 0;
+	        noAckValue = 0;
+	        features.get(i).put(QUSER_ACK, 1.0);
+	      }
+	      else if(currentInfo.containsQuestionFromQuestionAuthor){
+	        ackValue = 0;
+	        questValue = 1;
+	        noAckValue = 0;
+	        features.get(i).put(QUSER_QUEST, 1.0);
+	      }else{
+	        ackValue = 0;
+	        questValue = 0;
+	        noAckValue = 1;
+	        features.get(i).put(QUSER_NOACK, 1.0);
+	      }
+
+	    }else{
+
+	      if(ackValue>EPSILON){
+	        features.get(i).put(ACK, ackValue);
+	        ackValue -= 1.0/PROPAGATION_WINDOW;
+	      }
+	      if(questValue>EPSILON){
+	        features.get(i).put(QUEST_PAST, questValue);
+	        questValue -= 1.0/PROPAGATION_WINDOW;
+	      }
+	      if(noAckValue>EPSILON){
+	        features.get(i).put(NOACK, noAckValue);
+	        noAckValue -= 1.0/PROPAGATION_WINDOW;
+	      }
+	    }
+
+	  }
+	  /**
+	   * Extracting QUEST_FUT
+	   */
+	  questValue=0;
+	  for(int i=0; i<commentInfos.size(); i++){
+	    CommentInfo currentInfo = commentInfos.get(i);
+	    if(currentInfo.isQuestionAuthor){
+	      if(currentInfo.containsQuestionFromQuestionAuthor){
+	        questValue = 1;
+	      }else{
+	        questValue = 0;
+	      }
+	    }else{
+	      if(questValue>EPSILON){
+	        features.get(i).put(QUEST_FUT, questValue);
+	        questValue -= 1.0/PROPAGATION_WINDOW;
+	      }
+	    }
+	  }
+
+	  /**
+	   * EXTRACTING MULT features
+	   */
+	  for(List<Integer> indices : userCommentIndices.values()){
+	    if(indices.size()>1){
+	      for(int i=0; i<indices.size(); i++){
+	        int index = indices.get(i);
+	        HashMap<String, Double> commentFeatureVector = features.get(index);
+	        commentFeatureVector.put(MULT_BOOL, 1.0);
+
+	        if(i==0){
+	          commentFeatureVector.put(MULT_FIRST, 1.0);
+	        } else {
+	          if(i==indices.size()-1){					
+	            commentFeatureVector.put(MULT_LAST, 1.0);							
+	          }else{
+	            commentFeatureVector.put(MULT_MID, 1.0);							
+	          }
+	          commentFeatureVector.put(MULT_REAL, 
+	              Math.min(MULT_REAL_SATURATION, (double)i) /
+	              MULT_REAL_SATURATION);
+	        }
+	      }
+	    }
+
+	  }
+
+	  /**
+	   * EXTRACTING DIAL_Uq features
+	   */
+	  //		List<Integer> uqIndices = userCommentIndices.get(quserid);
+	  //		if(uqIndices!=null){//qUser wrote at least a comment so he could have had a dialog
+	  //			for(Entry<String, List<Integer>> entry : userCommentIndices.entrySet()){
+	  //				if(entry.getKey().equals(quserid)){
+	  //					continue;//skipping qUser
+	  //				}
+	  //				List<Integer> uIndices = entry.getValue();
+	  //				if(uIndices.size() > 1){//user u had at least two comments, so he could have started a dialog with qUser
+	  //					int u=0;
+	  //					int q=0;
+	  //					boolean uTalked = false;
+	  //			
+	  //					while(u<uIndices.size() && q<uqIndices.size()){
+	  //						if(uIndices.get(u) < uqIndices.get(q)){
+	  //							uTalked = true;
+	  //							u++;
+	  //						}else{
+	  //							if(uTalked){//the dialog starts
+	  //								features.get(uIndices.get(u-1)).put("DIAL_Uq_START", 1.0);
+	  //								for(int i = u; i<uIndices.size()-1; i++){
+	  //									features.get(uIndices.get(i)).put("DIAL_Uq_IN", 1.0);
+	  //								}
+	  //								int uLastCommentIndex = uIndices.get(uIndices.size()-1);
+	  //								int uqLastCommentIndex = uqIndices.get(uqIndices.size()-1);
+	  //								if(uLastCommentIndex > uqLastCommentIndex){
+	  //									features.get(uLastCommentIndex).put("DIAL_Uq_END", 1.0);
+	  //								}else{
+	  //									features.get(uLastCommentIndex).put("DIAL_Uq_IN", 1.0);
+	  //								}
+	  //								break;
+	  //							}
+	  //							q++;
+	  //						}
+	  //					}
+	  //				}
+	  //			}
+	  //			
+	  //		}
+
+	  List<Integer> uqIndices = userCommentIndices.get(quserid);
+	  if(uqIndices!=null){//qUser wrote at least a comment so he could have had a dialog
+	    for(Entry<String, List<Integer>> entry : userCommentIndices.entrySet()){
+	      if(entry.getKey().equals(quserid)){
+	        continue;//skipping qUser
+	      }
+	      List<Integer> uIndices = entry.getValue();
+	      if(uIndices.size() > 1){//user u had at least two comments, so he could have started a dialog with qUser
+	        int u=0;
+	        int q=0;
+	        int mergedIndex = 0;
+	        int [] mergedIndices = new int[uIndices.size()+uqIndices.size()];
+	        char [] userSequence = new char [uIndices.size()+uqIndices.size()];
+
+	        while(u<uIndices.size() && q<uqIndices.size()){
+	          if(uIndices.get(u) < uqIndices.get(q)){
+	            mergedIndices[mergedIndex] = uIndices.get(u);
+	            userSequence[mergedIndex] = 'U';
+	            u++;
+	          }else{
+	            mergedIndices[mergedIndex] = uqIndices.get(q);
+	            userSequence[mergedIndex] = 'Q';
+	            q++;
+	          }
+	          mergedIndex++;
+	        }
+
+	        while(u<uIndices.size()){//adding remaining comments from u
+
+	          mergedIndices[mergedIndex] = uIndices.get(u);
+	          userSequence[mergedIndex] = 'U';
+	          u++;
+	          mergedIndex++;
+	        }
+	        while(q<uqIndices.size()){//adding remaining comments from q
+	          mergedIndices[mergedIndex] = uqIndices.get(q);
+	          userSequence[mergedIndex] = 'Q';
+	          q++;
+	          mergedIndex++;
+	        }
+
+	        String sequenceString = String.copyValueOf(userSequence);
+	        String regex = "UQ+U";
+
+	        Pattern pattern = Pattern.compile(regex);
+	        Matcher matcher = pattern.matcher(sequenceString);
+
+	        if(matcher.find()){
+	          int startIndex = matcher.start();
+	          features.get(mergedIndices[startIndex]).put(DIAL_Uq_START, 1.0);
+	          for(int i = startIndex + 1; i<mergedIndices.length-1; i++){
+	            features.get(mergedIndices[i]).put(DIAL_Uq_IN, 1.0);
+	          }
+	          features.get(mergedIndices[mergedIndices.length-1]).put(DIAL_Uq_END, 1.0);
+	        }
+
+	      }
+	    }
+
+	  }
+
+	  /**
+	   * EXTRACTING DIAL_U features
+	   */
+	  ArrayList<Entry<String, List<Integer>>> indicesPerUser = new ArrayList<Entry<String, List<Integer>>>();
+	  indicesPerUser.addAll(userCommentIndices.entrySet());
+	  //looping on all pair of users to check whether they had a dialog
+	  for(int u1=0; u1<indicesPerUser.size()-1; u1++){
+	    if(indicesPerUser.get(u1).getKey().equals(quserid)){
+	      continue;//skipping the quser
+	    }
+	    List<Integer> u1Indices = indicesPerUser.get(u1).getValue();
+	    if(u1Indices.size()>1){//user u1 has multiple comments, so he could have had a conversation
+	      for(int u2=u1+1; u2<indicesPerUser.size(); u2++){
+	        if(indicesPerUser.get(u2).getKey().equals(quserid)){
+	          continue;//skipping the quser
+	        }
+	        List<Integer> u2Indices = indicesPerUser.get(u2).getValue();
+
+	        if(u2Indices.size()>1){//u2 has multiple comments, so he could have had a conversation with u1
+	          int u1Index=0;
+	          int u2Index=0;
+	          int mergedIndex = 0;
+	          int [] mergedIndices = new int[u1Indices.size()+u2Indices.size()];
+	          char [] userSequence = new char [u1Indices.size()+u2Indices.size()];
+	          while(u1Index<u1Indices.size() && u2Index<u2Indices.size()){//creating an interlaced sequence between u1 and u2
+	            if(u1Indices.get(u1Index) < u2Indices.get(u2Index)){//current comment is from u1
+	              mergedIndices[mergedIndex] = u1Indices.get(u1Index);
+	              userSequence[mergedIndex] = '1';
+	              u1Index++;
+	            }else{//current comment is from u2
+	              mergedIndices[mergedIndex] = u2Indices.get(u2Index);
+	              userSequence[mergedIndex] = '2';
+	              u2Index++;
+	            }
+	            mergedIndex++;
+	          }
+	          while(u1Index<u1Indices.size()){//adding remaining comments from u1
+	            mergedIndices[mergedIndex] = u1Indices.get(u1Index);
+	            userSequence[mergedIndex] = '1';
+	            u1Index++;
+	            mergedIndex++;
+	          }
+	          while(u2Index<u2Indices.size()){//adding remaining comments from u2
+	            mergedIndices[mergedIndex] = u2Indices.get(u2Index);
+	            userSequence[mergedIndex] = '2';
+	            u2Index++;
+	            mergedIndex++;
+	          }
+
+	          String sequenceString = String.copyValueOf(userSequence);
+
+	          String regex1 = "12+1+2";
+	          String regex2 = "21+2+1";
+	          Pattern pattern = Pattern.compile(regex1);
+	          Matcher matcher = pattern.matcher(sequenceString);
+	          int startIndex = Integer.MAX_VALUE;
+	          boolean conversationStarted = false;
+	          if(matcher.find()){
+	            startIndex = matcher.start();
+	            conversationStarted = true;
+	          }
+	          pattern = Pattern.compile(regex2);
+	          matcher = pattern.matcher(sequenceString);
+	          if(matcher.find()){
+	            int startIndex2 = matcher.start();
+	            conversationStarted = true;
+	            if(startIndex2<startIndex){
+	              startIndex = startIndex2;
+	            }
+	          }
+
+	          if(conversationStarted){
+	            features.get(mergedIndices[startIndex]).put(DIAL_U_START, 1.0);
+	            for(int i = startIndex + 1; i<mergedIndices.length-1; i++){
+	              features.get(mergedIndices[i]).put(DIAL_U_IN, 1.0);
+	            }
+	            features.get(mergedIndices[mergedIndices.length-1]).put(DIAL_U_END, 1.0);
+	          }
 
 
-				}
-			}
-		}
-		
-		
-		/**
-		 * EXTRACTING HISTORY-BASED FEATURES 
-		 */
-		if (INCLUDE_PAST) {
-			
-			/**
-			 * 1-GRAM: whether the previous comment in the stream is 
-			 * good/bad/potential (or it is the first one) 
-			*/
-			features.get(0).put(HISTORY_1_Start, 1.0);		
-			
-			for(int i=1; i<commentInfos.size(); i++){
-				features.get(i).put(
-						String.format("HISTORY_1_%s", commentThread.get(i-1)), 
-						1.0);
-			}
-	
-			/**
-			 * 2-gram: whether the two previous comment in the stream are a 
-			 * combination of [start]/good/bad/potential (non-applicable for the 
-			 * first one)
-			 */				
-			if (commentInfos.size() > 1){
-				features.get(1).put("HISTORY_2_Start_"+commentThread.get(0), 1.0);
-				for (int i=2; i < commentInfos.size(); i++){
-					features.get(i).put(
-							String.format("HISTORY_2_%s_%s", 
-									commentThread.get(i-2), 
-									commentThread.get(i-1)),  
-									1.0);			
-				}			
-			}
-		}
-				
-		/**
-		 * EXTRACTING CATEGORY FEATURES
-		 */
-		String categoryFeature = "CATEGORY_" + question.getQcategory();
-		for(HashMap<String, Double> featureVector : features){
-			featureVector.put(categoryFeature, 1.0);
-		}
+	        }
 
-		/**
-		 * EXTRACTING EMAIL, URL, LENGTH and POSITION FEATURE, 
-		 */
-		for(int i=0; i<question.getComments().size(); i++){
 
-			//As the text is modified in this section, we copy it into a temporal
-			//string before doing any operation.
-			String commentBody = question.getComments().get(i).getCbody()
-										.replaceAll("\\s+"," ");
-			if (containsEmail(commentBody)){
-				features.get(i).put(EMAIL, 1.0);
-				commentBody = removePattern(EMAIL_REGEX, commentBody);
-			}
-						
-			//ATT: note that an email has to be looked up before a URL because
-			//the URL pattern also recognizes mails as URLs
-			if (hasUrl(commentBody)){
-				features.get(i).put(URL, 1.0);
-				commentBody = removePattern(URL_REGEX, commentBody);
-			}
+	      }
+	    }
+	  }
 
-			for (String word : KEY_WORDS){
-				if (containsWord(commentBody, word)){
-					features.get(i).put(PREF_CONTAIN+word, 1.0);
-				}
-			}
-			
-			for (String seq : KEY_SYMBOLS){
-				if (containsSequence(commentBody, seq)){
-					features.get(i).put(PREF_CONTAINS_SYMB+seq, 1.0);
-				}
-			}		
 
-			for (String word : START_WORDS){
-				if (startsWithWord(commentBody, word)){
-					features.get(i).put(PREF_STARTS+word, 1.0);
-				}
-			}
-			
-			
-			
-			double lengthFeature = (double)commentBody.length();
-			if(lengthFeature>LENGTH_SATURATION){
-				lengthFeature = (double)LENGTH_SATURATION;
-			}
-			features.get(i).put(LENGTH, lengthFeature/LENGTH_SATURATION);
-			
-			
-			features.get(i).put(REPEATED_CHARS, 
-					(containsRepeatedChars(commentBody)) ? 1.0 : 0.0
-				);
-						
-			features.get(i).put(VERY_LONG_WORD, 
-					(containsLongWord(commentBody)) ? 1.0 : 0.0
-				);
-						
-			double positionFeature = (double)i;
-			if(positionFeature>POSITION_SATURATION){
-				positionFeature = (double)POSITION_SATURATION;
-			}
-			features.get(i).put(POSITION, positionFeature/POSITION_SATURATION);
+	  /**
+	   * EXTRACTING HISTORY-BASED FEATURES 
+	   */
+	  if (INCLUDE_PAST) {
 
-		}
-		
-		/**
-		 * EXTRACTING LSA FEATURES
-		 */
-		if(INCLUDE_LSA_SIMILARITY || INCLUDE_LSA_VECTORS){
-			DenseMatrix64F qVector = wordspace.sentence2vector(question.getQsubject());
-			CommonOps.addEquals(qVector, wordspace.sentence2vector(question.getQbody()));	
-			
-			DenseMatrix64F qPosFilteredVector = wordspace.sentence2vector(question.getQsubject(), posOfInterest);
-			CommonOps.addEquals(qPosFilteredVector, wordspace.sentence2vector(question.getQbody(), posOfInterest));	
-			
-			
-			
-			for(int i=0; i<question.getComments().size(); i++){
-				DenseMatrix64F cVector = wordspace.sentence2vector(question.getComments().get(i).getCbody());
-				DenseMatrix64F cPosFilteredVector = wordspace.sentence2vector(question.getComments().get(i).getCbody(), posOfInterest);
-				if(INCLUDE_LSA_SIMILARITY){
-					double similarity = cosineSimilarity(qVector, cVector);
-					double filteredSimilarity = cosineSimilarity(qPosFilteredVector, cPosFilteredVector);
-					features.get(i).put(LSA_SIMILARITY, similarity);
-					features.get(i).put(N_LSA_SIMILARITY, filteredSimilarity);
-					
-				}
-				if(INCLUDE_LSA_VECTORS){
-					for(int f=0; f<wordspace.getSpaceDimensionality(); f++){
-						features.get(i).put(LSA_Q_PREFIX + (f+1),  qPosFilteredVector.get(0,f));
-						features.get(i).put(LSA_C_PREFIX + (f+1),  cPosFilteredVector.get(0,f));
-					}
-				}
-			}
-		}
-		return features;
+	    /**
+	     * 1-GRAM: whether the previous comment in the stream is 
+	     * good/bad/potential (or it is the first one) 
+	     */
+	    features.get(0).put(HISTORY_1_Start, 1.0);		
+
+	    for(int i=1; i<commentInfos.size(); i++){
+	      features.get(i).put(
+	          String.format("HISTORY_1_%s", commentThread.get(i-1)), 
+	          1.0);
+	    }
+
+	    /**
+	     * 2-gram: whether the two previous comment in the stream are a 
+	     * combination of [start]/good/bad/potential (non-applicable for the 
+	     * first one)
+	     */				
+	    if (commentInfos.size() > 1){
+	      features.get(1).put("HISTORY_2_Start_"+commentThread.get(0), 1.0);
+	      for (int i=2; i < commentInfos.size(); i++){
+	        features.get(i).put(
+	            String.format("HISTORY_2_%s_%s", 
+	                commentThread.get(i-2), 
+	                commentThread.get(i-1)),  
+	                1.0);			
+	      }			
+	    }
+	  }
+
+	  /**
+	   * EXTRACTING CATEGORY FEATURES
+	   */
+	  String categoryFeature = "CATEGORY_" + question.getQcategory();
+	  for(HashMap<String, Double> featureVector : features){
+	    featureVector.put(categoryFeature, 1.0);
+	  }
+
+	  /**
+	   * EXTRACTING EMAIL, URL, LENGTH and POSITION FEATURE, 
+	   */
+	  for(int i=0; i<question.getComments().size(); i++){
+
+	    //As the text is modified in this section, we copy it into a temporal
+	    //string before doing any operation.
+	    String commentBody = question.getComments().get(i).getCbody()
+	        .replaceAll("\\s+"," ");
+	    if (containsEmail(commentBody)){
+	      features.get(i).put(EMAIL, 1.0);
+	      commentBody = removePattern(EMAIL_REGEX, commentBody);
+	    }
+
+	    //ATT: note that an email has to be looked up before a URL because
+	    //the URL pattern also recognizes mails as URLs
+	    if (hasUrl(commentBody)){
+	      features.get(i).put(URL, 1.0);
+	      commentBody = removePattern(URL_REGEX, commentBody);
+	    }
+
+	    for (String word : KEY_WORDS){
+	      if (containsWord(commentBody, word)){
+	        features.get(i).put(PREF_CONTAIN+word, 1.0);
+	      }
+	    }
+
+	    for (String seq : KEY_SYMBOLS){
+	      if (containsSequence(commentBody, seq)){
+	        features.get(i).put(PREF_CONTAINS_SYMB+seq, 1.0);
+	      }
+	    }		
+
+	    for (String word : START_WORDS){
+	      if (startsWithWord(commentBody, word)){
+	        features.get(i).put(PREF_STARTS+word, 1.0);
+	      }
+	    }
+
+
+
+	    double lengthFeature = (double)commentBody.length();
+	    if(lengthFeature>LENGTH_SATURATION){
+	      lengthFeature = (double)LENGTH_SATURATION;
+	    }
+	    features.get(i).put(LENGTH, lengthFeature/LENGTH_SATURATION);
+
+
+	    features.get(i).put(REPEATED_CHARS, 
+	        (containsRepeatedChars(commentBody)) ? 1.0 : 0.0
+	        );
+
+	    features.get(i).put(VERY_LONG_WORD, 
+	        (containsLongWord(commentBody)) ? 1.0 : 0.0
+	        );
+
+	    double positionFeature = (double)i;
+	    if(positionFeature>POSITION_SATURATION){
+	      positionFeature = (double)POSITION_SATURATION;
+	    }
+	    features.get(i).put(POSITION, positionFeature/POSITION_SATURATION);
+
+	  }
+
+	  /**
+	   * EXTRACTING LSA FEATURES
+	   */
+	  if(INCLUDE_LSA_SIMILARITY || INCLUDE_LSA_VECTORS){
+	    DenseMatrix64F qVector = wordspace.sentence2vector(question.getQsubject());
+	    CommonOps.addEquals(qVector, wordspace.sentence2vector(question.getQbody()));	
+
+	    DenseMatrix64F qPosFilteredVector = wordspace.sentence2vector(question.getQsubject(), posOfInterest);
+	    CommonOps.addEquals(qPosFilteredVector, wordspace.sentence2vector(question.getQbody(), posOfInterest));	
+
+
+
+	    for(int i=0; i<question.getComments().size(); i++){
+	      DenseMatrix64F cVector = wordspace.sentence2vector(question.getComments().get(i).getCbody());
+	      DenseMatrix64F cPosFilteredVector = wordspace.sentence2vector(question.getComments().get(i).getCbody(), posOfInterest);
+	      if(INCLUDE_LSA_SIMILARITY){
+	        double similarity = cosineSimilarity(qVector, cVector);
+	        double filteredSimilarity = cosineSimilarity(qPosFilteredVector, cPosFilteredVector);
+	        features.get(i).put(LSA_SIMILARITY, similarity);
+	        features.get(i).put(N_LSA_SIMILARITY, filteredSimilarity);
+
+	      }
+	      if(INCLUDE_LSA_VECTORS){
+	        for(int f=0; f<wordspace.getSpaceDimensionality(); f++){
+	          features.get(i).put(LSA_Q_PREFIX + (f+1),  qPosFilteredVector.get(0,f));
+	          features.get(i).put(LSA_C_PREFIX + (f+1),  cPosFilteredVector.get(0,f));
+	        }
+	      }
+	    }
+	  }
+	  return features;
 	}	
 
 	private static String removePattern(Pattern regex, String s){		
@@ -797,6 +1270,26 @@ public class FeatureExtractor {
 		return false;
 	}
 
+	/**
+	 * @param text a chunk of free text
+	 * @return true if it contains an ack. keyword (thank* or appreciat*)
+	 */
+	//TODO move into a UIMA annotator?
+	public static boolean containsAcknowledge(String text){
+    text = text.toLowerCase();
+    if(text.contains("thank") || text.contains("appreciat")){
+      return true;
+    }
+    return false;
+  }
+	
+	/**
+	 * This is too attached to the (old) comment class and should be more generic.
+	 * Now the similar method receives just a text.
+	 * @param comment
+	 * @return
+	 */
+	@Deprecated
 	public static boolean containsAcknowledge(Comment comment){
 		String body = comment.getCbody().toLowerCase();
 		if(body.contains("thank") || body.contains("appreciat")){
@@ -822,6 +1315,19 @@ public class FeatureExtractor {
 		return comment.toLowerCase().startsWith(word);
 	}
 	
+	/**
+	 * @param text
+	 * @return true if the text contains a question mark
+	 */
+	//TODO more sophisticated mechanisms to identify a question?
+	public static boolean containsQuestion(String text){
+    if (text.contains("?")) {
+      return true;
+    }
+    return false;
+  }
+	
+	@Deprecated
 	public static boolean containsQuestion(Comment comment){
 		String body = comment.getCbody();
 		if(body.contains("?")){

@@ -21,7 +21,6 @@ import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.serialization.UIMAFilePersistence;
 import qa.qcri.qf.semeval2015_3.FeatureExtractor;
 import qa.qcri.qf.semeval2015_3.PairFeatureFactoryEnglish;
-import qa.qcri.qf.semeval2015_3.Question;
 import qa.qcri.qf.semeval2015_3.Question.Comment;
 import qa.qcri.qf.semeval2015_3.textnormalization.JsoupUtils;
 import qa.qcri.qf.semeval2015_3.textnormalization.TextNormalizer;
@@ -32,6 +31,10 @@ import qa.qcri.qf.trees.RichTree;
 import qa.qcri.qf.trees.TokenTree;
 import qa.qcri.qf.trees.TreeSerializer;
 import qa.qcri.qf.trees.nodes.RichNode;
+import qa.qf.qcri.cqa.CQAabstractElement;
+import qa.qf.qcri.cqa.CQAcomment;
+import qa.qf.qcri.cqa.CQAinstance;
+import qa.qf.qcri.cqa.CQAquestion;
 import util.Stopwords;
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.AugmentableFeatureVector;
@@ -47,19 +50,28 @@ import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CommentSelectionDatasetCreator {
+/**
+ * Opposite to the original version, this one uses the new CQA* classes for 
+ * question and comment representations inside of a CQAinstance.
+ * 
+ * For the original implementation, as used in EMNLP 2015, see 
+ * {@link CommentSelectionDatasetCreatorV2}
+ * 
+ * @author albarron
+ *
+ */
+public class CommentSelectionDatasetCreatorV2 {
 
 	protected static final boolean GENERATE_MASSIMO_FEATURES = true;
 	protected static final boolean GENERATE_ALBERTO_AND_SIMONE_FEATURES = true;
 
-	protected static final boolean ONLY_BAD_AND_GOOD_CLASSES = false;
-	protected static final Boolean THREE_CLASSES = true;
+	protected static final boolean ONLY_BAD_AND_GOOD_CLASSES = true;
+	protected static final Boolean THREE_CLASSES = false;
 	
 	/** True if we want to compute comment-to-comment similarities */
 	protected static final boolean INCLUDE_SIMILARITIES = false;
@@ -141,9 +153,10 @@ public class CommentSelectionDatasetCreator {
 	
 	protected Map<String,UserProfile> userProfiles;
 
-	public CommentSelectionDatasetCreator() {
+	public CommentSelectionDatasetCreatorV2() throws UIMAException, IOException {
 		this.fm = new FileManager();
 		this.alphabet = new Alphabet();
+		setupUimaTools();
 	}
 	
 	public static void main(String[] args) 
@@ -153,7 +166,7 @@ public class CommentSelectionDatasetCreator {
 		Logger.getRootLogger().setLevel(Level.INFO);
 		
 		/** Run the code for the English tasks */
-		new CommentSelectionDatasetCreator().runForEnglish();
+		new CommentSelectionDatasetCreatorV2().runForEnglish();
 	}
 
 	public void runForEnglish() throws UIMAException, IOException {
@@ -187,9 +200,6 @@ public class CommentSelectionDatasetCreator {
 		System.out.println("TOTAL NUMBER OF REMOVED SIGNATURES: " + 
 		     UserProfile.getRemovedSignatures());
 	}
-	
-	
-	
 
 	
 	/**
@@ -206,7 +216,8 @@ public class CommentSelectionDatasetCreator {
 	 * @throws AnalysisEngineProcessException
 	 * @throws SimilarityException
 	 */
-	private void processEnglishFile(Document doc, String dataFile, String suffix)
+	//TODO the method should be private
+	public void processEnglishFile(Document doc, String dataFile, String suffix)
 			throws ResourceInitializationException, UIMAException, IOException,
 			AnalysisEngineProcessException, SimilarityException {
 
@@ -243,11 +254,12 @@ public class CommentSelectionDatasetCreator {
 
 		for (Element question : questions) {
 		  System.out.println("[INFO]: Processing " + qNumber++ 
-		                                  + " out of " + numberOfQuestions);
+		    + " out of " + numberOfQuestions);
+		
+		  CQAinstance cqainstance = qElementToObject(question);
 		  
-		  Question q = qElementToObject(question);
-		  getFeaturesFromThread(q);
-		  
+		 
+		  getFeaturesFromThread(cqainstance);
 		  // TODO MOVE FROM HERE TO getFeaturesFromThread. 
 		  // FOR THAT the printing operations have to be moved out and
 		  //question and comment must have a method to extract header+body. 
@@ -256,10 +268,10 @@ public class CommentSelectionDatasetCreator {
 			/** Setup question CAS */
 		  
 			//questionCas.reset();
-		  JCas questionCas = questionToCas(q);
+		  JCas questionCas = cqaElementToCas(cqainstance.getQuestion());
 
 			fm.writeLn(plainTextOutputPath, "---------------------------- QID: " 
-          + q.getQid() + " USER:" + q.getQuserid());
+          + cqainstance.getQuestion().getId() + " USER:" + cqainstance.getQuestion().getUserId());
 			// TODO When the cas was loaded inside this method, questionText was
       // assigned to questionCas and then used to writeLn. Confirm they 
       // are the same now (@see questionToCas)
@@ -273,17 +285,17 @@ public class CommentSelectionDatasetCreator {
 	
 			/*Comment-level features to be combined*/
       List<List<Double>>  listFeatures = new ArrayList<List<Double>>();
-			List<HashMap<String, Double>> albertoSimoneFeatures;
+			List<Map<String, Double>> albertoSimoneFeatures;
 			if(GENERATE_ALBERTO_AND_SIMONE_FEATURES){ //TODO RENAME THIS PLEASE
-				albertoSimoneFeatures = FeatureExtractor.extractFeatures(q);
+				albertoSimoneFeatures = FeatureExtractor.extractFeatures(cqainstance);
 			}
 	
 			int commentIndex = 0;
 			List<JCas> allCommentsCas = new ArrayList<JCas>();
-			for (Comment c : q.getComments()) {	
+			for (CQAcomment c : cqainstance.getComments()) {	
 				/** Setup comment CAS */
 			  
-			  JCas commentCas = commentToCas(c);
+			  JCas commentCas = cqaElementToCas(c);
 			  
 				/** Run the UIMA pipeline */	
 				SimplePipeline.runPipeline(commentCas, this.analysisEngineList);
@@ -298,7 +310,7 @@ public class CommentSelectionDatasetCreator {
 				}
 
 				if (GENERATE_ALBERTO_AND_SIMONE_FEATURES){
-					HashMap<String, Double> featureVector = albertoSimoneFeatures.get(commentIndex);					
+					Map<String, Double> featureVector = albertoSimoneFeatures.get(commentIndex);					
 					for (String featureName : FeatureExtractor.getAllFeatureNames()) {
 						Double value = featureVector.get(featureName);
 						double featureValue =0;
@@ -377,24 +389,24 @@ public class CommentSelectionDatasetCreator {
 				listFeatures.add(features);
 
 				this.fm.writeLn(goodVSbadOutputPath, 
-				    c.getCid() + "," + c.getCgold() + "," + c.getCgold_yn() + "," 
+				    c.getId() + "," + c.getGold() + "," + c.getGold_yn() + "," 
 						+ Joiner.on(",").join(features));
 
 				/** Produce also the file needed to train structural models */
 				if (PRODUCE_SVMLIGHTTK_DATA) {
 					produceSVMLightTKExample(questionCas, commentCas, suffix, ts,
-							q.getQid(),	c.getCid(), c.getCgold(),c.getCgold_yn(),
+							cqainstance.getQuestion().getId(),	c.getId(), c.getGold(),c.getGold_yn(),
 							features);
 				}
-				if (PRODUCE_KELP_DATA){
+				if (PRODUCE_KELP_DATA) {
 					produceKelpExample(questionCas, commentCas, kelpFilePath, ts,
-							q.getQid(), c.getCid(), c.getCgold(),c.getCgold_yn(), features);
+							cqainstance.getQuestion().getId(), c.getId(), c.getGold(),c.getGold_yn(), features);
 				}
 				allCommentsCas.add(commentCas);
 			}
 			//TODO MOVE UP TO HERE
 			
-			this.fm.write(pairwiseOutputPath, computePairwiseFeatures(q, listFeatures, allCommentsCas));
+			this.fm.write(pairwiseOutputPath, computePairwiseFeatures(cqainstance, listFeatures, allCommentsCas));
 			//out.writeLn(computePairwiseFeatures(q, listFeatures);
 		}
 
@@ -408,26 +420,26 @@ public class CommentSelectionDatasetCreator {
 	}
 	
 	
-	private void getFeaturesFromThread(Question q) {
+	private void getFeaturesFromThread(CQAinstance q) {
 	  
 	}
 	
 
-//  TODO move the writing to another class?
-	private void writeToPlainTextOutput(String path, Comment c, JCas commentCas){
+//  TODO move the writing to another class?	
+	private void writeToPlainTextOutput(String path, CQAcomment c, JCas commentCas){
     fm.writeLn(path, 
-        "- CID: " + c.getCid().replace("_", "-") 
-        + " USER:" + c.getCuserid());
+        "- CID: " + c.getId().replace("_", "-") 
+        + " USER:" + c.getUserId());
     
     // TODO When the cas was loaded inside this method, commentText was
     // assigned to commentCas and then used to writeLn. Confirm they 
-    // are the same now (@see commentToCas)
+    // are the same now {@see commentToCas}
     //fm.writeLn(plainTextOutputPath, commentText);
     fm.writeLn(path, commentCas.getDocumentText());
 
 	}
 	
-	protected String computePairwiseFeatures(Question q, List<List<Double>>features,
+	protected String computePairwiseFeatures(CQAinstance q, List<List<Double>>features,
 			List<JCas> allCommentsCas){
 		
 		if (features.size() <= 1 ||	//only one comment; otherwise nothing to do
@@ -605,56 +617,100 @@ public class CommentSelectionDatasetCreator {
 	
 	 /**
    * Gets the contents of the question and feed it into a Question object
-   * @param question
+   * TODO this method should be deprecated and moved into a class that just 
+   * reads the XML file and generates the object
+   * @param qelement
    * @return object instance with the question data
    */
-  private Question qElementToObject (Element question) {    
-    Question q = new Question();
-    
-    q.setQid(question.attr("QID"));
-    q.setQcategory(question.attr("QCATEGORY"));
-    q.setQdate(question.attr("QDATE"));
-    q.setQuserId(question.attr("QUSERID"));
-    q.setQtype(question.attr("QTYPE"));
-    q.setQgoldYN(question.attr("QGOLD_YN"));
-    q.setQsubject(
-        TextNormalizer.normalize( 
+  private CQAinstance qElementToObject (Element qelement) {
+    String id = qelement.attr("QID");
+    String category = qelement.attr("QCATEGORY");
+    String date = qelement.attr("QDATE");
+    String userid = qelement.attr("QUSERID");
+    String type = qelement.attr("QTYPE");
+    String goldYN = qelement.attr("QGOLD_YN");
+    String subject = TextNormalizer.normalize( 
             JsoupUtils.recoverOriginalText(
-                    question.getElementsByTag("QSubject").get(0).text()) 
-    ));
-    String qbody = question.getElementsByTag("QBody").get(0).text();
-    qbody = JsoupUtils.recoverOriginalText(
-                UserProfile.removeSignature(qbody, 
-                              userProfiles.get(q.getQuserid())));
-    q.setQbody(TextNormalizer.normalize(qbody));
-    //      questionCategories.add(qcategory);
-
+                    qelement.getElementsByTag("QSubject").get(0).text()) 
+              );
+    //TODO we don't normalise the subject?
+    String body = qelement.getElementsByTag("QBody").get(0).text();
+    //FIXME make it use useprofiles as below
+    //body = JsoupUtils.recoverOriginalText(
+    //            UserProfile.removeSignature(body, 
+    //                          userProfiles.get(userid)));
+    body = TextNormalizer.normalize(body);
+    CQAquestion q = new CQAquestion(id,  date, userid, type, goldYN, subject, body);
+    CQAinstance cqa = new CQAinstance(q, category);
+    
     /** Parse comment nodes */
-    for (Element comment : question.getElementsByTag("Comment")) {      
+    for (Element comment : qelement.getElementsByTag("Comment")) {      
       String cid = comment.attr("CID");
       String cuserid = comment.attr("CUSERID");
       String cgold = comment.attr("CGOLD");
-      //Replacing the labels for the "macro" ones: GOOD vs BAD
+      
       if (ONLY_BAD_AND_GOOD_CLASSES) {
-        if (cgold.equalsIgnoreCase("good")) {
-          cgold = GOOD;
-        } else {
-          cgold = BAD;
-        }
+        cgold = (cgold.equalsIgnoreCase("good")) ? GOOD : BAD;
       }
       String cgold_yn = comment.attr("CGOLD_YN");
       String csubject = JsoupUtils.recoverOriginalText(
                     comment.getElementsByTag("CSubject").get(0).text());
       csubject = TextNormalizer.normalize(csubject);
       String cbody = comment.getElementsByTag("CBody").get(0).text();
-      cbody = JsoupUtils.recoverOriginalText(
-                UserProfile.removeSignature(cbody, userProfiles.get(cuserid)));
+      //FIXME make the following line work
+      //cbody = JsoupUtils.recoverOriginalText(
+      //          UserProfile.removeSignature(cbody, userProfiles.get(cuserid)));
       cbody = TextNormalizer.normalize(cbody);
-      q.addComment(cid, cuserid, cgold, cgold_yn, csubject, cbody);
+      cqa.addComment(cid, cuserid, cgold, cgold_yn, csubject, cbody);
     }
-    return q;
+    return cqa;
   }
-	
+  
+  
+  /**
+   * Takes an element, either a question or a comment and generates a JCas of 
+   * its whole text (subject + body)
+   * @param element either a question or a comment
+   * @return JCas instance of the text in the element
+   * @throws UIMAException
+   */
+  protected JCas cqaElementToCas(CQAabstractElement element) throws UIMAException {
+    JCas jcas = JCasFactory.createJCas();
+    jcas.setDocumentLanguage("en");
+    jcas.setDocumentText(element.getWholeText());
+    //FIXME replace above command with this one (and make it work): jcas.setDocumentText(element.getWholeTextNormalized(userProfiles));
+    return jcas;
+  }
+  
+  /**
+   * @deprecated use {@link cqaElementToCas} instead
+   * @param cqa
+   * @return
+   * @throws UIMAException
+   */
+  @Deprecated
+  private JCas questionToCas (CQAinstance cqa) throws UIMAException{
+    JCas questionCas = JCasFactory.createJCas();
+    questionCas.setDocumentLanguage("en");
+    questionCas.setDocumentText(cqa.getQuestion().getWholeText());
+    return questionCas;
+  }
+//  
+//  private JCas commentToCas (CQAcomment comment) throws UIMAException{
+//    JCas commentCas = JCasFactory.createJCas();
+//    commentCas.setDocumentLanguage("en");
+////    String commentText = comment.getWholeText();
+//    commentCas.setDocumentText(comment.getWholeText());
+//    return commentCas;
+//  }
+    
+  /**
+   * @deprecated use {@link cqaElementToCas} instead
+   * @param comment
+   * @return
+   * @throws UIMAException
+   */
+  @Deprecated
   private JCas commentToCas (Comment comment) throws UIMAException{
     JCas commentCas = JCasFactory.createJCas();
     commentCas.setDocumentLanguage("en");
@@ -667,36 +723,24 @@ public class CommentSelectionDatasetCreator {
     return commentCas;
   }
   
-  //TODO try to make commentToCas and questionnToCas one single method. Maybe even
-  //move them to class Question
-  private JCas questionToCas (Question question) throws UIMAException{
-    JCas questionCas = JCasFactory.createJCas();
-    questionCas.setDocumentLanguage("en");
-    questionCas.setDocumentText(
-          SubjectBodyAggregator.getQuestionText(
-                                  question.getQsubject(), question.getQbody())
-    );
-    return questionCas;
-  }
-  
-	 private String standardCombination(Question q, List<List<Double>>features,
+	 private String standardCombination(CQAinstance cqainstance, List<List<Double>>features,
 	      List<JCas> allCommentsCas){
 	    
 	    StringBuffer sb = new StringBuffer();
 	    
-	    List<Comment> comments =q.getComments();
+	    List<CQAcomment> comments =cqainstance.getComments();
 
-	    for (int i=0; i < comments.size() -1 ; i++){
-	      Comment comment1 = comments.get(i);
+	    for (int i=0; i < comments.size() -1 ; i++) {
+	      CQAcomment comment1 = comments.get(i);
 	      
 	      for (int j=i+1; j < comments.size(); j++){
-	        Comment comment2 = comments.get(j);
+	        CQAcomment comment2 = comments.get(j);
 	        
-	        sb.append(comment1.getCid())
-	        .append("-")
-	        .append(comment2.getCid())
-	        .append(",");
-	        sb.append(getClassLabel(comment1.getCgold(), comment2.getCgold()));
+	        sb.append(comment1.getId())
+	          .append("-")
+	          .append(comment2.getId())
+	          .append(",");
+	        sb.append(getClassLabel(comment1.getGold(), comment2.getGold()));
 	        sb.append(",");
 
 	        if (COMBINATION_CONCAT){
@@ -734,7 +778,7 @@ public class CommentSelectionDatasetCreator {
 	  }
 	  
 	  //TODO ABC, Sep 9. ???????
-	  private String garbage(Question q, List<List<Double>>features){
+	  private String garbage(CQAinstance q, List<List<Double>>features){
 //	    StringBuffer sb = new StringBuffer();
 //	    List<Comment> comments =q.getComments();
 //	    for (int i=0; i < comments.size() -1 ; i++){
