@@ -15,7 +15,7 @@
           <version>1</version>
           <file>${project.basedir}/PTK.jar</file>
           <packaging>jar</packaging>
-          <repositoryId>releases</repositoryId>
+          <repositoryId>nexus</repositoryId>
           <url>http://sls.csail.mit.edu:8081/nexus/content/repositories/qcri-releases</url>
         </configuration>
       </plugin>

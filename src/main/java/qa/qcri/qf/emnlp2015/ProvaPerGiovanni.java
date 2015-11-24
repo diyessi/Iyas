@@ -13,7 +13,7 @@ import it.uniroma2.sag.kelp.data.representation.tree.node.similarity.TreeNodeSim
 import it.uniroma2.sag.kelp.kernel.Kernel;
 import it.uniroma2.sag.kelp.kernel.cache.DynamicIndexKernelCache;
 import it.uniroma2.sag.kelp.kernel.cache.DynamicIndexSquaredNormCache;
-import it.uniroma2.sag.kelp.kernel.onPairs.UncrossedPairwiseSumKernel;
+import it.uniroma2.sag.kelp.kernel.pairs.UncrossedPairwiseSumKernel;
 import it.uniroma2.sag.kelp.kernel.standard.LinearKernelCombination;
 import it.uniroma2.sag.kelp.kernel.standard.NormalizationKernel;
 import it.uniroma2.sag.kelp.kernel.tree.PartialTreeKernel;
